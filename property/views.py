@@ -4,7 +4,7 @@ from django.http import JsonResponse
 import json
 
 # Create your views here.
-data = pd.read_csv("/home/pcuser/Documents/pay slip/ny_data.csv")
+data = pd.read_csv("ny_data.csv")
 data = data.dropna(subset=["CITY"])
 
 def decoder(request,name):
