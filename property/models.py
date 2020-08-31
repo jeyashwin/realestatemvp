@@ -7,15 +7,18 @@ class PROPERTY(models.Model):
     property_id = models.CharField(max_length=40,primary_key=True)
     address = models.TextField()
     city = models.CharField(max_length=100)
+    country = models.CharField(max_length=50)
     zipcode = models.IntegerField()
     description = models.TextField()
-    property_updates = models.TextField()
+    # property_updates = models.TextField()
     bedrooms = models.IntegerField()
     bathrooms = models.IntegerField()
     garage = models.IntegerField()
     sqft = models.DecimalField(max_digits=10,decimal_places=2)
-    lot_size = models.DecimalField(max_digits=10,decimal_places=2)
     price = models.IntegerField()
+    property_name = models.CharField(max_length=100)
+    property_type = models.CharField(max_length=50)
+    property_status = models.CharField(max_length=10)
 
 
 class MEDIA(models.Model):
@@ -24,3 +27,4 @@ class MEDIA(models.Model):
     p_id = models.ForeignKey(PROPERTY,on_delete=models.CASCADE)
     likes = models.IntegerField()
     dislikes = models.IntegerField()
+    s_id = models.CharField(max_length=10)

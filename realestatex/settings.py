@@ -25,7 +25,7 @@ SECRET_KEY = '&4f@vfa_oi4o4zc3qh(u@$*u5tzzt#=ct^st9+c55^to(_j_v2'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [*]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -49,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware'
+
 ]
 
 ROOT_URLCONF = 'realestatex.urls'
@@ -56,7 +58,7 @@ ROOT_URLCONF = 'realestatex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,"users")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,17 +77,29 @@ WSGI_APPLICATION = 'realestatex.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#    'default' : {
+#        'ENGINE' : 'django.db.backends.postgresql',
+#        'NAME' : "postgres",
+#        'USER' : 'postgres',
+#        'PASSWORD' : 'realestatex',
+#        "HOST": 'localhost',
+#        "PORT": '5432'
+#
+#     }
+# }
 DATABASES = {
    'default' : {
        'ENGINE' : 'django.db.backends.postgresql',
        'NAME' : "postgres",
        'USER' : 'postgres',
-       'PASSWORD' : 'realestatex',
+       'PASSWORD' : 'Tek2019',
        "HOST": 'localhost',
        "PORT": '5432'
 
     }
 }
+
 
 
 # Password validation
@@ -123,5 +137,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
+# AUTH_USER_MODEL = 'users.user'
+
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, '/users/static'),
+# )
