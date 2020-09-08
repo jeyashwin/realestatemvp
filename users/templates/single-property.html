@@ -7,63 +7,290 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/photoswipe.css">
-        <link rel="stylesheet" href="css/default-skin/default-skin.css">
-        <link rel="stylesheet" href="css/styled354.css?sadswq">
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/photoswipe.css' %}">
+        <link rel="stylesheet" href="{% static '/css/default-skin/default-skin.css' %}">
+        <link rel="stylesheet" href="{% static '/css/styled354.css' %}">
+				
+		<script type="text/javascript" src="{% static '/ipconfig.js' %}"></script>
+		
+        <title>RE.</title>
+		
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				-webkit-box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+			 }
+			.comments-container {
+				margin: 60px auto 15px;
+				width: 768px;
+			}
 
-        <title>resideo.</title>
+			.comments-container h1 {
+				font-size: 36px;
+				color: #283035;
+				font-weight: 400;
+			}
+
+			.comments-container h1 a {
+				font-size: 18px;
+				font-weight: 700;
+			}
+
+			.comments-list {
+				margin-top: 30px;
+				position: relative;
+			}
+
+			/**
+			 * Lineas / Detalles
+			 -----------------------*/
+			.comments-list:before {
+				content: '';
+				width: 2px;
+				height: 100%;
+				background: #c7cacb;
+				position: absolute;
+				left: 32px;
+				top: 0;
+			}
+
+			.comments-list:after {
+				content: '';
+				position: absolute;
+				background: #c7cacb;
+				bottom: 0;
+				left: 27px;
+				width: 7px;
+				height: 7px;
+				border: 3px solid #dee1e3;
+				-webkit-border-radius: 50%;
+				-moz-border-radius: 50%;
+				border-radius: 50%;
+			}
+
+			.reply-list:before, .reply-list:after {display: none;}
+			.reply-list li:before {
+				content: '';
+				width: 60px;
+				height: 2px;
+				background: #c7cacb;
+				position: absolute;
+				top: 25px;
+				left: -55px;
+			}
+
+
+			.comments-list li {
+				margin-bottom: 15px;
+				display: block;
+				position: relative;
+			}
+
+			.comments-list li:after {
+				content: '';
+				display: block;
+				clear: both;
+				height: 0;
+				width: 0;
+			}
+
+			.reply-list {
+				padding-left: 88px;
+				clear: both;
+				margin-top: 15px;
+			}
+			/**
+			 * Avatar
+			 ---------------------------*/
+			.comments-list .comment-avatar {
+				width: 65px;
+				height: 65px;
+				position: relative;
+				z-index: 99;
+				float: left;
+				border: 3px solid #FFF;
+				-webkit-border-radius: 4px;
+				-moz-border-radius: 4px;
+				border-radius: 4px;
+				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+				-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+				box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+				overflow: hidden;
+			}
+
+			.comments-list .comment-avatar img {
+				width: 100%;
+				height: 100%;
+			}
+
+			.reply-list .comment-avatar {
+				width: 50px;
+				height: 50px;
+			}
+
+			.comment-main-level:after {
+				content: '';
+				width: 0;
+				height: 0;
+				display: block;
+				clear: both;
+			}
+			/**
+			 * Caja del Comentario
+			 ---------------------------*/
+			.comments-list .comment-box {
+				width: 680px;
+				float: right;
+				position: relative;
+				-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+				-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+				box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+			}
+
+			.comments-list .comment-box:before, .comments-list .comment-box:after {
+				content: '';
+				height: 0;
+				width: 0;
+				position: absolute;
+				display: block;
+				border-width: 10px 12px 10px 0;
+				border-style: solid;
+				border-color: transparent #FCFCFC;
+				top: 8px;
+				left: -11px;
+			}
+
+			.comments-list .comment-box:before {
+				border-width: 11px 13px 11px 0;
+				border-color: transparent rgba(0,0,0,0.05);
+				left: -12px;
+			}
+
+			.reply-list .comment-box {
+				width: 610px;
+			}
+			.comment-box .comment-head {
+				background: #FCFCFC;
+				padding: 10px 12px;
+				border-bottom: 1px solid #E5E5E5;
+				overflow: hidden;
+				-webkit-border-radius: 4px 4px 0 0;
+				-moz-border-radius: 4px 4px 0 0;
+				border-radius: 4px 4px 0 0;
+			}
+
+			.comment-box .comment-head i {
+				background-color:#f2f2f2;
+				float: right;
+				margin-left: 14px;
+				position: relative;
+				top: 2px;
+				color: #A6A6A6;
+				cursor: pointer;
+				-webkit-transition: color 0.3s ease;
+				-o-transition: color 0.3s ease;
+				transition: color 0.3s ease;
+			}
+
+			.comment-box .comment-head i:hover {
+				color: #03658c;
+			}
+
+			.comment-box .comment-name {
+				color: #283035;
+				font-size: 14px;
+				font-weight: 700;
+				float: left;
+				margin-right: 10px;
+			}
+
+			.comment-box .comment-name a {
+				color: #283035;
+			}
+
+			.comment-box .comment-head span {
+				float: left;
+				color: #999;
+				font-size: 13px;
+				position: relative;
+				top: 1px;
+				width:80%;
+			}
+
+			.comment-box .comment-content {
+				background-color:#f2f2f2;			
+				word-wrap: break-word;
+				background: #FFF;
+				padding: 12px;
+				font-size: 13px;
+				color: #595959;
+				-webkit-border-radius: 0 0 4px 4px;
+				-moz-border-radius: 0 0 4px 4px;
+				border-radius: 0 0 4px 4px;
+				width:80%;
+			}
+
+			.comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
+			.comment-box .comment-name.by-author:after {
+				content: 'autor';
+				background: #03658c;
+				color: #FFF;
+				font-size: 12px;
+				padding: 3px 5px;
+				font-weight: 700;
+				margin-left: 10px;
+				-webkit-border-radius: 3px;
+				-moz-border-radius: 3px;
+				border-radius: 3px;
+			}
+
+			/** =====================
+			 * Responsive
+			 ========================*/
+			@media only screen and (max-width: 766px) {
+				.comments-container {
+					width: 480px;
+				}
+
+				.comments-list .comment-box {
+					width: 390px;
+				}
+
+				.reply-list .comment-box {
+					width: 320px;
+				}
+			}
+		</style>
+		
     </head>
-    <body>
-        <div class="pxp-header fixed-top pxp-animate pxp-no-bg">
+    <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
+        <div class="pxp-header fixed-top pxp-animate pxp-no-bg" style="background-color:rgba(0, 0, 0, 0.1);">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
-                        <a href="index.html" class="pxp-logo text-decoration-none">resideo.</a>
+                        <a href="index.html" class="pxp-logo text-decoration-none">RE.</a>
                     </div>
                     <div class="col-2 col-md-8 text-center">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item">
-                                <a href="#">Home</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="index.html">Version 1</a></li>
-                                    <li><a href="index-2.html">Version 2</a></li>
-                                    <li><a href="index-3.html">Version 3</a></li>
-                                </ul>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="index.html">Home</a>                                
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#">Properties</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="properties.html">All Properties</a></li>
-                                    <li><a href="single-property.html">Single Property</a></li>
-                                    <li><a href="submit-property.html">Submit New Property</a></li>
-                                </ul>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a class="active" href="#">Properties</a>                                
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#">Agents</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="agents.html">All Agents</a></li>
-                                    <li><a href="single-agent.html">Single Agent</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">Blog</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="blog.html">All Blog Posts</a></li>
-                                    <li><a href="single-post.html">Single Blog Post</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">Themes</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="single-property.html">Light</a></li>
-                                    <li><a href="http://pixelprime.co/themes/resideo/dark/single-property.html">Dark</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item pxp-is-last"><a href="contact.html">Contact Us</a></li>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="blog.html">Blog</a>
+                            </li>                            
+                            <li class="list-inline-item pxp-is-last" style="padding:0px 20px;">
+								<a href="contact.html">Contact Us</a>
+							</li>
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
                                     <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
@@ -118,23 +345,23 @@
             <div class="pxp-single-property-gallery-container mt-4 mt-md-5">
                 <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
-                        <a href="images/properties/prop-7-1-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url(images/properties/prop-7-1-big.jpg);"></a>
+                        <a href="static/images/properties/prop-7-1-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-1-big.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
                     </figure>
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                        <a href="images/properties/prop-7-2-big.jpg" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url(images/properties/prop-7-2-gallery.jpg);"></a>
+                        <a href="static/images/properties/prop-7-2-big.jpg" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-2-gallery.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
                     </figure>
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                        <a href="images/properties/prop-7-3-big.jpg" itemprop="contentUrl" data-size="1920x2560" class="pxp-cover" style="background-image: url(images/properties/prop-7-3-gallery.jpg);"></a>
+                        <a href="static/images/properties/prop-7-3-big.jpg" itemprop="contentUrl" data-size="1920x2560" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-3-gallery.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
                     </figure>
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                        <a href="images/properties/prop-2-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url(images/properties/prop-2-3-gallery.jpg);"></a>
+                        <a href="static/images/properties/prop-2-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-2-3-gallery.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
                     </figure>
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                        <a href="images/properties/prop-1-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url(images/properties/prop-1-3-gallery.jpg);"></a>
+                        <a href="static/images/properties/prop-1-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-1-3-gallery.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
                     </figure>
                 </div>
@@ -144,7 +371,7 @@
 
             <div class="container mt-100">
                 <div class="row">
-                    <div class="col-lg-8">
+                    <div class="col-lg-6">
                         <div class="pxp-single-property-section">
                             <h3>Key Details</h3>
                             <div class="row mt-3 mt-md-4">
@@ -242,208 +469,115 @@
                             </div>
                             <div id="pxp-sp-map" class="mt-3"></div>
                         </div>
+                        
 
-                        <div class="pxp-single-property-section mt-4 mt-md-5">
-                            <h3>Payment Calculator</h3>
-                            <div class="pxp-calculator-view mt-3 mt-md-4">
-                                <div class="row">
-                                    <div class="col-sm-12 col-lg-4 align-self-center">
-                                        <div class="pxp-calculator-chart-container">
-                                            <canvas id="pxp-calculator-chart"></canvas>
-                                            <div class="pxp-calculator-chart-result">
-                                                <div class="pxp-calculator-chart-result-sum">$11,277</div>
-                                                <div class="pxp-calculator-chart-result-label">per month</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-lg-8 align-self-center mt-3 mt-lg-0">
-                                        <div class="pxp-calculator-data">
-                                            <div class="row justify-content-between">
-                                                <div class="col-8">
-                                                    <div class="pxp-calculator-data-label"><span class="fa fa-minus"></span>Principal and Interest</div>
-                                                </div>
-                                                <div class="col-4 text-right">
-                                                    <div class="pxp-calculator-data-sum" id="pxp-calculator-data-pi"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="pxp-calculator-data">
-                                            <div class="row justify-content-between">
-                                                <div class="col-8">
-                                                    <div class="pxp-calculator-data-label"><span class="fa fa-minus"></span>Property Taxes</div>
-                                                </div>
-                                                <div class="col-4 text-right">
-                                                    <div class="pxp-calculator-data-sum" id="pxp-calculator-data-pt"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="pxp-calculator-data">
-                                            <div class="row justify-content-between">
-                                                <div class="col-8">
-                                                    <div class="pxp-calculator-data-label"><span class="fa fa-minus"></span>HOA Dues</div>
-                                                </div>
-                                                <div class="col-4 text-right">
-                                                    <div class="pxp-calculator-data-sum" id="pxp-calculator-data-hd"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pxp-calculator-form mt-3 mt-md-4">
-                                <input type="hidden" id="pxp-calculator-form-property-taxes" value="$1,068">
-                                <input type="hidden" id="pxp-calculator-form-hoa-dues" value="$2,036">
-
-                                <div class="row">
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="form-group">
-                                            <label for="pxp-calculator-form-term">Term</label>
-                                            <select class="custom-select" id="pxp-calculator-form-term">
-                                                <option value="30">30 Years Fixed</option>
-                                                <option value="20">20 Years Fixed</option>
-                                                <option value="15">15 Years Fixed</option>
-                                                <option value="10">10 Years Fixed</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="form-group">
-                                            <label for="pxp-calculator-form-interest">Interest</label>
-                                            <input type="text" class="form-control pxp-form-control-transform" id="pxp-calculator-form-interest" data-type="percent" value="4.45%">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="form-group">
-                                            <label for="pxp-calculator-form-price">Home Price</label>
-                                            <input type="text" class="form-control pxp-form-control-transform" id="pxp-calculator-form-price" data-type="currency" value="$5,198,000">
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-6">
-                                        <div class="row">
-                                            <div class="col-7 col-sm-7 col-md-8">
-                                                <div class="form-group">
-                                                    <label for="pxp-calculator-form-down-price">Down Payment</label>
-                                                    <input type="text" class="form-control pxp-form-control-transform" id="pxp-calculator-form-down-price" data-type="currency" value="$519,800">
-                                                </div>
-                                            </div>
-                                            <div class="col-5 col-sm-5 col-md-4">
-                                                <div class="form-group">
-                                                    <label for="pxp-calculator-form-down-percentage">&nbsp;</label>
-                                                    <input type="text" class="form-control pxp-form-control-transform" id="pxp-calculator-form-down-percentage" data-type="percent" value="10%">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="pxp-single-property-section mt-4 mt-md-5">
-                            <h3>Schools in Marina District</h3>
-                            <ul class="nav nav-tabs pxp-nav-tabs mt-3 mt-md-4">
-                                <li class="nav-item"><a class="nav-link active" href="#elementary" data-toggle="tab">Elementary</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#middle"  data-toggle="tab">Middle</a></li>
-                                <li class="nav-item"><a class="nav-link" href="#high" data-toggle="tab">High</a></li>
-                            </ul>
-                            <div class="tab-content mt-3">
-                                <div class="tab-pane active" id="elementary" role="tabpanel">
-                                    <table class="table table-responsive pxp-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">School</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Grades</th>
-                                                <th scope="col">Rating</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Harvest Collegiate High School</td>
-                                                <td>Public</td>
-                                                <td>9-11</td>
-                                                <td>5/5<span class="pxp-school-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Harvest Collegiate High School</td>
-                                                <td>Public</td>
-                                                <td>9-11</td>
-                                                <td>5/5<span class="pxp-school-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="tab-pane" id="middle" role="tabpanel">
-                                    <table class="table table-responsive pxp-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">School</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Grades</th>
-                                                <th scope="col">Rating</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Harvest Collegiate High School</td>
-                                                <td>Public</td>
-                                                <td>9-11</td>
-                                                <td>5/5<span class="pxp-school-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Harvest Collegiate High School</td>
-                                                <td>Public</td>
-                                                <td>9-11</td>
-                                                <td>5/5<span class="pxp-school-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="tab-pane" id="high" role="tabpanel">
-                                    <table class="table table-responsive pxp-table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">School</th>
-                                                <th scope="col">Type</th>
-                                                <th scope="col">Grades</th>
-                                                <th scope="col">Rating</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Harvest Collegiate High School</td>
-                                                <td>Public</td>
-                                                <td>9-11</td>
-                                                <td>5/5<span class="pxp-school-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Harvest Collegiate High School</td>
-                                                <td>Public</td>
-                                                <td>9-11</td>
-                                                <td>5/5<span class="pxp-school-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-6">
                         <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
-                            <h3>Listed By</h3>
-                            <div class="pxp-sp-agent mt-3 mt-md-4">
-                                <a href="single-agent.html" class="pxp-sp-agent-fig pxp-cover rounded-lg" style="background-image: url(images/agent-4.jpg); background-position: top center"></a>
-                                <div class="pxp-sp-agent-info">
-                                    <div class="pxp-sp-agent-info-name"><a href="single-agent.html">Erika Tillman</a></div>
-                                    <div class="pxp-sp-agent-info-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></div>
-                                    <div class="pxp-sp-agent-info-email"><a href="mailto:erika.tillman@resideo.com">erika.tillman@resideo.com</a></div>
-                                    <div class="pxp-sp-agent-info-phone"><span class="fa fa-phone"></span> (123) 456-7890</div>
-                                </div>
-                                <div class="clearfix"></div>
-                                <div class="pxp-sp-agent-btns mt-3 mt-md-4">
-                                    <a href="#pxp-contact-agent" class="pxp-sp-agent-btn-main" data-toggle="modal" data-target="#pxp-contact-agent"><span class="fa fa-envelope-o"></span> Contact Agent</a>
-                                    <a href="#pxp-contact-agent" class="pxp-sp-agent-btn" data-toggle="modal" data-target="#pxp-contact-agent"><span class="fa fa-calendar-check-o"></span> Request Tour</a>
-                                </div>
-                            </div>
+							  <!-- Contenedor Principal -->
+								<div class="comments-container">
+								  <h2> &nbsp; &nbsp; Comments</h2>
+
+								  <ul id="comments-list" class="comments-list">
+								  
+									<li>
+									  <div class="comment-main-level">
+										<!-- Avatar -->
+										<div class="comment-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Boss-icon.png" alt=""></div>
+										<!-- Contenedor del Comentario -->
+										<form method="POST" id="submit_comment" action="#">
+										<input type="hidden" name="user_id" value="123asdf">
+										<form method="POST" id="submit_comment" action="#">
+										<input type="hidden" name="property_id" value="asdf123">
+										<div class="comment-box">
+										  <div class="comment-head" style="width:80%;">
+											<h6 class="comment-name"><a href="#"></a></h6>
+											<span></span>	
+										  </div>
+										  <div class="comment-content" style="width:80%;">
+											
+											<textarea class="form-control" id="property-comment" name="property-comment" placeholder="Write your comments here.." style="border:none; width:90%;"></textarea>
+											<input type="submit" name="submit" value="Submit" class="btn btn-primary btn-sm">
+										  </div>
+										</div>
+										</form>
+									  </div>
+									</li>
+								  
+									<li>
+									  <div class="comment-main-level">
+										<!-- Avatar -->
+										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+										<!-- Contenedor del Comentario -->
+										<div class="comment-box">
+										  <div class="comment-head" style="width:80%;">
+											<h6 class="comment-name"><a href="">Agustin Ortiz</a></h6>
+											<span>Just now</span>
+										  </div>
+										  <div class="comment-content" style="width:80%;">
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+										  </div>
+										</div>
+									  </div>									  
+									</li>
+
+									<li>
+									  <div class="comment-main-level">
+										<!-- Avatar -->
+										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+										<!-- Contenedor del Comentario -->
+										<div class="comment-box">
+										  <div class="comment-head" style="width:80%;">
+											<h6 class="comment-name"><a href="#">Lorena Rojero</a></h6>
+											<span>5 minutes ago</span>	
+										  </div>
+										  <div class="comment-content" style="width:80%;">
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+										  </div>
+										</div>
+									  </div>
+									</li>
+									
+									<li>
+									  <div class="comment-main-level">
+										<!-- Avatar -->
+										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+										<!-- Contenedor del Comentario -->
+										<div class="comment-box">
+										  <div class="comment-head" style="width:80%;">
+											<h6 class="comment-name"><a href="#">Agustin Ortiz</a></h6>
+											<span>10 minutes ago</span>
+										  </div>
+										  <div class="comment-content" style="width:80%;">
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+										  </div>
+										</div>
+									  </div>									  
+									</li>
+
+									<li>
+									  <div class="comment-main-level">
+										<!-- Avatar -->
+										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+										<!-- Contenedor del Comentario -->
+										<div class="comment-box">
+										  <div class="comment-head" style="width:80%;">
+											<h6 class="comment-name"><a href="#">Lorena Rojero</a></h6>
+											<span>15 minutes ago</span>											
+										  </div>
+										  <div class="comment-content" style="width:80%;">
+											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+										  </div>
+										</div>
+									  </div>
+									</li>
+									
+									<span class="btn btn-primary btn-sm" style="margin-left:90px; cursor:pointer"> Load more</span>
+									
+								  </ul>
+								</div>
+
+							
                         </div>
                     </div>
                 </div>
@@ -454,7 +588,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 col-lg-4">
-                        <div class="pxp-footer-logo">resideo.</div>
+                        <div class="pxp-footer-logo">RE.</div>
                         <div class="pxp-footer-address mt-2">
                             90 Fifth Avenue, 3rd Floor<br>
                             San Francisco, CA 1980<br>
@@ -472,9 +606,7 @@
                                 <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
                                 <ul class="list-unstyled pxp-footer-links mt-2">
                                     <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Agents</a></li>
                                     <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Demos</a></li>
                                     <li><a href="#">Contact Us</a></li>
                                 </ul>
                             </div>
@@ -493,7 +625,6 @@
                                     <li><a href="#">Apartments for Rent</a></li>
                                     <li><a href="#">Homes for Sale</a></li>
                                     <li><a href="#">Apartments for Sale</a></li>
-                                    <li><a href="#">CRM</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -502,7 +633,7 @@
 
                 <div class="pxp-footer-bottom mt-2">
                     <div><a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></div>
-                    <div class="pxp-footer-copyright">&copy; Resideo. All Rights Reserved. 2019</div>
+                    <div class="pxp-footer-copyright">&copy; RE. All Rights Reserved. 2019</div>
                 </div>
             </div>
         </div>
@@ -657,18 +788,29 @@
             </div>
         </div>
 
-        <script src="js/jquery-3.4.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script>
-        <script src="js/photoswipe.min.js"></script> 
-        <script src="js/photoswipe-ui-default.min.js"></script>
-        <script src="js/jquery.sticky.js"></script>
-        <script src="js/gallery.js"></script>
-        <script src="js/infobox.js"></script>
-        <script src="js/single-map.js"></script>
-        <script src="js/Chart.min.js"></script>
-        <script src="js/main5732.js?asdasd12"></script>
+        <script src="{% static '/js/photoswipe.min.js' %}"></script> 
+        <script src="{% static '/js/photoswipe-ui-default.min.js' %}"></script>
+        <script src="{% static '/js/jquery.sticky.js' %}"></script>
+        <script src="{% static '/js/gallery.js' %}"></script>
+        <script src="{% static '/js/infobox.js' %}"></script>
+        <script src="{% static '/js/single-map.js' %}"></script>
+        <script src="{% static '/js/Chart.min.js' %}"></script>
+        <script src="{% static '/js/main5732.js' %}"></script>
+
+	<script>
+		ipsrc();
+		function ipsrc()
+		{
+
+			document.getElementById('submit_comment').action = ipaddress+'add-comment';
+		}
+		
+	</script>
+	
     </body>
 
 <!-- Mirrored from pixelprime.co/themes/resideo/light/single-property.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:25:48 GMT -->

@@ -1,66 +1,56 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
     
 <!-- Mirrored from pixelprime.co/themes/resideo/light/properties.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:23:38 GMT -->
 <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css">
-        <link rel="stylesheet" href="css/style0f71.css?asdsdd">
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/style0f71.css' %}">
 
-        <title>resideo.</title>
+        <title>RE.</title>
+		
+		<style>
+			.pxp-nav > li > .active, .pxp-is-sticky .pxp-nav > li > .active { color: orange; }
+		
+			.fa.fa-thumbs-o-down:hover {
+				color:red;
+			}
+			.fa.fa-thumbs-o-up:hover {
+				color:green;
+			}
+			.pxp-results-card-1.rounded-lg {
+				box-shadow:2px 2px 3px silver;
+			}
+		</style>
+		
     </head>
-    <body>
-        <div class="pxp-header pxp-full fixed-top">
-            <div class="pxp-container-full">
+    <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
+        <div class="pxp-header fixed-top pxp-animate" style="background-color:rgba(0, 0, 0, 0.1);">
+            <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
-                        <a href="index.html" class="pxp-logo text-decoration-none">resideo.</a>
+                        <a href="index.html" class="pxp-logo text-decoration-none">RE</a>
                     </div>
+					
                     <div class="col-2 col-md-8 text-center">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item">
-                                <a href="#">Home</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="index.html">Version 1</a></li>
-                                    <li><a href="index-2.html">Version 2</a></li>
-                                    <li><a href="index-3.html">Version 3</a></li>
-                                </ul>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="index.html">Home</a>                                
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#">Properties</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="properties.html">All Properties</a></li>
-                                    <li><a href="single-property.html">Single Property</a></li>
-                                    <li><a href="submit-property.html">Submit New Property</a></li>
-                                </ul>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a class="active" href="#">Properties</a>                                
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#">Agents</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="agents.html">All Agents</a></li>
-                                    <li><a href="single-agent.html">Single Agent</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">Blog</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="blog.html">All Blog Posts</a></li>
-                                    <li><a href="single-post.html">Single Blog Post</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">Themes</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="properties.html">Light</a></li>
-                                    <li><a href="http://pixelprime.co/themes/resideo/dark/properties.html">Dark</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item pxp-is-last"><a href="contact.html">Contact Us</a></li>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="blog.html">Blog</a>
+                            </li>                            
+                            <li class="list-inline-item pxp-is-last" style="padding:0px 20px;">
+								<a href="contact.html">Contact Us</a>
+							</li>
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
                                     <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
@@ -77,12 +67,12 @@
             </div>
         </div>
 
-        <div class="pxp-content pxp-full-height">
-            <div class="pxp-map-side pxp-map-right pxp-half">
+        <div class="pxp-content pxp-full-height"><br>
+            <div class="pxp-map-side pxp-map-right pxp-half" style="display:none;">
                 <div id="results-map"></div>
                 <a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>
             </div>
-            <div class="pxp-content-side pxp-content-left pxp-half">
+            <div class="pxp-content-side pxp-content-leftt pxp-half">
                 <div class="pxp-content-side-wrapper">
                     <div class="d-flex">
                         <div class="pxp-content-side-search-form">
@@ -264,12 +254,13 @@
                         </div>
                     </div>
 
+
                     <div class="row">
-                        <div class="col-sm-12 col-md-6 col-xxxl-4">
-                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="1">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="1">
                                 <div id="card-carousel-1" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active" style="background-image: url(images/properties/prop-1-1-gallery.jpg)"></div>
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-1-1-gallery.jpg' %})"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-1-2-gallery.jpg);"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-1-3-gallery.jpg);"></div>
                                     </div>
@@ -288,14 +279,30 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>2 BD <span>|</span> 2 BA <span>|</span> 920 SF</span>
                                 </div>
-                                <div class="pxp-results-card-1-save"><span class="fa fa-star-o"></span></div>
+								
+                                <div class="pxp-results-card-1-save"><span onclick="return likeclick()" class="fa fa-thumbs-o-up"></span> <span onclick="return dislikeclick()" class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
+							
+							<script>
+								function likeclick()
+								{
+									alert('Liked');
+									return false;
+								}
+								
+								function dislikeclick()
+								{
+									alert('Disliked');
+									return false;
+								}
+							</script>
+							
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xxxl-4">
-                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="2">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="2">
                                 <div id="card-carousel-2" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active" style="background-image: url(images/properties/prop-2-1-gallery.jpg)"></div>
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-2-1-gallery.jpg' %})"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-2-2-gallery.jpg);"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-2-3-gallery.jpg);"></div>
                                     </div>
@@ -314,14 +321,14 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>1 BD <span>|</span> 1 BA <span>|</span> 500 SF</span>
                                 </div>
-                                <div class="pxp-results-card-1-save"><span class="fa fa-star-o"></span></div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xxxl-4">
-                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="3">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="3">
                                 <div id="card-carousel-3" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active" style="background-image: url(images/properties/prop-3-1-gallery.jpg)"></div>
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-3-1-gallery.jpg' %})"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-3-2-gallery.jpg);"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-3-3-gallery.jpg);"></div>
                                     </div>
@@ -340,14 +347,14 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>2 BD <span>|</span> 2 BA <span>|</span> 870 SF</span>
                                 </div>
-                                <div class="pxp-results-card-1-save"><span class="fa fa-star-o"></span></div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xxxl-4">
-                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="4">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="4">
                                 <div id="card-carousel-4" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active" style="background-image: url(images/properties/prop-7-1-gallery.jpg)"></div>
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-7-1-gallery.jpg' %})"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-7-2-gallery.jpg);"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-7-3-gallery.jpg);"></div>
                                     </div>
@@ -366,14 +373,14 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>5 BD <span>|</span> 4.5 BA <span>|</span> 3,945 SF</span>
                                 </div>
-                                <div class="pxp-results-card-1-save"><span class="fa fa-star-o"></span></div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xxxl-4">
-                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="5">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="5">
                                 <div id="card-carousel-5" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active" style="background-image: url(images/properties/prop-8-1-gallery.jpg)"></div>
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-8-1-gallery.jpg' %})"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-8-2-gallery.jpg);"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-8-3-gallery.jpg);"></div>
                                     </div>
@@ -392,14 +399,14 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>4 BD <span>|</span> 1.5 BA <span>|</span> 2,240 SF</span>
                                 </div>
-                                <div class="pxp-results-card-1-save"><span class="fa fa-star-o"></span></div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-xxxl-4">
-                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="6">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="6">
                                 <div id="card-carousel-6" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
-                                        <div class="carousel-item active" style="background-image: url(images/properties/prop-9-1-gallery.jpg)"></div>
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-9-1-gallery.jpg' %})"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-9-2-gallery.jpg);"></div>
                                         <div class="carousel-item" style="background-image: url(images/properties/prop-9-3-gallery.jpg);"></div>
                                     </div>
@@ -418,7 +425,163 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>4 BD <span>|</span> 5 BA <span>|</span> 5,200 SF</span>
                                 </div>
-                                <div class="pxp-results-card-1-save"><span class="fa fa-star-o"></span></div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                            </a>
+                        </div>
+						<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="1">
+                                <div id="card-carousel-1" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-1-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-1-2-gallery.jpg);"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-1-3-gallery.jpg);"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-1" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-1" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Chic Apartment in Downtown</div>
+                                    <div class="pxp-results-card-1-details-price">$890,000</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>2 BD <span>|</span> 2 BA <span>|</span> 920 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="2">
+                                <div id="card-carousel-2" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-2-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-2-2-gallery.jpg);"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-2-3-gallery.jpg);"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-2" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-2" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Colorful Little Apartment</div>
+                                    <div class="pxp-results-card-1-details-price">$2,675</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>1 BD <span>|</span> 1 BA <span>|</span> 500 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="3">
+                                <div id="card-carousel-3" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-3-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-3-2-gallery.jpg);"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-3-3-gallery.jpg);"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-3" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-3" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Cozy Two Bedroom Apartment</div>
+                                    <div class="pxp-results-card-1-details-price">$960,000</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>2 BD <span>|</span> 2 BA <span>|</span> 870 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="4">
+                                <div id="card-carousel-4" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-7-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-7-2-gallery.jpg);"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-7-3-gallery.jpg);"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-4" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-4" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Beautiful House in Marina</div>
+                                    <div class="pxp-results-card-1-details-price">$5,198,000</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>5 BD <span>|</span> 4.5 BA <span>|</span> 3,945 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="5">
+                                <div id="card-carousel-5" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-8-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-8-2-gallery.jpg);"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-8-3-gallery.jpg);"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-5" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-5" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Modern Residence</div>
+                                    <div class="pxp-results-card-1-details-price">$7,995</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>4 BD <span>|</span> 1.5 BA <span>|</span> 2,240 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                            <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="6">
+                                <div id="card-carousel-6" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-9-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-9-2-gallery.jpg);"></div>
+                                        <div class="carousel-item" style="background-image: url(images/properties/prop-9-3-gallery.jpg);"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-6" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-6" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Luxury Mansion</div>
+                                    <div class="pxp-results-card-1-details-price">$5,430,000</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>4 BD <span>|</span> 5 BA <span>|</span> 5,200 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
                         </div>
                     </div>
@@ -433,7 +596,7 @@
                 </div>
                 <div class="pxp-footer pxp-content-side-wrapper">
                     <div class="pxp-footer-bottom">
-                        <div class="pxp-footer-copyright">&copy; Resideo. All Rights Reserved. 2019</div>
+                        <div class="pxp-footer-copyright">&copy; RE. All Rights Reserved. 2019</div>
                     </div>
                 </div>
             </div>
@@ -465,7 +628,7 @@
                                 <a href="#" class="pxp-modal-link">Forgot password</a>
                             </div>
                             <div class="text-center pxp-modal-small">
-                                New to Resideo? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
+                                New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
                             </div>
                         </form>
                     </div>
@@ -518,13 +681,13 @@
             </div>
         </div>
 
-        <script src="js/jquery-3.4.1.min.js"></script>
-        <script src="js/popper.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script>
-        <script src="js/markerclusterer.js"></script>
-        <script src="js/maine2a5.js?asdsd"></script>
-        <script src="js/mapee61.js?asldksjd"></script>
+        <script src="{% static '/js/markerclusterer.js' %}"></script>
+        <script src="{% static '/js/maine2a5.js' %}"></script>
+        <script src="{% static '/js/mapee61.js' %}"></script>
     </body>
 
 <!-- Mirrored from pixelprime.co/themes/resideo/light/properties.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:24:29 GMT -->

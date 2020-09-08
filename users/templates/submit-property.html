@@ -7,17 +7,28 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
+        <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
         <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
         <link rel="stylesheet" href="{% static '/css/dropzonee2a5.css' %}">
         <link rel="stylesheet" href="{% static '/css/style9558.css' %}">
+	<script type="text/javascript" src="{% static 'ipconfig.js' %}"></script>
 
-        <title>RE.</title>
+        <title>RE</title>
+		
+		<style>
+			.form-group > input, .form-group > textarea, .form-group > select, .pxp-submit-property-side.rounded-lg.mt-4.mt-md-5.mt-lg-0, .pxp-submit-property-side.rounded-lg.mt-4.mt-md-5 { 
+				background-color:rgba(255, 255, 255, 0.5); 
+			}
+			.pxp-submit-property-side.rounded-lg.mt-4.mt-md-5.mt-lg-0 {
+				margin-top:22% !important;
+			}
+		</style>
+		
     </head>
     <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
-        <div class="pxp-header fixed-top pxp-animate pxp-no-bg">
+        <div class="pxp-header fixed-top pxp-animate pxp-no-bg" style="background-color:rgba(0, 0, 0, 0.1);">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
@@ -25,44 +36,18 @@
                     </div>
                     <div class="col-2 col-md-8 text-center">
                         <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item">
-                                <a href="#">Home</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="index.html">Version 1</a></li>
-                                    <li><a href="index-2.html">Version 2</a></li>
-                                    <li><a href="index-3.html">Version 3</a></li>
-                                </ul>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="index.html">Home</a>                                
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#">Properties</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="properties.html">All Properties</a></li>
-                                    <li><a href="single-property.html">Single Property</a></li>
-                                    <li><a href="submit-property.html">Submit New Property</a></li>
-                                </ul>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="properties.html">Properties</a>                                
                             </li>
-                            <li class="list-inline-item">
-                                <a href="#">Agents</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="agents.html">All Agents</a></li>
-                                    <li><a href="single-agent.html">Single Agent</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">Blog</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="blog.html">All Blog Posts</a></li>
-                                    <li><a href="single-post.html">Single Blog Post</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item">
-                                <a href="#">Themes</a>
-                                <ul class="pxp-nav-sub rounded-lg">
-                                    <li><a href="submit-property.html">Light</a></li>
-                                    <li><a href="http://pixelprime.co/themes/resideo/dark/submit-property.html">Dark</a></li>
-                                </ul>
-                            </li>
-                            <li class="list-inline-item pxp-is-last"><a href="contact.html">Contact Us</a></li>
+                            <li class="list-inline-item" style="padding:0px 20px;">
+                                <a href="blog.html">Blog</a>
+                            </li>                            
+                            <li class="list-inline-item pxp-is-last" style="padding:0px 20px;">
+								<a href="contact.html">Contact Us</a>
+							</li>
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
                                     <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
@@ -80,12 +65,12 @@
         </div>
 
         <div class="pxp-content">
-            <div class="pxp-submit-property pxp-content-wrapper mt-100">
+            <div class="pxp-submit-property pxp-content-wrapper mt-40">
                 <div class="container" style="background-color:rgba(0, 0, 0, 0.1); padding:50px; border-radius:7px;">
-				<form method="POST" action="http://127.0.0.1:8000/" enctype="multipart/form-data">
+				<form method="POST" id="prop_submit_form" action="#" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-sm-12 col-md-7">
-                            <h1 class="pxp-page-header">Add New Property</h1>
+                        <div class="col-sm-12 col-md-12">
+                            <center><h2 class="pxp-page-header">Add New Property</h2></center>
                         </div>
                     </div>
                     <div class="row mt-4 mt-md-5">
@@ -98,7 +83,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="pxp-submit-property-overview">Overview</label>
-                                    <textarea class="form-control" name="property-overview" id="pxp-submit-property-overview" rows="6" placeholder="Describe the property..."></textarea>
+                                    <textarea class="form-control" name="property-description" id="pxp-submit-property-overview" rows="6" placeholder="Describe the property..."></textarea>
                                 </div>
                             </div>
 
@@ -127,16 +112,16 @@
                                 </div>
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
-                                        <label for="pxp-submit-property-built">Year Built</label>
-                                        <input type="number" class="form-control" name="property-built" id="pxp-submit-property-built" required>
-                                    </div>
-                                </div>                                
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        <label for="pxp-submit-property-rooms">Room Count</label>
+                                        <label for="pxp-submit-property-rooms">Rooms</label>
                                         <input type="number" class="form-control" name="property-rooms" id="pxp-submit-property-rooms" required>
                                     </div>
-                                </div>                                
+                                </div>
+								<div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="pxp-submit-property-built">Garages</label>
+                                        <input type="number" class="form-control" name="property-garages" id="pxp-submit-property-built" required>
+                                    </div>
+                                </div>
                             </div>
 
                             <h3 class="mt-4 mt-md-5">Amenities</h3>
@@ -187,9 +172,9 @@
 
                             <h3 class="mt-4 mt-md-5">Photo Gallery</h3>
 						
-							<div style="border:3px solid grey; background-color:silver; border-radius:5px;" id="property-images-div" onclick="choose_files_click()">
+							<div style="border:3px solid #EAEAEA; background-color:#e2e2e2; border-radius:10px; color:grey; cursor:pointer;" id="property-images-div" onclick="choose_files_click()">
 								<br>
-								<center>Click here to choose Files</center>
+								<center><i class="fa fa-file-o"></i> &nbsp; Click here to choose files</center>
 								<br>								
 							</div>
 							<input type="file" name="property-images" class="form-control" id="property-images" style="display:none;" accept="image/*" multiple>
@@ -228,7 +213,7 @@
                                     <div class="col-sm-12 col-md-4">
                                         <div class="form-group">
                                             <label for="pxp-submit-property-size">Size (sq ft)</label>
-                                            <input type="text" class="form-control" name="property-size" id="pxp-submit-property-size" placeholder="0" required>
+                                            <input type="text" class="form-control" name="property-sqft" id="pxp-submit-property-size" placeholder="0" required>
                                         </div>
                                     </div>
                                 </div>
@@ -238,8 +223,22 @@
                                 <h3>Location</h3>
                                 <div class="mt-4">                                    
 									<div class="form-group">
+                                        <label for="pxp-submit-property-country">Country</label>
+										<select class="form-control" name="property-country" required>
+											<option value=""> ~ Select ~ </option>
+											<option value="USA"> USA </option>
+											<option value="Australia"> Australia </option>
+											<option value="Sweden"> Sweden </option>
+										</select>
+                                    </div>
+									<div class="form-group">
                                         <label for="pxp-submit-property-state">State</label>
-                                        <input type="text" class="form-control" name="property-state" placeholder="Enter State" for="pxp-submit-property-state" required>
+										<select class="form-control" name="property-state" required>
+											<option value=""> ~ Select ~ </option>
+											<option value="Alabama"> Alabama </option>
+											<option value="California"> California </option>
+											<option value="Newyork"> Newyork </option>
+										</select>
                                     </div>
 									<div class="form-group">
                                         <label for="pxp-submit-property-city">City</label>
@@ -269,7 +268,8 @@
             </div>
         </div>
 
-        <div class="pxp-footer pt-100 pb-100 mt-100">
+        
+		<div class="pxp-footer pt-100 pb-100 mt-100" style="background-color:rgba(219, 217, 217, 0.8);">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12 col-lg-4">
@@ -291,9 +291,7 @@
                                 <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
                                 <ul class="list-unstyled pxp-footer-links mt-2">
                                     <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Agents</a></li>
                                     <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Demos</a></li>
                                     <li><a href="#">Contact Us</a></li>
                                 </ul>
                             </div>
@@ -325,7 +323,7 @@
                 </div>
             </div>
         </div>
-
+        
         <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -415,11 +413,18 @@
         <script src="{% static '/js/main1dd4.js' %}"></script>
 		
 		<script>
+			
+			ipsrc();
+			function ipsrc()
+			{
 
-				function choose_files_click()
-				{
-					document.getElementById('property-images').click();
-				}
+				document.getElementById('prop_submit_form').action = ipaddress+'add-property';
+			}
+				
+			function choose_files_click()
+			{
+				document.getElementById('property-images').click();
+			}
 				
 		</script>
 		
