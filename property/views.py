@@ -11,6 +11,13 @@ import  uuid
 from django.views.decorators.csrf import csrf_exempt
 import json
 
+from django.contrib.auth.models import User, auth
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import api_view,authentication_classes,permission_classes,api_view
+
 # Create your views here.
 data = pd.read_csv("ny_data.csv")
 data = data.dropna(subset=["CITY"])
@@ -101,6 +108,33 @@ def add_comment(request):
     return render(request,"templates/single-property.html",{})
 
 
+@authentication_classes([SessionAuthentication, BasicAuthentication])
+@permission_classes([IsAuthenticated])
+def login(request):
+    # import pdb;pdb.set_trace()
+    if request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['pass']
+        type = request.POST['usertype']
+        try:
+            username = User.objects.get(email=email.lower()).username
+            print(email,username,password,type)
+            user = auth.authenticate(username=username, password=password)
+            if user is not None:
+                if type == 'buyer':
+                    auth.login(request, user)
+                    return render(request, "templates/properties.html", {"status": 1})
+                else:
+                    auth.login(request, user)
+                    return render(request, "templates/submit-property.html", {})
+            else:
+                messages.info(request, "Invalid Username or Password")
+                return redirect('homepage')
+        except User.DoesNotExist:
+            messages.info(request, "Invalid Username or Password")
+            return redirect('homepage')
+    else:
+        return redirect('homepage')
 
 
 

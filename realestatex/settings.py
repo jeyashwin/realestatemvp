@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
-    'property'
+    'property',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -73,6 +75,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'realestatex.wsgi.application'
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -90,10 +98,10 @@ WSGI_APPLICATION = 'realestatex.wsgi.application'
 # }
 DATABASES = {
    'default' : {
-       'ENGINE' : 'django.db.backends.postgresql',
-       'NAME' : "postgres",
-       'USER' : 'postgres',
-       'PASSWORD' : 'Tek2019',
+       'ENGINE' : 'django.db.backends.mysql',
+       'NAME' : "mydatabase",
+       'USER' : 'root',
+       'PASSWORD' : '886677di',
        "HOST": 'localhost',
        "PORT": '5432'
 
