@@ -538,6 +538,11 @@
                             <div class="text-center pxp-modal-small">
                                 New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
                             </div>
+                            <div class="alert" align="center">
+                                {% for message in messages %}
+                                    <p class="text-danger">{{message}}
+                                {% endfor %}
+                            </div>
                         </form>
                     </div>
                 </div>
