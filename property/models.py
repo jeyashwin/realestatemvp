@@ -13,7 +13,6 @@ class PROPERTY(models.Model):
     # property_updates = models.TextField()
     bedrooms = models.IntegerField()
     bathrooms = models.IntegerField()
-    garage = models.IntegerField()
     sqft = models.DecimalField(max_digits=10,decimal_places=2)
     price = models.IntegerField()
     property_name = models.CharField(max_length=100)
