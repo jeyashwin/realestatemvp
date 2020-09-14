@@ -58,6 +58,8 @@ def homepage(request):
 
 @csrf_exempt
 def view_register(request):
+    if not request.session.has_key('username'):
+        return redirect(request, 'homepage')
     return render(request, "templates/submit-property.html", {})
 
 
@@ -65,6 +67,8 @@ def view_register(request):
 def register_property(request):
     # import pdb;pdb.set_trace()
     if request.method == "POST":
+        if not request.session.has_key('username'):
+            return redirect(request,'homepage')
         pid = uuid.uuid4().hex[:8]
         print(pid)
         l_id = "1ac"
@@ -145,19 +149,26 @@ def update_property(request):
 
 @csrf_exempt
 def test_single(request):
-    props=PROPERTY.objects.all()
-    print(props)
-    return render(request, "templates/single-property.html", {})
+    if request.session.has_key('username'):
+        props=PROPERTY.objects.all()
+        print(props)
+        return render(request, "templates/single-property.html", {'props':props})
+    else:
+        return redirect('homepage')
 
 
 @csrf_exempt
 def add_comment(request):
-    print(request.POST["property-comment"], dict(request.POST))
-    comments = MONGO_CONFS.mycol
-    comments.insert_one({"user_id": request.POST['user_id'],
-                         "property_id": request.POST['property_id'],
-                         "comment": request.POST['property-comment'], "sequence": 0})
-    return render(request, "templates/single-property.html", {})
+    if request.session.has_key('username'):
+        print(request.POST["property-comment"], dict(request.POST))
+        comments = MONGO_CONFS.mycol
+        comments.insert_one({"user_id": request.POST['user_id'],
+                             "property_id": request.POST['property_id'],
+                             "comment": request.POST['property-comment'], "sequence": 0})
+        return render(request, "templates/single-property.html", {})
+    else:
+        return redirect('homepage')
+
 
 
 @authentication_classes([SessionAuthentication, BasicAuthentication])
@@ -175,10 +186,11 @@ def login(request):
             if user is not None:
                 if type == 'buyer':
                     auth.login(request, user)
+                    request.session['username'] = username
                     return render(request, "templates/properties.html", {property: data})
                 else:
                     auth.login(request, user)
-
+                    request.session['username'] = username
                     return render(request, "templates/submit-property.html", {})
             else:
                 messages.info(request, "Invalid Username or Password")
