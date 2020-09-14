@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import pandas as pd
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponseRedirect
 from .models import PROPERTY, MEDIA
 from users.models import LANDLORD
 from django.core.files import File
@@ -13,10 +13,11 @@ import json
 
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, api_view
+from django.urls import reverse_lazy,reverse
 
 # Create your views here.
 data = pd.read_csv("ny_data.csv")
@@ -144,6 +145,8 @@ def update_property(request):
 
 @csrf_exempt
 def test_single(request):
+    props=PROPERTY.objects.all()
+    print(props)
     return render(request, "templates/single-property.html", {})
 
 
@@ -172,9 +175,10 @@ def login(request):
             if user is not None:
                 if type == 'buyer':
                     auth.login(request, user)
-                    return render(request, "templates/properties.html", {"status": 1})
+                    return render(request, "templates/properties.html", {property: data})
                 else:
                     auth.login(request, user)
+
                     return render(request, "templates/submit-property.html", {})
             else:
                 messages.info(request, "Invalid Username or Password")
@@ -184,6 +188,14 @@ def login(request):
             return redirect('homepage')
     else:
         return redirect('homepage')
+
+
+def likeView(request,pk):
+    property=get_object_or_404(PROPERTY,id=request.POST.get('property_id'))
+    property.likes.add(request.user)
+    return render(request, "templates/properties.html", {"status": 1})
+
+
 
 
 

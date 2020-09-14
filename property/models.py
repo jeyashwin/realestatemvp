@@ -1,5 +1,6 @@
 from django.db import models
 # from django.contrib.auth.models import
+from django.contrib.auth.models import User
 
 # Create your models here.
 class PROPERTY(models.Model):
@@ -10,7 +11,6 @@ class PROPERTY(models.Model):
     country = models.CharField(max_length=50)
     zipcode = models.IntegerField()
     description = models.TextField()
-    # property_updates = models.TextField()
     bedrooms = models.IntegerField()
     bathrooms = models.IntegerField()
     sqft = models.DecimalField(max_digits=10,decimal_places=2)
@@ -18,6 +18,7 @@ class PROPERTY(models.Model):
     property_name = models.CharField(max_length=100)
     property_type = models.CharField(max_length=50)
     property_status = models.CharField(max_length=10)
+    likes = models.ManyToManyField(User,related_name='properties')
 
 
 class MEDIA(models.Model):

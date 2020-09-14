@@ -9,5 +9,5 @@ urlpatterns = [
     path("single-property",test_single),#adds the data to the database
     path("add-comment",add_comment),#adds the data to the database
     path('login',login, name='login'),
-
+    path('like/<int:pk>/',likeView,name='like_prop'),
 ]
