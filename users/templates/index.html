@@ -512,7 +512,7 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
-			<center><i id="reg-msg"></i></center>
+			            <center><i id="reg-msg"></i></center>
                         <form class="mt-4" method="POST" id="signin_form" action="#">{% csrf_token %}
                             <div class="form-group">
                                 <label for="pxp-signin-email">Email</label>
@@ -522,13 +522,12 @@
                                 <label for="pxp-signin-pass">Password</label>
                                 <input type="password" class="form-control" name="pass" id="pxp-signin-pass" placeholder="Enter your password" required style="background-color:rgba(255, 255, 255, 0.5);">
                             </div>
-<div class="row">       
-        <div class="col-1"></div>        
-        <label for="logusertype1" class="col-5" id="logusertype1label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="logusertypeclick(1)"> <input type="radio" name="usertype" id="logusertype1" value="buyer" style="display:none;" checked /> I'm a Buyer </label>
-        &nbsp;&nbsp;
-        <label for="logusertype2" class="col-5" id="logusertype2label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px;" onclick="logusertypeclick(2)"> <input type="radio" name="usertype" id="logusertype2" value="seller" style="display:none;" /> I'm a Seller </label>        
-       </div><br>
-       
+                            <div class="row">       
+                                    <div class="col-1"></div>        
+                                    <label for="logusertype1" class="col-5" id="logusertype1label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="logusertypeclick(1)"> <input type="radio" name="usertype" id="logusertype1" value="buyer" style="display:none;" checked /> I'm a Buyer </label>
+                                    &nbsp;&nbsp;
+                                    <label for="logusertype2" class="col-5" id="logusertype2label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px;" onclick="logusertypeclick(2)"> <input type="radio" name="usertype" id="logusertype2" value="seller" style="display:none;" /> I'm a Seller </label>
+                                </div><br>
                             <div class="form-group">
 								<input type="submit" name="submit" value="Sign In" class="pxp-agent-contact-modal-btn">
                             </div>
@@ -538,6 +537,11 @@
                             <div class="text-center pxp-modal-small">
                                 New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
                             </div>
+                        </form>
+                        <form action="{% url 'user:login' %}" method="POST">
+                            {% csrf_token %}
+                            {{Loginform.as_p}}
+                            <input type="submit" value="Sign IN">
                         </form>
                     </div>
                 </div>
@@ -557,7 +561,7 @@
                         <form class="mt-4" onsubmit="forgot_pass()" action="#">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="pxp-fp-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>                            
+                            </div>
                             <div class="form-group">
 								<div class="row">
 									<div class="col-6">
@@ -587,7 +591,6 @@
                         <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
 						<center><i id="signup-error-msg" style="color:maroon;"></i></center>
                         <form class="mt-4" method="POST" id="signup_form" action="#">{% csrf_token %}
-			
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -605,30 +608,30 @@
                             <div class="form-group">
                                 <label for="pxp-signup-email">Email</label>
                                 <input type="email" class="form-control" name="email" id="pxp-signup-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-
                             </div>
 			    
-<div class="row">       
-        <div class="col-1"></div>        
-        <label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="regusertypeclick(1)"> <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Buyer </label>
-        &nbsp;&nbsp;
-        <label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Seller </label>        
-       </div><br>
+                            <div class="row">       
+                                <div class="col-1"></div>
+                                    <label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="regusertypeclick(1)"> 
+                                        <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Buyer </label>
+                                    &nbsp;&nbsp;
+                                    <label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Seller </label>
+                                </div><br>
        
-<div class="form-group" id="pxp-signup-college-radio-div">
-				<input type="checkbox" onclick="college_radio_click()" id="pxp-signup-college-radio" style="width:15px; height:15px;">&nbsp; <label for="pxp-signup-college-radio" style="font-size:15px;">Are you a college Student</label><br>
-				<div class="form-group" style="display:none;" id="pxp-signup-college-name-div">
-		                        <label for="pxp-signup-college">College Name</label>
-		                        <input type="text" class="form-control" name="college" id="pxp-signup-college-name" placeholder="Enter your college name" style="background-color:rgba(255, 255, 255, 0.5);">
-		                    </div><br>
-			    </div>
+                                <div class="form-group" id="pxp-signup-college-radio-div">
+				                    <input type="checkbox" onclick="college_radio_click()" id="pxp-signup-college-radio" style="width:15px; height:15px;">&nbsp; <label for="pxp-signup-college-radio" style="font-size:15px;">Are you a college Student</label><br>
+				                    <div class="form-group" style="display:none;" id="pxp-signup-college-name-div">
+		                                <label for="pxp-signup-college">College Name</label>
+		                                <input type="text" class="form-control" name="college" id="pxp-signup-college-name" placeholder="Enter your college name" style="background-color:rgba(255, 255, 255, 0.5);">
+		                            </div><br>
+			                    </div>
 			    
-			    <div class="form-group">
+			                <div class="form-group">
                                 <label for="pxp-signup-dob">Date of Birth</label>
                                 <input type="date" class="form-control" name="dob" id="pxp-signup-dob" style="background-color:rgba(255, 255, 255, 0.5);">
                             </div>
 
-			<div class="row">
+			                <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="pxp-signup-pass">Password</label>
@@ -641,13 +644,18 @@
                                         <input type="password" class="form-control" name="cpass" id="pxp-signup-cpass" placeholder="Re-Enter Password" required style="background-color:rgba(255, 255, 255, 0.5);">
                                     </div>
                                 </div>
-                            </div>                            
+                            </div>
                             <div class="form-group">
-				<input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
+				                <input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
                             </div>
                             <div class="text-center mt-4 pxp-modal-small">
                                 Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
                             </div>
+                        </form>
+                        <form action="{% url 'user:signup' %}" method="POST">
+                            {% csrf_token %}
+                            {{SignUpform.as_p}}
+                            <input type="submit" value="Signup">
                         </form>
                     </div>
                 </div>
@@ -796,7 +804,7 @@
 				var cpass = document.getElementById('pxp-signup-cpass').value;
 				
 				if(pass != cpass) {
-					document.getElementById('signup-error-msg').innerHTML = '<br>Password does not match';					
+					document.getElementById('signup-error-msg').innerHTML = '<br>Password does not match';
 				} else {
 					//document.getElementById('signup-loader').innerHTML = '';
 					console.log('Password matches');					
@@ -808,8 +816,8 @@
 				console.log('Pass', pass);
 				console.log('Cpass', cpass);
 				alert(ipaddress);
-				var request = new XMLHttpRequest();				
-				request.open("POST", "http://127.0.0.1:8000/register");								
+				var request = new XMLHttpRequest();			
+				request.open("POST", "http://127.0.0.1:8000/register");
 				request.onreadystatechange = function() {				
 					if(this.readyState === 4 && this.status === 200) {				
 						var res = this.responseText;

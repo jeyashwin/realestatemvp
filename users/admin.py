@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import USER,LANDLORD
+from .models import UserBuyer, UserLandLord
 
 # Register your models here.
 
-admin.site.register(USER)
-admin.site.register(LANDLORD)
+admin.site.register(UserBuyer)
+admin.site.register(UserLandLord)

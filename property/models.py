@@ -1,9 +1,11 @@
 from django.db import models
 # from django.contrib.auth.models import
 
+from users.models import UserLandLord
+
 # Create your models here.
 class PROPERTY(models.Model):
-    l_id = models.ForeignKey('users.LANDLORD',on_delete=models.CASCADE)
+    l_id = models.ForeignKey(UserLandLord,on_delete=models.CASCADE)
     property_id = models.CharField(max_length=40,primary_key=True)
     address = models.TextField()
     city = models.CharField(max_length=100)

@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'realestatex.wsgi.application'
 DATABASES = {
    'default' : {
        'ENGINE' : 'django.db.backends.postgresql',
-       'NAME' : "postgres",
-       'USER' : 'postgres',
-       'PASSWORD' : 'Tek2019',
+       'NAME' : "RealEstate",
+       'USER' : 'realestate',
+       'PASSWORD' : 'Realestate@123',
        "HOST": 'localhost',
        "PORT": '5432'
 
