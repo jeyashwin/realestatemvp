@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import UserBuyer, UserLandLord
+from .models import UserBuyer, UserLandLord, UserType
 
 class SignUpForm(UserCreationForm):
 
@@ -80,25 +80,19 @@ class SignUpForm(UserCreationForm):
         self.fields['password2'].label = "Confirm Password"
 
     def clean(self):
-        email = self.cleaned_data["email"].lower()
-        regUserType = self.cleaned_data["regUserType"]
+        if self.cleaned_data.get("email") and self.cleaned_data.get("regUserType"):
+            email = self.cleaned_data.get("email").lower()
+            regUserType = self.cleaned_data.get("regUserType")
+            isalreadyexists = False
 
-        if regUserType == "buyer":
             try:
-                UserBuyer.objects.get(user__email=email)
-                isalreadyexits = True
-            except UserBuyer.DoesNotExist:
-                isalreadyexits = False
+                UserType.objects.get(user__email=email, userType=regUserType)
+                isalreadyexists = True
+            except UserType.DoesNotExist:
+                isalreadyexists = False
 
-        elif  regUserType == "seller":
-            try:
-                UserLandLord.objects.get(user__email=email)
-                isalreadyexits = True
-            except UserLandLord.DoesNotExist:
-                isalreadyexits = False
-        
-        if isalreadyexits:
-            raise forms.ValidationError("Email already exists!")
+            if isalreadyexists:
+                raise forms.ValidationError({'email': "Email already exists!"})
 
 
 class LoginInForm(forms.Form):

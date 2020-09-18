@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import CreateView, FormView
 from django.http import JsonResponse
 
-from .models import UserBuyer, UserLandLord
+from .models import UserBuyer, UserLandLord, UserType
 from .forms import SignUpForm, LoginInForm
 
 # Create your views here.
@@ -29,26 +29,27 @@ class SignUpClassView(CreateView):
     template_name = "templates/index.html"
     
     def form_valid(self, form):
+
+        #creating new user with email (converting into lowercase)
         form.instance.email = form.cleaned_data.get('email').lower()
         valid = super().form_valid(form)
-        typeOfUser = form.cleaned_data.get('regUserType')
-        if typeOfUser == "buyer":
-            isCollegeStudent = False
-            if form.cleaned_data.get('is_college_student'):
-                isCollegeStudent = True
-            if form.cleaned_data.get('college_name') == "":
-                buyerObject = UserBuyer.objects.create(user=form.instance, isStudent=isCollegeStudent, 
-                                    dateOfBirth=form.cleaned_data.get('date_of_birth'))
-            else:
-                buyerObject = UserBuyer.objects.create(user=form.instance, isStudent=isCollegeStudent, 
-                                   collegeName=form.cleaned_data.get('college_name'), 
-                                   dateOfBirth=form.cleaned_data.get('date_of_birth'))
 
-        elif typeOfUser == "seller":
-            landlordObject = UserLandLord.objects.create(user=form.instance, 
+        #creating new userType with user instance
+        userObject = UserType.objects.create(user=form.instance,
+                        userType=form.cleaned_data.get('regUserType'))
+
+        if userObject.is_buyer:
+            buyerObject = UserBuyer.objects.create(user=userObject, 
+                                isStudent=form.cleaned_data.get('is_college_student'), 
+                                collegeName=form.cleaned_data.get('college_name'), 
+                                dateOfBirth=form.cleaned_data.get('date_of_birth')
+                            )
+
+        if userObject.is_landlord:
+            landlordObject = UserLandLord.objects.create(user=userObject, 
                                 dateOfBirth=form.cleaned_data.get('date_of_birth'))
         
-        return JsonResponse({'success_message': "created"}, status=200)
+        return JsonResponse({'success_message': "created"}, status=201)
 
     def form_invalid(self, form):
         invalid = super().form_invalid(form)
@@ -67,21 +68,15 @@ class UserLoginClassView(FormView):
         valid = super().form_valid(form)
         email = form.cleaned_data.get('login_email').lower()
         password = form.cleaned_data.get('login_password')
-        userType = form.cleaned_data.get('logUserType')
 
-        if userType == "buyer":
-            try:
-                user_exists = UserBuyer.objects.get(user__email=email)
-            except UserBuyer.DoesNotExist:
-                return JsonResponse({'user': 'Entered email and password does not match'}, status=404)
-        elif userType == "seller":
-            try:
-                user_exists = UserLandLord.objects.get(user__email=email)
-            except UserLandLord.DoesNotExist:
-                return JsonResponse({'user': 'Entered email and password does not match'}, status=404)
+        try:
+            userExists = UserType.objects.get(user__email=email, 
+                            userType=form.cleaned_data.get('logUserType'))
+        except UserType.DoesNotExist:
+            return JsonResponse({'user': 'Account not found'}, status=404)
 
-        if user_exists:
-            user = authenticate(username = user_exists.user.username, password = password)
+        if userExists:
+            user = authenticate(username = userExists.user.username, password = password)
 
             if user:
                 if user.is_active:
@@ -89,7 +84,7 @@ class UserLoginClassView(FormView):
                     return redirect('user:sample')
 
                 else:
-                    return JsonResponse({'user': 'Account not active'}, status=400)
+                    return JsonResponse({'user': 'Account not active'}, status=403)
             else:
                 return JsonResponse({'user': 'Invalid login details supplied!'}, status=404)
 
