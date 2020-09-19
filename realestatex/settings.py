@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'realestatex.wsgi.application'
 DATABASES = {
    'default' : {
        'ENGINE' : 'django.db.backends.postgresql',
-       'NAME' : "postgres",
-       'USER' : 'postgres',
-       'PASSWORD' : 'Tek2019',
+       'NAME' : "RealEstate",
+       'USER' : 'realestate',
+       'PASSWORD' : 'Realestate@123',
        "HOST": 'localhost',
        "PORT": '5432'
 
@@ -146,3 +146,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, '/users/static'),
 # )
+
+LOGOUT_REDIRECT_URL = "/"

@@ -1,88 +1,102 @@
-#user views
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.views.generic import CreateView, FormView
 from django.http import JsonResponse
-from django.contrib.auth.models import User,auth
-from .models import USER,LANDLORD
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import csrf_protect
 
-import uuid
-
+from .models import UserBuyer, UserLandLord, UserType
+from .forms import SignUpForm, LoginInForm
 
 # Create your views here.
 
 def decoding(obj):
     return eval(obj.decode())
 
-# @csrf_exempt
-# def register(request):
-#     print("validating")
-#     if request.method == "POST":
-#         request = decoding(request.body)
-#         first_name = request["first_name"]
-#         last_name = request["last_name"]
-#         password1 = request["password1"]
-#         password2 = request["password2"]
-#         email = request["email"]
-#         user = User.objects.create_user(username=uuid.uuid4().hex[:8],password=password1,email=email,first_name = first_name,
-#                                         last_name = last_name)
-#         user.save()
-#     return JsonResponse({"Success" : 1})
+#User App views starts from here
 
+def Home(request):
+    signUpFormIdentifier = SignUpForm(label_suffix='')
+    LoginFormIdentifier = LoginInForm(label_suffix='')
+    context = {
+        "status" : 0, 
+        'SignUpform': signUpFormIdentifier, 
+        'Loginform': LoginFormIdentifier,
+    }
+    return render(request, "templates/index.html", context=context )
 
-def signin(request):
-    if request.method == "GET":
-        print("gotcha",dir(request),)
-    return JsonResponse({"got" : 1})
+class SignUpClassView(CreateView):
+    form_class = SignUpForm
+    success_url = '/'
+    template_name = "templates/index.html"
+    
+    def form_valid(self, form):
 
-@csrf_exempt
-@csrf_protect
-def register(request):
-    if request.method == "POST":
-        if request.POST["usertype"] == "buyer":
-            first_name = request.POST["fname"]
-            last_name = request.POST["lname"]
-            password = request.POST["pass"]
-            email = request.POST["email"]
-            birth_date = request.POST["dob"]
-            college = request.POST["college"]
-            user = USER(user_id=uuid.uuid4().hex[:8],password=password,email_id=email,first_name = first_name,
-                                            last_name = last_name,college = college,birth_date = birth_date)
-            user.save()
-            return render(request,"templates/index.html",{"status" : 1})
-        elif request.POST["usertype"] == "seller":
-            first_name = request.POST["fname"]
-            last_name = request.POST["lname"]
-            password = request.POST["pass"]
-            email = request.POST["email"]
-            birth_date = request.POST["dob"]
-            print(first_name, last_name, birth_date, password, email)
-            ld = LANDLORD(l_id=uuid.uuid4().hex[:8], password=password, email_id=email, first_name=first_name,
-                        last_name=last_name, birth_date=birth_date)
-            ld.save()
-            return render(request,"templates/index.html",{"status" : 1})
-    else:
-        return render(request, "templates/index.html", {"status": 0})
+        #creating new user with email (converting into lowercase)
+        form.instance.email = form.cleaned_data.get('email').lower()
+        valid = super().form_valid(form)
 
-@csrf_protect
-@csrf_exempt
-def login(request):
-    if request.method == "POST":
-        print("Entered")
-        # request1 = decoding(request.body)
-        email_id = request.POST['email']
-        password = request.POST['pass']
-        print(email_id,password)
-        # email_id = request.POST['email']
-        # password = request.POST['pass']
+        #creating new userType with user instance
+        userObject = UserType.objects.create(user=form.instance,
+                        userType=form.cleaned_data.get('regUserType'))
+
+        if userObject.is_buyer:
+            buyerObject = UserBuyer.objects.create(user=userObject, 
+                                isStudent=form.cleaned_data.get('is_college_student'), 
+                                collegeName=form.cleaned_data.get('college_name'), 
+                                dateOfBirth=form.cleaned_data.get('date_of_birth')
+                            )
+
+        if userObject.is_landlord:
+            landlordObject = UserLandLord.objects.create(user=userObject, 
+                                dateOfBirth=form.cleaned_data.get('date_of_birth'))
+        
+        return JsonResponse({'success_message': "created"}, status=201)
+
+    def form_invalid(self, form):
+        invalid = super().form_invalid(form)
+        return JsonResponse(form.errors, status=400)
+    
+    def get(self, request):
+        return redirect('user:home')
+    
+
+class UserLoginClassView(FormView):
+    form_class = LoginInForm
+    success_url = "/"
+    template_name = "templates/index.html"
+
+    def form_valid(self, form):
+        valid = super().form_valid(form)
+        email = form.cleaned_data.get('login_email').lower()
+        password = form.cleaned_data.get('login_password')
+
         try:
-            user = USER.objects.get(email_id = email_id)
-        except Exception as e:
-            print(e,"Exception")
-            user = None
-        if user is not None:
-            u_id = USER.objects.filter(email_id = email_id)
-            resp = {"user_id" : [i.user_id for i in u_id][0],"fname" : [i.first_name for i in u_id][0]}
-            return render(request, "templates/index.html",resp)
-        else:
-            return render(request,"templates/index.html",{"status" : 0})
+            userExists = UserType.objects.get(user__email=email, 
+                            userType=form.cleaned_data.get('logUserType'))
+        except UserType.DoesNotExist:
+            return JsonResponse({'user': 'Account not found'}, status=404)
+
+        if userExists:
+            user = authenticate(username = userExists.user.username, password = password)
+
+            if user:
+                if user.is_active:
+                    login(self.request, user)
+                    return redirect('user:sample')
+
+                else:
+                    return JsonResponse({'user': 'Account not active'}, status=403)
+            else:
+                return JsonResponse({'user': 'Invalid login details supplied!'}, status=404)
+
+        return redirect('user:home')
+
+    def form_invalid(self, form):
+        invalid = super().form_invalid(form)
+        return JsonResponse(form.errors, status=400)
+
+    def get(self, request):
+        return redirect('user:home')
+
+
+def sample(request):
+    return render(request, "templates/sample.html")

@@ -2,7 +2,7 @@ from django.shortcuts import render
 import pandas as pd
 from django.http import JsonResponse
 from .models import PROPERTY,MEDIA
-from users.models import LANDLORD
+from users.models import UserLandLord
 from django.core.files import File
 import pymongo
 from PIL import Image
@@ -67,7 +67,7 @@ def register_property(request):
         # state = request.POST["property-state"]
         property_type = request.POST["property-type"]
         property_status = request.POST["property-status"]
-        l = LANDLORD.objects.get(l_id = l_id)
+        l = UserLandLord.objects.get(l_id = l_id)
         add_data = PROPERTY(address = address,city = city,zipcode = zipcode,description = description,property_type = property_type,property_status = property_status,country = country,
                             bedrooms = bedrooms,bathrooms = bathrooms,garage = garage,sqft = sqft,price = price,property_name = property_name,l_id = l,property_id = pid)
         add_data.save()
