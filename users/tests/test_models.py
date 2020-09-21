@@ -53,7 +53,7 @@ class ModelTests(TestCase):
 
         usertype1 = models.UserType.objects.create(
             user=user1,
-            userType="buyer"
+            userType="student"
         )
 
         usertype2 = models.UserType.objects.create(
@@ -61,46 +61,46 @@ class ModelTests(TestCase):
             userType="seller"
         )
 
-        self.assertEqual(usertype1.buyer, True)
+        self.assertEqual(usertype1.student, True)
         self.assertEqual(usertype1.landLord, False)
-        self.assertEqual(usertype1.is_buyer, True)
+        self.assertEqual(usertype1.is_student, True)
         self.assertEqual(usertype1.is_landlord, False)
         self.assertEqual(str(usertype1.user.username), user1.username)
 
-        self.assertEqual(usertype2.buyer, False)
+        self.assertEqual(usertype2.student, False)
         self.assertEqual(usertype2.landLord, True)
-        self.assertEqual(usertype2.is_buyer, False)
+        self.assertEqual(usertype2.is_student, False)
         self.assertEqual(usertype2.is_landlord, True)
         self.assertEqual(str(usertype2.user.username), user2.username)
 
-    def test_userbuyer_with_valid_input_model(self):
-        """Test the userbuyer string representaion with valid input"""
+    def test_userstudent_with_valid_input_model(self):
+        """Test the userStudent string representaion with valid input"""
         usertype = models.UserType.objects.create(
             user=sampleUser(),
-            userType="buyer"
+            userType="student"
         )
 
-        userbuyer = models.UserBuyer.objects.create(
+        userstudent = models.UserStudent.objects.create(
             user=usertype,
             dateOfBirth=str(datetime.date(2020, 7, 10))
         )
 
-        self.assertEqual(str(userbuyer.pk), str(userbuyer))
-        self.assertEqual(userbuyer.dateOfBirth, "2020-07-10")
+        self.assertEqual(str(userstudent.pk), str(userstudent))
+        self.assertEqual(userstudent.dateOfBirth, "2020-07-10")
     
-    def test_userbuyer_with_invalid_input_model(self):
-        """Test the userbuyer with invalid input"""
+    def test_userstudent_with_invalid_input_model(self):
+        """Test the userstudent with invalid input"""
         usertype = models.UserType.objects.create(
             user=sampleUser(),
             userType="seller"
         )
 
-        userbuyer = models.UserBuyer.objects.create(
+        userstudent = models.UserStudent.objects.create(
             user=usertype,
             dateOfBirth=str(datetime.date(2020, 7, 10))
         )
 
-        self.assertRaises(ValidationError, userbuyer.clean)
+        self.assertRaises(ValidationError, userstudent.clean)
 
     def test_userlandlord_with_valid_input_model(self):
         """Test the userlandlord string representaion with valid input"""
@@ -121,7 +121,7 @@ class ModelTests(TestCase):
         """Test the userlandlord with invalid input"""
         usertype = models.UserType.objects.create(
             user=sampleUser(),
-            userType="buyer"
+            userType="student"
         )
 
         userlandlord = models.UserLandLord.objects.create(
