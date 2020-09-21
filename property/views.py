@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import pandas as pd
 from django.http import JsonResponse,HttpResponseRedirect
-from .models import PROPERTY, MEDIA
+from .models import PROPERTY, MEDIA,Coment
 from users.models import LANDLORD
 from django.core.files import File
 import pymongo
@@ -13,12 +13,13 @@ import json
 
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
+from django.contrib import messages
 from django.shortcuts import render, redirect,get_object_or_404
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, authentication_classes, permission_classes, api_view
 from django.urls import reverse_lazy,reverse
-
+# from .forms import CommentForm
 # Create your views here.
 data = pd.read_csv("ny_data.csv")
 data = data.dropna(subset=["CITY"])
@@ -111,9 +112,11 @@ def register_property(request):
         return render(request, "templates/index.html", {"status": 0})
 
 @csrf_exempt
-def update_property(request):
+def update_property(request,pk):
+    import pdb;pdb.set_trace()
     if request.method=='POST':
         user=request.POST['username']
+        print(user)
         l_id = request.POST['l_id']
         address = request.POST["property-address"]
         city = request.POST["property-city"]
@@ -123,7 +126,7 @@ def update_property(request):
         bathrooms = request.POST["property-bathrooms"]
         try:
             userPresent=User.objects.get(username=user)
-            upd_property=PROPERTY.objects.get(l_id=l_id)
+            upd_property=PROPERTY.objects.get(l_id=l_id,property_id=pid)
             if userPresent and upd_property is not None:
                 upd_property.address=address
                 upd_property.city=city
@@ -146,28 +149,46 @@ def update_property(request):
 
 
 
-
 @csrf_exempt
 def test_single(request):
-    if request.session.has_key('username'):
-        props=PROPERTY.objects.all()
-        print(props)
-        return render(request, "templates/single-property.html", {'props':props})
-    else:
-        return redirect('homepage')
+    # import pdb;pdb.set_trace()
+    print(request.method)
+    if request.method=='GET':
+        coments=Coment.objects.all()
+        return render(request,"templates/single-property.html",{'coments':coments})
+    elif request.method=='POST':
+        if not request.session.has_key('username'):
+            return redirect(request,'homepage')
+        messages=request.POST['property-comment']
+        user=request.user
+        data=Coment(property_id='ABC',message=messages,user_id=user)
+        data.save()
+        coments=Coment.objects.all()
+    return render(request, "templates/single-property.html",{'coments':coments})
 
 
 @csrf_exempt
-def add_comment(request):
-    if request.session.has_key('username'):
-        print(request.POST["property-comment"], dict(request.POST))
-        comments = MONGO_CONFS.mycol
-        comments.insert_one({"user_id": request.POST['user_id'],
-                             "property_id": request.POST['property_id'],
-                             "comment": request.POST['property-comment'], "sequence": 0})
-        return render(request, "templates/single-property.html", {})
+def add_comment(request,property_id):
+    if not request.session.has_key('username'):
+        return redirect(request,'homepage')
+                        # comments = MONGO_CONFS.mycol
+            # comments.insert_one({"user_id": request.POST['user_id'],
+            #                      "property_id": request.POST['property_id'],
+            #                      "comment": request.POST['property-comment'], "sequence": 0})
+    coments=Coment.objects.all().filter()
+    return render(request, "templates/single-property.html",{'coments':coments})
+
+    
+def likeView(request,pk):
+    property=get_object_or_404(PROPERTY,id=request.POST.get('property_id'))
+    liked=False
+    if property.objects.filter(id=request.user.id).exist():
+        property.likes.remove()
+        liked=False
     else:
-        return redirect('homepage')
+        property.likes.add(request.user)
+        liked=False
+    return render(request, "templates/properties.html",{"status": 1})
 
 
 
@@ -181,7 +202,7 @@ def login(request):
         type = request.POST['usertype']
         try:
             username = User.objects.get(email=email.lower()).username
-            # print(email,username,password,type)
+            print(email,username,password,type)
             user = auth.authenticate(username=username, password=password)
             if user is not None:
                 if type == 'buyer':
@@ -201,11 +222,6 @@ def login(request):
     else:
         return redirect('homepage')
 
-
-def likeView(request,pk):
-    property=get_object_or_404(PROPERTY,id=request.POST.get('property_id'))
-    property.likes.add(request.user)
-    return render(request, "templates/properties.html", {"status": 1})
 
 
 
