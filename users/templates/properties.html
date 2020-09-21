@@ -13,21 +13,21 @@
         <link rel="stylesheet" href="{% static '/css/style0f71.css' %}">
 
         <title>RE.</title>
-		
-		<style>
-			.pxp-nav > li > .active, .pxp-is-sticky .pxp-nav > li > .active { color: orange; }
-		
-			.fa.fa-thumbs-o-down:hover {
-				color:red;
-			}
-			.fa.fa-thumbs-o-up:hover {
-				color:green;
-			}
-			.pxp-results-card-1.rounded-lg {
-				box-shadow:2px 2px 3px silver;
-			}
-		</style>
-		
+        
+        <style>
+            .pxp-nav > li > .active, .pxp-is-sticky .pxp-nav > li > .active { color: orange; }
+        
+            .fa.fa-thumbs-o-down:hover {
+                color:red;
+            }
+            .fa.fa-thumbs-o-up:hover {
+                color:green;
+            }
+            .pxp-results-card-1.rounded-lg {
+                box-shadow:2px 2px 3px silver;
+            }
+        </style>
+        
     </head>
     <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
         <div class="pxp-header fixed-top pxp-animate" style="background-color:rgba(0, 0, 0, 0.1);">
@@ -36,7 +36,7 @@
                     <div class="col-5 col-md-2">
                         <a href="index.html" class="pxp-logo text-decoration-none">RE</a>
                     </div>
-					
+                    
                     <div class="col-2 col-md-8 text-center">
                         <ul class="pxp-nav list-inline">
                             <li class="list-inline-item" style="padding:0px 20px;">
@@ -49,8 +49,8 @@
                                 <a href="blog.html">Blog</a>
                             </li>                            
                             <li class="list-inline-item pxp-is-last" style="padding:0px 20px;">
-								<a href="contact.html">Contact Us</a>
-							</li>
+                                <a href="contact.html">Contact Us</a>
+                            </li>
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
                                     <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
@@ -233,7 +233,7 @@
                     </div>
                     <div class="row pb-4">
                         <div class="col-sm-6">
-                            <h2 class="pxp-content-side-h2">1,684 Results</h2>
+                            <h2 class="pxp-content-side-h2">{{object_list.count}} Results</h2>
                         </div>
                         <div class="col-sm-6">
                             <div class="pxp-sort-form form-inline float-right">
@@ -256,7 +256,53 @@
 
 
                     <div class="row">
-                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                        {% for list in object_list %}
+                            <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                                <a href="{% url 'property:detailedProperty' list.pk %}" class="pxp-results-card-1 rounded-lg" data-prop="1">
+                                    <div id="card-carousel-1" class="carousel slide" data-ride="carousel" data-interval="false">
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-1-1-gallery.jpg' %})"></div>
+                                            <div class="carousel-item" style="background-image: url(images/properties/prop-1-2-gallery.jpg);"></div>
+                                            <div class="carousel-item" style="background-image: url(images/properties/prop-1-3-gallery.jpg);"></div>
+                                        </div>
+                                        <span class="carousel-control-prev" data-href="#card-carousel-1" data-slide="prev">
+                                            <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                        </span>
+                                        <span class="carousel-control-next" data-href="#card-carousel-1" data-slide="next">
+                                            <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                        </span>
+                                    </div>
+                                    <div class="pxp-results-card-1-gradient"></div>
+                                    <div class="pxp-results-card-1-details">
+                                        <div class="pxp-results-card-1-details-title">{{list.property_name}}</div>
+                                        <div class="pxp-results-card-1-details-price">${{list.price}}</div>
+                                    </div>
+                                    <div class="pxp-results-card-1-features">
+                                        <span>{{list.bedrooms}} BD <span>|</span> {{list.bathrooms}} BA <span>|</span> {{list.sqft}} SF</span>
+                                    </div>
+                                    
+                                    <div class="pxp-results-card-1-save">
+                                        <span onclick="return likeclick()" class="fa fa-thumbs-o-up"></span>
+                                        <span onclick="return dislikeclick()" class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span>
+                                    </div>
+                                </a>
+                                
+                                <script>
+                                    function likeclick()
+                                    {
+                                        alert('Liked');
+                                        return false;
+                                    }
+                                    
+                                    function dislikeclick()
+                                    {
+                                        alert('Disliked');
+                                        return false;
+                                    }
+                                </script>
+                            </div>
+                        {% endfor %}
+                        {% comment %} <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
                             <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="1">
                                 <div id="card-carousel-1" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
@@ -279,24 +325,26 @@
                                 <div class="pxp-results-card-1-features">
                                     <span>2 BD <span>|</span> 2 BA <span>|</span> 920 SF</span>
                                 </div>
-								
-                                <div class="pxp-results-card-1-save"><span onclick="return likeclick()" class="fa fa-thumbs-o-up"></span> <span onclick="return dislikeclick()" class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
+                                
+                                <div class="pxp-results-card-1-save">
+                                    <span onclick="return likeclick()" class="fa fa-thumbs-o-up"></span>
+                                    <span onclick="return dislikeclick()" class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span>
+                                </div>
                             </a>
-							
-							<script>
-								function likeclick()
-								{
-									alert('Liked');
-									return false;
-								}
-								
-								function dislikeclick()
-								{
-									alert('Disliked');
-									return false;
-								}
-							</script>
-							
+                            
+                            <script>
+                                function likeclick()
+                                {
+                                    alert('Liked');
+                                    return false;
+                                }
+                                
+                                function dislikeclick()
+                                {
+                                    alert('Disliked');
+                                    return false;
+                                }
+                            </script>
                         </div>
                         <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
                             <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="2">
@@ -428,7 +476,7 @@
                                 <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
                         </div>
-						<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
                             <a href="http://127.0.0.1:8000/single-property" class="pxp-results-card-1 rounded-lg" data-prop="1">
                                 <div id="card-carousel-1" class="carousel slide" data-ride="carousel" data-interval="false">
                                     <div class="carousel-inner">
@@ -583,7 +631,7 @@
                                 </div>
                                 <div class="pxp-results-card-1-save"><span class="fa fa-thumbs-o-up"></span> <br> <span class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span></div>
                             </a>
-                        </div>
+                        </div> {% endcomment %}
                     </div>
 
                     <ul class="pagination pxp-paginantion mt-2 mt-md-4">

@@ -312,8 +312,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
-                            <h2 class="pxp-sp-top-title">Beautiful House in Marina</h2>
-                            <p class="pxp-sp-top-address pxp-text-light">542 29th Avenue, Marina District, San Francisco, CA 94121</p>
+                            <h2 class="pxp-sp-top-title">{{object.property_name}}</h2>
+                            <p class="pxp-sp-top-address pxp-text-light">{{object.address}}</p>
+                            {% comment %} <p class="pxp-sp-top-address pxp-text-light">542 29th Avenue, Marina District, San Francisco, CA 94121</p> {% endcomment %}
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="pxp-sp-top-btns mt-2 mt-md-0">
@@ -332,11 +333,11 @@
                             </div>
                             <div class="clearfix d-block d-xl-none"></div>
                             <div class="pxp-sp-top-feat mt-3 mt-md-0">
-                                <div>5 <span>BD</span></div>
-                                <div>4 <span>BA</span></div>
-                                <div>3,945 <span>SF</span></div>
+                                <div>{{object.bedrooms}} <span>BD</span></div>
+                                <div>{{object.bathrooms}} <span>BA</span></div>
+                                <div>{{object.sqft}} <span>SF</span></div>
                             </div>
-                            <div class="pxp-sp-top-price mt-3 mt-md-0">$5,198,000</div>
+                            <div class="pxp-sp-top-price mt-3 mt-md-0">${{object.price}}</div>
                         </div>
                     </div>
                 </div>
@@ -378,13 +379,13 @@
                                 <div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Status</div>
-                                        <div class="pxp-sp-kd-item-value">Coming Soon</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.property_status}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Property Type</div>
-                                        <div class="pxp-sp-kd-item-value">Apartment</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.property_type}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -487,7 +488,7 @@
 										<!-- Contenedor del Comentario -->
 										<form method="POST" id="submit_comment" action="#">
 										<input type="hidden" name="user_id" value="123asdf">
-										<form method="POST" id="submit_comment" action="#">
+										<form method="POST" id="submit_comment" action="">
 										<input type="hidden" name="property_id" value="asdf123">
 										<div class="comment-box">
 										  <div class="comment-head" style="width:80%;">
@@ -505,73 +506,22 @@
 									</li>
 								  
 									<li>
+									  {% for come in coments %}
 									  <div class="comment-main-level">
-										<!-- Avatar -->
 										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
 										<div class="comment-box">
 										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="">Agustin Ortiz</a></h6>
-											<span>Just now</span>
+											<h6 class="comment-name"><a href="">{{ come.user_id }}</a></h6>
+											<span>{{ come.date_comment }}</span>
 										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>									  
-									</li>
-
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#">Lorena Rojero</a></h6>
-											<span>5 minutes ago</span>	
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
+										  <div class="comment-content" style="width:80%;">{{ come.message }}</div>
 										</div>
 									  </div>
+                                      <br>
 									</li>
-									
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#">Agustin Ortiz</a></h6>
-											<span>10 minutes ago</span>
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>									  
+                                    {% endfor %}							  
 									</li>
 
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#">Lorena Rojero</a></h6>
-											<span>15 minutes ago</span>											
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>
-									</li>
-									
 									<span class="btn btn-primary btn-sm" style="margin-left:90px; cursor:pointer"> Load more</span>
 									
 								  </ul>
@@ -806,7 +756,7 @@
 		function ipsrc()
 		{
 
-			document.getElementById('submit_comment').action = ipaddress+'add-comment';
+			document.getElementById('submit_comment').action = ipaddress+'single-property';
 		}
 		
 	</script>
