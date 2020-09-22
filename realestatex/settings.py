@@ -143,8 +143,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+MEDIA_URL = '/uploads/'
+MEDIA_ROOT = os.path.join(BASE_DIR)
+
 # STATICFILES_DIRS = (
 #     os.path.join(BASE_DIR, '/users/static'),
 # )
 
+LOGIN_URL = "/"
+# LOGIN_REDIRECT_URL = "dashboard/"
 LOGOUT_REDIRECT_URL = "/"

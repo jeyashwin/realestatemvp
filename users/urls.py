@@ -9,5 +9,7 @@ urlpatterns = [
     path('register/', SignUpClassView.as_view(), name="signup"),
     path('login/', UserLoginClassView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name = "logout"),
-    path('sample/', sample, name="sample")
+    path('student/profile/<str:username>', StudentProfileUpdateView.as_view(), name = "studentProfile"),
+    path('landlord/profile/<str:username>', LandlordProfileUpdateView.as_view(), name = "landlordProfile"),
+    path('contact/', Contact, name = "contact"),
 ]

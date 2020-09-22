@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import pandas as pd
 from django.http import JsonResponse
 from .models import PROPERTY,MEDIA
@@ -9,7 +9,11 @@ from PIL import Image
 import os
 import  uuid
 from django.views.decorators.csrf import csrf_exempt
-import json
+import json, string, random
+
+from django.views.generic import ListView, DetailView
+
+from users.forms import SignUpForm, LoginInForm
 
 # Create your views here.
 data = pd.read_csv("ny_data.csv")
@@ -49,8 +53,9 @@ def view_register(request):
 @csrf_exempt
 def register_property(request):
     if request.method == "POST":
-        pid = uuid.uuid4().hex[:8]
-        l_id = "79660c01"
+        pid = ''.join(random.choice(string.digits) for i in range(8))
+        print(pid)
+        l_id = "8"
         address = request.POST["property-address"]
         city = request.POST["property-city"]
         zipcode = request.POST["property-zipcode"]
@@ -67,7 +72,7 @@ def register_property(request):
         # state = request.POST["property-state"]
         property_type = request.POST["property-type"]
         property_status = request.POST["property-status"]
-        l = UserLandLord.objects.get(l_id = l_id)
+        l = UserLandLord.objects.get(pk = l_id)
         add_data = PROPERTY(address = address,city = city,zipcode = zipcode,description = description,property_type = property_type,property_status = property_status,country = country,
                             bedrooms = bedrooms,bathrooms = bathrooms,garage = garage,sqft = sqft,price = price,property_name = property_name,l_id = l,property_id = pid)
         add_data.save()
@@ -83,7 +88,7 @@ def register_property(request):
             add_image = MEDIA(media_path = full_path,media_type = "image",p_id = get_pid,s_id = "1234",likes = 0,dislikes = 0)
             add_image.save()
         # get_property = PROPERTY.objects.all(l_id = l)
-        return render(request,"templates/properties.html",{"status" : 1})
+        return redirect('property:propertyList')
     else:
         return render(request, "templates/index.html", {"status": 0})
 
@@ -101,18 +106,29 @@ def add_comment(request):
     return render(request,"templates/single-property.html",{})
 
 
+#Property App views starts from here
 
 
+class PropertyListView(ListView):
+    model = PROPERTY
+    template_name = "templates/properties.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["SignUpform"] = SignUpForm(label_suffix='')
+        context["Loginform"] = LoginInForm(label_suffix='')
+        return context
+    
 
 
+class PropertyDetailView(DetailView):
+    model = PROPERTY
+    template_name = "templates/single-property.html"
+    # ordering = ['-date_created']
 
-
-
-
-
-
-
-
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["SignUpform"] = SignUpForm(label_suffix='')
+        context["Loginform"] = LoginInForm(label_suffix='')
+        return context
 

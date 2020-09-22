@@ -1,4 +1,5 @@
 from django import forms
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
@@ -36,7 +37,6 @@ class SignUpForm(UserCreationForm):
         widget=forms.DateInput(attrs={
             'type':'date',
             'class': 'form-control',
-            'placeholder': "Enter your college name",
         }),
         label="Date of Birth",
     )
@@ -125,3 +125,85 @@ class LoginInForm(forms.Form):
         required=True,
         label="",
     )
+
+
+class StudentProfileUpdateForm(forms.ModelForm):
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter first name",
+        }),
+        required=True,
+    )
+
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter last name",
+        }),
+        required=True,
+    )
+
+    class Meta:
+        model = UserStudent
+        fields = ('first_name', 'last_name', 'dateOfBirth', 'isCollegeStudent', 'collegeName', 'profilePicture')
+
+        widgets = {
+            'dateOfBirth': forms.DateInput(attrs={
+                    'type':'date',
+                    'class': 'form-control',
+                }),
+            'collegeName': forms.TextInput(attrs={
+                    'class': 'form-control',
+                    'placeholder': "Enter your college name",
+                }),
+            'profilePicture': forms.ClearableFileInput(attrs={
+                    'class': 'form-control',
+                }),
+        }
+
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        studentInfo = get_object_or_404(UserStudent, pk=kwargs.get('instance').pk)
+        self.fields['first_name'].initial = studentInfo.user.user.first_name
+        self.fields['last_name'].initial = studentInfo.user.user.last_name
+
+
+class LandlordProfileUpdateForm(forms.ModelForm):
+
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter first name",
+        }),
+        required=True,
+    )
+
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': "Enter last name",
+        }),
+        required=True,
+    )
+
+    class Meta:
+        model = UserLandLord
+        fields = ('first_name', 'last_name', 'dateOfBirth', 'profilePicture')
+
+        widgets = {
+            'dateOfBirth': forms.DateInput(attrs={
+                    'type':'date',
+                    'class': 'form-control',
+                }),
+            'profilePicture': forms.ClearableFileInput(attrs={
+                    'class': 'form-control',
+                }),
+        }
+
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        studentInfo = get_object_or_404(UserLandLord, pk=kwargs.get('instance').pk)
+        self.fields['first_name'].initial = studentInfo.user.user.first_name
+        self.fields['last_name'].initial = studentInfo.user.user.last_name
