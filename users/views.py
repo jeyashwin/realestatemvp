@@ -150,7 +150,6 @@ class LandlordProfileUpdateView(LoginRequiredMixin, UpdateView):
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
     template_name = "templates/profile-delete.html"
-    slug_field = "url_slug"
     success_url = "/"
 
     def get_object(self):
