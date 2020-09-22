@@ -17,6 +17,7 @@
 								{{form.as_p}}
 								<input type="submit" value="Save">
 							</form>
+							<a href="{% url 'user:deleteProfile' user.username %}">Delete my account</a>
 							<div class="form-group inputitems" id="flnameinput" style="display:none;">
 								<label for="pxp-signup-flname">Full Name</label>
 								<input type="text" class="form-control" id="pxp-signup-flname" placeholder="Enter your full name" value="Test" style="width:50%; background-color:#f4f4f2;">

@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth import authenticate, login
-from django.views.generic import CreateView, FormView, UpdateView
+from django.views.generic import CreateView, FormView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, Http404
@@ -146,5 +146,19 @@ class LandlordProfileUpdateView(LoginRequiredMixin, UpdateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('user:landlordProfile', kwargs={'username':self.kwargs.get('username')})
 
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = "templates/profile-delete.html"
+    slug_field = "url_slug"
+    success_url = "/"
+
+    def get_object(self):
+        if self.request.user.username == self.kwargs.get('username'):
+            return get_object_or_404(User, username=self.kwargs.get('username'))
+        else:
+            raise Http404
+
 def Contact(request):
     return render(request, "templates/contact.html")
+
