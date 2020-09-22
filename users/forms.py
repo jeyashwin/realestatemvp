@@ -204,6 +204,6 @@ class LandlordProfileUpdateForm(forms.ModelForm):
 
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        studentInfo = get_object_or_404(UserLandLord, pk=kwargs.get('instance').pk)
-        self.fields['first_name'].initial = studentInfo.user.user.first_name
-        self.fields['last_name'].initial = studentInfo.user.user.last_name
+        landlordInfo = get_object_or_404(UserLandLord, pk=kwargs.get('instance').pk)
+        self.fields['first_name'].initial = landlordInfo.user.user.first_name
+        self.fields['last_name'].initial = landlordInfo.user.user.last_name
