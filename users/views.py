@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.views.generic import CreateView, FormView
 from django.http import JsonResponse
 
-from .models import UserBuyer, UserLandLord, UserType
+from .models import UserStudent, UserLandLord, UserType
 from .forms import SignUpForm, LoginInForm
 
 # Create your views here.
@@ -38,9 +38,9 @@ class SignUpClassView(CreateView):
         userObject = UserType.objects.create(user=form.instance,
                         userType=form.cleaned_data.get('regUserType'))
 
-        if userObject.is_buyer:
-            buyerObject = UserBuyer.objects.create(user=userObject, 
-                                isStudent=form.cleaned_data.get('is_college_student'), 
+        if userObject.is_student:
+            studentObject = UserStudent.objects.create(user=userObject, 
+                                isCollegeStudent=form.cleaned_data.get('is_college_student'), 
                                 collegeName=form.cleaned_data.get('college_name'), 
                                 dateOfBirth=form.cleaned_data.get('date_of_birth')
                             )

@@ -16,22 +16,22 @@ def profile_image_file_path(instance, filename):
 
 class UserType(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    userType = models.CharField(max_length=50, choices=[('buyer', 'Buyer'), ('seller', 'Seller')])
-    buyer = models.BooleanField(default=False, editable=False)
+    userType = models.CharField(max_length=50, choices=[('student', 'Student'), ('seller', 'Seller')])
+    student = models.BooleanField(default=False, editable=False)
     landLord = models.BooleanField(default=False, editable=False)
 
     def save(self, *args, **kwargs):
-        if self.userType == "buyer":
-            self.buyer = True
+        if self.userType == "student":
+            self.student = True
             self.landLord = False
         else:
             self.landLord = True
-            self.buyer = False
+            self.student = False
         return super().save(*args, **kwargs)
 
     @property
-    def is_buyer(self):
-        return self.buyer
+    def is_student(self):
+        return self.student
     
     @property
     def is_landlord(self):
@@ -41,24 +41,24 @@ class UserType(models.Model):
         return self.user.username
     
 
-class UserBuyer(models.Model):
-    """Custom userBuyer model that stores Buyer information"""
+class UserStudent(models.Model):
+    """Custom userStudent model that stores Student information"""
 
     user = models.OneToOneField(UserType, on_delete=models.CASCADE)
     dateOfBirth = models.DateField()
-    isStudent = models.BooleanField(default=False)
+    isCollegeStudent = models.BooleanField(default=False)
     collegeName = models.CharField(max_length=150, blank=True)
     profilePicture = models.ImageField(upload_to=profile_image_file_path, blank=True)
 
     def clean(self):
-        if not self.user.is_buyer:
-            raise ValidationError({'user': ValidationError(('User is not a buyer!'), code='invalid')})
+        if not self.user.is_student:
+            raise ValidationError({'user': ValidationError(('User is not a student!'), code='invalid')})
 
     def __str__(self):
         return "{}".format(self.pk)
 
-@receiver(models.signals.post_delete, sender=UserBuyer)
-def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
+@receiver(models.signals.post_delete, sender=UserStudent)
+def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):
     """
     Deletes Profile Picture file from filesystem
     when corresponding MediaFile object is deleted.
@@ -83,7 +83,7 @@ class UserLandLord(models.Model):
         return "{}".format(self.pk)
 
 @receiver(models.signals.post_delete, sender=UserLandLord)
-def auto_delete_buyer_profile_pic_on_delete(sender, instance, **kwargs):
+def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
     """
     Deletes Profile Picture file from filesystem
     when corresponding MediaFile object is deleted.

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
-from .models import UserBuyer, UserLandLord, UserType
+from .models import UserStudent, UserLandLord, UserType
 
 class SignUpForm(UserCreationForm):
 
@@ -10,7 +10,7 @@ class SignUpForm(UserCreationForm):
         widget=forms.RadioSelect(attrs={
         }),
         choices=[
-            ('buyer', "I'm a Buyer"), 
+            ('student', "I'm a Student"), 
             ('seller', "I'm a Seller")
         ],
         required=True,
@@ -119,7 +119,7 @@ class LoginInForm(forms.Form):
         widget=forms.RadioSelect(attrs={
         }),
         choices=[
-            ('buyer', "I'm a Buyer"), 
+            ('student', "I'm a Student"), 
             ('seller', "I'm a Seller")
         ],
         required=True,

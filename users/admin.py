@@ -1,15 +1,15 @@
 from django.contrib import admin
-from .models import UserBuyer, UserLandLord, UserType
+from .models import UserStudent, UserLandLord, UserType
 
 # Register your models here.
 
 class UserTypeAdmin(admin.ModelAdmin):
-    list_display = ('id', 'user', 'buyer','landLord')
-    readonly_fields = ['buyer','landLord']
+    list_display = ('id', 'user', 'student','landLord')
+    readonly_fields = ['student','landLord']
 
 
-class UserBuyerAdmin(admin.ModelAdmin):
-    list_display = ('user', 'dateOfBirth', 'isStudent')
+class UserStudentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'dateOfBirth', 'isCollegeStudent')
 
 
 class UserLandLordAdmin(admin.ModelAdmin):
@@ -17,5 +17,5 @@ class UserLandLordAdmin(admin.ModelAdmin):
 
 
 admin.site.register(UserType, UserTypeAdmin)
-admin.site.register(UserBuyer, UserBuyerAdmin)
+admin.site.register(UserStudent, UserStudentAdmin)
 admin.site.register(UserLandLord, UserLandLordAdmin)
