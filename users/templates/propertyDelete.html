@@ -1,0 +1,21 @@
+{% include "layout/header.html" %}
+
+
+<div class="pxp-content">
+    <div class="pxp-agents mt-100">
+        <div class="container">
+            <div class="row">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h5>Hi {{user.first_name}},</h5>
+                    <h6>Are you sure you want to delete your 
+                        "{{object.title}}"
+                        property?</h6>
+                    <a href="{% url 'property:propertyUpdate' object.urlSlug %}">Cancel</a>
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "layout/footer.html" %}

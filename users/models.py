@@ -10,6 +10,7 @@ import uuid, os, random, string
 def profile_image_file_path(instance, filename):
     """Generate file path for new profile image"""
     ext = filename.split('.')[-1]
+    print(ext)
     filename = f'{uuid.uuid4()}.{ext}'
 
     return os.path.join('uploads/profilePicture/', filename)
@@ -80,7 +81,7 @@ class UserLandLord(models.Model):
             raise ValidationError({'user': ValidationError(('User is not a Seller!'), code='invalid')})
 
     def __str__(self):
-        return "{}".format(self.pk)
+        return self.user.user.username
 
 @receiver(models.signals.post_delete, sender=UserLandLord)
 def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):

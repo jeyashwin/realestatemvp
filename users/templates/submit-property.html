@@ -1,256 +1,339 @@
-<!doctype html>
+{% include "layout/header.html" %}
+
 {% load static %}
-<html lang="en">
-    
-<!-- Mirrored from pixelprime.co/themes/resideo/light/submit-property.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:25:48 GMT -->
-<head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
-        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/dropzonee2a5.css' %}">
-        <link rel="stylesheet" href="{% static '/css/style9558.css' %}">
-	<script type="text/javascript" src="{% static 'ipconfig.js' %}"></script>
-
-        <title>RE</title>
-		
-		<style>
-			.form-group > input, .form-group > textarea, .form-group > select, .pxp-submit-property-side.rounded-lg.mt-4.mt-md-5.mt-lg-0, .pxp-submit-property-side.rounded-lg.mt-4.mt-md-5 { 
-				background-color:rgba(255, 255, 255, 0.5); 
-			}
-			.pxp-submit-property-side.rounded-lg.mt-4.mt-md-5.mt-lg-0 {
-				margin-top:22% !important;
-			}
-		</style>
-		
-    </head>
-    <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
-        <div class="pxp-header fixed-top pxp-animate pxp-no-bg" style="background-color:rgba(0, 0, 0, 0.1);">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-5 col-md-2">
-                        <a href="index.html" class="pxp-logo text-decoration-none">RE.</a>
-                    </div>
-                    <div class="col-2 col-md-8 text-center">
-                        <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="index.html">Home</a>                                
-                            </li>
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="properties.html">Properties</a>                                
-                            </li>
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="blog.html">Blog</a>
-                            </li>                            
-                            <li class="list-inline-item pxp-is-last" style="padding:0px 20px;">
-								<a href="contact.html">Contact Us</a>
-							</li>
-                            <li class="list-inline-item pxp-has-btns">
-                                <div class="pxp-user-btns">
-                                    <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
-                                    <a href="#" class="pxp-user-btns-login pxp-signin-trigger">Sign In</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-5 col-md-2 text-right">
-                        <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
-                        <!--a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger"><span class="fa fa-user-o"></span></a-->
-                    </div>
-                </div>
-            </div>
-        </div>
+	<style>
+		body { background:none !important; }
+		.pxp-header.fixed-top.pxp-animate { background-color:rgba(0, 0, 0, 0.9) !important; }
+		.errorview { color:maroon; font-style:italic; font-size:12px; font-family:consolas; }
+	</style>
 
         <div class="pxp-content">
             <div class="pxp-submit-property pxp-content-wrapper mt-40">
-                <div class="container" style="background-color:rgba(0, 0, 0, 0.1); padding:50px; border-radius:7px;">
-				<form method="POST" id="prop_submit_form" action="#" enctype="multipart/form-data">
+                <div class="container"  style="background-image:url({% static '/images/bg-pattern1.png' %}); padding:50px; border-radius:7px;">
+				<form method="POST" id="prop_submit_form" action="" enctype="multipart/form-data">
                     <div class="row">
                         <div class="col-sm-12 col-md-12">
-                            <center><h2 class="pxp-page-header">Add New Property</h2></center>
+                            <center><h2 class="pxp-page-header">
+								{% if object %}
+									Update
+								{% else %}
+									Add New
+								{% endif %} Property
+							</h2></center>
                         </div>
                     </div>
-                    <div class="row mt-4 mt-md-5">
+                    {% csrf_token %}
+                    <div class="row mt-4 mt-md-2">
                         <div class="col-sm-12 col-lg-8">
-                            <h3>Basic Information</h3>
-                            <div class="mt-3 mt-md-4">
+                            <div class="mt-3 mt-md-4" style="background-color:#fff; padding:20px; border-radius:7px;">
+							<h3>Basic Information</h3>
                                 <div class="form-group">
-                                    <label for="pxp-submit-property-title">Title</label>
-                                    <input type="text" class="form-control" name="property-title" id="pxp-submit-property-title" placeholder="Enter property title">
+									<div class="help-container">
+										{{form.title.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.title.help_text|safe }}</small>
+									</div>
+                                    {{form.title}}
+									<small class="errorview">{{form.title.errors}}</small>
+                                </div>
+								<div class="form-group">
+									<div class="help-container">
+										{{form.phoneNumber.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.phoneNumber.help_text|safe }}</small>
+									</div>
+                                    {{form.phoneNumber}}
                                 </div>
                                 <div class="form-group">
-                                    <label for="pxp-submit-property-overview">Overview</label>
-                                    <textarea class="form-control" name="property-description" id="pxp-submit-property-overview" rows="6" placeholder="Describe the property..."></textarea>
+									<div class="help-container">
+										{{form.description.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.description.help_text|safe }}</small>
+									</div>
+                                    {{form.description}}
+									<small class="errorview">{{form.description.errors}}</small>
                                 </div>
                             </div>
 
-                            <h3 class="mt-4 mt-md-5">Key Details</h3>
                             <div class="row mt-3 mt-md-4">
-                                <div class="col-sm-12 col-md-6">
+                                <div class="col-sm-12 col-md-3">
                                     <div class="form-group">
-                                        <label for="pxp-submit-property-type">Type</label>
-                                        <select class="custom-select" name="property-type" id="pxp-submit-property-type" required>
-                                            <option value="">Select type</option>
-                                            <option value="apartment">Apartment</option>
-                                            <option value="house">House</option>
-                                            <option value="townhouse">Townhome</option>                                            
-                                        </select>
+										<label for="{{form.utilities.id_for_label}}" style="cursor:pointer;">
+											<h6>
+												{{form.utilities.label}}
+											</h6>
+										</label>
+											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.utilities.help_text|safe }}"></span>
+											{{form.utilities}}
+										{% if form.parkingSpace.errors %}
+											<small class="errorview">Parking Space: {{form.parkingSpace.errors}}</small>
+										{% endif %} 
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6">
+								
+								<div class="col-sm-12 col-md-4 utilities-list">
                                     <div class="form-group">
-                                        <label for="pxp-submit-property-status">Status</label>
-                                        <select class="custom-select" name="property-status" id="pxp-submit-property-status" required>
-                                            <option value="">Select status</option>
-                                            <option value="rent">For Rent</option>
-                                            <option value="sale">For Sale</option>
-                                        </select>
+										<label for="{{form.garage.id_for_label}}" style="cursor:pointer;">
+											<h6 style="color:gray;">{{form.garage.label}}</h6>
+										</label>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.garage.help_text|safe }}"></span>
+										{{form.garage}}
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        <label for="pxp-submit-property-rooms">Rooms</label>
-                                        <input type="number" class="form-control" name="property-rooms" id="pxp-submit-property-rooms" required>
-                                    </div>
+								
+								<div class="col-sm-12 col-md-4 utilities-list">
+									<div class="form-group">
+										<label for="{{form.parkingSpace.id_for_label}}">
+											<h6 style="color:gray;">{{form.parkingSpace.label}}</h6>
+										</label>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.parkingSpace.help_text|safe }}"></span>
+										{{form.parkingSpace}}
+										<small class="errorview">{{form.parkingSpace.errors}}</small>
+									</div>
                                 </div>
-								<div class="col-sm-12 col-md-6">
-                                    <div class="form-group">
-                                        <label for="pxp-submit-property-built">Garages</label>
-                                        <input type="number" class="form-control" name="property-garages" id="pxp-submit-property-built" required>
-                                    </div>
-                                </div>
+								
                             </div>
-
-                            <h3 class="mt-4 mt-md-5">Amenities</h3>
-                            <div class="row mt-3 mt-md-4">
+ 
+							
+							<div class="col-md-12">
+                            <div class="row mt-3 mt-md-0" style="margin-bottom:15px; padding:15px 0px 7px 0px; border-radius:15px; border-bottom:2px solid #e2e2e2;background-color:#fff;">
+                                <div class="col-sm-12 col-md-12">
+									<div class="help-container">
+										<h3>{{form.amenities.label}}</h3>
+										<span class="fa fa-info-circle help" style="margin-top: 6px;"></span>
+										<small class="helptext" style="margin-top: 6px;">{{ form.amenities.help_text|safe }}</small>
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenities.errors}}</small>
+									</div>
+								</div>
+								{% for amenity in form.amenities %}
                                 <div class="col-sm-6 col-md-4">
                                     <div class="form-group">
-                                        <div class="checkbox custom-checkbox">
-                                            <label><input type="checkbox" name="property-internet" value="1"><span class="fa fa-wifi"></span> Internet</label>
+                                        <div class="checkbox custom-checkbox ">
+                                            {{amenity}}
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-                                        <div class="checkbox custom-checkbox">
-                                            <label><input type="checkbox" name="property-garage" value="1"><span class="fa fa-car"></span> Garage</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-                                        <div class="checkbox custom-checkbox">
-                                            <label><input type="checkbox" name="property-ac" value="1"><span class="fa fa-sun-o"></span> Air Conditioning</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-                                        <div class="checkbox custom-checkbox">
-                                            <label><input type="checkbox" name="property-balcony" value="1"><span class="fa fa-clone"></span> Balcony</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-                                        <div class="checkbox custom-checkbox">
-                                            <label><input type="checkbox" name="property-gym" value="1"><span class="fa fa-futbol-o"></span> Gym</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-                                        <div class="checkbox custom-checkbox">
-                                            <label><input type="checkbox" name="property-playroom" value="1"><span class="fa fa-smile-o"></span> Playroom</label>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
-
-                            <h3 class="mt-4 mt-md-5">Photo Gallery</h3>
-						
-							<div style="border:3px solid #EAEAEA; background-color:#e2e2e2; border-radius:10px; color:grey; cursor:pointer;" id="property-images-div" onclick="choose_files_click()">
-								<br>
-								<center><i class="fa fa-file-o"></i> &nbsp; Click here to choose files</center>
-								<br>								
 							</div>
-							<input type="file" name="property-images" class="form-control" id="property-images" style="display:none;" accept="image/*" multiple>
+
+		<style>
+			.addimg > img:hover, .addvid > img:hover { border:2px solid #fff; }
+		</style>
+							
+							<h3 class="mt-4 mt-md-2">
+								<div class="help-container">
+									Photo Gallery
+									<span class="fa fa-info-circle help" style="font-size: 15px; padding-top: 6px;"></span>
+									<small class="helptext" style="font-size: 12px; padding-top: 10px;">{{ imageForm.form.imageDescription.help_text|safe }}</small>
+								</div>
+							</h3>
+							<div class="row">
+								{{ imageForm.management_form }}
+								{% for form in imageForm.forms %}
+								<div class="col-sm-12 col-md-3 formset_row-{{ imageForm.prefix }}">
+									{% for hidden in form.hidden_fields %}
+										{{ hidden }}
+									{% endfor %}
+									<span id="property-image-div-{{form.imagePath.id_for_label}}">
+										<img src="{% if form.imagePath.value %} 
+													{{form.instance.imagePath.url}}
+												  {% else %}
+													https://via.placeholder.com/150
+												 {% endif %}"
+											id="property-image-preview-{{form.imagePath.id_for_label}}"
+											style="border-radius: 2px; width: 150px; height: 150px"
+											onclick="chooseimgclick('{{form.imagePath.id_for_label}}')"
+										/>
+										{{form.imagePath}}
+										<small class="errorview">{{form.imagePath.errors}}</small>
+									</span>
+									<div>
+										{{form.imageDescription}}
+										<small class="errorview">{{form.imageDescription.errors}}</small>
+										{{form.DELETE}}
+										<small class="errorview">{{form.DELETE.errors}}</small>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+
+							<div style="border-bottom:2px solid #e2e2e2; border-radius:15px;"><br></div>
+						
+							<h3 class="mt-4 mt-md-2">
+								<div class="help-container">
+									Videos
+									<span class="fa fa-info-circle help" style="font-size: 15px; padding-top: 6px;"></span>
+									<small class="helptext" style="font-size: 12px; padding-top: 10px;">{{ videoForm.form.videoDescription.help_text|safe }}</small>
+								</div>
+							</h3>
+							<div class="row">
+								{{ videoForm.management_form }}
+								{% for form in videoForm.forms %}
+								<div class="col-sm-12 col-md-6 formset_video-{{ videoForm.prefix }}">
+									{% for hidden in form.hidden_fields %}
+										{{ hidden }}
+									{% endfor %}
+									<span id="property-video-div-{{form.videoPath.id_for_label}}">
+										<img src="https://via.placeholder.com/300x200"
+											id="property-video-preview-{{form.videoPath.id_for_label}}"
+											style="border-radius: 5px; width: 300px; height: 200px"
+											onclick="choosevidclick('{{form.videoPath.id_for_label}}')"
+										/>
+										{{form.videoPath}}
+										<small class="errorview">{{form.videoPath.errors}}</small>
+									</span>
+									<div>
+										{{form.videoDescription}}
+										<small class="errorview">{{form.videoDescription.errors}}</small>
+										{{form.DELETE}}
+										<small class="errorview">{{form.DELETE.errors}}</small>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+							<div style="border-bottom:2px solid #e2e2e2; border-radius:15px;"><br></div>
+							
+							<h5><br>Availability</h5>
+							<div class="row mt-3 mt-md-4">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+										<div class="help-container">
+											{{form.fromDate.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.fromDate.help_text|safe }}</small>
+										</div>
+										{{form.fromDate}}
+										<small class="errorview">{{form.fromDate.errors}}</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+										<div class="help-container">
+											{{form.toDate.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.toDate.help_text|safe }}</small>
+										</div>
+										{{form.toDate}}
+										<small class="errorview">{{form.toDate.errors}}</small>
+                                    </div>
+                                </div>
+                            </div>
+
 						
                         </div>
+						
                         <div class="col-sm-12 col-lg-4">
-                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-5 mt-lg-0">
+						<br>
+                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-5 mt-lg-0" style="padding-bottom:33px;">
                                 <h3>Main Details</h3>
                                 <div class="row mt-3 mt-md-4">
-                                    <div class="col-sm-12 col-md-6">
+                                    <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="pxp-submit-property-price">Price</label>
-                                            <input type="text" class="form-control" name="property-price" id="pxp-submit-property-price" placeholder="Enter price" required>
+											<div class="help-container">
+												{{form.rentPerPerson.label_tag}}
+												<span class="fa fa-info-circle help"></span>
+												<small class="helptext">{{ form.rentPerPerson.help_text|safe }}</small>
+											</div>
+											{{form.rentPerPerson}}
+											<small class="errorview">{{form.rentPerPerson.errors}}</small>
+                                        </div>
+                                    </div>                                    
+									<div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+											<div class="help-container">
+												<h6>{{form.securityDeposit}}</h6>
+												&nbsp;
+												{{form.securityDeposit.label_tag}}
+												<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.securityDeposit.help_text|safe }}"></span>
+											</div>
+											<small class="errorview">{{form.amount.errors}}</small>
+											<span id="property-deposit-input">
+												<div class="help-container">
+													{{form.amount.label_tag}}
+													<span class="fa fa-info-circle help"></span>
+													<small class="helptext">{{ form.amount.help_text|safe }}</small>
+												</div>
+												{{form.amount}}
+												<small class="errorview">{{form.amount.errors}}</small>
+											</span>
+                                        </div>
+                                    </div>                                    
+									<div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+											<div class="help-container">
+												{{form.occupants.label_tag}}
+												<span class="fa fa-info-circle help"></span>
+												<small class="helptext">{{ form.occupants.help_text|safe }}</small>
+											</div>
+											{{form.occupants}}
+											<small class="errorview">{{form.occupants.errors}}</small>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-6">
+									<div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="pxp-submit-property-plabel">Price Label</label>
-                                            <input type="text" class="form-control" name="property-symbol" id="pxp-submit-property-plabel" value="$" placeholder="Enter price label">
+											<div class="help-container">
+												{{form.sqft.label_tag}}
+												<span class="fa fa-info-circle help"></span>
+												<small class="helptext">{{ form.sqft.help_text|safe }}</small>
+											</div>
+											{{form.sqft}}
+											<small class="errorview">{{form.sqft.errors}}</small>
                                         </div>
-                                    </div>
+                                    </div>                                
                                 </div>
                                 <div class="row">
-                                    <div class="col-sm-12 col-md-4">
+                                    <div class="col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label for="pxp-submit-property-beds">Bedrooms</label>
-                                            <input type="text" class="form-control" name="property-bedrooms" id="pxp-submit-property-beds" placeholder="0" required>
+											{{form.rooms.label_tag}}
+											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.rooms.help_text|safe }}"></span>
+											{{form.rooms}}
+											<small class="errorview">{{form.rooms.errors}}</small>
                                         </div>
                                     </div>
-                                    <div class="col-sm-12 col-md-4">
+                                    <div class="col-sm-12 col-md-6">
                                         <div class="form-group">
-                                            <label for="pxp-submit-property-baths">Bathrooms</label>
-                                            <input type="text" class="form-control" name="property-bathrooms" id="pxp-submit-property-baths" placeholder="0" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-12 col-md-4">
-                                        <div class="form-group">
-                                            <label for="pxp-submit-property-size">Size (sq ft)</label>
-                                            <input type="text" class="form-control" name="property-sqft" id="pxp-submit-property-size" placeholder="0" required>
+											{{form.bathrooms.label_tag}}
+											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.bathrooms.help_text|safe }}"></span>
+											{{form.bathrooms}}
+											<small class="errorview">{{form.bathrooms.errors}}</small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-							<br><br>
-                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-5">						
+							
+                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-3">						
                                 <h3>Location</h3>
                                 <div class="mt-4">                                    
+									
 									<div class="form-group">
-                                        <label for="pxp-submit-property-country">Country</label>
-										<select class="form-control" name="property-country" required>
-											<option value=""> ~ Select ~ </option>
-											<option value="USA"> USA </option>
-											<option value="Australia"> Australia </option>
-											<option value="Sweden"> Sweden </option>
-										</select>
+										<small class="errorview"></small>
+										<div class="help-container">
+											{{form.city.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.city.help_text|safe }}</small>
+										</div>
+										{{form.city}}
+										<small class="errorview">{{form.city.errors}}</small>
                                     </div>
 									<div class="form-group">
-                                        <label for="pxp-submit-property-state">State</label>
-										<select class="form-control" name="property-state" required>
-											<option value=""> ~ Select ~ </option>
-											<option value="Alabama"> Alabama </option>
-											<option value="California"> California </option>
-											<option value="Newyork"> Newyork </option>
-										</select>
+										<div class="help-container">
+											{{form.zipcode.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.zipcode.help_text|safe }}</small>
+										</div>
+										{{form.zipcode}}
+										<small class="errorview">{{form.zipcode.errors}}</small>
                                     </div>
 									<div class="form-group">
-                                        <label for="pxp-submit-property-city">City</label>
-                                        <input type="text" class="form-control" name="property-city" placeholder="Enter City" for="pxp-submit-property-city" required>
-                                    </div>
-									<div class="form-group">
-                                        <label for="pxp-submit-property-zipcode">Zipcode</label>
-                                        <input type="text" class="form-control" name="property-zipcode" placeholder="Enter Zipcode" for="pxp-submit-property-zipcode" required>
-                                    </div>
-									<div class="form-group">
-                                        <label for="pxp-submit-property-address">Address</label>
-										<textarea class="form-control" name="property-address" id="pxp-submit-property-address" required></textarea>
+										<div class="help-container">
+											{{form.address.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.address.help_text|safe }}</small>
+										</div>
+										{{form.address}}
+										<small class="errorview">{{form.address.errors}}</small>
                                     </div>
 									
 									
@@ -261,174 +344,145 @@
                     </div>
 
                     <div class="mt-4 mt-md-5">
-                        <input type="submit" name="submit" value="Submit Property" class="pxp-submit-property-btn">
+                        <input type="submit" name="submit" 
+							value="{% if object %}Update{% else %}Create{% endif %} Property"
+							class="pxp-submit-property-btn">
                     </div>
 					</form>
                 </div>
             </div>
         </div>
 
-        
-		<div class="pxp-footer pt-100 pb-100 mt-100" style="background-color:rgba(219, 217, 217, 0.8);">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-4">
-                        <div class="pxp-footer-logo">RE.</div>
-                        <div class="pxp-footer-address mt-2">
-                            90 Fifth Avenue, 3rd Floor<br>
-                            San Francisco, CA 1980<br>
-                            (123) 456-7890
-                        </div>
-                        <div class="pxp-footer-social mt-2">
-                            <a href="#"><span class="fa fa-instagram"></span></a>
-                            <a href="#"><span class="fa fa-facebook-square"></span></a>
-                            <a href="#"><span class="fa fa-twitter"></span></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-lg-8">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Contact Us</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Actions</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">Buy Properties</a></li>
-                                    <li><a href="#">Rent Properties</a></li>
-                                    <li><a href="#">Sell Properties</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Explore</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">Homes for Rent</a></li>
-                                    <li><a href="#">Apartments for Rent</a></li>
-                                    <li><a href="#">Homes for Sale</a></li>
-                                    <li><a href="#">Apartments for Sale</a></li>
-                                    <li><a href="#">CRM</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pxp-footer-bottom mt-2">
-                    <div><a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></div>
-                    <div class="pxp-footer-copyright">&copy; RE. All Rights Reserved. 2019</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="modal-title" id="pxpSigninModal">Welcome back!</h5>
-                        <form class="mt-4">
-                            <div class="form-group">
-                                <label for="pxp-signin-email">Email</label>
-                                <input type="text" class="form-control" id="pxp-signin-email" placeholder="Enter your email address">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signin-pass">Password</label>
-                                <input type="password" class="form-control" id="pxp-signin-pass" placeholder="Enter your password">
-                            </div>
-                            <div class="form-group">
-                                <a href="#" class="pxp-agent-contact-modal-btn">Sign In</a>
-                            </div>
-                            <div class="form-group mt-4 text-center pxp-modal-small">
-                                <a href="#" class="pxp-modal-link">Forgot password</a>
-                            </div>
-                            <div class="text-center pxp-modal-small">
-                                New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="pxp-signup-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSignupModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="modal-title" id="pxpSignupModal">Create an account</h5>
-                        <form class="mt-4">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-firstname">First Name</label>
-                                        <input type="text" class="form-control" id="pxp-signup-firstname" placeholder="Enter first name">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-lastname">Last Name</label>
-                                        <input type="text" class="form-control" id="pxp-signup-lastname" placeholder="Enter last name">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signup-email">Email</label>
-                                <input type="text" class="form-control" id="pxp-signup-email" placeholder="Enter your email address">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signup-pass">Password</label>
-                                <input type="password" class="form-control" id="pxp-signup-pass" placeholder="Create a password">
-                            </div>
-                            <div class="form-group">
-                                <a href="#" class="pxp-agent-contact-modal-btn">Sign Up</a>
-                            </div>
-                            <div class="text-center mt-4 pxp-modal-small">
-                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
-        <script src="{% static '/js/popper.min.js' %}"></script>
-        <script src="{% static '/js/bootstrap.min.js' %}"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script>
-        <script src="{% static '/js/jquery.sticky.js' %}"></script>
-        <script src="{% static '/js/submit-property-map.js' %}"></script>
-        <script src="{% static '/js/dropzone.js' %}"></script>
-        <script src="{% static '/js/main1dd4.js' %}"></script>
-		
+	<script src="{% static '/js/jquery-3.4.1.min.js' %} "></script>
+	
 		<script>
+			function chooseimgclick(id)
+			{
+				$("#"+id).click();
+				
+				$("#"+id).change(function(){
+					previewimg(this, id);
+				});
+			}
 			
-			ipsrc();
-			function ipsrc()
+			function previewimg(input, id)
 			{
-
-				document.getElementById('prop_submit_form').action = ipaddress+'add-property';
+				if (input.files && input.files[0]) {
+					
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+					  $('#property-image-preview-'+id).attr('src', e.target.result);
+					}
+					
+					reader.readAsDataURL(input.files[0]); // convert to base64 string
+				  }
 			}
-				
-			function choose_files_click()
+			
+			function choosevidclick(id)
 			{
-				document.getElementById('property-images').click();
-			}
+				$("#"+id).click();
 				
+				$("#"+id).change(function(){
+					previewvid(this, id);
+				});
+			}
+			
+			function previewvid(input, id)
+			{
+				if (input.files && input.files[0]) {
+					var file = input.files[0];
+					var reader = new FileReader();
+					reader.onload = function(e) {
+					  	var blob = new Blob([reader.result], {type: file.type});
+						var url = URL.createObjectURL(blob);
+						var video = document.createElement('video');
+						var timeupdate = function() {
+							if (snapImage()) {
+							video.removeEventListener('timeupdate', timeupdate);
+							video.pause();
+							}
+						};
+						video.addEventListener('loadeddata', function() {
+							if (snapImage()) {
+							video.removeEventListener('timeupdate', timeupdate);
+							}
+						});
+						var snapImage = function() {
+							var canvas = document.createElement('canvas');
+							canvas.width = video.videoWidth;
+							canvas.height = video.videoHeight;
+							canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+							var image = canvas.toDataURL();
+							var success = image.length > 100000;
+							if (success) {
+								var img = document.getElementById('property-video-preview-'+id);
+								img.src = image;
+								URL.revokeObjectURL(url);
+							}
+							return success;
+						};
+						video.addEventListener('timeupdate', timeupdate);
+						video.preload = 'metadata';
+						video.src = url;
+						// Load video in Safari / IE11
+						video.muted = true;
+						video.playsInline = true;
+						video.play();
+					};
+					reader.readAsArrayBuffer(file);
+				}
+			}
+			// 	reader.readAsDataURL(input.files[0]); // convert to base64 string
+			// }
+			
 		</script>
-		
-    </body>
 
-<!-- Mirrored from pixelprime.co/themes/resideo/light/submit-property.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:25:59 GMT -->
-</html>
+		<script>
+			onspload();
+			function onspload() {
+				$(".utilities-list").hide();
+				$("#property-deposit-input").hide();
+				
+				$("#{{form.securityDeposit.id_for_label}}").click(function() {
+					if($("#{{form.securityDeposit.id_for_label}}").prop("checked") == true){
+						$("#property-deposit-input").show(300);
+					} else {
+						$("#property-deposit-input").hide(300);
+					}
+				});
+				
+				$("#{{form.utilities.id_for_label}}").click(function(){
+					if($("#{{form.utilities.id_for_label}}").prop("checked") == true){
+						$(".utilities-list").show(300);
+					} else {
+						$(".utilities-list").hide(300);
+					}
+				});
+			}
+
+			removeTag = document.querySelectorAll("span img");
+			// for (let index = 0; removeTag; index++) {
+			// 	console.log(index)
+				
+			// }
+		</script>
+
+		{% load static %}
+		<script src="{% static 'js/jquery.formset.js' %}"></script>
+		<script type="text/javascript">
+			$('.formset_row-{{ imageForm.prefix }}').formset({
+				formCssClass: 'dynamic-image-form',
+				addText: '<span class="fa fa-plus-circle add_new"></span>',
+				deleteText: '<span class="fa fa-trash danger"></span>',
+				prefix: '{{ imageForm.prefix }}',
+			});
+			$('.formset_video-{{ videoForm.prefix }}').formset({
+				formCssClass: 'dynamic-video-form',
+				addText: '<span class="fa fa-plus-circle add_new"></span>',
+				deleteText: '<span class="fa fa-trash danger"></span>',
+				prefix: '{{ videoForm.prefix }}',
+			});
+		</script>
+      
+	  {% include "layout/footer.html" %}
