@@ -9,8 +9,8 @@ urlpatterns = [
     path('register/', SignUpClassView.as_view(), name="signup"),
     path('login/', UserLoginClassView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(), name = "logout"),
-    path('student/profile/<str:username>', StudentProfileUpdateView.as_view(), name = "studentProfile"),
-    path('landlord/profile/<str:username>', LandlordProfileUpdateView.as_view(), name = "landlordProfile"),
-    path('delete/profile/<str:username>', UserDeleteView.as_view(), name = "deleteProfile"),
+    path('student/profile/<str:username>/', StudentProfileUpdateView.as_view(), name = "studentProfile"),
+    path('landlord/profile/<str:username>/', LandlordProfileUpdateView.as_view(), name = "landlordProfile"),
+    path('delete/profile/<str:username>/', UserDeleteView.as_view(), name = "deleteProfile"),
     path('contact/', Contact, name = "contact"),
 ]

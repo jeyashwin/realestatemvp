@@ -1,0 +1,321 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+
+<style>
+	.pxp-nav > li > .active, .pxp-is-sticky .pxp-nav > li > .active { color: orange; }
+
+	.fa.fa-thumbs-o-down:hover {
+		color:red;
+	}
+    .thumbs-o-down {
+        color:red;
+    }
+	.fa.fa-thumbs-o-up:hover {
+		color:green;
+	}
+    .thumbs-o-up {
+        color:green;
+    }
+	.pxp-results-card-1.rounded-lg {
+		box-shadow:2px 2px 3px silver;
+	}
+	#filter_checks > p > input { width:13px; height:13px; }
+	#filter_checks > p { font-size:15px; }
+</style>
+
+
+        <div class="pxp-content pxp-full-height"><br>
+            
+            <div class="row" style="width:100%;">
+			<div class="col-md-2">
+				<div class="container-fluid" style="margin-top:30px; padding:10px;  background-color:#fff; border-radius:7px;">
+				  <div class="panel panel-default">
+					<div class="panel-heading" style="background-color:#f7f7f7; padding:7px; border-top-left-radius:7px; border-top-right-radius:7px; margin-left:-10px; margin-right:-10px; margin-top:-12px;">
+						<h4> &nbsp; Advanced</h4>
+					</div>
+					<form action="#" method="GET" id="filter-properties-form">
+					{% comment %} {{filterSortForm.as_p}} {% endcomment %}
+					<div class="panel-body">
+						<div style="padding:20px 5px;" id="filter_checks">
+							<h6>Rooms</h6>
+							<p> 
+								{% for room in filterSortForm.room %}
+									{{room}}
+									&nbsp; &nbsp;
+								{% endfor %}
+							</p>
+							<hr>
+							<h6>Occupants</h6>
+							<p> 
+								{% for occp in filterSortForm.occp %}
+									{{occp}}
+									&nbsp; &nbsp;
+								{% endfor %}
+							</p>
+							<hr>
+							<h6>Bathrooms</h6>
+							<p> 
+								{% for bath in filterSortForm.bath %}
+									{{bath}}
+									&nbsp; &nbsp;
+								{% endfor %}
+							</p>
+						</div>
+					</div>
+				  </div>
+				</div>
+			
+			</div>
+			<div class="col-md-10" style="background-color:#fff; margin-top:30px; border-radius:7px;">
+				<div class="pxp-map-side pxp-map-right pxp-half" style="display:none;">
+					<div id="results-map"></div>
+					<a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>
+				</div>
+				
+				<div class="pxp-content-side pxp-content-leftt pxp-half">
+					<div class="pxp-content-side-wrapper">
+						<div class="d-flex">
+							<div class="pxp-content-side-search-form">
+								<div class="row pxp-content-side-search-form-row">
+									<div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
+										<select class="custom-select" id="pxp-p-search-status">
+											<option value="buy" selected="selected">Buy</option>
+											<option value="rent">Rent</option>
+										</select>
+									</div>
+									<div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col">
+										<input type="text" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="pxp-p-search-address">
+										<span class="fa fa-search"></span>
+									</div>
+								</div>
+							</div>
+							<div class="d-flex">
+								<a role="button" class="pxp-adv-toggle" onclick="toggle_filters()"><span class="fa fa-sliders"></span></a>
+							</div>
+						</div>
+						<div class="pxp-content-side-search-form-advv mb-3" id="filtersdiv" style="display:none;">
+								<div class="row pxp-content-side-search-form-row">
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-price-min">Price</label>
+											{{filterSortForm.minPri}}
+											{{filterSortForm.minPri.errors}}
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-price-max" class="d-none d-sm-inline-block">&nbsp;</label>
+											{{filterSortForm.maxPri}}
+											{{filterSortForm.maxPri.errors}}
+										</div>
+									</div>
+									
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-distance" class="d-none d-sm-inline-block">Distance</label>
+											<input type="text" class="form-control" placeholder="Max" id="pxp-p-filter-distance" name="pxp-p-filter-distance">
+										</div>
+									</div>
+																	
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-size-max" class="d-none d-sm-inline-block">Lifestyle</label>
+											<select class="form-control" id="pxp-p-filter-lifestyle" name="pxp-p-filter-lifestyle" placeholder="Max">
+												<option> ~ Select ~ </option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="mb-2">Amenities</label>
+									<div class="row pxp-content-side-search-form-row">
+										{{filterSortForm.amenities.errors}}
+										{% for amenities in filterSortForm.amenities %}
+											<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+												<div class="form-group">
+													<div class="checkbox custom-checkbox">
+														{{amenities}}
+													</div>
+												</div>
+											</div>
+										{% endfor %}
+										{% comment %} <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-internet" name="pxp-p-filter-internet"><span class="fa fa-check"></span> Internet</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-pool" name="pxp-p-filter-pool" value="1"><span class="fa fa-check"></span> Pool</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-garage" name="pxp-p-filter-garage"><span class="fa fa-check"></span> Garage</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-furnished" name="pxp-p-filter-furnished"><span class="fa fa-check"></span> Furnished</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-ac" name="pxp-p-filter-ac"><span class="fa fa-check"></span> Air Conditioning</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-dishwasher" name="pxp-p-filter-dishwasher"><span class="fa fa-check"></span> Dishwasher</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-gym" name="pxp-p-filter-gym"><span class="fa fa-check"></span> Gym</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-playstore" name="pxp-p-filter-playstore"><span class="fa fa-check"></span> Playroom</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-heating" name="pxp-p-filter-heating" value="1"><span class="fa fa-check"></span> Heating</label>
+												</div>
+											</div>
+										</div> {% endcomment %}
+										
+									</div>
+								</div>
+
+								<input type="submit" name="submit" value="Apply Filters" class="pxp-filter-btn" />
+								<hr>
+							</form>
+						</div>
+						<div class="row pb-4">
+							<div class="col-sm-6">
+								<h2 class="pxp-content-side-h2">{{object_list.count}} Results</h2>
+							</div>
+							<div class="col-sm-6">
+								<div class="pxp-sort-form form-inline float-right">
+									<div class="form-group">
+										{{filterSortForm.sort}}
+										{{filterSortForm.sort.errors}}
+									</div>
+									<div class="form-group d-flex">
+										<a role="button" class="pxp-map-toggle"><span class="fa fa-map-o"></span></a>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+						<div class="row">
+							{% load humanize %}
+							{% for object in object_list %}
+								<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+									<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg">
+										<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+											<div class="carousel-inner">
+												{% for image in object.propertyimage_set.all %}
+													{% if forloop.first %}
+													<div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+													{% else %}
+													<div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+													{% endif %}
+												{% endfor %}
+											</div>
+											<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
+												<span class="fa fa-angle-left" aria-hidden="true"></span>
+											</span>
+											<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
+												<span class="fa fa-angle-right" aria-hidden="true"></span>
+											</span>
+										</div>
+										<div class="pxp-results-card-1-gradient"></div>
+										<div class="pxp-results-card-1-details">
+											<div class="pxp-results-card-1-details-title">{{object.title|title}}</div>
+											<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
+										</div>
+										<div class="pxp-results-card-1-features">
+											<span>{{object.rooms}} Room <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
+										</div>
+										
+										<div class="pxp-results-card-1-save">
+											<span id="like{{list.pk}}" onclick="return likeclick('like{{list.pk}}')" class="fa fa-thumbs-o-up"></span>
+											<span id="dislike{{list.pk}}" onclick="return dislikeclick('dislike{{list.pk}}')" class="fa fa-thumbs-o-down" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;"></span>
+										</div>
+									</a>
+								</div>
+							{% endfor %}
+							 <script>
+								function likeclick(id)
+								{
+									var like = document.getElementById(id);
+									like.classList.toggle("thumbs-o-up")
+									return false;
+								}
+								
+								function dislikeclick(id)
+								{
+									var dislike = document.getElementById(id);
+									dislike.classList.toggle("thumbs-o-down")
+									return false;
+								}
+							</script>
+						</div>
+
+						<ul class="pagination pxp-paginantion mt-2 mt-md-4">
+							{% for page in total_pages %}
+								<li class="page-item {% if page == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+							{% endfor %}
+							{% if page_obj.has_next %}
+								<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next <span class="fa fa-angle-right"></span></a></li>
+							{% endif %}
+						</ul>
+
+					</div>
+					
+				</div>
+				
+			</div> <!--col-md-9-->
+			</div> <!--row-->
+        </div>
+
+	<script>
+		function toggle_filters()
+		{
+			var filtersdivstatus = document.getElementById('filtersdiv').style.display;
+			
+			if(filtersdivstatus == 'none') {
+				//document.getElementById('filtersdiv').style.display = 'block';
+				$("#filtersdiv").show(700);
+				
+			} else {
+				//document.getElementById('filtersdiv').style.display = 'none';
+				$("#filtersdiv").hide(700);
+			}
+		}
+	</script>
+
+{% include "layout/footer.html" %}

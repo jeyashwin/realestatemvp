@@ -13,7 +13,7 @@ from django.urls import reverse_lazy
 from users.forms import SignUpForm, LoginInForm
 from users.models import UserLandLord
 from .models import Property
-from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset
+from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
 
 # Create your views here.
 data = pd.read_csv("ny_data.csv")
@@ -55,9 +55,8 @@ def add_comment(request):
 
 class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Property
-    template_name = "templates/submit-property.html"
+    template_name = "property/submit-property.html"
     form_class = PropertyForm
-    success_url = '/'
 
     def test_func(self):
         try:
@@ -70,18 +69,17 @@ class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         imageForm = context['imageForm']
         videoForm = context["videoForm"]
         with transaction.atomic():
-            form.instance.landlord = UserLandLord.objects.get(user__user=self.request.user)
-            self.object = form.save()
-            if imageForm.is_valid():
+            if imageForm.is_valid() and videoForm.is_valid():
+                form.instance.landlord = UserLandLord.objects.get(user__user=self.request.user)
+                self.object = form.save()
                 imageForm.instance = self.object
                 imageForm.save()
-            else:
-                return super().form_invalid(form)
-            if videoForm.is_valid():
                 videoForm.instance = self.object
                 videoForm.save()
             else:
                 return super().form_invalid(form)
+                print(imageForm.errors)
+                print(videoForm.errors)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -94,10 +92,13 @@ class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             context["videoForm"] = PropertyVideoFormset()
         return context
 
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('property:propertyManage')
+
 
 class PropertyUpdateView(LoginRequiredMixin, UpdateView):
     model = Property
-    template_name = "templates/submit-property.html"
+    template_name = "property/submit-property.html"
     form_class = PropertyForm
     slug_field = "urlSlug"
 
@@ -111,18 +112,15 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
         with transaction.atomic():
             form.instance.landlord = UserLandLord.objects.get(user__user=self.request.user)
             self.object = form.save()
-            if imageForm.is_valid():
+            if imageForm.is_valid() and videoForm.is_valid():
                 imageForm.instance = self.object
                 imageForm.save()
-            else:
-                return super().form_invalid(form)
-                print(imageForm.errors)
-            if videoForm.is_valid():
                 videoForm.instance = self.object
                 videoForm.save()
             else:
-                print(videoForm.errors)
                 return super().form_invalid(form)
+                print(imageForm.errors)
+                print(videoForm.errors)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):
@@ -136,12 +134,13 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
         return context
 
     def get_success_url(self, **kwargs):
-        return reverse_lazy('property:propertyUpdate', kwargs={'slug':self.object.urlSlug})
+        # return reverse_lazy('property:propertyUpdate', kwargs={'slug':self.object.urlSlug})
+        return reverse_lazy('property:propertyManage')
 
 
 class PropertyDeleteView(LoginRequiredMixin, DeleteView):
     model = Property
-    template_name = "templates/propertyDelete.html"
+    template_name = "property/propertyDelete.html"
     slug_field = "urlSlug"
     success_url = "/"
 
@@ -149,24 +148,48 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
         return Property.objects.filter(landlord__user__user=self.request.user)
 
 
-class PropertyListView(ListView):
+class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
-    template_name = "templates/properties.html"
+    template_name = "property/manage-properties.html"
+
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_landlord
+        except:
+            raise Http404
+
+    def get_queryset(self):
+        return Property.objects.filter(landlord__user__user=self.request.user)
+
+
+class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = Property
+    template_name = "property/properties.html"
+    ordering = ['-createdDate']
+    paginate_by = 10
+    form_class = PropertyFilterSortForm
+
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_student
+        except:
+            raise Http404
+
+    def get_queryset(self):
+        filterSortForm = PropertyFilterSortForm(self.request.GET)
+        print(filterSortForm)
+        return super().get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["SignUpform"] = SignUpForm(label_suffix='')
-        context["Loginform"] = LoginInForm(label_suffix='')
-        return context  
+        context["filterSortForm"] = PropertyFilterSortForm()
+        num_pages = context["page_obj"].paginator.num_pages
+        context["total_pages"] = [ i for i in range(1, num_pages+1)]
+        return context
 
 
 class PropertyDetailView(DetailView):
     model = Property
-    template_name = "templates/single-property.html"
+    template_name = "property/single-property.html"
+    slug_field = 'urlSlug'
     # ordering = ['-date_created']
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["SignUpform"] = SignUpForm(label_suffix='')
-        context["Loginform"] = LoginInForm(label_suffix='')
-        return context

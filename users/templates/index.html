@@ -1,25 +1,6 @@
 {% include "layout/header.html" %}
 
 {% load static %}
-
-<style>
-	.dropbtn { background-color: transparent; border-radius:50px; border:2px solid #c96b00; color: white; font-size: 16px; font-weight: bold; padding:0px 0px; }
-
-	.dropdown { position: relative; display: inline-block; border:none; }
-
-	.dropdown-content { display: none; position: absolute; background-color: rgba(255, 255, 255, 0.7); min-width: 114px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); font-size:15px; z-index: 1; border-radius:10px; }
-
-	.dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; }
-
-	.dropdown-content a:hover {background-color: rgba(201, 107, 0, 0.2); border-radius:10px;}
-
-	.dropdown:hover .dropdown-content {display: block;}
-
-	.dropdown:hover .dropbtn {background-color: #c96b00;}
-	
-</style>
-
-
         <div class="pxp-content">
             <div class="pxp-hero vh-100">
                 <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({% static '/images/hero-1.jpg' %});"></div>
@@ -339,25 +320,6 @@
 		
 		
 		<script>
-			
-			/*function check_reg()
-			{
-				var regstatus = document.getElementById('regstatus').innerText;
-				if(regstatus == 1) { 
-					document.getElementById('user-action-btn').click(); 
-					document.getElementById('reg-msg').innerHTML = '<span style="color:green;"><br>Successfully Registered</span><br><span  style="color:grey;">Please enter credentials to login</span>'; 					
-				} 
-				//else if(regstatus == 0) {
-					//document.getElementById('user-action-btn').click(); 
-					//document.getElementById('reg-msg').innerHTML = '<span style="color:maroon;">Failed to //Register!</span>'; 					
-				//}
-				else {
-
-				}
-			}			
-			check_reg();
-			*/
-
 			function search_property()
 			{
 				var type = document.getElementById('search-type').value;

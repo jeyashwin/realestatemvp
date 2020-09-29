@@ -1,0 +1,133 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+		<style>
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(0, 0, 0, 0.7) !important; }
+			.pxp-results-card-1-save:hover { background-color:maroon; color:#fff; }
+		</style>
+		
+            <div class="pxp-content-side pxp-content-leftt pxp-half">
+			<br><br>
+			<br><div style="position:relative; margin-top:100px;" id="resmsg"></div>
+				
+                <div class="pxp-content-side-wrapper">                   
+					<br><h2>My Favourites</h2>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop1">
+                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="1" style="box-shadow:3px 3px 5px grey;">
+                                <div id="card-carousel-1" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-1-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url({% static '/images/properties/prop-1-2-gallery.jpg' %});"></div>
+                                        <div class="carousel-item" style="background-image: url({% static '/images/properties/prop-1-3-gallery.jpg' %});"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-1" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-1" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Chic Apartment in Downtown</div>
+                                    <div class="pxp-results-card-1-details-price">$890,000</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>2 BD <span>|</span> 2 BA <span>|</span> 920 SF</span>
+                                </div>
+								
+                                <div class="pxp-results-card-1-save removebtn" data-toggle="tooltip" title="Remove from favourites" onclick="return removefromfav(1)"><span class="fa fa-times"></span></div>
+                            </a>
+							
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop2">
+                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="2" style="box-shadow:3px 3px 5px grey;">
+                                <div id="card-carousel-2" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static 'images/properties/prop-2-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url({% static '/images/properties/prop-2-2-gallery.jpg' %});"></div>
+                                        <div class="carousel-item" style="background-image: url({% static '/images/properties/prop-2-3-gallery.jpg' %});"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-2" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-2" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Colorful Little Apartment</div>
+                                    <div class="pxp-results-card-1-details-price">$2,675</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>1 BD <span>|</span> 1 BA <span>|</span> 500 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save" data-toggle="tooltip" title="Remove from favourites" onclick="return removefromfav(2)"><span class="fa fa-times"></span></div>
+                            </a>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop3">
+                            <a href="single-property.html" class="pxp-results-card-1 rounded-lg" data-prop="3" style="box-shadow:3px 3px 5px grey;">
+                                <div id="card-carousel-3" class="carousel slide" data-ride="carousel" data-interval="false">
+                                    <div class="carousel-inner">
+                                        <div class="carousel-item active" style="background-image: url({% static '/images/properties/prop-3-1-gallery.jpg' %})"></div>
+                                        <div class="carousel-item" style="background-image: url({% static '/images/properties/prop-3-2-gallery.jpg' %});"></div>
+                                        <div class="carousel-item" style="background-image: url({% static '/images/properties/prop-3-3-gallery.jpg' %});"></div>
+                                    </div>
+                                    <span class="carousel-control-prev" data-href="#card-carousel-3" data-slide="prev">
+                                        <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                    </span>
+                                    <span class="carousel-control-next" data-href="#card-carousel-3" data-slide="next">
+                                        <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                    </span>
+                                </div>
+                                <div class="pxp-results-card-1-gradient"></div>
+                                <div class="pxp-results-card-1-details">
+                                    <div class="pxp-results-card-1-details-title">Cozy Two Bedroom Apartment</div>
+                                    <div class="pxp-results-card-1-details-price">$960,000</div>
+                                </div>
+                                <div class="pxp-results-card-1-features">
+                                    <span>2 BD <span>|</span> 2 BA <span>|</span> 870 SF</span>
+                                </div>
+                                <div class="pxp-results-card-1-save" data-toggle="tooltip" title="Remove from favourites" onclick="return removefromfav(3)"><span class="fa fa-times"></span></div>
+                            </a>
+                        </div>
+                        
+                    </div>
+
+                </div>
+		
+		<script src="js/jquery-3.4.1.min.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+			  $('[data-toggle="tooltip"]').tooltip({html:true});
+			});			
+		</script>
+		
+		<script>
+		
+			function removefromfav(id)
+			{
+				if(confirm("Are you sure to remove this property from favourites?") == true) {
+					//document.getElementById('fprop'+id).remove();
+					$("#fprop"+id).hide(500);
+					
+					setTimeout(function() {
+						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favourite deleted!</span> &nbsp; <br>");					
+					}, 700);
+					setTimeout(function() {
+						$("#lastmsg").fadeOut(2000);
+					}, 2000);
+					return false;
+				} else {
+					return false;
+				}				
+			}
+			
+		</script>
+
+
+{% include "layout/footer.html" %}

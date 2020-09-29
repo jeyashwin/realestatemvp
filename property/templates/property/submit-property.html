@@ -1,0 +1,488 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+	<style>
+		body { background:none !important; }
+		.pxp-header.fixed-top.pxp-animate { background-color:rgba(0, 0, 0, 0.9) !important; }
+		.errorview { color:maroon; font-style:italic; font-size:12px; font-family:consolas; }
+	</style>
+
+        <div class="pxp-content">
+            <div class="pxp-submit-property pxp-content-wrapper mt-40">
+                <div class="container"  style="background-image:url({% static '/images/bg-pattern1.png' %}); padding:50px; border-radius:7px;">
+				<form method="POST" id="prop_submit_form" action="" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <center><h2 class="pxp-page-header">
+								{% if object %}
+									Update
+								{% else %}
+									Add New
+								{% endif %} Property
+							</h2></center>
+                        </div>
+                    </div>
+                    {% csrf_token %}
+                    <div class="row mt-4 mt-md-2">
+                        <div class="col-sm-12 col-lg-8">
+                            <div class="mt-3 mt-md-4" style="background-color:#fff; padding:20px; border-radius:7px;">
+							<h3>Basic Information</h3>
+                                <div class="form-group">
+									<div class="help-container">
+										{{form.title.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.title.help_text|safe }}</small>
+									</div>
+                                    {{form.title}}
+									<small class="errorview">{{form.title.errors}}</small>
+                                </div>
+								<div class="form-group">
+									<div class="help-container">
+										{{form.phoneNumber.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.phoneNumber.help_text|safe }}</small>
+									</div>
+                                    {{form.phoneNumber}}
+                                </div>
+                                <div class="form-group">
+									<div class="help-container">
+										{{form.description.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.description.help_text|safe }}</small>
+									</div>
+                                    {{form.description}}
+									<small class="errorview">{{form.description.errors}}</small>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 mt-md-4">
+                                <div class="col-sm-12 col-md-3">
+                                    <div class="form-group">
+										<label for="{{form.utilities.id_for_label}}" style="cursor:pointer;">
+											<h6>
+												{{form.utilities.label}}
+											</h6>
+										</label>
+											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.utilities.help_text|safe }}"></span>
+											{{form.utilities}}
+										{% if form.parkingSpace.errors %}
+											<small class="errorview">Parking Space: {{form.parkingSpace.errors}}</small>
+										{% endif %} 
+                                    </div>
+                                </div>
+								
+								<div class="col-sm-12 col-md-4 utilities-list">
+                                    <div class="form-group">
+										<label for="{{form.garage.id_for_label}}" style="cursor:pointer;">
+											<h6 style="color:gray;">{{form.garage.label}}</h6>
+										</label>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.garage.help_text|safe }}"></span>
+										{{form.garage}}
+                                    </div>
+                                </div>
+								
+								<div class="col-sm-12 col-md-4 utilities-list">
+									<div class="form-group">
+										<label for="{{form.parkingSpace.id_for_label}}">
+											<h6 style="color:gray;">{{form.parkingSpace.label}}</h6>
+										</label>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.parkingSpace.help_text|safe }}"></span>
+										{{form.parkingSpace}}
+										<small class="errorview">{{form.parkingSpace.errors}}</small>
+									</div>
+                                </div>
+								
+                            </div>
+ 
+							
+							<div class="col-md-12">
+                            <div class="row mt-3 mt-md-0" style="margin-bottom:15px; padding:15px 0px 7px 0px; border-radius:15px; border-bottom:2px solid #e2e2e2;background-color:#fff;">
+                                <div class="col-sm-12 col-md-12">
+									<div class="help-container">
+										<h3>{{form.amenities.label}}</h3>
+										<span class="fa fa-info-circle help" style="margin-top: 6px;"></span>
+										<small class="helptext" style="margin-top: 6px;">{{ form.amenities.help_text|safe }}</small>
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenities.errors}}</small>
+									</div>
+								</div>
+								{% for amenity in form.amenities %}
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="form-group">
+                                        <div class="checkbox custom-checkbox ">
+                                            {{amenity}}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+							</div>
+
+		<style>
+			.addimg > img:hover, .addvid > img:hover { border:2px solid #fff; }
+		</style>
+							
+							<h3 class="mt-4 mt-md-2">
+								<div class="help-container">
+									Photo Gallery
+									<span class="fa fa-info-circle help" style="font-size: 15px; padding-top: 6px;"></span>
+									<small class="helptext" style="font-size: 12px; padding-top: 10px;">{{ imageForm.form.imageDescription.help_text|safe }}</small>
+								</div>
+							</h3>
+							<div class="row">
+								{{ imageForm.management_form }}
+								{% for form in imageForm.forms %}
+								<div class="col-sm-12 col-md-3 formset_row-{{ imageForm.prefix }}">
+									{% for hidden in form.hidden_fields %}
+										{{ hidden }}
+									{% endfor %}
+									<span id="property-image-div-{{form.imagePath.id_for_label}}">
+										<img src="{% if object and form.imagePath.value %}
+													{{form.instance.imagePath.url}}
+												  {% else %}
+													https://via.placeholder.com/150
+												 {% endif %}"
+											id="property-image-preview-{{form.imagePath.id_for_label}}"
+											style="border-radius: 2px; width: 150px; height: 150px"
+											onclick="chooseimgclick('{{form.imagePath.id_for_label}}')"
+										/>
+										{{form.imagePath}}
+										<small class="errorview">{{form.imagePath.errors}}</small>
+									</span>
+									<div>
+										{{form.imageDescription}}
+										<small class="errorview">{{form.imageDescription.errors}}</small>
+										{{form.DELETE}}
+										<small class="errorview">{{form.DELETE.errors}}</small>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+
+							<div style="border-bottom:2px solid #e2e2e2; border-radius:15px;"><br></div>
+						
+							<h3 class="mt-4 mt-md-2">
+								<div class="help-container">
+									Videos
+									<span class="fa fa-info-circle help" style="font-size: 15px; padding-top: 6px;"></span>
+									<small class="helptext" style="font-size: 12px; padding-top: 10px;">{{ videoForm.form.videoDescription.help_text|safe }}</small>
+								</div>
+							</h3>
+							<div class="row">
+								{{ videoForm.management_form }}
+								{% for form in videoForm.forms %}
+								<div class="col-sm-12 col-md-6 formset_video-{{ videoForm.prefix }}">
+									{% for hidden in form.hidden_fields %}
+										{{ hidden }}
+									{% endfor %}
+									<span id="property-video-div-{{form.videoPath.id_for_label}}">
+										<img src="https://via.placeholder.com/300x200"
+											id="property-video-preview-{{form.videoPath.id_for_label}}"
+											style="border-radius: 5px; width: 300px; height: 200px"
+											onclick="choosevidclick('{{form.videoPath.id_for_label}}')"
+										/>
+										{{form.videoPath}}
+										<small class="errorview">{{form.videoPath.errors}}</small>
+									</span>
+									<div>
+										{{form.videoDescription}}
+										<small class="errorview">{{form.videoDescription.errors}}</small>
+										{{form.DELETE}}
+										<small class="errorview">{{form.DELETE.errors}}</small>
+									</div>
+								</div>
+								{% endfor %}
+							</div>
+							<div style="border-bottom:2px solid #e2e2e2; border-radius:15px;"><br></div>
+							
+							<h5><br>Availability</h5>
+							<div class="row mt-3 mt-md-4">
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+										<div class="help-container">
+											{{form.fromDate.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.fromDate.help_text|safe }}</small>
+										</div>
+										{{form.fromDate}}
+										<small class="errorview">{{form.fromDate.errors}}</small>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <div class="form-group">
+										<div class="help-container">
+											{{form.toDate.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.toDate.help_text|safe }}</small>
+										</div>
+										{{form.toDate}}
+										<small class="errorview">{{form.toDate.errors}}</small>
+                                    </div>
+                                </div>
+                            </div>
+
+						
+                        </div>
+						
+                        <div class="col-sm-12 col-lg-4">
+						<br>
+                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-5 mt-lg-0" style="padding-bottom:33px;">
+                                <h3>Main Details</h3>
+                                <div class="row mt-3 mt-md-4">
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+											<div class="help-container">
+												{{form.rentPerPerson.label_tag}}
+												<span class="fa fa-info-circle help"></span>
+												<small class="helptext">{{ form.rentPerPerson.help_text|safe }}</small>
+											</div>
+											{{form.rentPerPerson}}
+											<small class="errorview">{{form.rentPerPerson.errors}}</small>
+                                        </div>
+                                    </div>                                    
+									<div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+											<div class="help-container">
+												<h6>{{form.securityDeposit}}</h6>
+												&nbsp;
+												{{form.securityDeposit.label_tag}}
+												<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.securityDeposit.help_text|safe }}"></span>
+											</div>
+											<small class="errorview">{{form.amount.errors}}</small>
+											<span id="property-deposit-input">
+												<div class="help-container">
+													{{form.amount.label_tag}}
+													<span class="fa fa-info-circle help"></span>
+													<small class="helptext">{{ form.amount.help_text|safe }}</small>
+												</div>
+												{{form.amount}}
+												<small class="errorview">{{form.amount.errors}}</small>
+											</span>
+                                        </div>
+                                    </div>                                    
+									<div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+											<div class="help-container">
+												{{form.occupants.label_tag}}
+												<span class="fa fa-info-circle help"></span>
+												<small class="helptext">{{ form.occupants.help_text|safe }}</small>
+											</div>
+											{{form.occupants}}
+											<small class="errorview">{{form.occupants.errors}}</small>
+                                        </div>
+                                    </div>
+									<div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+											<div class="help-container">
+												{{form.sqft.label_tag}}
+												<span class="fa fa-info-circle help"></span>
+												<small class="helptext">{{ form.sqft.help_text|safe }}</small>
+											</div>
+											{{form.sqft}}
+											<small class="errorview">{{form.sqft.errors}}</small>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+											{{form.rooms.label_tag}}
+											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.rooms.help_text|safe }}"></span>
+											{{form.rooms}}
+											<small class="errorview">{{form.rooms.errors}}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="form-group">
+											{{form.bathrooms.label_tag}}
+											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.bathrooms.help_text|safe }}"></span>
+											{{form.bathrooms}}
+											<small class="errorview">{{form.bathrooms.errors}}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+							
+                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-3">						
+                                <h3>Location</h3>
+                                <div class="mt-4">                                    
+									
+									<div class="form-group">
+										<small class="errorview"></small>
+										<div class="help-container">
+											{{form.city.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.city.help_text|safe }}</small>
+										</div>
+										{{form.city}}
+										<small class="errorview">{{form.city.errors}}</small>
+                                    </div>
+									<div class="form-group">
+										<div class="help-container">
+											{{form.zipcode.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.zipcode.help_text|safe }}</small>
+										</div>
+										{{form.zipcode}}
+										<small class="errorview">{{form.zipcode.errors}}</small>
+                                    </div>
+									<div class="form-group">
+										<div class="help-container">
+											{{form.address.label_tag}}
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.address.help_text|safe }}</small>
+										</div>
+										{{form.address}}
+										<small class="errorview">{{form.address.errors}}</small>
+                                    </div>
+									
+									
+                                    <!--div id="pxp-submit-property-map"></div-->
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mt-4 mt-md-5">
+                        <input type="submit" name="submit" 
+							value="{% if object %}Update{% else %}Create{% endif %} Property"
+							class="pxp-submit-property-btn">
+                    </div>
+					</form>
+                </div>
+            </div>
+        </div>
+
+	<script src="{% static '/js/jquery-3.4.1.min.js' %} "></script>
+	
+		<script>
+			function chooseimgclick(id)
+			{
+				$("#"+id).click();
+				
+				$("#"+id).change(function(){
+					previewimg(this, id);
+				});
+			}
+			
+			function previewimg(input, id)
+			{
+				if (input.files && input.files[0]) {
+					
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+					  $('#property-image-preview-'+id).attr('src', e.target.result);
+					}
+					
+					reader.readAsDataURL(input.files[0]); // convert to base64 string
+				  }
+			}
+			
+			function choosevidclick(id)
+			{
+				$("#"+id).click();
+				
+				$("#"+id).change(function(){
+					previewvid(this, id);
+				});
+			}
+			
+			function previewvid(input, id)
+			{
+				if (input.files && input.files[0]) {
+					var file = input.files[0];
+					var reader = new FileReader();
+					reader.onload = function(e) {
+					  	var blob = new Blob([reader.result], {type: file.type});
+						var url = URL.createObjectURL(blob);
+						var video = document.createElement('video');
+						var timeupdate = function() {
+							if (snapImage()) {
+							video.removeEventListener('timeupdate', timeupdate);
+							video.pause();
+							}
+						};
+						video.addEventListener('loadeddata', function() {
+							if (snapImage()) {
+							video.removeEventListener('timeupdate', timeupdate);
+							}
+						});
+						var snapImage = function() {
+							var canvas = document.createElement('canvas');
+							canvas.width = video.videoWidth;
+							canvas.height = video.videoHeight;
+							canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+							var image = canvas.toDataURL();
+							var success = image.length > 100000;
+							if (success) {
+								var img = document.getElementById('property-video-preview-'+id);
+								img.src = image;
+								URL.revokeObjectURL(url);
+							}
+							return success;
+						};
+						video.addEventListener('timeupdate', timeupdate);
+						video.preload = 'metadata';
+						video.src = url;
+						// Load video in Safari / IE11
+						video.muted = true;
+						video.playsInline = true;
+						video.play();
+					};
+					reader.readAsArrayBuffer(file);
+				}
+			}
+			// 	reader.readAsDataURL(input.files[0]); // convert to base64 string
+			// }
+			
+		</script>
+
+		<script>
+			onspload();
+			function onspload() {
+				$(".utilities-list").hide();
+				$("#property-deposit-input").hide();
+				
+				$("#{{form.securityDeposit.id_for_label}}").click(function() {
+					if($("#{{form.securityDeposit.id_for_label}}").prop("checked") == true){
+						$("#property-deposit-input").show(300);
+					} else {
+						$("#property-deposit-input").hide(300);
+					}
+				});
+				
+				$("#{{form.utilities.id_for_label}}").click(function(){
+					if($("#{{form.utilities.id_for_label}}").prop("checked") == true){
+						$(".utilities-list").show(300);
+					} else {
+						$(".utilities-list").hide(300);
+					}
+				});
+			}
+
+			removeTag = document.querySelectorAll("span img");
+			// for (let index = 0; removeTag; index++) {
+			// 	console.log(index)
+				
+			// }
+		</script>
+
+		{% load static %}
+		<script src="{% static 'js/jquery.formset.js' %}"></script>
+		<script type="text/javascript">
+			$('.formset_row-{{ imageForm.prefix }}').formset({
+				formCssClass: 'dynamic-image-form',
+				addText: '<span class="fa fa-plus-circle add_new"></span>',
+				deleteText: '<span class="fa fa-trash danger"></span>',
+				prefix: '{{ imageForm.prefix }}',
+			});
+			$('.formset_video-{{ videoForm.prefix }}').formset({
+				formCssClass: 'dynamic-video-form',
+				addText: '<span class="fa fa-plus-circle add_new"></span>',
+				deleteText: '<span class="fa fa-trash danger"></span>',
+				prefix: '{{ videoForm.prefix }}',
+			});
+		</script>
+      
+	  {% include "layout/footer.html" %}

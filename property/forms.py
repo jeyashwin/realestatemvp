@@ -1,7 +1,7 @@
 from django import forms
 from datetime import date
 
-from .models import Property, PropertyImage, PropertyVideo
+from .models import Property, PropertyImage, PropertyVideo, Amenities
 
 
 class PropertyForm(forms.ModelForm):
@@ -133,5 +133,39 @@ PropertyImageFormset = forms.inlineformset_factory(Property, PropertyImage, form
                         )
 
 PropertyVideoFormset = forms.inlineformset_factory(Property, PropertyVideo, form=PropertyVideoForm,
-                            extra=1, min_num=1, max_num=4, can_delete=True    
+                            extra=1, max_num=4, can_delete=True, min_num=1
                         )
+
+
+class PropertyFilterSortForm(forms.Form):
+
+    choiceCommon = [
+        ('1','1'), 
+        ('2', '2'),
+        ('3', '3'),
+        ('>4', '4 or more'),
+    ]
+
+    sortChoices = [
+        ('default', 'Default Sort'),
+        ('p_low_hi', 'Price (Lo-Hi)'),
+        ('p_hi_low', 'Price (Hi-Lo)'),
+        ('room', 'Rooms'),
+        ('bath', 'Baths'),
+        ('sqft', 'SQFT')
+    ]
+
+    room = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=choiceCommon, 
+                required=False)
+    occp = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=choiceCommon, 
+                required=False)
+    bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=choiceCommon, 
+                required=False)
+    minPri = forms.IntegerField(widget=forms.NumberInput(attrs={
+                'class': 'form-control', 'placeholder': 'Min'}), min_value=1, required=False)
+    maxPri = forms.IntegerField(widget=forms.NumberInput(attrs={
+                'class': 'form-control', 'placeholder': 'Max'}), min_value=1, required=False)
+    amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
+                queryset=Amenities.objects.all(), required=False)
+    sort = forms.ChoiceField(widget=forms.Select(attrs={'class': 'custom-select'}), 
+                choices=sortChoices, required=False)

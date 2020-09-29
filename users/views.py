@@ -13,7 +13,6 @@ from .forms import SignUpForm, LoginInForm, StudentProfileUpdateForm, LandlordPr
 # Create your views here.
 
 #User App views starts from here
-
 def Home(request):
     signUpFormIdentifier = SignUpForm(label_suffix='')
     LoginFormIdentifier = LoginInForm(label_suffix='')
@@ -21,12 +20,12 @@ def Home(request):
         'SignUpform': signUpFormIdentifier, 
         'Loginform': LoginFormIdentifier,
     }
-    return render(request, "templates/index.html", context=context )
+    return render(request, "index.html", context=context )
 
 class SignUpClassView(CreateView):
     form_class = SignUpForm
     success_url = '/'
-    template_name = "templates/index.html"
+    template_name = "index.html"
     
     def form_valid(self, form):
 
@@ -63,7 +62,7 @@ class SignUpClassView(CreateView):
 class UserLoginClassView(FormView):
     form_class = LoginInForm
     success_url = "/"
-    template_name = "templates/index.html"
+    template_name = "index.html"
 
     def form_valid(self, form):
         valid = super().form_valid(form)
@@ -82,7 +81,12 @@ class UserLoginClassView(FormView):
             if user:
                 if user.is_active:
                     login(self.request, user)
-                    return redirect('user:home')
+                    if user.usertype.is_student:
+                        return redirect('user:home')
+                    elif user.usertype.is_landlord:
+                        return redirect('property:propertyManage')
+                    else:
+                        return redirect('user:home')
 
                 else:
                     return JsonResponse({'user': 'Account not active'}, status=403)
@@ -102,7 +106,7 @@ class UserLoginClassView(FormView):
 class StudentProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = UserStudent
     form_class = StudentProfileUpdateForm
-    template_name = "templates/profile-user.html"
+    template_name = "users/profile-user.html"
 
     def get_object(self):
         if self.request.user.username == self.kwargs.get('username'):
@@ -126,7 +130,7 @@ class StudentProfileUpdateView(LoginRequiredMixin, UpdateView):
 class LandlordProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = UserLandLord
     form_class = LandlordProfileUpdateForm
-    template_name = "templates/profile-landlord.html"
+    template_name = "users/profile-landlord.html"
 
     def get_object(self):
         if self.request.user.username == self.kwargs.get('username'):
@@ -149,7 +153,7 @@ class LandlordProfileUpdateView(LoginRequiredMixin, UpdateView):
 
 class UserDeleteView(LoginRequiredMixin, DeleteView):
     model = User
-    template_name = "templates/profile-delete.html"
+    template_name = "users/profile-delete.html"
     success_url = "/"
 
     def get_object(self):
@@ -159,5 +163,5 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
             raise Http404
 
 def Contact(request):
-    return render(request, "templates/contact.html")
+    return render(request, "contact.html")
 
