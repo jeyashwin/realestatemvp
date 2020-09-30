@@ -6,7 +6,7 @@ from django.db.models.signals import pre_save, post_delete
 
 import datetime, os
 
-from users.models import UserLandLord
+from users.models import UserLandLord, UserStudent
 from .utils import unique_slug_generator, unique_file_path_generator
 
 
@@ -101,6 +101,8 @@ class Property(models.Model):
     toDate = models.DateField(verbose_name="To Date", 
                     help_text="Till which the property will be available."
                 )
+    likes = models.ManyToManyField(UserStudent, related_name="propLikes", blank=True)
+    dislikes = models.ManyToManyField(UserStudent, related_name="propDislikes", blank=True)
     updatedDate = models.DateTimeField(auto_now=True, verbose_name="Last Updated Date")
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
     # lat = models.DecimalField(max_digits=9, decimal_places=6)
@@ -108,6 +110,14 @@ class Property(models.Model):
 
     class Meta:
         verbose_name_plural = "Properties"
+
+    @property
+    def totalLikes(self):
+        return self.likes.count
+
+    @property
+    def totalDislikes(self):
+        return self.dislikes.count
 
     def clean(self):
         if self.securityDeposit and self.amount == None:
@@ -174,6 +184,27 @@ class PropertyVideo(models.Model):
 
     def __str__(self):
         return "{}".format(self.pk)
+
+
+class PostQuestion(models.Model):
+
+    propKey = models.ForeignKey(Property, on_delete=models.CASCADE, verbose_name="Property")
+    student = models.ForeignKey(UserStudent, on_delete=models.CASCADE)
+    question = models.CharField(max_length=250)
+    createdDate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.question
+
+
+class PostAnswer(models.Model):
+
+    question = models.OneToOneField(PostQuestion, on_delete=models.CASCADE)
+    answer = models.CharField(max_length=250)
+    createdDate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.answer
 
 
 # Signals and receivers of models here

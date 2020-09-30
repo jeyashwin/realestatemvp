@@ -56,7 +56,7 @@ class UserStudent(models.Model):
             raise ValidationError({'user': ValidationError(('User is not a student!'), code='invalid')})
 
     def __str__(self):
-        return "{}".format(self.pk)
+        return self.user.user.username
 
 @receiver(models.signals.post_delete, sender=UserStudent)
 def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):

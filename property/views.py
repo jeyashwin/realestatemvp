@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 import pandas as pd
 from django.http import JsonResponse
 import pymongo
@@ -6,13 +6,14 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
-from django.http import Http404
-from django.urls import reverse_lazy
+from django.http import Http404, JsonResponse
+from django.urls import reverse_lazy    
 
 from users.forms import SignUpForm, LoginInForm
-from users.models import UserLandLord
-from .models import Property
+from users.models import UserLandLord , UserStudent
+from .models import Property, PostQuestion, PostAnswer
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
 
 # Create your views here.
@@ -151,6 +152,7 @@ class PropertyDeleteView(LoginRequiredMixin, DeleteView):
 class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
     template_name = "property/manage-properties.html"
+    ordering = ['-updatedDate']
 
     def test_func(self):
         try:
@@ -188,8 +190,104 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return context
 
 
-class PropertyDetailView(DetailView):
+class PropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Property
     template_name = "property/single-property.html"
     slug_field = 'urlSlug'
-    # ordering = ['-date_created']
+
+    def test_func(self):
+        try:
+            if self.request.user.usertype:
+                return True
+        except:
+            raise Http404
+
+    def get_queryset(self):
+        if self.request.user.usertype.is_landlord:
+            return Property.objects.filter(landlord__user__user=self.request.user)
+        else:
+            return super().get_queryset()
+
+
+def studentAccessTest(user):
+    try:
+        if not user.usertype.is_student:
+            raise Http404
+        else:
+            return True
+    except:
+        raise Http404
+
+def landlordAccessTest(user):
+    try:
+        if not user.usertype.is_landlord:
+            raise Http404
+        else:
+            return True
+    except:
+        raise Http404
+
+@login_required
+@user_passes_test(studentAccessTest)
+def LikesDisLikesView(request, slug):
+    if request.method == "POST":
+        likePress = request.POST.get("like", "None")
+        dislikePress = request.POST.get("dislike", "None")
+        propObject = get_object_or_404(Property, urlSlug=slug)
+        studObject = get_object_or_404(UserStudent, user__user=request.user)
+        alreadyLiked = propObject.likes.filter(user=studObject.user).exists()
+        alreadyDisliked = propObject.dislikes.filter(user=studObject.user).exists()
+        liked, disliked = 0, 0
+        if alreadyLiked:
+            if likePress == "1":
+                propObject.likes.remove(studObject)
+            elif dislikePress == "1":
+                propObject.likes.remove(studObject)
+                propObject.dislikes.add(studObject)
+                disliked = 1
+        elif alreadyDisliked:
+            if likePress == "1":
+                propObject.dislikes.remove(studObject)
+                propObject.likes.add(studObject)
+                liked = 1
+            elif dislikePress == "1":
+                propObject.dislikes.remove(studObject)
+        elif not(alreadyLiked and alreadyDisliked):
+            if likePress == "1":
+                propObject.likes.add(studObject)
+                liked = 1
+            elif dislikePress == "1":
+                propObject.dislikes.add(studObject)
+                disliked = 1
+        propObject.save()
+        return JsonResponse({"liked": liked, "disliked": disliked})
+        # http://127.0.0.1:8000/property/reaction/rental-home-in-newyork/
+
+    return redirect('property:propertyList')
+
+@login_required
+@user_passes_test(studentAccessTest)
+def PostQuestionView(request, slug):
+    if request.method == "POST":
+        question = request.POST.get("prop-question", None)
+        if question is not None and question != "":
+            prop = get_object_or_404(Property, urlSlug=slug)
+            stud = get_object_or_404(UserStudent, user__user=request.user)
+            quesObject = PostQuestion.objects.create(propKey=prop, student=stud, question=question)
+
+    return redirect('property:propertyDetail', slug)
+
+@login_required
+@user_passes_test(landlordAccessTest)
+@csrf_exempt
+def PostAnswerView(request, slug, pk):
+    prop = get_object_or_404(Property, urlSlug=slug)
+    if prop.landlord.user.user == request.user:
+        if request.method == "POST":
+            answer = request.POST.get("prop-answer", None)
+            if answer is not None and answer != "":
+                ques = get_object_or_404(PostQuestion, pk=pk)
+                ansObject = PostAnswer.objects.create(question=ques, answer=answer)
+        return redirect('property:propertyDetail', slug)
+    else:
+        raise Http404

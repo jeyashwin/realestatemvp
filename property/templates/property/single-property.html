@@ -1,325 +1,43 @@
-<!doctype html>
-{% load static %}
-<html lang="en">
-    
-<!-- Mirrored from pixelprime.co/themes/resideo/light/single-property.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:24:29 GMT -->
-<head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+{% include "layout/header.html" %}
 
-        <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
-        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/photoswipe.css' %}">
-        <link rel="stylesheet" href="{% static '/css/default-skin/default-skin.css' %}">
-        <link rel="stylesheet" href="{% static '/css/styled354.css' %}">
-				
-		<script type="text/javascript" src="{% static '/ipconfig.js' %}"></script>
+{% load static %}
 		
-        <title>RE.</title>
+		
+		<script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDIKVsUE3OpqZ7o5oun4HHrVG1X6eGKUec&sensor=false&v=3&libraries=geometry"></script>
 		
 		<style>
-			* {
-				margin: 0;
-				padding: 0;
-				-webkit-box-sizing: border-box;
-				-moz-box-sizing: border-box;
-				box-sizing: border-box;
-			 }
-			.comments-container {
-				margin: 60px auto 15px;
-				width: 768px;
-			}
+			.videoiconspan > img:hover { border:3px dashed #f25c00 !important; }
 
-			.comments-container h1 {
-				font-size: 36px;
-				color: #283035;
-				font-weight: 400;
-			}
-
-			.comments-container h1 a {
-				font-size: 18px;
-				font-weight: 700;
-			}
-
-			.comments-list {
-				margin-top: 30px;
-				position: relative;
-			}
-
-			/**
-			 * Lineas / Detalles
-			 -----------------------*/
-			.comments-list:before {
-				content: '';
-				width: 2px;
-				height: 100%;
-				background: #c7cacb;
-				position: absolute;
-				left: 32px;
-				top: 0;
-			}
-
-			.comments-list:after {
-				content: '';
-				position: absolute;
-				background: #c7cacb;
-				bottom: 0;
-				left: 27px;
-				width: 7px;
-				height: 7px;
-				border: 3px solid #dee1e3;
-				-webkit-border-radius: 50%;
-				-moz-border-radius: 50%;
-				border-radius: 50%;
-			}
-
-			.reply-list:before, .reply-list:after {display: none;}
-			.reply-list li:before {
-				content: '';
-				width: 60px;
-				height: 2px;
-				background: #c7cacb;
-				position: absolute;
-				top: 25px;
-				left: -55px;
-			}
-
-
-			.comments-list li {
-				margin-bottom: 15px;
-				display: block;
-				position: relative;
-			}
-
-			.comments-list li:after {
-				content: '';
-				display: block;
-				clear: both;
-				height: 0;
-				width: 0;
-			}
-
-			.reply-list {
-				padding-left: 88px;
-				clear: both;
-				margin-top: 15px;
-			}
-			/**
-			 * Avatar
-			 ---------------------------*/
-			.comments-list .comment-avatar {
-				width: 65px;
-				height: 65px;
-				position: relative;
-				z-index: 99;
-				float: left;
-				border: 3px solid #FFF;
-				-webkit-border-radius: 4px;
-				-moz-border-radius: 4px;
-				border-radius: 4px;
-				-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-				-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-				box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-				overflow: hidden;
-			}
-
-			.comments-list .comment-avatar img {
-				width: 100%;
-				height: 100%;
-			}
-
-			.reply-list .comment-avatar {
-				width: 50px;
-				height: 50px;
-			}
-
-			.comment-main-level:after {
-				content: '';
-				width: 0;
-				height: 0;
-				display: block;
-				clear: both;
-			}
-			/**
-			 * Caja del Comentario
-			 ---------------------------*/
-			.comments-list .comment-box {
-				width: 680px;
-				float: right;
-				position: relative;
-				-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-				-moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-				box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-			}
-
-			.comments-list .comment-box:before, .comments-list .comment-box:after {
-				content: '';
-				height: 0;
-				width: 0;
-				position: absolute;
-				display: block;
-				border-width: 10px 12px 10px 0;
-				border-style: solid;
-				border-color: transparent #FCFCFC;
-				top: 8px;
-				left: -11px;
-			}
-
-			.comments-list .comment-box:before {
-				border-width: 11px 13px 11px 0;
-				border-color: transparent rgba(0,0,0,0.05);
-				left: -12px;
-			}
-
-			.reply-list .comment-box {
-				width: 610px;
-			}
-			.comment-box .comment-head {
-				background: #FCFCFC;
-				padding: 10px 12px;
-				border-bottom: 1px solid #E5E5E5;
-				overflow: hidden;
-				-webkit-border-radius: 4px 4px 0 0;
-				-moz-border-radius: 4px 4px 0 0;
-				border-radius: 4px 4px 0 0;
-			}
-
-			.comment-box .comment-head i {
-				background-color:#f2f2f2;
-				float: right;
-				margin-left: 14px;
-				position: relative;
-				top: 2px;
-				color: #A6A6A6;
-				cursor: pointer;
-				-webkit-transition: color 0.3s ease;
-				-o-transition: color 0.3s ease;
-				transition: color 0.3s ease;
-			}
-
-			.comment-box .comment-head i:hover {
-				color: #03658c;
-			}
-
-			.comment-box .comment-name {
-				color: #283035;
-				font-size: 14px;
-				font-weight: 700;
-				float: left;
-				margin-right: 10px;
-			}
-
-			.comment-box .comment-name a {
-				color: #283035;
-			}
-
-			.comment-box .comment-head span {
-				float: left;
-				color: #999;
-				font-size: 13px;
-				position: relative;
-				top: 1px;
-				width:80%;
-			}
-
-			.comment-box .comment-content {
-				background-color:#f2f2f2;			
-				word-wrap: break-word;
-				background: #FFF;
-				padding: 12px;
-				font-size: 13px;
-				color: #595959;
-				-webkit-border-radius: 0 0 4px 4px;
-				-moz-border-radius: 0 0 4px 4px;
-				border-radius: 0 0 4px 4px;
-				width:80%;
-			}
-
-			.comment-box .comment-name.by-author, .comment-box .comment-name.by-author a {color: #03658c;}
-			.comment-box .comment-name.by-author:after {
-				content: 'autor';
-				background: #03658c;
-				color: #FFF;
-				font-size: 12px;
-				padding: 3px 5px;
-				font-weight: 700;
-				margin-left: 10px;
-				-webkit-border-radius: 3px;
-				-moz-border-radius: 3px;
-				border-radius: 3px;
-			}
-
-			/** =====================
-			 * Responsive
-			 ========================*/
-			@media only screen and (max-width: 766px) {
-				.comments-container {
-					width: 480px;
-				}
-
-				.comments-list .comment-box {
-					width: 390px;
-				}
-
-				.reply-list .comment-box {
-					width: 320px;
-				}
-			}
+			.lifestyle-ul > li { cursor:pointer; width:auto; border-radius:3px; margin:0px 7px; padding:1px 10px; float:left; font-size:13px; }
+			.lifestyle-li-unsel:hover { background-color:rgba(0, 0, 0, 0.4); color:#fff; border:1px solid transparent; }
+			.lifestyle-li-unsel { border:1px solid #4f4f4c; color:#4f4f4c; }
+			.lifestyle-li-sel { border:1px solid #4f4f4c; background-color:rgba(0, 0, 0, 0.5); color:#fff; }
+			
+			.pxp-sp-amenities-item { font-size:14px !important; }
 		</style>
-		
-    </head>
-    <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
-        <div class="pxp-header fixed-top pxp-animate pxp-no-bg" style="background-color:rgba(0, 0, 0, 0.1);">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-5 col-md-2">
-                        <a href="index.html" class="pxp-logo text-decoration-none">RE.</a>
-                    </div>
-                    <div class="col-2 col-md-8 text-center">
-                        <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="index.html">Home</a>                                
-                            </li>
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a class="active" href="#">Properties</a>                                
-                            </li>
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="blog.html">Blog</a>
-                            </li>                            
-                            <li class="list-inline-item pxp-is-last" style="padding:0px 20px;">
-								<a href="contact.html">Contact Us</a>
-							</li>
-                            <li class="list-inline-item pxp-has-btns">
-                                <div class="pxp-user-btns">
-                                    <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
-                                    <a href="#" class="pxp-user-btns-login pxp-signin-trigger">Sign In</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-5 col-md-2 text-right">
-                        <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
-                        <a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger"><span class="fa fa-user-o"></span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="pxp-content">
             <div class="pxp-single-property-top pxp-content-wrapper mt-100">
                 <div class="container">
+					{% load humanize %}
                     <div class="row">
                         <div class="col-sm-12 col-md-5">
-                            <h2 class="pxp-sp-top-title">{{object.property_name}}</h2>
-                            <p class="pxp-sp-top-address pxp-text-light">{{object.address}}</p>
-                            {% comment %} <p class="pxp-sp-top-address pxp-text-light">542 29th Avenue, Marina District, San Francisco, CA 94121</p> {% endcomment %}
+                            <h2 class="pxp-sp-top-title">{{object.title|title}}</h2>
+                            <p class="pxp-sp-top-address pxp-text-light">{{object.address}}, {{object.city}} {{object.zipcode}} </p>
                         </div>
                         <div class="col-sm-12 col-md-7">
                             <div class="pxp-sp-top-btns mt-2 mt-md-0">
-                                <a href="#" class="pxp-sp-top-btn"><span class="fa fa-star"></span> Save</a>
-                                <div class="dropdown">
+								{% if user.usertype.is_student %}
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-o-up"></span>{{object.totalLikes|intcomma}}</a>
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-o-down"></span>{{object.totalDislikes|intcomma}}</a>
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-star-o"></span></a>
+								{% else %}
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-up"></span>{{object.totalLikes|intcomma}}</a>
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-down"></span>{{object.totalDislikes|intcomma}}</a>
+									<a href="{% url 'property:propertyUpdate' object.urlSlug %}" class="pxp-sp-top-btn"><span class="fa fa-pencil"></span></a>
+									<a href="{% url 'property:propertyDelete' object.urlSlug %}" class="pxp-sp-top-btn"><span class="fa fa-trash" style="color: #ec0a0a"></span></a>
+								{% endif %}
+                                <!--div class="dropdown">
                                     <a class="pxp-sp-top-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="fa fa-share-alt"></span> Share
                                     </a>
@@ -329,15 +47,22 @@
                                         <a class="dropdown-item" href="#"><span class="fa fa-pinterest"></span> Pinterest</a>
                                         <a class="dropdown-item" href="#"><span class="fa fa-linkedin"></span> LinkedIn</a>
                                     </div>
-                                </div>
+                                </div-->
                             </div>
                             <div class="clearfix d-block d-xl-none"></div>
                             <div class="pxp-sp-top-feat mt-3 mt-md-0">
-                                <div>{{object.bedrooms}} <span>BD</span></div>
+                                <div>{{object.rooms}} <span>Rooms</span></div>
                                 <div>{{object.bathrooms}} <span>BA</span></div>
-                                <div>{{object.sqft}} <span>SF</span></div>
+                                <div>{{object.sqft|intcomma}} <span>SF</span></div>
                             </div>
-                            <div class="pxp-sp-top-price mt-3 mt-md-0">${{object.price}}</div>
+                            <div class="pxp-sp-top-price mt-3 mt-md-0">
+								<span style="font-size:15px; color:grey; font-weight:normal;">Price </span>${{object.rentPerPerson|intcomma}} &nbsp; <span style="font-size:15px; color:grey; font-weight:normal;">Security Deposit </span>
+								{% if object.securityDeposit %}
+									${{object.amount|intcomma}}
+								{% else %}
+									Not needed
+								{% endif %}
+								</div>
                         </div>
                     </div>
                 </div>
@@ -345,11 +70,24 @@
 
             <div class="pxp-single-property-gallery-container mt-4 mt-md-5">
                 <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
-                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+					{% for image in object.propertyimage_set.all %}
+						{% if forloop.first %}
+							<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+								<a href="{{image.imagePath.url}}" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({{image.imagePath.url}});"></a>
+								<figcaption itemprop="caption description">{{image.imageDescription}}</figcaption>
+							</figure>
+						{% else %}
+							<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        		<a href="{{image.imagePath.url}}" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url({{image.imagePath.url}});"></a>
+                        		<figcaption itemprop="caption description">{{image.imageDescription}}</figcaption>
+                    		</figure>
+						{% endif %}
+					{% endfor %}
+                    {% comment %} <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
                         <a href="static/images/properties/prop-7-1-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-1-big.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
-                    </figure>
-                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                    </figure> {% endcomment %}
+                    {% comment %} <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                         <a href="static/images/properties/prop-7-2-big.jpg" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-2-gallery.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
                     </figure>
@@ -364,277 +102,252 @@
                     <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                         <a href="static/images/properties/prop-1-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-1-3-gallery.jpg' %});"></a>
                         <figcaption itemprop="caption description">Image caption</figcaption>
-                    </figure>
+                    </figure> {% endcomment %}
                 </div>
                 <a href="#" class="pxp-sp-gallery-btn">View Photos</a>
                 <div class="clearfix"></div>
             </div>
 
-            <div class="container mt-100">
+            <div class="container-fluid mt-50" style="padding:0px 50px;">
+				<br><br>
+			
+				<h3>Property Videos<br></h3>
+				<div class="col-xs-12" style="padding-top:20px;">
+					{% for video in object.propertyvideo_set.all %}
+						<span style="padding:10px;" class="videoiconspan">
+							<img src="{% static '/images/properties/prop-1-3-gallery.jpg' %}" type="button"  style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{{video.videoPath.url}}" onclick="playvideo(this)" />
+						</span>
+					{% endfor %}
+					{% comment %} <span style="padding:10px;" class="videoiconspan">
+						<img src="{% static '/images/properties/prop-1-3-gallery.jpg' %}" type="button"  style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img type="button" data-toggle="modal" data-target="#VideoModal" type="button" src="{% static '/images/properties/prop-2-3-gallery.jpg' %}" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img type="button" data-toggle="modal" data-target="#VideoModal" type="button" src="{% static '/images/properties/prop-7-3-gallery.jpg' %}" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img src="{% static '/images/properties/prop-1-3-gallery.jpg' %}" type="button" data-toggle="modal" data-target="#VideoModal" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img type="button" data-toggle="modal" data-target="#VideoModal" type="button" src="{% static '/images/properties/prop-2-3-gallery.jpg' %}" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span> {% endcomment %}
+				</div>
+				
+				<span id="videomodalbtn" data-toggle="modal" data-target="#VideoModal"></span>
+				
+				<div class="modal fade" id="VideoModal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document" style=" border:none;">
+						<div class="modal-content" style="min-width:700px; min-height:600px; background-color:transparent; border:none;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" style="color:red;">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" style="background-color:transparent; border:none;">
+								<iframe width="600" height="600" id="videoframe" src="#" allow="autoplay" style="border-radius:7px; border:none;" allowfullscreen="1"> </iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-12">
+					{% for video in object.propertyvideo_set.all %}
+						<span style="padding:10px;"><small>{{video.videoDescription}}</small></span>
+					{% endfor %}
+						{% comment %} <span style="padding:10px;"><small>Interior</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Bedrooms</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Kitchen</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Hall</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Stairs</small></span> {% endcomment %}
+				</div>
+				<br><hr><br>
                 <div class="row">
-                    <div class="col-lg-6">
+                    <div class="col-lg-4 col-md-4" style="background-color:#fff; border-radius:7px; padding:20px;">
                         <div class="pxp-single-property-section">
                             <h3>Key Details</h3>
                             <div class="row mt-3 mt-md-4">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="pxp-sp-key-details-item">
-                                        <div class="pxp-sp-kd-item-label text-uppercase">Status</div>
-                                        <div class="pxp-sp-kd-item-value">{{object.property_status}}</div>
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Address</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.address}}, {{object.city}} {{object.zipcode}}</div>
+                                    </div>
+                                </div>
+								<div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Phone</div>
+                                        <div class="pxp-sp-kd-item-value">+2324234234{{object.property_phone}}</div>
+                                    </div>
+                                </div>
+								<div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Occupants</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.occupants}}</div>
+                                    </div>
+                                </div>
+								<div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Available From</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.fromDate}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
-                                        <div class="pxp-sp-kd-item-label text-uppercase">Property Type</div>
-                                        <div class="pxp-sp-kd-item-value">{{object.property_type}}</div>
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Available To</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.toDate}}</div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                {% if object.utilities %}
+								<div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
-                                        <div class="pxp-sp-kd-item-label text-uppercase">Year Built</div>
-                                        <div class="pxp-sp-kd-item-value">1980</div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="pxp-sp-key-details-item">
-                                        <div class="pxp-sp-kd-item-label text-uppercase">Stories</div>
-                                        <div class="pxp-sp-kd-item-value">23</div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="pxp-sp-key-details-item">
-                                        <div class="pxp-sp-kd-item-label text-uppercase">Room Count</div>
-                                        <div class="pxp-sp-kd-item-value">6</div>
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Garage</div>
+                                        {% if object.garage %}
+											<div class="pxp-sp-kd-item-value">Yes</div>
+										{% else %}
+											<div class="pxp-sp-kd-item-value">No</div>
+										{% endif %}
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Parking Spaces</div>
-                                        <div class="pxp-sp-kd-item-value">2</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.parkingSpace}}</div>
                                     </div>
                                 </div>
+								{% endif %}
                             </div>
                         </div>
-
+						
                         <div class="pxp-single-property-section mt-4 mt-md-5">
+						<hr>
                             <h3>Overview</h3>
-                            <div class="mt-3 mt-md-4">
-                                <p>Fully furnished. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots">...</span><span class="pxp-dots-more"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
+                            <div class="mt-3 mt-md-4" style="font-size:13px;">
+								{{object.description|safe}}
+                                {% comment %} <p>Fully furnished. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots" id="pxt-read-dots">...</span><span class="pxp-dots-moree" id="pxp-dots-moree" style="display:none;"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
                                 <br><br>
-                                Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month.</span></p>
-                                <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1">Continue Reading <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2">Show Less <span class="fa fa-angle-up"></span></span></a>
+                                Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month. </span></p>
+                                <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1" onclick="readmore()">Show More <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2" onclick="readless()">Show Less <span class="fa fa-angle-up"></span></span></a> {% endcomment %}
+								<hr>
                             </div>
                         </div>
 
-                        <div class="pxp-single-property-section mt-4 mt-md-5">
+
+                        <div class="pxp-single-property-section mt-4 mt-md-4">
                             <h3>Amenities</h3>
                             <div class="row mt-3 mt-md-4">
-                                <div class="col-sm-6 col-lg-4">
+								{% for amenity in object.amenities.all %}
+									<div class="col-sm-6 col-lg-4">
+                                    	<div class="pxp-sp-amenities-item"><span class="fa fa-check"></span> {{amenity}}</div>
+                                	</div>
+								{% endfor %}
+                                {% comment %} <div class="col-sm-6 col-lg-4">
                                     <div class="pxp-sp-amenities-item"><span class="fa fa-wifi"></span> Internet</div>
                                 </div>
                                 <div class="col-sm-6 col-lg-4">
-                                    <div class="pxp-sp-amenities-item"><span class="fa fa-car"></span> Garage</div>
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-sun-o"></span> Air Condition</div>
                                 </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="pxp-sp-amenities-item"><span class="fa fa-sun-o"></span> Air Conditioning</div>
+								<div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-cc-amex"></span> Pool</div>
                                 </div>
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="pxp-sp-amenities-item"><span class="fa fa-bullseye"></span> Dishwasher</div>
                                 </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="pxp-sp-amenities-item"><span class="fa fa-recycle"></span> Disposal</div>
+								<div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-futbol-o"></span> Furnished</div>
                                 </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="pxp-sp-amenities-item"><span class="fa fa-clone"></span> Balcony</div>
+								<div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-thermometer-4"></span> Heating</div>
                                 </div>
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="pxp-sp-amenities-item"><span class="fa fa-futbol-o"></span> Gym</div>
                                 </div>
                                 <div class="col-sm-6 col-lg-4">
                                     <div class="pxp-sp-amenities-item"><span class="fa fa-smile-o"></span> Playroom</div>
-                                </div>
-                                <div class="col-sm-6 col-lg-4">
-                                    <div class="pxp-sp-amenities-item"><span class="fa fa-glass"></span> Bar</div>
-                                </div>
+                                </div> {% endcomment %}
                             </div>
                         </div>
 
-                        <div class="pxp-single-property-section mt-4 mt-md-5">
-                            <h3>Explore the Area</h3>
-                            <div class="pxp-sp-pois-nav mt-3 mt-md-4">
-                                <div class="pxp-sp-pois-nav-transportation text-uppercase">Transportation</div>
-                                <div class="pxp-sp-pois-nav-restaurants text-uppercase">Restaurants</div>
-                                <div class="pxp-sp-pois-nav-shopping text-uppercase">Shopping</div>
-                                <div class="pxp-sp-pois-nav-cafes text-uppercase">Cafes & Bars</div>
-                                <div class="pxp-sp-pois-nav-arts text-uppercase">Arts & Entertainment</div>
-                                <div class="pxp-sp-pois-nav-fitness text-uppercase">Fitness</div>
-                            </div>
-                            <div id="pxp-sp-map" class="mt-3"></div>
-                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5">
                         
-
+						<div id="maplocator" style="background-color:#fff; width:100%; height:350px; border:4px solid rgba(0, 0, 0, 0.1); border-radius:7px;"> <span id="mapspin" style="margin-left:47%; color:#239fed; font-size:40px;"><i class="fa fa-spinner fa-spin" style="margin-top:150px;"></i></span> </div>
+						
+						<br>
+						
+						<div>
+							<b>Lifestyle nearby:</b>
+							<br><br>
+							<div class="row">
+								<ul class="lifestyle-ul" style="list-style-type:none;">
+									<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Bars</li>
+									<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Shopping</li>
+									<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">School</li>
+									<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Restaurant</li>
+									<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Fitness</li>
+								</ul> 
+							</div>
+						</div>
+						
                     </div>
-                    <div class="col-lg-6">
-                        <div class="pxp-single-property-section pxp-sp-agent-section mt-4 mt-md-5 mt-lg-0">
-							  <!-- Contenedor Principal -->
-								<div class="comments-container">
-								  <h2> &nbsp; &nbsp; Comments</h2>
-
-								  <ul id="comments-list" class="comments-list">
-								  
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Boss-icon.png" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<form method="POST" id="submit_comment" action="#">
-										<input type="hidden" name="user_id" value="123asdf">
-										<form method="POST" id="submit_comment" action="#">
-										<input type="hidden" name="property_id" value="asdf123">
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#"></a></h6>
-											<span></span>	
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											
-											<textarea class="form-control" id="property-comment" name="property-comment" placeholder="Write your comments here.." style="border:none; width:90%;"></textarea>
-											<input type="submit" name="submit" value="Submit" class="btn btn-primary btn-sm">
-										  </div>
+					
+					<div class="col-lg-3 col-md-3">
+						<div class="card">
+							  {% if user.usertype.is_student %}
+								<div class="card-header">
+									<b style="color:grey;">Post a Question</b>
+									<form action="{% url 'property:propertyQuestion' object.urlSlug %}" method="POST">
+										<div class="qdiv">
+											{% csrf_token %}
+											<textarea rows="1" type="text" name="prop-question" id="prop-question" class="form-control" placeholder="Type your question.." onclick="postques()" style="margin-top:10px;"></textarea>
+											<div class="pull-right" id="prop-question-btns" style="margin-top:10px; display:none;">
+												<!--input type="cancel" name="cancel" value="Cancel" id="prop-question-cancel" class="btn btn-primary btn-sm" onclick="postquescancel()" style="border:1px solid $4f4f4c; background-color:transparent; color:#4f4f4c;"-->
+												<input type="submit" name="submit" value="Post" id="prop-question-submit" class="btn btn-primary btn-sm" style="border:1px solid grey; background-color:rgba(0, 0, 0, 0.5);">
+											</div>
 										</div>
-										</form>
-									  </div>
-									</li>
-								  
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="">Agustin Ortiz</a></h6>
-											<span>Just now</span>
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>									  
-									</li>
-
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#">Lorena Rojero</a></h6>
-											<span>5 minutes ago</span>	
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>
-									</li>
-									
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#">Agustin Ortiz</a></h6>
-											<span>10 minutes ago</span>
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>									  
-									</li>
-
-									<li>
-									  <div class="comment-main-level">
-										<!-- Avatar -->
-										<div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-										<!-- Contenedor del Comentario -->
-										<div class="comment-box">
-										  <div class="comment-head" style="width:80%;">
-											<h6 class="comment-name"><a href="#">Lorena Rojero</a></h6>
-											<span>15 minutes ago</span>											
-										  </div>
-										  <div class="comment-content" style="width:80%;">
-											Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-										  </div>
-										</div>
-									  </div>
-									</li>
-									
-									<span class="btn btn-primary btn-sm" style="margin-left:90px; cursor:pointer"> Load more</span>
-									
-								  </ul>
+										
+									</form>
 								</div>
-
-							
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="pxp-footer pt-100 pb-100 mt-100">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-4">
-                        <div class="pxp-footer-logo">RE.</div>
-                        <div class="pxp-footer-address mt-2">
-                            90 Fifth Avenue, 3rd Floor<br>
-                            San Francisco, CA 1980<br>
-                            (123) 456-7890
-                        </div>
-                        <div class="pxp-footer-social mt-2">
-                            <a href="#"><span class="fa fa-instagram"></span></a>
-                            <a href="#"><span class="fa fa-facebook-square"></span></a>
-                            <a href="#"><span class="fa fa-twitter"></span></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-lg-8">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Contact Us</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Actions</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">Buy Properties</a></li>
-                                    <li><a href="#">Rent Properties</a></li>
-                                    <li><a href="#">Sell Properties</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Explore</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">Homes for Rent</a></li>
-                                    <li><a href="#">Apartments for Rent</a></li>
-                                    <li><a href="#">Homes for Sale</a></li>
-                                    <li><a href="#">Apartments for Sale</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pxp-footer-bottom mt-2">
-                    <div><a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></div>
-                    <div class="pxp-footer-copyright">&copy; RE. All Rights Reserved. 2019</div>
+							  {% endif %}
+							  <div class="card-body" style="font-size:13px;">
+								<h6><b style="color:grey;">User Queries</b></h6>
+								{% for question in object.postquestion_set.all %}
+									<div class="qadiv">
+										<hr>
+										<b>{{question.question}}</b>
+										<p style="padding-left:10px; color:grey; padding-top:10px;">
+											&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
+											{{question.postanswer.answer}}
+										</p>
+									</div>
+								{% endfor %}
+								{% comment %} <div class="qadiv">
+									<hr>
+									<b>Is the Balcony available in property?</b>
+									<p style="padding-left:10px; color:grey; padding-top:10px;">
+										&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
+										Yes, Balcony is available along with outdoor dining option
+									</p>
+								</div>
+								
+								<div class="qadiv">
+									<hr>
+									<b>Is the Balcony available in property?</b>
+									<p style="padding-left:10px; color:grey; padding-top:10px;">
+										&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
+										Yes, Balcony is available along with outdoor dining option
+									</p>
+								</div> {% endcomment %}
+								
+							</div>
+						  
+						</div>
+					</div>
+					
                 </div>
             </div>
         </div>
@@ -674,125 +387,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="pxp-contact-agent" tabindex="-1" role="dialog" aria-labelledby="pxpContactAgentModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="modal-title" id="pxpContactAgentModal">Contact Erika Tillman</h5>
-                        <form class="mt-4">
-                            <div class="form-group">
-                                <label for="pxp-contact-agent-name">Name</label>
-                                <input type="text" class="form-control" id="pxp-contact-agent-name">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-contact-agent-email">Email</label>
-                                <input type="text" class="form-control" id="pxp-contact-agent-email">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-contact-agent-phone">Phone</label>
-                                <input type="text" class="form-control" id="pxp-contact-agent-phone">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-contact-agent-message">Message</label>
-                                <textarea class="form-control" id="pxp-contact-agent-message" rows="4">I would like more information about Beautiful House in Marina on 542 29th Avenue.</textarea>
-                            </div>
-                            <div class="form-group mt-4">
-                                <a href="#" class="pxp-agent-contact-modal-btn">Send Message</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="modal-title" id="pxpSigninModal">Welcome back!</h5>
-                        <form class="mt-4">
-                            <div class="form-group">
-                                <label for="pxp-signin-email">Email</label>
-                                <input type="text" class="form-control" id="pxp-signin-email" placeholder="Enter your email address">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signin-pass">Password</label>
-                                <input type="password" class="form-control" id="pxp-signin-pass" placeholder="Enter your password">
-                            </div>
-                            <div class="form-group">
-                                <a href="#" class="pxp-agent-contact-modal-btn">Sign In</a>
-                            </div>
-                            <div class="form-group mt-4 text-center pxp-modal-small">
-                                <a href="#" class="pxp-modal-link">Forgot password</a>
-                            </div>
-                            <div class="text-center pxp-modal-small">
-                                New to Resideo? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="modal fade" id="pxp-signup-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSignupModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <h5 class="modal-title" id="pxpSignupModal">Create an account</h5>
-                        <form class="mt-4">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-firstname">First Name</label>
-                                        <input type="text" class="form-control" id="pxp-signup-firstname" placeholder="Enter first name">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-lastname">Last Name</label>
-                                        <input type="text" class="form-control" id="pxp-signup-lastname" placeholder="Enter last name">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signup-email">Email</label>
-                                <input type="text" class="form-control" id="pxp-signup-email" placeholder="Enter your email address">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signup-pass">Password</label>
-                                <input type="password" class="form-control" id="pxp-signup-pass" placeholder="Create a password">
-                            </div>
-                            <div class="form-group">
-                                <a href="#" class="pxp-agent-contact-modal-btn">Sign Up</a>
-                            </div>
-                            <div class="text-center mt-4 pxp-modal-small">
-                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
-        <script src="{% static '/js/popper.min.js' %}"></script>
-        <script src="{% static '/js/bootstrap.min.js' %}"></script>
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script>
+        
         <script src="{% static '/js/photoswipe.min.js' %}"></script> 
         <script src="{% static '/js/photoswipe-ui-default.min.js' %}"></script>
         <script src="{% static '/js/jquery.sticky.js' %}"></script>
@@ -802,17 +397,105 @@
         <script src="{% static '/js/Chart.min.js' %}"></script>
         <script src="{% static '/js/main5732.js' %}"></script>
 
-	<script>
-		ipsrc();
-		function ipsrc()
-		{
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-			document.getElementById('submit_comment').action = ipaddress+'add-comment';
+	<script>
+		function playvideo(dis)
+		{
+			var videourl = dis.getAttribute('data-vurl');
+			$("#videoframe").attr('src', videourl);
+			$("#videomodalbtn").click();
+			
+		}
+		
+		$("#VideoModal").on('hidden.bs.modal', function(){
+			alert("Hello World!");
+		});
+		
+		$(document).click(function(){
+			var srcval = document.getElementById('VideoModal').style.display;
+
+				if(srcval == 'block') {
+					$("#videoframe").attr('src', '#');
+					return false;
+				} else {
+					return false;
+				}
+			
+			
+		  });
+		  
+	</script>
+
+
+	<script>
+		function readmore()
+		{
+			var readmorestatus = document.getElementById('pxp-dots-moree').style.display;
+		
+			$("#pxt-read-dots").hide();
+			$("#pxp-dots-moree").show(300);
+			$(".pxp-sp-more-1").hide();
+			$(".pxp-sp-more-2").show();
+		
+		}
+		
+		function readless()
+		{
+			$("#pxp-dots-moree").hide(300);
+			$("#pxt-read-dots").show();
+			$(".pxp-sp-more-2").hide();
+			$(".pxp-sp-more-1").show();
+		}
+	</script>
+	
+	<script>
+		function lifestyleselect(dis)
+		{
+			var classname = $(dis).attr('class');
+			if(classname == 'lifestyle-li-unsel') { 
+				$(dis).attr('class', 'lifestyle-li-sel'); 
+			} else {
+				$(dis).attr('class', 'lifestyle-li-unsel'); 
+			}
+		}
+	</script>
+
+	<script>
+		function postques()
+		{
+			$("#prop-question").attr('rows', 3);
+			$("#prop-question-btns").show(200);
+		}
+		
+		function postquescancel()
+		{
+			$("#prop-question").attr('rows', 1);
+			$("#prop-question-btns").hide(200);
 		}
 		
 	</script>
 	
-    </body>
+	<script>
+		
+		function initialize() {
+		  $("#mapspin").hide();
+		  var myLatlng = new google.maps.LatLng(40.925690, -73.141129);
+		  var mapOptions = {
+			zoom: 10,
+			center: myLatlng
+			
+		  }  
+		  var map = new google.maps.Map(document.getElementById('maplocator'), mapOptions);
+		  var marker = new google.maps.Marker({
+			  position: myLatlng,
+			  map: map,
+			  title: 'Hello World!'
+		  });
+		}
+		
+		google.maps.event.addDomListener(window, 'load', initialize);
+	
+	</script>
 
-<!-- Mirrored from pixelprime.co/themes/resideo/light/single-property.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:25:48 GMT -->
-</html>
+{% include "layout/footer.html" %}

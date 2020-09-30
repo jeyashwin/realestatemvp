@@ -54,3 +54,15 @@
     padding-left: 20px;
     padding-top: 20px;
 }
+.fa.fa-thumbs-o-down:hover {
+    color:red;
+}
+.fa.fa-thumbs-o-up:hover {
+    color:green;
+}
+.thumbs-o-up {
+    color:green;
+}
+.thumbs-o-down {
+    color:red;
+}

@@ -33,7 +33,7 @@ class PropertyVideoInline(admin.TabularInline):
 @admin.register(Property)
 class PropertyAdmin(admin.ModelAdmin):
     list_display = ['landlord', 'title', 'city']
-    readonly_fields = ['urlSlug', 'updatedDate', 'createdDate']
+    readonly_fields = ['urlSlug','totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
     fieldsets = [
         (None, {'fields': ['landlord', 'title', 'urlSlug']}),
         ('Location Information', {'fields': ['city', 'zipcode', 'address']}),
@@ -41,9 +41,21 @@ class PropertyAdmin(admin.ModelAdmin):
                 'securityDeposit', 'amount', 'rentPerPerson', 'description']}),
         ('Extra Information', {'fields': ['utilities', 'garage', 'parkingSpace', 'amenities']}),
         ('Availability Dates', {'fields': ['fromDate', 'toDate']}),
+        ('Likes & Dislikes', {'fields': ['totalLikes', 'totalDislikes']}),
         ('Important Date Information', {'fields': ['updatedDate', 'createdDate']}),
     ]
     inlines = [PropertyImageInline, PropertyVideoInline]
+
+
+@admin.register(PostQuestion)
+class PostQuestionAdmin(admin.ModelAdmin):
+    list_display = ['propKey', 'student', 'question']
+
+
+@admin.register(PostAnswer)
+class PostAnswerAdmin(admin.ModelAdmin):
+    list_display = ['question', 'answer']
+
 
 # admin.site.register(PropertyImage)
 # admin.site.register(PropertyVideo)
