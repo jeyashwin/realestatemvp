@@ -196,6 +196,9 @@ class PostQuestion(models.Model):
     def __str__(self):
         return self.question
 
+    class Meta:
+        ordering = ['-createdDate']
+
 
 class PostAnswer(models.Model):
 

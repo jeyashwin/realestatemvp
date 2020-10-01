@@ -11,7 +11,6 @@ from django.db import transaction
 from django.http import Http404, JsonResponse
 from django.urls import reverse_lazy    
 
-from users.forms import SignUpForm, LoginInForm
 from users.models import UserLandLord , UserStudent
 from .models import Property, PostQuestion, PostAnswer
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
@@ -260,8 +259,14 @@ def LikesDisLikesView(request, slug):
                 propObject.dislikes.add(studObject)
                 disliked = 1
         propObject.save()
-        return JsonResponse({"liked": liked, "disliked": disliked})
-        # http://127.0.0.1:8000/property/reaction/rental-home-in-newyork/
+        likecount = propObject.totalLikes()
+        dislikecount = propObject.totalDislikes()
+        return JsonResponse({
+                "liked": liked, 
+                "disliked": disliked, 
+                "likecount": likecount,
+                "dislikecount": dislikecount,
+                })
 
     return redirect('property:propertyList')
 
@@ -269,17 +274,17 @@ def LikesDisLikesView(request, slug):
 @user_passes_test(studentAccessTest)
 def PostQuestionView(request, slug):
     if request.method == "POST":
-        question = request.POST.get("prop-question", None)
+        question = request.POST.get("question", None)
         if question is not None and question != "":
             prop = get_object_or_404(Property, urlSlug=slug)
             stud = get_object_or_404(UserStudent, user__user=request.user)
             quesObject = PostQuestion.objects.create(propKey=prop, student=stud, question=question)
+        return JsonResponse({'question': question})
 
     return redirect('property:propertyDetail', slug)
 
 @login_required
 @user_passes_test(landlordAccessTest)
-@csrf_exempt
 def PostAnswerView(request, slug, pk):
     prop = get_object_or_404(Property, urlSlug=slug)
     if prop.landlord.user.user == request.user:

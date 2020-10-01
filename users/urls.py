@@ -5,9 +5,9 @@ from .views import *
 app_name = "user"
 
 urlpatterns = [
-    path('', Home, name='home'),
-    path('register/', SignUpClassView.as_view(), name="signup"),
-    path('login/', UserLoginClassView.as_view(), name="login"),
+    path('', CustomLoginView.as_view(), name="home"),
+    path('landlord/register/', LandlordSignUpView.as_view(), name="landlordSignup"),
+    path('student/register/', StudentSignUpView.as_view(), name="studentSignup"),
     path('logout/', LogoutView.as_view(), name = "logout"),
     path('student/profile/<str:username>/', StudentProfileUpdateView.as_view(), name = "studentProfile"),
     path('landlord/profile/<str:username>/', LandlordProfileUpdateView.as_view(), name = "landlordProfile"),

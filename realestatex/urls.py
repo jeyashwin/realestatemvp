@@ -25,7 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('search/<text>',property_views.search),
     path('', include("users.urls", namespace='userApp')),
-    path('',include("property.urls"))
+    path('',include("property.urls", namespace='propertyApp')),
+    path('', include("students.urls", namespace='studentsApp')),
 ]
 
 

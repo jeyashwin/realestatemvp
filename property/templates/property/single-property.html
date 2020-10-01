@@ -28,8 +28,26 @@
                         <div class="col-sm-12 col-md-7">
                             <div class="pxp-sp-top-btns mt-2 mt-md-0">
 								{% if user.usertype.is_student %}
-									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-o-up"></span>{{object.totalLikes|intcomma}}</a>
-									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-o-down"></span>{{object.totalDislikes|intcomma}}</a>
+									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('like{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
+										<span 
+											class="fa fa-thumbs-o-up
+												{% for liked in object.likes.all  %}
+													{% if liked.user.user == user %}
+														thumbs-o-up
+													{% endif %}
+												{% endfor %}">
+										</span>{{object.totalLikes|intcomma}}
+									</a>
+									<a href="#" id="dislike{{object.pk}}" class="pxp-sp-top-btn" onclick="return dislikeclick('dislike{{object.pk}}', this)" dislikeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
+										<span 
+											class="fa fa-thumbs-o-down
+											{% for disliked in object.dislikes.all  %}
+												{% if disliked.user.user == user %}
+													thumbs-o-down
+												{% endif %}
+											{% endfor %}
+											"></span>{{object.totalDislikes|intcomma}}
+									</a>
 									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-star-o"></span></a>
 								{% else %}
 									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-up"></span>{{object.totalLikes|intcomma}}</a>
@@ -302,49 +320,34 @@
 									<b style="color:grey;">Post a Question</b>
 									<form action="{% url 'property:propertyQuestion' object.urlSlug %}" method="POST">
 										<div class="qdiv">
-											{% csrf_token %}
 											<textarea rows="1" type="text" name="prop-question" id="prop-question" class="form-control" placeholder="Type your question.." onclick="postques()" style="margin-top:10px;"></textarea>
 											<div class="pull-right" id="prop-question-btns" style="margin-top:10px; display:none;">
 												<!--input type="cancel" name="cancel" value="Cancel" id="prop-question-cancel" class="btn btn-primary btn-sm" onclick="postquescancel()" style="border:1px solid $4f4f4c; background-color:transparent; color:#4f4f4c;"-->
-												<input type="submit" name="submit" value="Post" id="prop-question-submit" class="btn btn-primary btn-sm" style="border:1px solid grey; background-color:rgba(0, 0, 0, 0.5);">
+												<input type="submit" name="submit" onclick="return submitquestion('prop1', this)" postquesurl="{% url 'property:propertyQuestion' object.urlSlug %}" key={{csrf_token}} value="Post" id="prop-question-submit" class="btn btn-primary btn-sm" style="border:1px solid grey; background-color:rgba(0, 0, 0, 0.5);">
 											</div>
 										</div>
-										
 									</form>
 								</div>
 							  {% endif %}
+							  {% if object.postquestion_set.all %}
 							  <div class="card-body" style="font-size:13px;">
-								<h6><b style="color:grey;">User Queries</b></h6>
+									<h6><b style="color:grey;">User Queries</b></h6>
 								{% for question in object.postquestion_set.all %}
 									<div class="qadiv">
 										<hr>
 										<b>{{question.question}}</b>
 										<p style="padding-left:10px; color:grey; padding-top:10px;">
 											&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
+											{% if question.postanswer.answer %}
 											{{question.postanswer.answer}}
+											{% else %}
+											Waiting for Answer from Landlord.
+											{% endif %}
 										</p>
 									</div>
 								{% endfor %}
-								{% comment %} <div class="qadiv">
-									<hr>
-									<b>Is the Balcony available in property?</b>
-									<p style="padding-left:10px; color:grey; padding-top:10px;">
-										&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
-										Yes, Balcony is available along with outdoor dining option
-									</p>
-								</div>
-								
-								<div class="qadiv">
-									<hr>
-									<b>Is the Balcony available in property?</b>
-									<p style="padding-left:10px; color:grey; padding-top:10px;">
-										&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
-										Yes, Balcony is available along with outdoor dining option
-									</p>
-								</div> {% endcomment %}
-								
 							</div>
-						  
+						  	{% endif %}
 						</div>
 					</div>
 					
@@ -406,25 +409,7 @@
 			$("#videoframe").attr('src', videourl);
 			$("#videomodalbtn").click();
 			
-		}
-		
-		$("#VideoModal").on('hidden.bs.modal', function(){
-			alert("Hello World!");
-		});
-		
-		$(document).click(function(){
-			var srcval = document.getElementById('VideoModal').style.display;
-
-				if(srcval == 'block') {
-					$("#videoframe").attr('src', '#');
-					return false;
-				} else {
-					return false;
-				}
-			
-			
-		  });
-		  
+		} 
 	</script>
 
 
@@ -458,6 +443,64 @@
 			} else {
 				$(dis).attr('class', 'lifestyle-li-unsel'); 
 			}
+		}
+		function likeclick(id, dis)
+		{
+			
+			var url = dis.getAttribute('likeurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+			  },
+			  error: function()
+			  {
+				console.log('Error!');
+			  }
+			});
+			
+		}
+		
+		function dislikeclick(id, dis)
+		{
+		
+			var url = dis.getAttribute('dislikeurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"dislike":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+			  },
+			  error: function(){
+				console.log('Error!');
+			  }
+			});
+			
+		}
+		function submitquestion(id, dis)
+		{
+		
+			var url = dis.getAttribute('postquesurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			var question = $("#prop-question").val();
+			console.log(question)
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"question":question, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+				$("#prop-question").val("");
+			  },
+			  error: function(){
+				console.log('Error!');
+			  }
+			});
 		}
 	</script>
 
@@ -495,6 +538,17 @@
 		}
 		
 		google.maps.event.addDomListener(window, 'load', initialize);
+			$('.pxp-content').click(function(){
+				var srcval = document.getElementById('VideoModal').style.display;
+
+					if(srcval == 'block') {
+						$("#videoframe").attr('src', '#');
+						return false;
+					} else {
+						return false;
+					}
+				
+			});
 	
 	</script>
 

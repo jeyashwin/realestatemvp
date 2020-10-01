@@ -63,10 +63,10 @@
                                         <a href="{% url 'property:propertyList' %}">Properties</a>
                                     </li>
                                     <li class="list-inline-item" style="padding:0px 20px;">
-                                        <a href="favourites.html">Favourites</a>
+                                        <a href="{% url 'students:favourites' %}">Favourites</a>
                                     </li>
                                     <li class="list-inline-item" style="padding:0px 20px;">
-                                        <a href="roommates.html">Roommates</a>
+                                        <a href="{% url 'students:roommates' %}">Roommates</a>
                                     </li>
                                 {% elif user.usertype.is_landlord %}
                                     <li class="list-inline-item" style="padding:0px 20px; color:orange;">
@@ -133,8 +133,8 @@
             </div>
         </div>
 
-
-<div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
+ {% if not user.is_authenticated %}
+        <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
                     <div class="modal-header">
@@ -145,9 +145,9 @@
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
 			            <center><i id="reg-msg"></i></center>
-                        <form action="{% url 'user:login' %}" method="POST">
+                        <form action="" method="POST">
                             {% csrf_token %}
-                            {{Loginform.as_p}}
+                            {{form.as_p}}
                             <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn">
 
 			    <div class="form-group mt-4 text-center pxp-modal-small">
@@ -204,9 +204,9 @@
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
 						<center><i id="signup-error-msg" style="color:maroon;"></i></center>
-                        <form action="{% url 'user:signup' %}" method="POST">
+                        <form action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{SignUpform.as_p}}
+                            {{StudentSignupForm.as_p}}
                             <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
 			    <div class="text-center mt-4 pxp-modal-small">
                                 Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
@@ -216,3 +216,4 @@
                 </div>
             </div>
         </div>	
+{% endif %}

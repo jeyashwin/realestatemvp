@@ -61,8 +61,8 @@
     color:green;
 }
 .thumbs-o-up {
-    color:green;
+    color:green !important;
 }
 .thumbs-o-down {
-    color:red;
+    color:red !important;
 }
