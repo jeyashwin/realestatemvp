@@ -39,11 +39,11 @@
                                 </div>
 								<div class="form-group">
 									<div class="help-container">
-										{{form.phoneNumber.label_tag}}
+										<label for="pxp-submit-property-phone">Phone number</label>
 										<span class="fa fa-info-circle help"></span>
-										<small class="helptext">{{ form.phoneNumber.help_text|safe }}</small>
+										<small class="helptext">Your default Phone Number</small>
 									</div>
-                                    {{form.phoneNumber}}
+									<input type="text" class="form-control" name="property-phone" id="pxp-submit-property-phone" placeholder="Enter phone number" value="{{user.usertype.userlandlord.phone}}" disabled>
                                 </div>
                                 <div class="form-group">
 									<div class="help-container">

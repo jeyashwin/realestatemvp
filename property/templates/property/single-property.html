@@ -28,7 +28,7 @@
                         <div class="col-sm-12 col-md-7">
                             <div class="pxp-sp-top-btns mt-2 mt-md-0">
 								{% if user.usertype.is_student %}
-									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('like{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
+									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
 										<span 
 											class="fa fa-thumbs-o-up
 												{% for liked in object.likes.all  %}
@@ -38,7 +38,7 @@
 												{% endfor %}">
 										</span>{{object.totalLikes|intcomma}}
 									</a>
-									<a href="#" id="dislike{{object.pk}}" class="pxp-sp-top-btn" onclick="return dislikeclick('dislike{{object.pk}}', this)" dislikeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
+									<a href="#" id="dislike{{object.pk}}" class="pxp-sp-top-btn" onclick="return dislikeclick('{{object.pk}}', this)" dislikeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
 										<span 
 											class="fa fa-thumbs-o-down
 											{% for disliked in object.dislikes.all  %}
@@ -199,7 +199,7 @@
 								<div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Phone</div>
-                                        <div class="pxp-sp-kd-item-value">+2324234234{{object.property_phone}}</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.landlord.phone}}</div>
                                     </div>
                                 </div>
 								<div class="col-sm-6">
@@ -454,7 +454,7 @@
 			  type: 'POST',
 			  data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
 			  success: function(res){
-				console.log(res);
+				  console.log(res)
 			  },
 			  error: function()
 			  {

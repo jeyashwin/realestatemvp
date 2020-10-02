@@ -37,8 +37,9 @@
 					<div class="panel-heading" style="background-color:#f7f7f7; padding:7px; border-top-left-radius:7px; border-top-right-radius:7px; margin-left:-10px; margin-right:-10px; margin-top:-12px;">
 						<h4> &nbsp; Advanced</h4>
 					</div>
-					<form action="#" method="GET" id="filter-properties-form">
+					<form action="" method="GET" id="filter-properties-form">
 					{% comment %} {{filterSortForm.as_p}} {% endcomment %}
+					
 					<div class="panel-body">
 						<div style="padding:20px 5px;" id="filter_checks">
 							<h6>Rooms</h6>
@@ -212,11 +213,10 @@
 
 								<input type="submit" name="submit" value="Apply Filters" class="pxp-filter-btn" />
 								<hr>
-							</form>
 						</div>
 						<div class="row pb-4">
 							<div class="col-sm-6">
-								<h2 class="pxp-content-side-h2">{{object_list.count}} Results</h2>
+								<h2 class="pxp-content-side-h2">{{total_count}} Results</h2>
 							</div>
 							<div class="col-sm-6">
 								<div class="pxp-sort-form form-inline float-right">
@@ -224,6 +224,7 @@
 										{{filterSortForm.sort}}
 										{{filterSortForm.sort.errors}}
 									</div>
+									</form>
 									<div class="form-group d-flex">
 										<a role="button" class="pxp-map-toggle"><span class="fa fa-map-o"></span></a>
 									</div>

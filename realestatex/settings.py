@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'phonenumber_field',
+    'bootstrap3',
     'users',
     'property',
     'students'

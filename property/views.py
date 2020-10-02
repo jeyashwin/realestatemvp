@@ -178,14 +178,50 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         filterSortForm = PropertyFilterSortForm(self.request.GET)
-        print(filterSortForm)
-        return super().get_queryset()
+        propObjects = super().get_queryset()
+        if filterSortForm.is_valid():
+            room = filterSortForm.cleaned_data.get('room', None)
+            occp = filterSortForm.cleaned_data.get('occp', None)
+            bath = filterSortForm.cleaned_data.get('bath', None)
+            minPri = filterSortForm.cleaned_data.get('minPri', None)
+            maxPri = filterSortForm.cleaned_data.get('maxPri', None)
+            amenities = filterSortForm.cleaned_data.get('amenities', None)
+            sort = filterSortForm.cleaned_data.get('sort', None)
+            if room is not None and room != []:
+                room = [ int(i) for i in room ]
+                propObjects = propObjects.filter(rooms__in=room)
+            if occp is not None and occp != []:
+                occp = [ int(i) for i in occp ]
+                propObjects = propObjects.filter(occupants__in=occp)
+            if bath is not None and bath != []:
+                bath = [ int(i) for i in bath ]
+                propObjects = propObjects.filter(bathrooms__in=bath)
+            if minPri is not None:
+                propObjects = propObjects.filter(rentPerPerson__gte=minPri)
+            if maxPri is not None:
+                propObjects = propObjects.filter(rentPerPerson__lte=maxPri)
+            if amenities is not None and amenities:
+                propObjects = propObjects.filter(amenities__in=amenities).distinct()
+            if bath is not None:
+                if sort == "p_low_hi":
+                    propObjects = propObjects.order_by("rentPerPerson")
+                if sort == "p_hi_low":
+                    propObjects = propObjects.order_by("-rentPerPerson")
+                if sort == "room":
+                    propObjects = propObjects.order_by("-rooms")
+                if sort == "bath":
+                    propObjects = propObjects.order_by("-bathrooms")
+                if sort == "sqft":
+                    propObjects = propObjects.order_by("-sqft")
+
+        return propObjects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filterSortForm"] = PropertyFilterSortForm()
+        context["filterSortForm"] = PropertyFilterSortForm(self.request.GET)
         num_pages = context["page_obj"].paginator.num_pages
         context["total_pages"] = [ i for i in range(1, num_pages+1)]
+        context["total_count"] = self.object_list.count()
         return context
 
 

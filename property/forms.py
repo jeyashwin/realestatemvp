@@ -6,17 +6,6 @@ from .models import Property, PropertyImage, PropertyVideo, Amenities
 
 class PropertyForm(forms.ModelForm):
     
-    phoneNumber = forms.CharField(
-        widget = forms.TextInput(attrs={
-            'class': 'form-control',
-            'disabled': True,
-            'value': "21312312123"
-        }),
-        label = "Phone number",
-        help_text="Your default Phone Number",
-        required=False
-    )
-
     class Meta:
         model = Property
         exclude = ['landlord', 'likes', 'dislikes']
@@ -139,13 +128,6 @@ PropertyVideoFormset = forms.inlineformset_factory(Property, PropertyVideo, form
 
 class PropertyFilterSortForm(forms.Form):
 
-    choiceCommon = [
-        ('1','1'), 
-        ('2', '2'),
-        ('3', '3'),
-        ('>4', '4 or more'),
-    ]
-
     sortChoices = [
         ('default', 'Default Sort'),
         ('p_low_hi', 'Price (Lo-Hi)'),
@@ -155,11 +137,14 @@ class PropertyFilterSortForm(forms.Form):
         ('sqft', 'SQFT')
     ]
 
-    room = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=choiceCommon, 
+    room = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
+                choices=Property.objects.values_list('rooms', 'rooms').distinct().order_by('rooms'),
                 required=False)
-    occp = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=choiceCommon, 
+    occp = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
+                choices=Property.objects.values_list('occupants', 'occupants').distinct().order_by('occupants'), 
                 required=False)
-    bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=choiceCommon, 
+    bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
+                choices=Property.objects.values_list('bathrooms', 'bathrooms').distinct().order_by('bathrooms'), 
                 required=False)
     minPri = forms.IntegerField(widget=forms.NumberInput(attrs={
                 'class': 'form-control', 'placeholder': 'Min'}), min_value=1, required=False)

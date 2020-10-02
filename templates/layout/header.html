@@ -146,8 +146,9 @@
                         <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
 			            <center><i id="reg-msg"></i></center>
                         <form action="" method="POST">
+                            {% load bootstrap3 %}
                             {% csrf_token %}
-                            {{form.as_p}}
+                            {% bootstrap_form form %}
                             <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn">
 
 			    <div class="form-group mt-4 text-center pxp-modal-small">
@@ -206,7 +207,7 @@
 						<center><i id="signup-error-msg" style="color:maroon;"></i></center>
                         <form action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
-                            {{StudentSignupForm.as_p}}
+                            {% bootstrap_form StudentSignupForm %}
                             <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
 			    <div class="text-center mt-4 pxp-modal-small">
                                 Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
