@@ -1,62 +1,6 @@
-<!doctype html>
+{% include "layout/header.html" %}
+
 {% load static %}
-<html lang="en">
-    
-<!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:18:32 GMT -->
-<head>
-
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
-        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/owl.carousel.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/owl.theme.default.min.css' %}">
-        <link rel="stylesheet" href="{% static '/css/style.css' %}">
-
-	<script type="text/javascript" src="{% static '/ipconfig.js' %}"></script>
-
-
-        <title>RE</title>
-    </head>
-    <body style="background-image:url({% static '/images/bg-pattern1.png' %});">
-	<!--https://images.assetsdelivery.com/compings_v2/scyther5/scyther51306/scyther5130600066.jpg-->
-	<!--https://img.freepik.com/free-photo/white-paper-canvas-texture-background-design-backdrop-overlay-design_1962-68.jpg?size=626&ext=jpg-->	
-        <div class="pxp-header fixed-top pxp-animate" style="background-color:rgba(0, 0, 0, 0.1);">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-5 col-md-2">
-                        <a href="index.html" class="pxp-logo text-decoration-none">RE</a>
-                    </div>
-                    <div class="col-2 col-md-8 text-center">
-                        <ul class="pxp-nav list-inline">
-                            <li class="list-inline-item" style="padding:0px 20px; color:orange;">
-                                <a href="#">Home</a>
-                            </li>
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="properties.html">Properties</a>                                
-                            </li>
-                            <li class="list-inline-item" style="padding:0px 20px;">
-                                <a href="blog.html">Blog </a>                                
-                            </li>                            
-                            <li class="list-inline-item pxp-is-last"><a href="contact.html">Contact Us</a></li>
-                            <li class="list-inline-item pxp-has-btns">
-                                <div class="pxp-user-btns">
-                                    <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
-                                    <a href="#" class="pxp-user-btns-login pxp-signin-trigger">Sign In</a>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-5 col-md-2 text-right">
-                        <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
-                        <a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger" id="user-action-btn"><span class="fa fa-user-o"></span></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="pxp-content">
             <div class="pxp-hero vh-100">
                 <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({% static '/images/hero-1.jpg' %});"></div>
@@ -315,78 +259,12 @@
                     </div>
                 </div>
             </div>
-
+	
             <div class="container mt-100">
-                <h2 class="pxp-section-h2">Our Featured Agents</h2>
-                <p class="pxp-text-light">Meet the best real estate agents</p>
-
-                <div class="row mt-4 mt-md-5">
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <a href="single-agent.html" class="pxp-agents-1-item">
-                            <div class="pxp-agents-1-item-fig-container rounded-lg">
-                                <div class="pxp-agents-1-item-fig pxp-cover" style="background-image: url({% static '/images/agent-1.jpg' %}); background-position: top center"></div>
-                            </div>
-                            <div class="pxp-agents-1-item-details rounded-lg">
-                                <div class="pxp-agents-1-item-details-name">Scott Goodwin</div>
-                                <div class="pxp-agents-1-item-details-email"><span class="fa fa-phone"></span> (123) 456-7890</div>
-                                <div class="pxp-agents-1-item-details-spacer"></div>
-                                <div class="pxp-agents-1-item-cta text-uppercase">More Details</div>
-                            </div>
-                            <div class="pxp-agents-1-item-rating"><span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <a href="single-agent.html" class="pxp-agents-1-item">
-                            <div class="pxp-agents-1-item-fig-container rounded-lg">
-                                <div class="pxp-agents-1-item-fig pxp-cover" style="background-image: url({% static '/images/agent-2.jpg' %}); background-position: top center"></div>
-                            </div>
-                            <div class="pxp-agents-1-item-details rounded-lg">
-                                <div class="pxp-agents-1-item-details-name">Alayna Becker</div>
-                                <div class="pxp-agents-1-item-details-email"><span class="fa fa-phone"></span> (456) 123-7890</div>
-                                <div class="pxp-agents-1-item-details-spacer"></div>
-                                <div class="pxp-agents-1-item-cta text-uppercase">More Details</div>
-                            </div>
-                            <div class="pxp-agents-1-item-rating"><span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></span></div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <a href="single-agent.html" class="pxp-agents-1-item">
-                            <div class="pxp-agents-1-item-fig-container rounded-lg">
-                                <div class="pxp-agents-1-item-fig pxp-cover" style="background-image: url({% static '/images/agent-3.jpg' %}); background-position: top center"></div>
-                            </div>
-                            <div class="pxp-agents-1-item-details rounded-lg">
-                                <div class="pxp-agents-1-item-details-name">Melvin Blackwell</div>
-                                <div class="pxp-agents-1-item-details-email"><span class="fa fa-phone"></span> (789) 123-4560</div>
-                                <div class="pxp-agents-1-item-details-spacer"></div>
-                                <div class="pxp-agents-1-item-cta text-uppercase">More Details</div>
-                            </div>
-                            <div class="pxp-agents-1-item-rating"><span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span></span></div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-3">
-                        <a href="single-agent.html" class="pxp-agents-1-item">
-                            <div class="pxp-agents-1-item-fig-container rounded-lg">
-                                <div class="pxp-agents-1-item-fig pxp-cover" style="background-image: url({% static '/images/agent-4.jpg' %}); background-position: top center"></div>
-                            </div>
-                            <div class="pxp-agents-1-item-details rounded-lg">
-                                <div class="pxp-agents-1-item-details-name">Erika Tillman</div>
-                                <div class="pxp-agents-1-item-details-email"><span class="fa fa-phone"></span> (890) 456-1237</div>
-                                <div class="pxp-agents-1-item-details-spacer"></div>
-                                <div class="pxp-agents-1-item-cta text-uppercase">More Details</div>
-                            </div>
-                            <div class="pxp-agents-1-item-rating"><span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star-o"></span></span></div>
-                        </a>
-                    </div>
-                </div>
-
-                <a href="agents.html" class="pxp-primary-cta text-uppercase mt-1 mt-md-4 pxp-animate">See All Agents</a>
-            </div>
-
-            <div class="container mt-100">
-                <h2 class="pxp-section-h2 text-center">Membership Plans</h2>
-                <p class="pxp-text-light text-center">Choose the plan that suits you best</p>
+                
+                <!--p class="pxp-text-light text-center">Choose the plan that suits you best</p-->
                 <div class="row mt-5">
-                    <div class="col-sm-12 col-md-6 col-lg-4">
+                    <!--div class="col-sm-12 col-md-6 col-lg-4">
                         <a href="#" class="pxp-plans-1-item">
                             <div class="pxp-plans-1-item-fig">
                                 <img src="{% static '/images/plan-personal.svg' %}" alt="...">
@@ -402,27 +280,23 @@
                             </div>
                             <div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
                         </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="#" class="pxp-plans-1-item pxp-is-popular">
-                            <div class="pxp-plans-1-item-label">Most Popular</div>
+                    </div-->
+                    <div class="col-sm-12 col-md-1 col-lg-1"></div>
+					<div class="col-sm-12 col-md-10 col-lg-10">
+                        <span href="" class="pxp-plans-1-item pxp-is-popular"><br>
+							<div class="pxp-plans-1-item-title"><h2><b>Get Access</b></h2></div>
                             <div class="pxp-plans-1-item-fig">
                                 <img src="{% static '/images/plan-professional.svg' %}" alt="...">
                             </div>
-                            <div class="pxp-plans-1-item-title">Professional</div>
-                            <ul class="pxp-plans-1-item-features list-unstyled">
-                                <li>10 Listings</li>
-                                <li>2 Featured Listings</li>
-                            </ul>
-                            <div class="pxp-plans-1-item-price">
-                                <span class="pxp-plans-1-item-price-currency">$</span>
-                                <span class="pxp-plans-1-item-price-sum">49.99</span>
-                                <span class="pxp-plans-1-item-price-period"> / 6 months</span>
-                            </div>
-                            <div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
-                        </a>
+                            <div class="pxp-plans-1-item-title">
+								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signup-trigger">SIGNUP</span>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signin-trigger">LOGIN</span>
+							</div>
+                        </span>
                     </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
+					<div class="col-sm-12 col-md-1 col-lg-1"></div>
+                    <!--div class="col-sm-12 col-md-6 col-lg-4">
                         <a href="#" class="pxp-plans-1-item">
                             <div class="pxp-plans-1-item-fig">
                                 <img src="{% static '/images/plan-business.svg' %}" alt="...">
@@ -439,294 +313,13 @@
                             </div>
                             <div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
                         </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-		<div class="pxp-footer pt-100 pb-100 mt-100" style="background-color:rgba(219, 217, 217, 0.8);">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12 col-lg-4">
-                        <div class="pxp-footer-logo">RE.</div>
-                        <div class="pxp-footer-address mt-2">
-                            90 Fifth Avenue, 3rd Floor<br>
-                            San Francisco, CA 1980<br>
-                            (123) 456-7890
-                        </div>
-                        <div class="pxp-footer-social mt-2">
-                            <a href="#"><span class="fa fa-instagram"></span></a>
-                            <a href="#"><span class="fa fa-facebook-square"></span></a>
-                            <a href="#"><span class="fa fa-twitter"></span></a>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 col-lg-8">
-                        <div class="row">
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">About Us</a></li>
-                                    <li><a href="#">Agents</a></li>
-                                    <li><a href="#">Blog</a></li>
-                                    <li><a href="#">Demos</a></li>
-                                    <li><a href="#">Contact Us</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Actions</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">Buy Properties</a></li>
-                                    <li><a href="#">Rent Properties</a></li>
-                                    <li><a href="#">Sell Properties</a></li>
-                                </ul>
-                            </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Explore</h4>
-                                <ul class="list-unstyled pxp-footer-links mt-2">
-                                    <li><a href="#">Homes for Rent</a></li>
-                                    <li><a href="#">Apartments for Rent</a></li>
-                                    <li><a href="#">Homes for Sale</a></li>
-                                    <li><a href="#">Apartments for Sale</a></li>
-                                    <li><a href="#">CRM</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pxp-footer-bottom mt-2">
-                    <div><a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></div>
-                    <div class="pxp-footer-copyright">&copy; RE. All Rights Reserved. 2019</div>
-                </div>
-            </div>
-        </div>
-		</div>
-        
-	<div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
-                    <div class="modal-header">
-                        <button id="signin-close-btn" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
-			            <center><i id="reg-msg"></i></center>
-                        <form class="mt-4" method="POST" id="signin_form" action="#">{% csrf_token %}
-                            <div class="form-group">
-                                <label for="pxp-signin-email">Email</label>
-                                <input type="text" class="form-control" name="email" id="pxp-signin-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signin-pass">Password</label>
-                                <input type="password" class="form-control" name="pass" id="pxp-signin-pass" placeholder="Enter your password" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
-                            <div class="row">       
-                                    <div class="col-1"></div>        
-                                    <label for="logusertype1" class="col-5" id="logusertype1label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="logusertypeclick(1)"> <input type="radio" name="usertype" id="logusertype1" value="buyer" style="display:none;" checked /> I'm a Buyer </label>
-                                    &nbsp;&nbsp;
-                                    <label for="logusertype2" class="col-5" id="logusertype2label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px;" onclick="logusertypeclick(2)"> <input type="radio" name="usertype" id="logusertype2" value="seller" style="display:none;" /> I'm a Seller </label>
-                                </div><br>
-                            <div class="form-group">
-								<input type="submit" name="submit" value="Sign In" class="pxp-agent-contact-modal-btn">
-                            </div>
-                            <div class="form-group mt-4 text-center pxp-modal-small">
-                                <a href="javascript:void(0);" data-toggle="modal" data-target="#pxp-forgot-pass-modal" class="pxp-modal-link pxp-forgot-pass-trigger" onclick="close_signin_modal()">Forgot password</a>
-                            </div>
-                            <div class="text-center pxp-modal-small">
-                                New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
-                            </div>
-                        </form>
-                        <form action="{% url 'user:login' %}" method="POST">
-                            {% csrf_token %}
-                            {{Loginform.as_p}}
-                            <input type="submit" value="Sign IN">
-                        </form>
-                    </div>
+                    </div-->
                 </div>
             </div>
         </div>
 		
-		<div class="modal fade" id="pxp-forgot-pass-modal" tabindex="-1" role="dialog" aria-labelledby="pxpForgotPassModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <center><h5 class="modal-title" id="pxpForgotPassModal">Forgot Password</h5></center>
-                        <form class="mt-4" onsubmit="forgot_pass()" action="#">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="pxp-fp-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
-                            <div class="form-group">
-								<div class="row">
-									<div class="col-6">
-										<input type="submit" name="submit" value="Submit" class="pxp-agent-contact-modal-btn">
-									</div>
-									<div class="col-6">
-										<button type="button" class="pxp-agent-contact-modal-btn" style="background-color:transparent; border:2px solid black; color:black;" data-dismiss="modal">Close</button>
-									</div>
-								</div>								
-                            </div>                            
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-		
-		
-        <div class="modal fade" id="pxp-signup-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSignupModal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:530px;">
-                <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
-						<center><i id="signup-error-msg" style="color:maroon;"></i></center>
-                        <form class="mt-4" method="POST" id="signup_form" action="#">{% csrf_token %}
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-firstname">First Name</label>
-                                        <input type="text" class="form-control" name="fname" id="pxp-signup-firstname" placeholder="Enter first name" required style="background-color:rgba(255, 255, 255, 0.5);">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-lastname">Last Name</label>
-                                        <input type="text" class="form-control" name="lname" id="pxp-signup-lastname" placeholder="Enter last name" required style="background-color:rgba(255, 255, 255, 0.5);">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="pxp-signup-email">Email</label>
-                                <input type="email" class="form-control" name="email" id="pxp-signup-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
-			    
-                            <div class="row">       
-                                <div class="col-1"></div>
-                                    <label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="regusertypeclick(1)"> 
-                                        <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Buyer </label>
-                                    &nbsp;&nbsp;
-                                    <label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:3px 0px; border:2px solid grey; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Seller </label>
-                                </div><br>
-       
-                                <div class="form-group" id="pxp-signup-college-radio-div">
-				                    <input type="checkbox" onclick="college_radio_click()" id="pxp-signup-college-radio" style="width:15px; height:15px;">&nbsp; <label for="pxp-signup-college-radio" style="font-size:15px;">Are you a college Student</label><br>
-				                    <div class="form-group" style="display:none;" id="pxp-signup-college-name-div">
-		                                <label for="pxp-signup-college">College Name</label>
-		                                <input type="text" class="form-control" name="college" id="pxp-signup-college-name" placeholder="Enter your college name" style="background-color:rgba(255, 255, 255, 0.5);">
-		                            </div><br>
-			                    </div>
-			    
-			                <div class="form-group">
-                                <label for="pxp-signup-dob">Date of Birth</label>
-                                <input type="date" class="form-control" name="dob" id="pxp-signup-dob" style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
-
-			                <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-pass">Password</label>
-                                        <input type="password" class="form-control" name="pass" id="pxp-signup-pass" placeholder="Enter password" required style="background-color:rgba(255, 255, 255, 0.5);">
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="pxp-signup-cpass">Confirm Password</label>
-                                        <input type="password" class="form-control" name="cpass" id="pxp-signup-cpass" placeholder="Re-Enter Password" required style="background-color:rgba(255, 255, 255, 0.5);">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-				                <input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
-                            </div>
-                            <div class="text-center mt-4 pxp-modal-small">
-                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
-                            </div>
-                        </form>
-                        <form action="{% url 'user:signup' %}" method="POST">
-                            {% csrf_token %}
-                            {{SignUpform.as_p}}
-                            <input type="submit" value="Signup">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-	<span id="regstatus">{{status}}</span>
-	<span id="regstatus">{{user_id}}</span>
-
-        <script src="{% static '/js/jquery-3.4.1.min.js' %} "></script>
-        <script src="{% static '/js/popper.min.js' %}"></script>
-        <script src="{% static '/js/bootstrap.min.js' %}"></script>
-        <script src="{% static '/js/owl.carousel.min.js' %}"></script>
-        <script src="{% static '/js/main3813.js' %}"></script>
 		
 		<script>
-		function logusertypeclick(typeval) {
-		 if(typeval == 1) {
-		  document.getElementById('logusertype1').click();
-		  document.getElementById('logusertype1label').style.color = 'white';
-		  document.getElementById('logusertype2label').style.color = 'black';
-		  document.getElementById('logusertype1label').style.backgroundColor = 'grey';
-		  document.getElementById('logusertype2label').style.backgroundColor = 'transparent';
-		 } else {
-		  document.getElementById('logusertype2').click();
-		  document.getElementById('logusertype1label').style.color = 'black';
-		  document.getElementById('logusertype2label').style.color = 'white';
-		  document.getElementById('logusertype1label').style.backgroundColor = 'transparent';
-		  document.getElementById('logusertype2label').style.backgroundColor = 'grey';
-		 }
-		}
-	       </script>
-		<script>
-		function regusertypeclick(typeval) {
-		 if(typeval == 1) {
-		  document.getElementById('pxp-signup-college-radio-div').style.display = 'inline';
-		  document.getElementById('regusertype1').click();
-		  document.getElementById('regusertype1label').style.color = 'white';
-		  document.getElementById('regusertype2label').style.color = 'black';
-		  document.getElementById('regusertype1label').style.backgroundColor = 'grey';
-		  document.getElementById('regusertype2label').style.backgroundColor = 'transparent';
-		 } else {
-		  document.getElementById('pxp-signup-college-radio-div').style.display = 'none';
-		  document.getElementById('regusertype2').click();
-		  document.getElementById('regusertype1label').style.color = 'black';
-		  document.getElementById('regusertype2label').style.color = 'white';
-		  document.getElementById('regusertype1label').style.backgroundColor = 'transparent';
-		  document.getElementById('regusertype2label').style.backgroundColor = 'grey';
-		 }
-		}
-	       </script>		
-
-		<script>
-			
-			function check_reg()
-			{
-				var regstatus = document.getElementById('regstatus').innerText;
-				if(regstatus == 1) { 
-					document.getElementById('user-action-btn').click(); 
-					document.getElementById('reg-msg').innerHTML = '<span style="color:green;"><br>Successfully Registered</span><br><span  style="color:grey;">Please enter credentials to login</span>'; 					
-				} 
-				/*else if(regstatus == 0) {
-					document.getElementById('user-action-btn').click(); 
-					document.getElementById('reg-msg').innerHTML = '<span style="color:maroon;">Failed to Register!</span>'; 					
-				}
-				*/
-				else {
-
-				}
-			}			
-			check_reg();
-
 			function search_property()
 			{
 				var type = document.getElementById('search-type').value;
@@ -753,123 +346,6 @@
 				
 				return false;
 			}
-			
-			function college_radio_click()
-			{
-				var checkstatus = document.getElementById("pxp-signup-college-radio").checked;
-				
-				if(checkstatus == true) {
-					document.getElementById('pxp-signup-college-name-div').style.display = 'inline';
-				} else {
-					document.getElementById('pxp-signup-college-name-div').style.display = 'none';
-				}
-				
-			}
-
-			function close_signin_modal()
-			{
-				document.getElementById('signin-close-btn').click();
-			}
-			
-			function forgot_pass()
-			{
-				var email = document.getElementById('pxp-fp-email').value;
-				
-				//document.getElementById('fp-loader').innerHTML = '';
-				
-				console.log('Email', email);
-								
-				/*var request = new XMLHttpRequest();				
-				request.open("POST", "url");								
-				request.onreadystatechange = function() {				
-					if(this.readyState === 4 && this.status === 200) {				
-						console.log(this.responseText);
-					}
-				};
-				request.send('type='+type+'&address='+address);
-				*/
-				
-				return false;
-			}
-			
-			function signup()
-			{
-				
-				var fname = document.getElementById('pxp-signup-firstname').value;
-				var lname = document.getElementById('pxp-signup-lastname').value;
-				var email = document.getElementById('pxp-signup-email').value;
-				var college = document.getElementById('pxp-signup-college-name').value;
-				var dob = document.getElementById('pxp-signup-dob').value;
-				var pass = document.getElementById('pxp-signup-pass').value;
-				var cpass = document.getElementById('pxp-signup-cpass').value;
-				
-				if(pass != cpass) {
-					document.getElementById('signup-error-msg').innerHTML = '<br>Password does not match';
-				} else {
-					//document.getElementById('signup-loader').innerHTML = '';
-					console.log('Password matches');					
-				}
-				
-				console.log('Fname', fname);
-				console.log('Lname', lname);
-				console.log('Email', email);
-				console.log('Pass', pass);
-				console.log('Cpass', cpass);
-				alert(ipaddress);
-				var request = new XMLHttpRequest();			
-				request.open("POST", "http://127.0.0.1:8000/register");
-				request.onreadystatechange = function() {				
-					if(this.readyState === 4 && this.status === 200) {				
-						var res = this.responseText;
-						console.log(res);
-						if(res.status == 1) {
-							alert('Successfully Registered!');
-						} else {
-							alert('Failed to Register!');							
-						}
-
-					}
-				};
-				request.send('fname='+fname+'&lname='+lname+'&email='+email+'&college='+college+'&dob='+dob+'&pass='+pass);
-				
-				
-				return false;
-			}
-			
-			function signin()
-			{				
-				var email = document.getElementById('pxp-signin-email').value;
-				var pass = document.getElementById('pxp-signin-pass').value;
-				
-				//document.getElementById('signin-loader').innerHTML = '';
-				
-				console.log('Email', email);
-				console.log('Pass', pass);			
-				
-				/*var request = new XMLHttpRequest();				
-				request.open("POST", "url");								
-				request.onreadystatechange = function() {				
-					if(this.readyState === 4 && this.status === 200) {				
-						console.log(this.responseText);
-					}
-				};
-				request.send('email='+email+'&pass='+pass);
-				*/
-				
-				return false;
-			}
 		</script>
-<script>
-   ipsrc();
-   function ipsrc()
-   {
-    document.getElementById('signin_form').action = ipaddress+'login';
-    document.getElementById('signup_form').action = ipaddress+'register';
-    
-   }
-  </script>
-
-    </body>
-
-<!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:20:47 GMT -->
-</html>
+		
+{% include "layout/footer.html" %}

@@ -59,7 +59,7 @@ class SignUpClassViewTests(TestCase):
             self.validPayloadStudent
         )
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 302)
 
         user = UserType.objects.get(user__email="testtest@123.com")
         userStudent = UserStudent.objects.get(user=user)
@@ -81,7 +81,7 @@ class SignUpClassViewTests(TestCase):
             reverse('user:signup'),
             self.validPayloadSeller
         )
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 302)
 
         user = UserType.objects.get(user__email="sellertest@prop.com")
         userSeller = UserLandLord.objects.get(user=user)
@@ -97,12 +97,12 @@ class SignUpClassViewTests(TestCase):
         self.assertEqual(userSeller.user, user)
     
     def test_create_user_valid_payload(self):
-        """Test creating a new Seller user with valid payload"""
+        """Test creating a new user with valid payload"""
         userStudent = createUser()
         userSeller = createUser(regUserType="seller")
         
-        self.assertEqual(userStudent.status_code, 201)
-        self.assertEqual(userSeller.status_code, 201)
+        self.assertEqual(userStudent.status_code, 302)
+        self.assertEqual(userSeller.status_code, 302)
 
     def test_create_user_invalid_payload_one(self):
         """Test creating a new user with invalid payload 1"""
@@ -141,7 +141,7 @@ class SignUpClassViewTests(TestCase):
             reverse('user:signup'),
             self.validPayloadStudent
         )
-        self.assertEqual(response1.status_code, 201)
+        self.assertEqual(response1.status_code, 302)
         response2 = client.post(
             reverse('user:signup'),
             self.emailPayloadStudent
@@ -156,7 +156,7 @@ class SignUpClassViewTests(TestCase):
             reverse('user:signup'),
             self.validPayloadSeller
         )
-        self.assertEqual(response1.status_code, 201)
+        self.assertEqual(response1.status_code, 302)
         response2 = client.post(
             reverse('user:signup'),
             self.validPayloadSeller

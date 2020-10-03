@@ -1,0 +1,111 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+		<style>
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(0, 0, 0, 0.7) !important; }
+			.pxp-results-card-1-save:hover { background-color:maroon; color:#fff; }
+		</style>
+		
+            <div class="pxp-content-side pxp-content-leftt pxp-half">
+			<br><br>
+                <div class="pxp-content-side-wrapper">                   
+					<br><br><h2>Manage Properties - Total {{object_list.count|safe}}</h2><hr>
+					{% load humanize %}
+                    <div class="row">
+                        {% for object in object_list %}
+						<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop{{object.pk}}">
+							<div style="padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; background-color:rgba(0, 0, 0, 0.9);">
+								<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg">
+									<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+										<div class="carousel-inner">
+											{% for image in object.propertyimage_set.all %}
+												{% if forloop.first %}
+												<div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+												{% else %}
+												<div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+												{% endif %}
+											{% endfor %}
+										</div>
+										<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
+											<span class="fa fa-angle-left" aria-hidden="true"></span>
+										</span>
+										<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
+											<span class="fa fa-angle-right" aria-hidden="true"></span>
+										</span>
+									</div>
+									<div class="pxp-results-card-1-gradient"></div>
+									<div class="pxp-results-card-1-details">
+										<div class="pxp-results-card-1-details-title">{{object.title|title}}</div>
+										<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
+									</div>
+									<div class="pxp-results-card-1-features">
+										<span>{{object.rooms}} Room <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
+									</div>
+									{% comment %} <a href="{% url 'property:propertyDelete' object.urlSlug %}"> 
+										<span class="fa fa-times"></span>sdads
+									</a>
+									<div class="pxp-results-card-1-save" data-toggle="tooltip" title="Delete Property" onclick="return removefromfav({{object.pk}})">
+										<span class="fa fa-times"></span>
+									</div> {% endcomment %}
+								</a>
+								<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px;">
+									<div class="row">
+										<div class="col-md-6 form-control" style="border:none; margin-top:border-radius:0px; background-color:rgba(0, 0, 0, 0.8);">
+											<span class="pull-left" style="padding-top:7px; color:#fff;">
+												<span style="padding-top:7px; color:gray;"><i class="fa fa-check"></i></span>
+												<label for="leasedcheck"><input id="leasedcheck" type="checkbox" style="display:none;"> &nbsp; Leased</label>
+											</span>
+										</div>
+										<div class="col-md-6 form-control" style="border:none; border-radius:0px; background-color:rgba(255, 255, 255, 0.8);">
+											<span class="pull-left" style="padding-top:7px; color:#fff;">
+												<span style="padding-top:7px; color:gray;"><i class="fa fa-check"></i></span>
+												<label for="rentcheck"><input id="rentcheck" type="checkbox" style="display:none;"> &nbsp; Rent</label>
+											</span>
+										</div>
+										<div class="col-md-12 form-control" style="border-top:1px solid #fff; border-left:none; border-right:none; border-bottom:none; border-radius:0px; background-color:rgba(0, 0, 0, 0.8);">
+											<span style="padding-top:7px; color:gray;"><i class="fa fa-check"></i></span>
+											<label for="leaseendscheck" style="padding-top:7px; color:#fff;"><input id="leaseendscheck" type="checkbox" style="display:none;"> &nbsp; Lease Ends</label>
+											&nbsp; 
+											<input type="date" class="form-contro" id="leaseenddate" name="leaseenddate" style="background:rgba(255, 255, 255, 0.9); border-radius:5px; padding:3px; border:none; display:non;">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+                    </div>
+                </div>
+		
+		<script src="js/jquery-3.4.1.min.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+			  $('[data-toggle="tooltip"]').tooltip({html:true});
+			});			
+		</script>
+		
+		<script>
+		
+			function removefromfav(id)
+			{
+				if(confirm("Are you sure to remove this property from favourites?") == true) {
+					//document.getElementById('fprop'+id).remove();
+					$("#fprop"+id).hide(500);
+					
+					setTimeout(function() {
+						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favourite deleted!</span> &nbsp; <br>");					
+					}, 700);
+					setTimeout(function() {
+						$("#lastmsg").fadeOut(2000);
+					}, 2000);
+					return false;
+				} else {
+					return false;
+				}				
+			}
+			
+		</script>
+
+
+{% include "layout/footer.html" %}

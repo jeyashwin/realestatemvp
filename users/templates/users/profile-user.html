@@ -1,0 +1,175 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+        <div class="pxp-content">
+            <div class="pxp-agents mt-100">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-8">
+							<p class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="editclick()"><i class="fa fa-edit"></i> Edit</p>
+							<br><br>
+                            <h2 class="pxp-page-header float-left" id="flnameview"><b>{{user.first_name|capfirst}} {{user.last_name|capfirst}}</b></h2>
+							<br>
+							<br>
+							<form action="" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								{{form.as_p}}
+								<input type="submit" value="Save">
+							</form>
+							<a href="{% url 'user:deleteProfile' user.username %}">Delete my account</a>
+							<div class="form-group inputitems" id="flnameinput" style="display:none;">
+								<label for="pxp-signup-flname">Full Name</label>
+								<input type="text" class="form-control" id="pxp-signup-flname" placeholder="Enter your full name" value="Test" style="width:50%; background-color:#f4f4f2;">
+							</div>
+                            <!--span class="pxp-agent-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa
+							fa-star"></span><span class="fa fa-star"></span></span-->
+                            <br>
+                            <div class="mt-4 mt-md-5">
+                                <div class="pxp-agent-email">
+									<a href="#" class="viewitems" id="emailview"><span class="fa fa-envelope-o"></span> testusermail123@email.com</a>
+									
+									<div class="form-group inputitems" id="emailinput" style="display:none;">
+										<label for="pxp-signup-email">Email</label>
+										<input type="text" class="form-control" id="pxp-signup-email" placeholder="Enter your email address" value="testusermail123@email.com" style="width:50%; background-color:#f4f4f2;">
+									</div>
+								</div><br><br>
+								
+                                <div class="pxp-agent-email">
+								<a href="tel:123-456-7890" class="viewitems" id="phoneview"><span class="fa fa-phone"></span> 123-456-7890</a>
+									<div class="form-group inputitems" id="phoneinput" style="display:none;">
+										<label for="pxp-signup-phone">Phone</label>
+										<input type="text" class="form-control" id="pxp-signup-phone" placeholder="Enter your phone" value="123-456-7890" style="width:50%; background-color:#f4f4f2;">
+									</div>
+								</div><br><br>
+								
+								<div class="pxp-agent-email">
+									<a href="#" id="addressview" class="viewitems"><span class="fa fa-map-marker"></span> No.123, Test St, State, Country - 123456</a>
+									<div class="form-group inputitems" id="addressinput" style="display:none;">
+										<label for="pxp-signup-address">Address</label>
+										<input type="text" class="form-control" id="pxp-signup-address" placeholder="Enter your Address" value="No.123, Test St, State, Country - 123456" style="width:50%; background-color:#f4f4f2;">
+									</div>
+								</div><br><br>
+								
+                                <div class="pxp-agent-email">
+									<a href="#" id="collegeview" class="viewitems"><span class="fa fa-university"></span> Test College Name</a>
+									<div class="form-group inputitems" id="collegeinput" style="display:none;">
+										<label for="pxp-signup-college">College</label>
+										<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your college" value="Test College Name" style="width:50%; background-color:#f4f4f2;">
+									</div>
+								</div><br><br>
+                            </div>
+                            
+                        </div>
+                        <div class="col-sm-12 offset-lg-1 col-lg-3">
+                            <!--div class="pxp-agent-photo pxp-cover rounded-lg mt-4 mt-md-5 mt-lg-0" id="profileimg" style="background-image: url(images/agent-4.jpg); background-position: 50% 0%;"></div-->
+							{% if object.profilePicture %}
+								<img id="output" src="{{object.profilePicture.url}}" style="width:255px; height:300px; border-radius:7px;">
+							{% else %}
+								<img id="output" src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:255px; height:300px; border-radius:7px;">
+							{% endif %}
+							<br><br>
+							<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span>
+							<input type="file" accept="image/*" id="photoinput" onchange="loadPhoto(event)" style="display:none;">
+							
+							<br><br><br>
+							
+							<h3>Social Media</h3>
+							<ul class="list-unstyled pxp-agent-social mt-3 mt-md-4">
+								<li><a href="#"><span class="fa fa-facebook"></span></a></li>
+								<li><a href="#"><span class="fa fa-twitter"></span></a></li>
+								<li><a href="#"><span class="fa fa-pinterest"></span></a></li>
+								<li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+							</ul>
+							<span class="socialicons" id="socialicon1" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:10px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your facebook id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							<span class="socialicons" id="socialicon2" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:55px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your twitter id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							<span class="socialicons" id="socialicon3" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:95px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your pinterest id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							<span class="socialicons" id="socialicon4" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:135px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your linkedin id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+						</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-8">
+                            <div class="pxp-agent-section mt-4 mt-md-5">
+                                
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 offset-lg-1">                            
+                            <div class="pxp-agent-section mt-4 mt-md-5">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+		<script>
+			function editclick()
+			{
+				
+				var emailinputstatus = document.getElementById('emailinput').style.display;
+			
+				if(emailinputstatus == 'none') {										
+					document.getElementById('flnameview').style.display = 'none';
+					document.getElementById('emailview').style.display = 'none';
+					document.getElementById('phoneview').style.display = 'none';
+					document.getElementById('addressview').style.display = 'none';
+					document.getElementById('collegeview').style.display = 'none';
+					
+					document.getElementById('flnameinput').style.display = 'inline';
+					document.getElementById('emailinput').style.display = 'inline';
+					document.getElementById('phoneinput').style.display = 'inline';
+					document.getElementById('addressinput').style.display = 'inline';
+					document.getElementById('collegeinput').style.display = 'inline';
+					
+				} else {
+				
+					document.getElementById('flnameinput').style.display = 'none';
+					document.getElementById('emailinput').style.display = 'none';
+					document.getElementById('phoneinput').style.display = 'none';
+					document.getElementById('addressinput').style.display = 'none';
+					document.getElementById('collegeinput').style.display = 'none';
+				
+					document.getElementById('flnameview').style.display = 'inline';
+					document.getElementById('emailview').style.display = 'inline';
+					document.getElementById('phoneview').style.display = 'inline';
+					document.getElementById('addressview').style.display = 'inline';
+					document.getElementById('collegeview').style.display = 'inline';
+					
+				}
+					
+			}
+			
+			function photoclick()
+			{
+				document.getElementById('photoinput').click();									
+			}
+			
+			function loadPhoto()
+			{
+				  var output = document.getElementById('output');
+					output.src = URL.createObjectURL(event.target.files[0]);
+					output.onload = function() {
+					  URL.revokeObjectURL(output.src);										  
+					  document.getElementById('profileimg').style.backgroundImage = src;
+					  
+					}
+			}
+		</script>
+		
+		
+{% include "layout/footer.html" %}

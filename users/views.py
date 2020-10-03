@@ -1,92 +1,83 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout
-from django.views.generic import CreateView, FormView
-from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.contrib.auth.views import LoginView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse, Http404
+from django.contrib.auth.models import User
 
 from .models import UserStudent, UserLandLord, UserType
-from .forms import SignUpForm, LoginInForm
+from .forms import *
 
 # Create your views here.
 
-def decoding(obj):
-    return eval(obj.decode())
-
 #User App views starts from here
 
-def Home(request):
-    signUpFormIdentifier = SignUpForm(label_suffix='')
-    LoginFormIdentifier = LoginInForm(label_suffix='')
-    context = {
-        "status" : 0, 
-        'SignUpform': signUpFormIdentifier, 
-        'Loginform': LoginFormIdentifier,
-    }
-    return render(request, "templates/index.html", context=context )
+class CustomLoginView(LoginView):
+    template_name = 'index.html'
 
-class SignUpClassView(CreateView):
-    form_class = SignUpForm
-    success_url = '/'
-    template_name = "templates/index.html"
-    
+    def get_success_url(self):
+        try:
+            if self.request.user.usertype.is_student:
+                return reverse_lazy('property:propertyList')
+            else:
+                return reverse_lazy('property:propertyManage')
+        except:
+            return reverse_lazy('user:home')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["LandlordSignupForm"] = LandlordSignupForm
+        context["StudentSignupForm"] = StudentSignupForm
+        return context
+
+
+class LandlordSignUpView(CreateView):
+    form_class = LandlordSignupForm
+    success_url = "/"
+    template_name = 'index.html'
+
     def form_valid(self, form):
-
         #creating new user with email (converting into lowercase)
         form.instance.email = form.cleaned_data.get('email').lower()
         valid = super().form_valid(form)
-
-        #creating new userType with user instance
         userObject = UserType.objects.create(user=form.instance,
-                        userType=form.cleaned_data.get('regUserType'))
-
-        if userObject.is_student:
-            studentObject = UserStudent.objects.create(user=userObject, 
-                                isCollegeStudent=form.cleaned_data.get('is_college_student'), 
-                                collegeName=form.cleaned_data.get('college_name'), 
-                                dateOfBirth=form.cleaned_data.get('date_of_birth')
-                            )
-
-        if userObject.is_landlord:
-            landlordObject = UserLandLord.objects.create(user=userObject, 
-                                dateOfBirth=form.cleaned_data.get('date_of_birth'))
-        
-        return JsonResponse({'success_message': "created"}, status=201)
+                        userType="seller")
+        landlordObject = UserLandLord.objects.create(user=userObject, 
+                            phone=form.cleaned_data.get('phone'),
+                            profilePicture=form.cleaned_data.get('profilePicture'),
+                        )
+        return redirect('user:home')
 
     def form_invalid(self, form):
         invalid = super().form_invalid(form)
         return JsonResponse(form.errors, status=400)
-    
+
     def get(self, request):
         return redirect('user:home')
-    
 
-class UserLoginClassView(FormView):
-    form_class = LoginInForm
+
+class StudentSignUpView(CreateView):
+    form_class = StudentSignupForm
     success_url = "/"
-    template_name = "templates/index.html"
+    template_name = 'index.html'
 
     def form_valid(self, form):
+        #creating new user with email (converting into lowercase)
+        form.instance.email = form.cleaned_data.get('email').lower()
         valid = super().form_valid(form)
-        email = form.cleaned_data.get('login_email').lower()
-        password = form.cleaned_data.get('login_password')
-
-        try:
-            userExists = UserType.objects.get(user__email=email, 
-                            userType=form.cleaned_data.get('logUserType'))
-        except UserType.DoesNotExist:
-            return JsonResponse({'user': 'Account not found'}, status=404)
-
-        if userExists:
-            user = authenticate(username = userExists.user.username, password = password)
-
-            if user:
-                if user.is_active:
-                    login(self.request, user)
-                    return redirect('user:sample')
-
-                else:
-                    return JsonResponse({'user': 'Account not active'}, status=403)
-            else:
-                return JsonResponse({'user': 'Invalid login details supplied!'}, status=404)
+        interests=form.cleaned_data.get('interests')
+        userObject = UserType.objects.create(user=form.instance,
+                        userType="student")
+        
+        studentObject = UserStudent.objects.create(user=userObject, 
+                            phone=form.cleaned_data.get('phone'),
+                            university=form.cleaned_data.get('university'), 
+                            classYear=form.cleaned_data.get('classYear'), 
+                            bio=form.cleaned_data.get('bio'), 
+                            profilePicture=form.cleaned_data.get('profilePicture')
+                        )
+        studentObject.interests.set(interests)
 
         return redirect('user:home')
 
@@ -98,5 +89,69 @@ class UserLoginClassView(FormView):
         return redirect('user:home')
 
 
-def sample(request):
-    return render(request, "templates/sample.html")
+class StudentProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = UserStudent
+    form_class = StudentProfileUpdateForm
+    template_name = "users/profile-user.html"
+
+    def get_object(self):
+        if self.request.user.username == self.kwargs.get('username'):
+            return get_object_or_404(UserStudent, user__user__username=self.kwargs.get('username'))
+        else:
+            raise Http404
+    
+    def form_valid(self, form):
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
+        email = form.cleaned_data.get('email').lower()
+        studentUser = User.objects.get(username=self.request.user.username)
+        studentUser.first_name = first_name
+        studentUser.last_name = last_name
+        studentUser.email = email
+        studentUser.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('user:studentProfile', kwargs={'username':self.kwargs.get('username')})
+
+
+class LandlordProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = UserLandLord
+    form_class = LandlordProfileUpdateForm
+    template_name = "users/profile-landlord.html"
+
+    def get_object(self):
+        if self.request.user.username == self.kwargs.get('username'):
+            return get_object_or_404(UserLandLord, user__user__username=self.kwargs.get('username'))
+        else:
+            raise Http404
+    
+    def form_valid(self, form):
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
+        email = form.cleaned_data.get('email').lower()
+        landlordUser = User.objects.get(username=self.request.user.username)
+        landlordUser.first_name = first_name
+        landlordUser.last_name = last_name
+        landlordUser.email = email
+        landlordUser.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('user:landlordProfile', kwargs={'username':self.kwargs.get('username')})
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = "users/profile-delete.html"
+    success_url = "/"
+
+    def get_object(self):
+        if self.request.user.username == self.kwargs.get('username'):
+            return get_object_or_404(User, username=self.kwargs.get('username'))
+        else:
+            raise Http404
+
+def Contact(request):
+    return render(request, "contact.html")
+

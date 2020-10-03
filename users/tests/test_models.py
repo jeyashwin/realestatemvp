@@ -85,7 +85,7 @@ class ModelTests(TestCase):
             dateOfBirth=str(datetime.date(2020, 7, 10))
         )
 
-        self.assertEqual(str(userstudent.pk), str(userstudent))
+        self.assertEqual(userstudent.pk), str(userstudent))
         self.assertEqual(userstudent.dateOfBirth, "2020-07-10")
     
     def test_userstudent_with_invalid_input_model(self):

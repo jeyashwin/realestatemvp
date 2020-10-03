@@ -1,0 +1,236 @@
+{% load static %}
+
+		<div class="pxp-footer pt-100 pb-100 mt-100" style="background-color:rgba(0, 0, 0, 0.9); color:#fff;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 col-lg-4">
+                        <div class="pxp-footer-logo">RE.</div>
+                        <div class="pxp-footer-address mt-2">
+                            90 Fifth Avenue, 3rd Floor<br>
+                            San Francisco, CA 1980<br>
+                            (123) 456-7890
+                        </div>
+                        <div class="pxp-footer-social mt-2">
+                            <a href="#"><span class="fa fa-instagram"></span></a>
+                            <a href="#"><span class="fa fa-facebook-square"></span></a>
+                            <a href="#"><span class="fa fa-twitter"></span></a>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-lg-8">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-4">
+                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Company</h4>
+                                <ul class="list-unstyled pxp-footer-links mt-2">
+                                    <li><a href="#">About Us</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="#">Contact Us</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Actions</h4>
+                                <ul class="list-unstyled pxp-footer-links mt-2">
+                                    <li><a href="#">Rent Properties</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-12 col-md-4">
+                                <h4 class="pxp-footer-header mt-4 mt-lg-0">Explore</h4>
+                                <ul class="list-unstyled pxp-footer-links mt-2">
+                                    <li><a href="#">Homes for Rent</a></li>
+                                    <li><a href="#">Apartments for Rent</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pxp-footer-bottom mt-2">
+                    <div><a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></div>
+                    <div class="pxp-footer-copyright">&copy; RE. All Rights Reserved. 2019</div>
+                </div>
+            </div>
+        </div>
+		</div>
+	
+		<script src="{% static '/js/jquery-3.4.1.min.js' %} "></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
+        <script src="{% static '/js/owl.carousel.min.js' %}"></script>
+        <script src="{% static '/js/main3813.js' %}"></script>
+		
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script>
+        <script src="js/markerclusterer.js"></script>
+        <script src="js/maine2a5.js?asdsd"></script>
+        <script src="js/mapee61.js?asldksjd"></script>
+		
+		<script>
+		function college_radio_click()
+			{
+				var checkstatus = document.getElementById("pxp-signup-college-radio").checked;
+				
+				if(checkstatus == true) {
+					document.getElementById('pxp-signup-college-name-div').style.display = 'inline';
+				} else {
+					document.getElementById('pxp-signup-college-name-div').style.display = 'none';
+				}
+				
+			}
+
+			function close_signin_modal()
+			{
+				document.getElementById('signin-close-btn').click();
+			}
+			
+			function forgot_pass()
+			{
+				var email = document.getElementById('pxp-fp-email').value;
+				
+				//document.getElementById('fp-loader').innerHTML = '';
+				
+				console.log('Email', email);
+								
+				/*var request = new XMLHttpRequest();				
+				request.open("POST", "url");								
+				request.onreadystatechange = function() {				
+					if(this.readyState === 4 && this.status === 200) {				
+						console.log(this.responseText);
+					}
+				};
+				request.send('type='+type+'&address='+address);
+				*/
+				
+				return false;
+			}
+			
+			function signup()
+			{
+				
+				var fname = document.getElementById('pxp-signup-firstname').value;
+				var lname = document.getElementById('pxp-signup-lastname').value;
+				var email = document.getElementById('pxp-signup-email').value;
+				var college = document.getElementById('pxp-signup-college-name').value;
+				var dob = document.getElementById('pxp-signup-dob').value;
+				var pass = document.getElementById('pxp-signup-pass').value;
+				var cpass = document.getElementById('pxp-signup-cpass').value;
+				
+				if(pass != cpass) {
+					document.getElementById('signup-error-msg').innerHTML = '<br>Password does not match';
+				} else {
+					//document.getElementById('signup-loader').innerHTML = '';
+					console.log('Password matches');					
+				}
+				
+				console.log('Fname', fname);
+				console.log('Lname', lname);
+				console.log('Email', email);
+				console.log('Pass', pass);
+				console.log('Cpass', cpass);
+				alert(ipaddress);
+				var request = new XMLHttpRequest();			
+				request.open("POST", "http://127.0.0.1:8000/register");
+				request.onreadystatechange = function() {				
+					if(this.readyState === 4 && this.status === 200) {				
+						var res = this.responseText;
+						console.log(res);
+						if(res.status == 1) {
+							alert('Successfully Registered!');
+						} else {
+							alert('Failed to Register!');							
+						}
+
+					}
+				};
+				request.send('fname='+fname+'&lname='+lname+'&email='+email+'&college='+college+'&dob='+dob+'&pass='+pass);
+				
+				
+				return false;
+			}
+			
+			function signin()
+			{				
+				var email = document.getElementById('pxp-signin-email').value;
+				var pass = document.getElementById('pxp-signin-pass').value;
+				
+				//document.getElementById('signin-loader').innerHTML = '';
+				
+				console.log('Email', email);
+				console.log('Pass', pass);			
+				
+				/*var request = new XMLHttpRequest();				
+				request.open("POST", "url");								
+				request.onreadystatechange = function() {				
+					if(this.readyState === 4 && this.status === 200) {				
+						console.log(this.responseText);
+					}
+				};
+				request.send('email='+email+'&pass='+pass);
+				*/
+				
+				return false;
+			}
+		</script>
+
+		<script>
+		   /*ipsrc();
+		   function ipsrc()
+		   {
+			document.getElementById('signin_form').action = ipaddress+'login';
+			document.getElementById('signup_form').action = ipaddress+'register';
+			
+		   }*/
+
+		   onloadfunc();
+		   function onloadfunc()
+		   {
+
+			document.getElementById('id_logUserType_0').click();
+			$("#id_logUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+			
+			document.getElementById('id_regUserType_0').click();
+			$("#id_regUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+
+			document.getElementById('id_is_college_student').setAttribute("checked", "true");
+			$('#id_college_name').prop('readonly', false);
+
+		   }
+		   
+		   $("#id_logUserType > li").click(function(){
+			var thisval = $(this).children("label").children("input").attr("id");
+			if(thisval == 'id_logUserType_1') {
+				document.getElementById('id_logUserType_1').click();
+				$("#id_logUserType > li:nth-child(1)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_logUserType > li:nth-child(2)").css({"background-color":"grey", "color":"#f2f2f2"});
+			} else {
+				document.getElementById('id_logUserType_0').click();
+				$("#id_logUserType > li:nth-child(2)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_logUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+			}
+		   });
+
+		   $("#id_regUserType > li").click(function(){
+			var thisval = $(this).children("label").children("input").attr("id");
+			if(thisval == 'id_regUserType_1') {
+				document.getElementById('id_regUserType_1').click();
+				$("#id_regUserType > li:nth-child(1)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_regUserType > li:nth-child(2)").css({"background-color":"grey", "color":"#f2f2f2"});
+			} else {
+				document.getElementById('id_regUserType_0').click();
+				$("#id_regUserType > li:nth-child(2)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_regUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+			}
+		   });
+
+		   $("#id_is_college_student").click(function(){
+			if($(this).prop("checked") == true){
+						$('#id_college_name').prop('readonly', false);
+				 } else {
+				$('#id_college_name').prop('readonly', true);
+			 }
+		   });
+		   
+		  </script>
+		  
+		
+	</body>
+
+<!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:20:47 GMT -->
+</html>
