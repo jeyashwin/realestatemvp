@@ -26,12 +26,16 @@ class StudentSignupForm(UserCreationForm):
     bio = forms.CharField(max_length=200)
     profilePicture = forms.ImageField()
     interests = forms.ModelMultipleChoiceField(queryset=Interest.objects.all())
+    fblink = forms.URLField(required=False, max_length=250)
+    snapLink = forms.URLField(required=False, max_length=250)
+    instaLink = forms.URLField(required=False, max_length=250)
+    redditLink = forms.URLField(required=False, max_length=250)
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
                     'password2', 'university', 'classYear', 'bio', 'interests', 'phone', 
-                    'profilePicture')
+                    'profilePicture', 'fblink', 'snapLink', 'instaLink', 'redditLink')
 
 
 # class SignUpForm(UserCreationForm):

@@ -1,18 +1,18 @@
-from django.shortcuts import render, get_object_or_404, redirect
 import pandas as pd
-from django.http import JsonResponse
 import pymongo
 from django.views.decorators.csrf import csrf_exempt
 
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from django.http import Http404, JsonResponse
-from django.urls import reverse_lazy    
+from django.urls import reverse_lazy
 
 from users.models import UserLandLord , UserStudent
 from .models import Property, PostQuestion, PostAnswer
+from .utils import studentAccessTest, landlordAccessTest
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
 
 # Create your views here.
@@ -40,15 +40,6 @@ def search(request,text):
         return JsonResponse(data[data["CITY"] == exact_txt[0]].to_dict())
     else:
         return JsonResponse({"error":0})
-
-@csrf_exempt
-def add_comment(request):
-    print(request.POST["property-comment"],dict(request.POST))
-    comments = MONGO_CONFS.mycol
-    comments.insert_one({"user_id": request.POST['user_id'],
-                         "property_id": request.POST['property_id'],
-                         "comment": request.POST['property-comment'], "sequence": 0})
-    return render(request,"templates/single-property.html",{})
 
 
 #Property App views starts from here
@@ -243,24 +234,13 @@ class PropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         else:
             return super().get_queryset()
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["alreadyLiked"] = self.object.likes.filter(user__user=self.request.user).exists()
+        context["alreadyDisLiked"] = self.object.dislikes.filter(user__user=self.request.user).exists()
+        context["alreadyFavourite"] = self.object.favourite_set.filter(student__user__user=self.request.user).exists()
+        return context  
 
-def studentAccessTest(user):
-    try:
-        if not user.usertype.is_student:
-            raise Http404
-        else:
-            return True
-    except:
-        raise Http404
-
-def landlordAccessTest(user):
-    try:
-        if not user.usertype.is_landlord:
-            raise Http404
-        else:
-            return True
-    except:
-        raise Http404
 
 @login_required
 @user_passes_test(studentAccessTest)

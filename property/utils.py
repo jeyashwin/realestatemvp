@@ -1,4 +1,5 @@
 from django.utils.text import slugify
+from django.http import Http404
 import os, random, string, uuid
 
 def random_string_generator(size=10, chars=string.ascii_lowercase + string.digits):
@@ -27,3 +28,21 @@ def unique_file_path_generator(instance, filename):
                     proptype=instance.mediaType
                 )
     return os.path.join(filepath, filename)
+
+def studentAccessTest(user):
+    try:
+        if not user.usertype.is_student:
+            raise Http404
+        else:
+            return True
+    except:
+        raise Http404
+
+def landlordAccessTest(user):
+    try:
+        if not user.usertype.is_landlord:
+            raise Http404
+        else:
+            return True
+    except:
+        raise Http404

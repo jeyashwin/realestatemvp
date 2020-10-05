@@ -30,25 +30,44 @@
 								{% if user.usertype.is_student %}
 									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
 										<span 
-											class="fa fa-thumbs-o-up
-												{% for liked in object.likes.all  %}
-													{% if liked.user.user == user %}
-														thumbs-o-up
-													{% endif %}
-												{% endfor %}">
+											class="fa 
+												{% if alreadyLiked %}
+													fa-thumbs-up
+												{% else %}
+													fa-thumbs-o-up
+												{% endif %}
+												">
 										</span>{{object.totalLikes|intcomma}}
 									</a>
 									<a href="#" id="dislike{{object.pk}}" class="pxp-sp-top-btn" onclick="return dislikeclick('{{object.pk}}', this)" dislikeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
 										<span 
-											class="fa fa-thumbs-o-down
-											{% for disliked in object.dislikes.all  %}
-												{% if disliked.user.user == user %}
-													thumbs-o-down
-												{% endif %}
-											{% endfor %}
+											class="fa 
+											{% if alreadyDisLiked %}
+												fa-thumbs-down
+											{% else %}
+												fa-thumbs-o-down
+											{% endif %}
 											"></span>{{object.totalDislikes|intcomma}}
 									</a>
-									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-star-o"></span></a>
+									<a href="#" id="favourite{{object.pk}}" class="pxp-sp-top-btn"  
+										onclick="return favouritesclick('{{object.pk}}', this)" 
+										{% if alreadyFavourite %}
+										favouriteurl="{% url 'students:removeFavourites' object.urlSlug %}"
+										{% else %}
+										favouriteurl="{% url 'students:addFavourites' object.urlSlug %}"
+										{% endif %}
+										key="{{csrf_token}}"
+									>
+										<span 
+											class="fa 
+												{% if alreadyFavourite %}
+													fa-star
+												{% else %}
+													fa-star-o
+												{% endif %}
+											">
+										</span>
+									</a>
 								{% else %}
 									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-up"></span>{{object.totalLikes|intcomma}}</a>
 									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-down"></span>{{object.totalDislikes|intcomma}}</a>
@@ -482,6 +501,25 @@
 			});
 			
 		}
+
+		function favouritesclick(id, dis)
+		{
+		
+			var url = dis.getAttribute('favouriteurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+			  },
+			  error: function(){
+				console.log('Error!');
+			  }
+			});
+		}
+
 		function submitquestion(id, dis)
 		{
 		
