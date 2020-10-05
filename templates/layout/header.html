@@ -204,10 +204,36 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
-						<center><i id="signup-error-msg" style="color:maroon;"></i></center>
-                        <form action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data">
+			<center>
+			<br>
+<div class="row">				
+<style>
+	.toggle-form-btns:hover { background-color: #e2e2e2; }
+</style>
+<div class="col-md-1"></div>
+				<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-1" onclick="return toggle_signup_form(1)" style="cursor:pointer; color:#fff; background-color:grey; padding-top:10px; padding-bottom:8px; border-radius:50px;">I am a Student</div>
+
+				<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-2" onclick="return toggle_signup_form(2)" style="cursor:pointer; color:grey; border:2px solid grey; padding-top:10px; padding-bottom:8px; border-radius:50px;">I am a Renter</div>
+<div class="col-md-1"></div>	
+
+			</div>
+			<br>
+			</center>
+			<center><i id="signup-error-msg" class="toggle-form-1" style="color:maroon;"></i></center>
+                        <form id="student_signup_form" action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data">
+
                             {% csrf_token %}
                             {% bootstrap_form StudentSignupForm %}
+                            <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
+			    <div class="text-center mt-4 pxp-modal-small">
+                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
+                            </div>
+                        </form>
+
+			<form id="landlord_signup_form" class="toggle-form-2" action="{% url 'user:landlordSignup' %}" method="POST" enctype="multipart/form-data" style="display:none;">
+
+                            {% csrf_token %}
+                            {% bootstrap_form LandlordSignupForm %}
                             <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
 			    <div class="text-center mt-4 pxp-modal-small">
                                 Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>

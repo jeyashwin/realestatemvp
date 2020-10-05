@@ -229,7 +229,24 @@
 		   
 		  </script>
 		  
-		
+		<script>
+			function toggle_signup_form(id)
+			{
+				if(id == 2) {
+					$("#student_signup_form").fadeOut(200);
+					$("#landlord_signup_form").fadeIn(200);
+					$("#toggle-form-btn-1").css({"color":"grey","background-color":"transparent","border":"2px solid grey"});
+					$("#toggle-form-btn-2").css({"color":"#fff","background-color":"grey","border":"none"});
+				} else {
+					$("#landlord_signup_form").fadeOut(200);
+					$("#student_signup_form").fadeIn(200);
+					$("#toggle-form-btn-2").css({"color":"grey","background-color":"transparent","border":"2px solid grey"});
+					$("#toggle-form-btn-1").css({"color":"#fff","background-color":"grey","border":"none"});
+					
+				}
+			}
+		</script>		
+
 	</body>
 
 <!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:20:47 GMT -->

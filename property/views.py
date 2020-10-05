@@ -9,7 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from django.http import Http404, JsonResponse
-from django.urls import reverse_lazy    
+from django.urls import reverse_lazy
 
 from users.models import UserLandLord , UserStudent
 from .models import Property, PostQuestion, PostAnswer
@@ -104,7 +104,7 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_queryset(self):
         return Property.objects.filter(landlord__user__user=self.request.user)
-    
+
     def form_valid(self, form):
         context = self.get_context_data()
         imageForm = context['imageForm']
@@ -298,8 +298,8 @@ def LikesDisLikesView(request, slug):
         likecount = propObject.totalLikes()
         dislikecount = propObject.totalDislikes()
         return JsonResponse({
-                "liked": liked, 
-                "disliked": disliked, 
+                "liked": liked,
+                "disliked": disliked,
                 "likecount": likecount,
                 "dislikecount": dislikecount,
                 })
