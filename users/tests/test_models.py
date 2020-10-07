@@ -10,7 +10,7 @@ def sampleUser(username="TestUser", password="TestPass"):
     """Create a sample user"""
     return get_user_model().objects.create_user(username=username, password=password)
 
-class ModelTests(TestCase):
+class UsersModelTests(TestCase):
 
     def test_usertype_model(self):
         """Test the usertype's property, fields and string representation"""
