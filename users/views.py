@@ -11,8 +11,6 @@ from .forms import *
 
 # Create your views here.
 
-#User App views starts from here
-
 class CustomLoginView(LoginView):
     template_name = 'index.html'
 

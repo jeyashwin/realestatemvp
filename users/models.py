@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField
 
@@ -57,7 +58,10 @@ class UserStudent(models.Model):
     user = models.OneToOneField(UserType, on_delete=models.CASCADE)
     phone = PhoneNumberField()
     university = models.CharField(max_length=50)
-    classYear = models.IntegerField()
+    classYear = models.IntegerField(validators=[
+                    MinValueValidator(2010, "Minimum year 2010"), 
+                    MaxValueValidator(2030, "Maximum year 2030")
+                ])
     bio = models.CharField(max_length=200)
     profilePicture = models.ImageField(upload_to=profile_image_file_path)
     interests = models.ManyToManyField(Interest)
@@ -95,6 +99,20 @@ class UserLandLord(models.Model):
         return self.user.user.username
 
 
+@receiver(models.signals.pre_save, sender=UserLandLord)
+def auto_delete_seller_profile_pic_on_modified(sender, instance, **kwargs):
+    """
+    Deletes Profile Picture file from filesystem
+    when corresponding MediaFile object is modified.
+    """
+    if instance.profilePicture:
+        alreadyExists = UserLandLord.objects.filter(pk=instance.pk).exists()
+        if alreadyExists:
+            oldFile = UserLandLord.objects.get(pk=instance.pk)
+            if str(oldFile.profilePicture) != str(instance.profilePicture):
+                if os.path.isfile(oldFile.profilePicture.path):
+                    os.remove(oldFile.profilePicture.path)
+
 @receiver(models.signals.post_delete, sender=UserLandLord)
 def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
     """
@@ -105,6 +123,20 @@ def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
         if os.path.isfile(instance.profilePicture.path):
             os.remove(instance.profilePicture.path)
 
+@receiver(models.signals.pre_save, sender=UserStudent)
+def auto_delete_student_profile_pic_on_modified(sender, instance, **kwargs):
+    """
+    Deletes Profile Picture file from filesystem
+    when corresponding MediaFile object is modified.
+    """
+    if instance.profilePicture:
+        alreadyExists = UserStudent.objects.filter(pk=instance.pk).exists()
+        if alreadyExists:
+            oldFile = UserStudent.objects.get(pk=instance.pk)
+            if str(oldFile.profilePicture) != str(instance.profilePicture):
+                if os.path.isfile(oldFile.profilePicture.path):
+                    os.remove(oldFile.profilePicture.path)
+
 @receiver(models.signals.post_delete, sender=UserStudent)
 def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):
     """
@@ -114,22 +146,4 @@ def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):
     if instance.profilePicture:
         if os.path.isfile(instance.profilePicture.path):
             os.remove(instance.profilePicture.path)
-
-# def randomNumber():
-#     """Generate random number"""
-#     numbers = string.digits
-#     return ''.join(random.choice(numbers) for i in range(4))
-
-# @receiver(models.signals.pre_save, sender=User)
-# def auto_add_unique_username_field(sender, instance, **kwargs):
-#     """
-#     Automatically add unique username field to the User models
-#     """
-#     if not instance.username:
-#         firstName_refactor = instance.first_name.strip().split(" ")
-#         username = "".join(firstName_refactor)
-        
-#         while User.objects.filter(username=username):
-#             username = username + randomNumber()
-#         instance.username = username
-    
+     

@@ -1,6 +1,7 @@
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
 
@@ -17,12 +18,21 @@ class LandlordSignupForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
                     'password2', 'phone', 'profilePicture')
 
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
+
 
 class StudentSignupForm(UserCreationForm):
 
     phone = PhoneNumberField()
     university = forms.CharField(max_length=50)
-    classYear = forms.IntegerField()
+    classYear = forms.IntegerField(validators=[
+                    MinValueValidator(2010, "Minimum year 2010"), 
+                    MaxValueValidator(2030, "Maximum year 2030")
+                ])
     bio = forms.CharField(max_length=200)
     profilePicture = forms.ImageField()
     interests = forms.ModelMultipleChoiceField(queryset=Interest.objects.all())
@@ -36,6 +46,12 @@ class StudentSignupForm(UserCreationForm):
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
                     'password2', 'university', 'classYear', 'bio', 'interests', 'phone', 
                     'profilePicture', 'fblink', 'snapLink', 'instaLink', 'redditLink')
+
+    def __init__(self, request=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
 
 
 # class SignUpForm(UserCreationForm):
@@ -189,7 +205,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserStudent
         fields = ('first_name', 'last_name', 'email', 'phone', 'university', 'classYear', 'bio', 
-                    'interests', 'profilePicture')
+                    'interests', 'profilePicture', 'fbLink', 'snapLink', 'instaLink', 'redditLink')
 
         widgets = {
             'profilePicture': forms.ClearableFileInput(attrs={
