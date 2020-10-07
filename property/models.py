@@ -120,8 +120,11 @@ class Property(models.Model):
         return self.dislikes.count
 
     def clean(self):
+        errorMess = {}
+        hasError = False
         if self.securityDeposit and self.amount == None:
-            raise ValidationError({'amount': ValidationError(('Amount Field is required'), code='required')})
+            errorMess['amount'] = ValidationError(('Amount Field is required'), code='required')
+            hasError = True
 
         if not self.securityDeposit:
             self.amount = None
@@ -131,12 +134,18 @@ class Property(models.Model):
             if alexists:
                 check = Property.objects.get(pk=self.pk)
                 if check.fromDate != self.fromDate:
-                    raise ValidationError({'fromDate': ValidationError(('From Date cannot be older than today.'), code='error')})
+                    hasError = True
+                    errorMess['fromDate'] = ValidationError(('From Date cannot be older than today.'), code='error')
             else:
-                raise ValidationError({'fromDate': ValidationError(('From Date cannot be older than today.'), code='error')})
+                hasError = True
+                errorMess['fromDate'] = ValidationError(('From Date cannot be older than today.'), code='error')
 
         if self.toDate <= self.fromDate:
-            raise ValidationError({'toDate': ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')})
+            hasError = True
+            errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
+        if hasError:
+            raise ValidationError(errorMess)
+
 
     def __str__(self):
         return "{} {}".format(self.pk, self.title)
