@@ -659,6 +659,8 @@ class PrivateAccessTests(TestCase):
     """Test View request that require authentication"""
 
     def test_student_profile_view(self):
+        """Test get & post request login required for student profile view"""
+
         response = client.get(reverse('user:studentProfile', kwargs={'username': "TestUser"}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/student/profile/TestUser/')
@@ -668,6 +670,8 @@ class PrivateAccessTests(TestCase):
         self.assertEqual(response.url, '/?next=/student/profile/TestUser/')
 
     def test_landlord_profile_view(self):
+        """Test get & post request login required for landlord profile view"""
+
         response = client.get(reverse('user:landlordProfile', kwargs={'username': "TestUser"}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/landlord/profile/TestUser/')
@@ -677,6 +681,8 @@ class PrivateAccessTests(TestCase):
         self.assertEqual(response.url, '/?next=/landlord/profile/TestUser/')
 
     def test_user_delete_view(self):
+        """Test get & post request login required for user delete view"""
+
         response = client.get(reverse('user:deleteProfile', kwargs={'username': "TestUser"}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/delete/profile/TestUser/')

@@ -8,8 +8,11 @@ from property import models
 from users.tests.test_views import createStudentUser, createLandlordUser
 from users.models import UserLandLord, UserStudent
 
-def sampleProperty(zipcode=12345, amount=1000, fromD=datetime.date.today(), toD=datetime.date.today() + datetime.timedelta(days=2)):
-    landlord = createLandlordUser()
+def sampleProperty(landName=None, zipcode=12345, amount=1000, fromD=datetime.date.today(), toD=datetime.date.today() + datetime.timedelta(days=2)):
+    if landName is None:
+        landlord = createLandlordUser()
+    else:
+        landlord = createLandlordUser(username=landName)
     stud1 = createStudentUser(username="Test")
     stud2 = createStudentUser(username="Test1")
     stud3 = createStudentUser(username="Test2")
