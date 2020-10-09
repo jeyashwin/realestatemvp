@@ -129,20 +129,23 @@ class Property(models.Model):
         if not self.securityDeposit:
             self.amount = None
         
-        if self.fromDate < datetime.date.today():
-            alexists = Property.objects.filter(pk=self.pk).exists
-            if alexists:
-                check = Property.objects.get(pk=self.pk)
-                if check.fromDate != self.fromDate:
+        if self.fromDate is not None:
+            if self.fromDate < datetime.date.today():
+                alexists = Property.objects.filter(pk=self.pk).exists()
+                if alexists:
+                    check = Property.objects.get(pk=self.pk)
+                    if check.fromDate != self.fromDate:
+                        hasError = True
+                        errorMess['fromDate'] = ValidationError(('From Date cannot be older than today.'), code='error')
+                else:
                     hasError = True
                     errorMess['fromDate'] = ValidationError(('From Date cannot be older than today.'), code='error')
-            else:
-                hasError = True
-                errorMess['fromDate'] = ValidationError(('From Date cannot be older than today.'), code='error')
 
-        if self.toDate <= self.fromDate:
-            hasError = True
-            errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
+        if self.toDate is not None:
+            if self.toDate <= self.fromDate:
+                hasError = True
+                errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
+
         if hasError:
             raise ValidationError(errorMess)
 

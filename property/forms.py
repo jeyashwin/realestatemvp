@@ -136,16 +136,16 @@ class PropertyFilterSortForm(forms.Form):
         ('bath', 'Baths'),
         ('sqft', 'SQFT')
     ]
+    commonChoices = [
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '>=4')
+    ]
 
-    room = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
-                choices=Property.objects.values_list('rooms', 'rooms').distinct().order_by('rooms'),
-                required=False)
-    occp = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
-                choices=Property.objects.values_list('occupants', 'occupants').distinct().order_by('occupants'), 
-                required=False)
-    bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), 
-                choices=Property.objects.values_list('bathrooms', 'bathrooms').distinct().order_by('bathrooms'), 
-                required=False)
+    room = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
+    occp = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
+    bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
     minPri = forms.IntegerField(widget=forms.NumberInput(attrs={
                 'class': 'form-control', 'placeholder': 'Min'}), min_value=1, required=False)
     maxPri = forms.IntegerField(widget=forms.NumberInput(attrs={
