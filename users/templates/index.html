@@ -1,7 +1,7 @@
 {% include "layout/header.html" %}
 
 {% load static %}
-        <div class="pxp-content">
+        <div class="pxp-content" style="margin-top:-30px;">
             <div class="pxp-hero vh-100">
                 <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({% static '/images/hero-1.jpg' %});"></div>
                 <div class="pxp-hero-opacity"></div>
@@ -11,15 +11,8 @@
 
                         <form class="pxp-hero-search mt-4" action="#">
                             <div class="row">
-                                <div class="col-sm-12 col-md-4">
-                                    <div class="form-group">
-                                        <select id="search-type" class="custom-select" style="background-color:rgba(255, 255, 255, 0.8);">
-                                            <option selected value="buy">Buy</option>
-                                            <option value="rent">Rent</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-sm-12 col-md-8">
+                                
+                                <div class="col-sm-12 col-md-8" style="margin-left:17%;">
                                     <div class="form-group">
                                         <input type="text" id="search-address" class="form-control pxp-is-address" placeholder="Enter address..." style="background-color:rgba(255, 255, 255, 0.8);" required>
                                         <span class="fa fa-search" onclick="search_property()" style="cursor:pointer;"></span>
@@ -31,7 +24,7 @@
                 </div>
             </div>
 
-            <div class="container-fluid pxp-props-carousel-right mt-100" id="featured-props">
+            <!--div class="container-fluid pxp-props-carousel-right mt-100" id="featured-props">
                 <h2 class="pxp-section-h2">Featured Properties</h2>
                 <p class="pxp-text-light">Browse our latest hot offers</p>
                 <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
@@ -117,9 +110,62 @@
 
                     <a href="properties.html" class="pxp-primary-cta text-uppercase mt-4 mt-md-5 pxp-animate">Browse All</a>
                 </div>
-            </div>
+            </div-->
+            </div-->
+			
+			<div class="container-fluid" style="background-color:#fff;"><br>
+			<div class="row"><br>
+				<div class="col-sm-0 col-md-3 col-lg-3"></div>
+				<div class="col-sm-12 col-md-6 col-lg-6" style="background-color:#fff;">
+					<a href="#" class="pxp-plans-1-item" style="border-top-left-radius:100px; border-bottom-right-radius:100px; border-top-right-radius:5px; border-bottom-left-radius:5px; ">
+						<div class="pxp-plans-1-item-title">GET ACCESS</div>
+						<div class="pxp-plans-1-item-fig">
+							<img src="{% static '/images/plan-personal.svg' %}" alt="...">
+						</div>
+						<style>
+							.getaccessbtn:hover { background-color:rgba(0, 0, 0, 0.9); color:#fff; }
+							.pxp-plans-1-item:hover { border-top: 7px solid black; border-bottom: 7px solid black; }
+						</style>
+						{% if user.is_authenticated%}
+							
+						{% else %}
+							<div class="pxp-plans-1-item-title">
+								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signup-trigger getaccessbtn">SIGNUP</span>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signin-trigger getaccessbtn">LOGIN</span>
+							</div>
+						{% endif %}
+						<div class="pxp-plans-1-item-price">
+							<span class="pxp-plans-1-item-price-sum">Free</span>
+							<span class="pxp-plans-1-item-price-period"> / 1 month</span>
+						</div>
+						<div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
+					</a>
+				</div>
+				<div class="col-sm-0 col-md-3 col-lg-3"></div>
+			</div>
+			</div>
+			
+			<!--div class="col-sm-12 col-md-6 col-lg-4">
+				<a href="#" class="pxp-plans-1-item">
+					<div class="pxp-plans-1-item-fig">
+						<img src="{% static '/images/plan-business.svg' %}" alt="...">
+					</div>
+					<div class="pxp-plans-1-item-title">Business</div>
+					<ul class="pxp-plans-1-item-features list-unstyled">
+						<li>10 Listings</li>
+						<li>2 Featured Listings</li>
+					</ul>
+					<div class="pxp-plans-1-item-price">
+						<span class="pxp-plans-1-item-price-currency">$</span>
+						<span class="pxp-plans-1-item-price-sum">99.99</span>
+						<span class="pxp-plans-1-item-price-period"> / 1 year</span>
+					</div>
+					<div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
+				</a>
+			</div-->
 
-            <div class="pxp-services pxp-cover mt-100 pt-100 mb-200" style="background-image: url({% static '/images/services-h-fige6dd.jpg' %}); background-position: 50% 60%;">
+            <div class="pxp-services pxp-cover pt-100" style="background-image: url({% static '/images/services-h-fige6dd.jpg' %}); background-position: 50% 60%;">
                 <h2 class="text-center pxp-section-h2">Why Choose Us</h2>
                 <p class="pxp-text-light text-center">We offer perfect real estate services</p>
 
@@ -135,22 +181,12 @@
                             </div>
                             <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                         </a>
-                        <a href="agents.html" class="pxp-services-item">
-                            <div class="pxp-services-item-fig">
-                                <img src="{% static '/images/service-icon-2.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-services-item-text text-center">
-                                <div class="pxp-services-item-text-title">Experienced agents</div>
-                                <div class="pxp-services-item-text-sub">Find an agent who knows<br>your market best</div>
-                            </div>
-                            <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
-                        </a>
                         <a href="properties.html" class="pxp-services-item">
                             <div class="pxp-services-item-fig">
                                 <img src="{% static '/images/service-icon-3.svg' %}" alt="...">
                             </div>
                             <div class="pxp-services-item-text text-center">
-                                <div class="pxp-services-item-text-title">Buy or rent homes</div>
+                                <div class="pxp-services-item-text-title">Rent homes</div>
                                 <div class="pxp-services-item-text-sub">Millions of houses and apartments in<br>your favourite cities</div>
                             </div>
                             <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
@@ -161,7 +197,17 @@
                             </div>
                             <div class="pxp-services-item-text text-center">
                                 <div class="pxp-services-item-text-title">List your own property</div>
-                                <div class="pxp-services-item-text-sub">Sign up now and sell or rent<br>your own properties</div>
+                                <div class="pxp-services-item-text-sub">Sign up now and rent<br>your own properties</div>
+                            </div>
+                            <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
+                        </a>
+						<a href="agents.html" class="pxp-services-item">
+                            <div class="pxp-services-item-fig">
+                                <img src="{% static '/images/service-icon-2.svg' %}" alt="...">
+                            </div>
+                            <div class="pxp-services-item-text text-center">
+                                <div class="pxp-services-item-text-title">Customer support</div>
+                                <div class="pxp-services-item-text-sub">Get support 24/7<br>when you have doubts</div>
                             </div>
                             <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
                         </a>
@@ -281,39 +327,7 @@
                             <div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
                         </a>
                     </div-->
-                    <div class="col-sm-12 col-md-1 col-lg-1"></div>
-					<div class="col-sm-12 col-md-10 col-lg-10">
-                        <span href="" class="pxp-plans-1-item pxp-is-popular"><br>
-							<div class="pxp-plans-1-item-title"><h2><b>Get Access</b></h2></div>
-                            <div class="pxp-plans-1-item-fig">
-                                <img src="{% static '/images/plan-professional.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-plans-1-item-title">
-								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signup-trigger">SIGNUP</span>
-								&nbsp; &nbsp; &nbsp; &nbsp;
-								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signin-trigger">LOGIN</span>
-							</div>
-                        </span>
-                    </div>
-					<div class="col-sm-12 col-md-1 col-lg-1"></div>
-                    <!--div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="#" class="pxp-plans-1-item">
-                            <div class="pxp-plans-1-item-fig">
-                                <img src="{% static '/images/plan-business.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-plans-1-item-title">Business</div>
-                            <ul class="pxp-plans-1-item-features list-unstyled">
-                                <li>10 Listings</li>
-                                <li>2 Featured Listings</li>
-                            </ul>
-                            <div class="pxp-plans-1-item-price">
-                                <span class="pxp-plans-1-item-price-currency">$</span>
-                                <span class="pxp-plans-1-item-price-sum">99.99</span>
-                                <span class="pxp-plans-1-item-price-period"> / 1 year</span>
-                            </div>
-                            <div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
-                        </a>
-                    </div-->
+                    
                 </div>
             </div>
         </div>
@@ -347,5 +361,6 @@
 				return false;
 			}
 		</script>
+		
 		
 {% include "layout/footer.html" %}

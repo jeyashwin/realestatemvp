@@ -26,8 +26,9 @@
         <title>RE</title>
 
 <style>
-	.form-control { background-color: rgba(255, 255, 255, 0.5); }
-
+	.form-control { background-color: rgba(255, 255, 255, 0.2); border-radius:30px; }
+	select { border-radius:30px !important; }
+	.form-group > label { padding-left:15px; }
 	#id_logUserType { list-style-type:none; margin-bottom:80px; }
 	#id_logUserType > li { margin:10px; width:40%; float:left; border-radius:50px; border:2px solid grey; color:#403f3f; text-align:center; padding:3px; }
 	#id_logUserType > li > label > input { width:0px; }
@@ -35,10 +36,32 @@
 	#id_regUserType { list-style-type:none; margin-bottom:80px; }
 	#id_regUserType > li { margin:10px; width:40%; float:left; border-radius:50px; border:2px solid grey; color:#403f3f; text-align:center; padding:3px; }
 	#id_regUserType > li > label > input { width:0px; }
+	.formInput{
+		background-color:rgba(255, 255, 255, 0.5);
+	}
+	.socialmediainput {
+		display:none; 
+		border:none; 
+		background-color:transparent; 
+		margin-left:5px;
+	}
 
 	@media (min-width: 576px) { #pxp-signin-modal .modal-dialog { max-width:500px; } }
 	@media (min-width: 576px) { #pxp-signup-modal .modal-dialog { max-width: 600px; } }
-				
+	
+	.pxp-header.fixed-top.pxp-animate.pxp-is-sticky { background-color:rgba(0, 0, 0, 0.9) !important; }
+	.pxp-header.fixed-top.pxp-animate.pxp-is-sticky > .container > .row > div > a { color:#fff !important; }
+	.pxp-header.fixed-top.pxp-animate.pxp-is-sticky > .container > .row > div > ul > li a { color:#fff !important; }
+	
+	.pxp-header.fixed-top.pxp-animate.pxp-is-sticky > container > row > div > div > ul > .usernamesec > .dropdown > .dropdown-content > a { color:black !important; }
+	
+	
+	.signup-interests-ul { list-style-type:none; }	
+	.signup-interests-ul > li { float:left; margin:5px 7px; padding:1px 5px; border-radius:4px; border:1px solid rgba(0, 0, 0, 0.5); }
+	.signup-interests-ul > li:hover { background-color:rgba(0, 0, 0, 0.5); color:#fff; cursor:pointer; }
+	.signup-interests-ul > li > small > input { display:none; }
+	
+	
 </style>
 
     </head>
@@ -50,14 +73,14 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-5 col-md-2">
-                        <a href="/" class="pxp-logo text-decoration-none">RE</a>
+                        <a href="/" class="pxp-logo text-decoration-none">RE.</a>
                     </div>
-                    <div class="col-2 col-md-8 text-center">
+                    <div class="col-md-10 text-center">
                         <ul class="pxp-nav list-inline">
 							{% if user.is_authenticated%}
                                 {% if user.usertype.is_student %}
                                     <li class="list-inline-item" style="padding:0px 20px; color:orange;">
-                                        <a href="dashboard">Home</a>
+                                        <a href="/">Home</a>
                                     </li>
                                     <li class="list-inline-item" style="padding:0px 20px;">
                                         <a href="{% url 'property:propertyList' %}">Properties</a>
@@ -76,6 +99,14 @@
                                         <a href="{% url 'property:propertyCreate' %}">Add Property</a>
                                     </li>
                                 {% endif %}
+								
+							{% else %}	
+								<li class="list-inline-item" style="padding:0px 20px;">
+									<a href="#" class="pxp-signin-trigger">Properties</a>
+								</li>
+								<li class="list-inline-item" style="padding:0px 20px;">
+									<a href="#" class="pxp-signin-trigger">Roommates</a>
+								</li>
 							{% endif %}
                             {% comment %} <li class="list-inline-item" style="padding:0px 20px;">
                                 <a href="blog.html">Blog </a>                                
@@ -89,45 +120,52 @@
                                     <a href="#" class="pxp-user-btns-login pxp-signin-trigger">Sign In</a>
                                 </div>
                             </li>
+							
+							<li class="pull-right" class="usernamesec">
+								<i class="fa fa-bell-o" style="color:orange; font-size:22px;"></i> &nbsp; &nbsp;
+									<a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
+									{% if user.is_authenticated%}
+										<div class="dropdown" id="header_dropdown">
+										  <div class="dropbtn" style="border:none; padding:0px 0px;">
+											{% if user.usertype.is_student %}
+												<img 
+													src=" {% if user.usertype.userstudent.profilePicture %}
+																{{user.usertype.userstudent.profilePicture.url}} 
+														  {% else %} 
+																https://www.w3schools.com/bootstrap/img_avatar1.png
+														  {% endif %}"
+													style="width:30px; height:30px; border-radius:50px; border:1px solid #ed8200;" />
+											{% else %}
+												<img 
+													src="{% if user.usertype.userlandlord.profilePicture %}
+																{{user.usertype.userlandlord.profilePicture.url}}
+														  {% else %} 
+																https://www.w3schools.com/bootstrap/img_avatar1.png
+														  {% endif %}" 
+												style="width:30px; height:30px; border-radius:50px; border:1px solid #ed8200;" />
+											{% endif %}
+											&nbsp;
+											{{user}} &nbsp; <i class="fa fa-caret-down"></i> &nbsp;
+										  </div>
+										  <div class="dropdown-content" id="header_dropdown_content" style="margin-left:25px; text-align:right;">
+											{% if user.usertype.is_student %}
+												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
+											{% elif user.usertype.is_landlord %}
+												<a class="aprofile" href="{% url 'user:landlordProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
+											{% endif %}
+											<a class="aclass" href="{% url 'user:logout' %}" style="color:maroon;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>
+										  </div>	
+										</div>
+									{% else %}
+										<a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger" id="user-action-btn"><span class="fa fa-user-o"></span></a>
+									{% endif %}
+								
+							</li>
+
                         </ul>
+						
                     </div>
-                    <div class="col-5 col-md-2 text-right">
-                        <a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
-			{% if user.is_authenticated%}
-				<div class="dropdown">
-				  <div class="dropbtn">
-					{% if user.usertype.is_student %}
-						<img 
-                            src=" {% if user.usertype.userstudent.profilePicture %}
-                                        {{user.usertype.userstudent.profilePicture.url}} 
-                                  {% else %} 
-                                        https://www.w3schools.com/bootstrap/img_avatar1.png
-                                  {% endif %}"
-                            style="width:40px; border-radius:50px; border:1px solid #ed8200;" />
-					{% else %}
-						<img 
-                            src="{% if user.usertype.userlandlord.profilePicture %}
-                                        {{user.usertype.userlandlord.profilePicture.url}}
-                                  {% else %} 
-                                        https://www.w3schools.com/bootstrap/img_avatar1.png
-                                  {% endif %}" 
-                        style="width:40px; border-radius:50px; border:1px solid #ed8200;" />
-					{% endif %}
-					&nbsp;
-					{{user}} &nbsp; <i class="fa fa-caret-down"></i>
-				  </div>
-				  <div class="dropdown-content" style="margin-left:10px; text-align:left;">
-                    {% if user.usertype.is_student %}
-                        <a href="{% url 'user:studentProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
-                    {% elif user.usertype.is_landlord %}
-                        <a href="{% url 'user:landlordProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
-                    {% endif %}
-					<a href="{% url 'user:logout' %}" style="color:maroon;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>
-				  </div>	
-				</div>
-			{% else %}
-				<a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger" id="user-action-btn"><span class="fa fa-user-o"></span></a>
-			{% endif %}
+                    <div class="col-5 col-md-3 text-right">  
                     </div>
                 </div>
             </div>
@@ -145,13 +183,13 @@
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
 			            <center><i id="reg-msg"></i></center>
-                        <form action="" method="POST">
+                        <form action="{% url 'user:home' %}" method="POST">
                             {% load bootstrap3 %}
                             {% csrf_token %}
                             {% bootstrap_form form %}
                             <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn">
 
-			    <div class="form-group mt-4 text-center pxp-modal-small">
+			    			<div class="form-group mt-4 text-center pxp-modal-small">
                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#pxp-forgot-pass-modal" class="pxp-modal-link pxp-forgot-pass-trigger" onclick="close_signin_modal()">Forgot password</a>
                             </div>
                             <div class="text-center pxp-modal-small">
@@ -204,17 +242,293 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
-						<center><i id="signup-error-msg" style="color:maroon;"></i></center>
-                        <form action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            {% bootstrap_form StudentSignupForm %}
-                            <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
-			    <div class="text-center mt-4 pxp-modal-small">
-                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
-                            </div>
-                        </form>
+						<center>
+						<br>
+							<!--div class="row">				
+								<style> 
+									.toggle-form-btns:hover { background-color: #e2e2e2; } 
+									div.help-block { display:none; }
+								</style>
+								<div class="col-md-1"></div>
+								<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-1" onclick="return toggle_signup_form(1)" style="cursor:pointer; color:#fff; border:2px solid grey; background-color:grey; padding-top:3px; padding-bottom:2px; border-radius:50px; font-size:14px;">I am a Student</div>
+								
+								&nbsp; &nbsp;
+								
+								<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-2" onclick="return toggle_signup_form(2)" style="cursor:pointer; color:grey; border:2px solid grey; padding-top:3px; padding-bottom:2px; border-radius:50px; font-size:14px;">I am a Renter</div>
+								<div class="col-md-1"></div>	
+
+							</div>
+						<br-->
+						</center>						
+						<center><i id="signup-error-msg" style="color:maroon;">{{StudentSignupForm.errors}}</i></center>
+						<center><i id="signup-error-msg" style="color:maroon;">{{LandlordSignupForm.errors}}</i></center>
+						<div class="row">							
+							<div class="col-1"></div>
+							<label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:5px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="regusertypeclick(1)"> <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Student </label>
+							&nbsp;&nbsp;
+							<label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:5px 0px; border:2px solid grey; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Landlord </label>	
+						</div>
+						
+						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data" >
+							{% csrf_token %} 
+							{% comment %} {% bootstrap_form StudentSignupForm %} {% endcomment %}
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										{{StudentSignupForm.first_name.label_tag}}
+                                    	{{StudentSignupForm.first_name}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										{{StudentSignupForm.last_name.label_tag}}
+                                    	{{StudentSignupForm.last_name}}
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										{{StudentSignupForm.email.label_tag}}
+                                    	{{StudentSignupForm.email}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										{{StudentSignupForm.phone.label_tag}}
+                                    	{{StudentSignupForm.phone}}
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								{{StudentSignupForm.profilePicture.label_tag}}
+								<div class="row">
+									<div class="col-md-10">
+										<center id="signupprofilepicsel" onclick="studentsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
+										{{StudentSignupForm.profilePicture}}
+									</div>
+									<div class="col-md-2">
+										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="border-radius:50px; border:2px solid #e2e2e2; width:40px; height:40px;" />
+									</div>
+								</div>
+							</div>
+							
+							<div id="studentdiv">
+								<div class="row">
+									<div class="col-8">
+										<div class="form-group">
+											{{StudentSignupForm.university.label_tag}}
+                                    		{{StudentSignupForm.university}}
+										</div>
+									</div>
+									<div class="col-4">	
+										<div class="form-group">
+											{{StudentSignupForm.classYear.label_tag}}
+                                    		{{StudentSignupForm.classYear}}
+										</div>
+									</div>
+								</div>
+								
+								<div class="form-group">
+									{{StudentSignupForm.bio.label_tag}}
+                                    {{StudentSignupForm.bio}}
+								</div>
+								
+								<div class="row form-group">
+									<div class="col-md-12">
+										<h6><b>Interests: </b></h6>
+										<div class="row">
+											<ul class="signup-interests-ul">
+												{% for interest in StudentSignupForm.interests %}
+													<li><small>{{interest}}</small></li>
+												{% endfor %}
+												{% comment %} <li><small>Travelling <input type="checkbox" id="signup-travelling" name="signup-travelling"/></small></li>
+												<li><small>Sports <input type="checkbox" id="signup-sports" name="signup-sports"/></small></li>
+												<li><small>Adventuring <input type="checkbox" id="signup-adventuring" name="signup-adventuring" /></small></li>
+												<li><small>Smoking <input type="checkbox" id="signup-smoking" name="signup-smoking" /></small></li>
+												<li><small>Drinking <input type="checkbox" id="signup-drinking" name="signup-drinking" /></small></li>
+												<li><small>Net Surfing <input type="checkbox" id="signup-net-surfing" name="signup-net-surfing" /></small></li>
+												<li><small>Partying <input type="checkbox" id="signup-partying" name="signup-partying" /></small></li> {% endcomment %}
+											</ul>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row form-group">
+									<div class="col-md-12">
+										<h6><b>Social media accounts: </b></h6>
+										<div class="col-md-12">
+											<i class="fa fa-facebook" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;">{{StudentSignupForm.fblink}}</i>
+											&nbsp;
+											<i class="fa fa-instagram" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.instaLink}}</i>
+											&nbsp;
+											<i class="fa fa-snapchat-ghost" onclick="opensml('{{StudentSignupForm.snapLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.snapLink}}</i>
+											&nbsp;
+											<i class="fa fa-reddit-alien" onclick="opensml('{{StudentSignupForm.redditLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.redditLink}}</i>
+											{% comment %} &nbsp;
+											<i class="fa fa-pinterest" onclick="opensml(5)" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;"><input id="sml5" type="text" name="pinterestlink" style="display:none; border:none; background-color:transparent; margin-left:5px;" placeholder="Enter pinterest link"/></i> {% endcomment %}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group">
+										{{StudentSignupForm.username.label_tag}}
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.username.help_text}}"></span> 
+                                    	{{StudentSignupForm.username}}
+									</div>
+								</div>
+							</div>						
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										{{StudentSignupForm.password1.label_tag}}
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
+                                    	{{StudentSignupForm.password1}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										{{StudentSignupForm.password2.label_tag}}
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password2.help_text}}"></span> 
+                                    	{{StudentSignupForm.password2}}
+									</div>
+								</div>
+							</div>
+							<br>
+							
+							<div class="form-group">
+								<input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
+							</div>
+							<div class="text-center mt-4 pxp-modal-small">
+								Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
+							</div>
+						</form>
+						
+						<form id="landlord_signup_form2" class="mt-4" action="{% url 'user:landlordSignup' %}" method="POST" enctype="multipart/form-data" style="display:none;">
+							{% csrf_token %}
+							{% comment %} {% bootstrap_form LandlordSignupForm %} {% endcomment %}
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										{{LandlordSignupForm.first_name.label_tag}}
+                                    	{{LandlordSignupForm.first_name}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										{{LandlordSignupForm.last_name.label_tag}}
+                                    	{{LandlordSignupForm.last_name}}
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										{{LandlordSignupForm.email.label_tag}}
+                                    	{{LandlordSignupForm.email}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										{{LandlordSignupForm.phone.label_tag}}
+                                    	{{LandlordSignupForm.phone}}
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								{{LandlordSignupForm.lanprofilePicture.label_tag}}
+								<div class="row">
+									<div class="col-md-10">
+										<center id="signupprofilepicsel" onclick="landlordsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
+										{{LandlordSignupForm.lanprofilePicture}}
+									</div>
+									<div class="col-md-2">
+										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="border-radius:50px; border:2px solid #e2e2e2; width:40px; height:40px;" />
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group">
+										{{LandlordSignupForm.username.label_tag}}
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.username.help_text}}"></span> 
+                                    	{{LandlordSignupForm.username}}
+									</div>
+								</div>
+							</div>						
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group">
+										{{LandlordSignupForm.password1.label_tag}}
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password1.help_text|striptags}}"></span> 
+                                    	{{LandlordSignupForm.password1}}
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group">
+										{{LandlordSignupForm.password2.label_tag}}
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
+                                    	{{LandlordSignupForm.password2}}
+									</div>
+								</div>
+							</div>
+							<br>
+							<div class="form-group">
+								<input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
+							</div>
+							<div class="text-center mt-4 pxp-modal-small">
+								Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
+							</div>
+						</form>
+						<br><hr><br>
                     </div>
                 </div>
             </div>
         </div>	
+		
+		<script>
+			function regusertypeclick(typeval) {
+				if(typeval == 1) {
+					document.getElementById('regusertype1').click();
+					document.getElementById('regusertype1label').style.color = 'white';
+					document.getElementById('regusertype2label').style.color = 'black';
+					document.getElementById('regusertype1label').style.backgroundColor = 'grey';
+					document.getElementById('regusertype2label').style.backgroundColor = 'transparent';
+					
+					/*document.getElementById('sellhome').style.display = 'none';
+					document.getElementById('findhome').style.display = 'inline';*/
+					
+					document.getElementById('student_signup_form2').style.display = 'block';
+					document.getElementById('landlord_signup_form2').style.display = 'none';
+					
+				} else {
+					document.getElementById('regusertype2').click();
+					document.getElementById('regusertype1label').style.color = 'black';
+					document.getElementById('regusertype2label').style.color = 'white';
+					document.getElementById('regusertype1label').style.backgroundColor = 'transparent';
+					document.getElementById('regusertype2label').style.backgroundColor = 'grey';
+					
+					/*document.getElementById('findhome').style.display = 'none';
+					document.getElementById('sellhome').style.display = 'inline';*/
+					
+					document.getElementById('student_signup_form2').style.display = 'none';
+					document.getElementById('landlord_signup_form2').style.display = 'block';
+					
+				}
+			}
+		</script>							
+		
+		<script>
+			function studentsignupprofilepicsel()
+			{
+				document.getElementById('{{StudentSignupForm.profilePicture.id_for_label}}').click();
+			}
+			function landlordsignupprofilepicsel()
+			{
+				document.getElementById('{{LandlordSignupForm.lanprofilePicture.id_for_label}}').click();
+			}
+		</script>
+		
 {% endif %}
