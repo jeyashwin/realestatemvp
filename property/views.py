@@ -180,13 +180,40 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             sort = filterSortForm.cleaned_data.get('sort', None)
             if room is not None and room != []:
                 room = [ int(i) for i in room ]
-                propObjects = propObjects.filter(rooms__in=room)
+                if 4 not in room:
+                    propObjects = propObjects.filter(rooms__in=room)
+                else:
+                    room.remove(4)
+                    if room != []:
+                        propObjects1 = propObjects.filter(rooms__gte=4)
+                        propObjects = propObjects.filter(rooms__in=room)
+                        propObjects = propObjects.union(propObjects1)
+                    else:
+                        propObjects = propObjects.filter(rooms__gte=4)
             if occp is not None and occp != []:
                 occp = [ int(i) for i in occp ]
-                propObjects = propObjects.filter(occupants__in=occp)
+                if 4 not in occp:
+                    propObjects = propObjects.filter(occupants__in=occp)
+                else:
+                    occp.remove(4)
+                    if occp != []:
+                        propObjects1 = propObjects.filter(occupants__gte=4)
+                        propObjects = propObjects.filter(occupants__in=occp)
+                        propObjects = propObjects.union(propObjects1)
+                    else:
+                        propObjects = propObjects.filter(occupants__gte=4)
             if bath is not None and bath != []:
                 bath = [ int(i) for i in bath ]
-                propObjects = propObjects.filter(bathrooms__in=bath)
+                if 4 not in bath:
+                    propObjects = propObjects.filter(bathrooms__in=bath)
+                else:
+                    bath.remove(4)
+                    if bath != []:
+                        propObjects1 = propObjects.filter(bathrooms__gte=4)
+                        propObjects = propObjects.filter(bathrooms__in=bath)
+                        propObjects = propObjects.union(propObjects1)
+                    else:
+                        propObjects = propObjects.filter(bathrooms__gte=4)
             if minPri is not None:
                 propObjects = propObjects.filter(rentPerPerson__gte=minPri)
             if maxPri is not None:

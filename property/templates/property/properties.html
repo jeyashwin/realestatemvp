@@ -19,6 +19,7 @@
 	}
     .thumbs-o-up {
         color:green;
+		font-weight:bold;
     }
 	.pxp-results-card-1.rounded-lg {
 		{% comment %} box-shadow:2px 2px 3px silver; {% endcomment %}
@@ -32,10 +33,10 @@
             
             <div class="row" style="width:100%;">
 			<div class="col-md-2">
-				<div class="container-fluid" style="margin-top:30px; padding:10px;  background-color:#fff; border-radius:7px;">
+				<div class="container-fluid" style="margin-left: 10px; padding:10px;  background-color:#fff; border-radius:7px;">
 				  <div class="panel panel-default">
 					<div class="panel-heading" style="background-color:#f7f7f7; padding:7px; border-top-left-radius:7px; border-top-right-radius:7px; margin-left:-10px; margin-right:-10px; margin-top:-12px;">
-						<h4> &nbsp; Advanced</h4>
+						<h5> &nbsp; Filters</h5>
 					</div>
 					<form action="" method="GET" id="filter-properties-form">
 					{% comment %} {{filterSortForm.as_p}} {% endcomment %}
@@ -46,32 +47,72 @@
 							<p> 
 								{% for room in filterSortForm.room %}
 									{{room}}
-									&nbsp; &nbsp;
+									&nbsp;
 								{% endfor %}
+								{% comment %} {% else %}
+									<small style="color:silver;">N/A</small>
+								{% endif %} {% endcomment %}
 							</p>
 							<hr>
 							<h6>Occupants</h6>
 							<p> 
+								{% comment %} {% if filterSortForm.occp is defined %} {% endcomment %}
 								{% for occp in filterSortForm.occp %}
 									{{occp}}
-									&nbsp; &nbsp;
+									&nbsp;
 								{% endfor %}
+								{% comment %} {% else %}
+									<small style="color:silver;">N/A</small>
+								{% endif %} {% endcomment %}
 							</p>
 							<hr>
 							<h6>Bathrooms</h6>
 							<p> 
+								{% comment %} {% if filterSortForm.bath is defined %} {% endcomment %}
 								{% for bath in filterSortForm.bath %}
 									{{bath}}
-									&nbsp; &nbsp;
+									&nbsp;
 								{% endfor %}
+								{% comment %} {% else %}
+									<small style="color:silver;">N/A</small>
+								{% endif %} {% endcomment %}
 							</p>
+							<hr>
+							<h6>Price Range</h6>
+							<div data-role="rangeslider">
+								<small>Min</small><br>
+								<input type="range" name="price-min" id="price-min" value="200" min="0" max="1000"><br>
+								<small>Max</small><br>
+								<input type="range" name="price-max" id="price-max" value="800" min="0" max="1000"><br>
+							  </div><br>
+
+							<style>
+								.filter-amenities-tags > span, .filter-lifestyle-tags > span { border-radius:50px; font-size:11px; border:1px solid grey; background-color:transparent; margin:3px 3px; padding:1px 10px; float:left; color:grey; }
+								.filter-amenities-tags > span:hover, .filter-lifestyle-tags > span:hover { background-color:grey; color:#fff; }
+							</style>
+							<h6>Amenities</h6>
+							<p class="filter-amenities-tags pull-left" style="list-style-type:none; width:100%;"> 
+							<span>Pool</span> <span>Gym</span> <span>Garage</span> <span>Garden</span>
+							</p>
+							
+							<h6>Lifestyle</h6>
+							<p class="filter-lifestyle-tags pull-left" style="list-style-type:none; width:100%;"> 
+							<span>Partying</span> <span>Travelling</span> <span>Net Surfing</span> <span>Smoking</span>
+							</p>
+							
+							
+							<h6>Distance <small>(Max in km)</small></h6>
+							<input type="number" name="filter-distance-max" class="form-control" style="height:30px;">
+							
+							<br>
+							<span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span>
 						</div>
 					</div>
 				  </div>
 				</div>
 			
 			</div>
-			<div class="col-md-10" style="background-color:#fff; margin-top:30px; border-radius:7px;">
+			<div class="col-md-10" style="background-color:#fff; border-radius:7px;">
 				<div class="pxp-map-side pxp-map-right pxp-half" style="display:none;">
 					<div id="results-map"></div>
 					<a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>
@@ -84,8 +125,7 @@
 								<div class="row pxp-content-side-search-form-row">
 									<div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
 										<select class="custom-select" id="pxp-p-search-status">
-											<option value="buy" selected="selected">Buy</option>
-											<option value="rent">Rent</option>
+											<option value="stony_brook" selected="selected">Stony Brook</option>
 										</select>
 									</div>
 									<div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col">
@@ -264,7 +304,6 @@
 											<div class="pxp-results-card-1-features">
 												<span>{{object.rooms}} Room <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
 											</div>
-											
 											<div class="pxp-results-card-1-save">
 												<span id="like{{object.pk}}" onclick="return likeclick('like{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}" 
 													class="fa fa-thumbs-o-up 
@@ -366,6 +405,9 @@
 		{
 			/*var like = document.getElementById(id);
 			like.classList.toggle("thumbs-o-up");*/
+			var disid = dis.getAttribute('id');
+			document.getElementById(disid).style.fontWeight = 'bold';
+			document.getElementById(disid).style.color = 'green';
 			
 			var url = dis.getAttribute('likeurl');
 			var csrfmiddlewaretoken = dis.getAttribute('key');
@@ -374,6 +416,7 @@
 			  type: 'POST',
 			  data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
 			  success: function(res){
+				window.location.reload();
 				console.log(res);
 			  },
 			  error: function()
@@ -391,6 +434,10 @@
 			/*var dislike = document.getElementById(id);
 			dislike.classList.toggle("thumbs-o-down")*/
 			
+			var disid = dis.getAttribute('id');
+			document.getElementById(disid).style.fontWeight = 'bold';
+			document.getElementById(disid).style.color = 'red';
+			
 			var url = dis.getAttribute('dislikeurl');
 			var csrfmiddlewaretoken = dis.getAttribute('key');
 			$.ajax({
@@ -399,6 +446,7 @@
 			  data: {"dislike":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
 			  success: function(res){
 				console.log(res);
+				window.location.reload();
 			  },
 			  error: function(){
 				console.log('Error!');

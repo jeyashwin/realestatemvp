@@ -63,6 +63,20 @@
         <script src="js/mapee61.js?asldksjd"></script>
 		
 		<script>
+			$(".signup-interests-ul > li").click(function(){
+				var thiscolor = $(this).css("background-color");
+				
+				if(thiscolor == 'rgba(0, 0, 0, 0.7)') {
+					$(this).css({"background-color":"rgba(0, 0, 0, 0)", "color":"black"});
+					$(this + '> input').prop('checked', false);
+				} else {
+					$(this).css({"background-color":"rgba(0, 0, 0, 0.7)", "color":"#fff"});
+					$(this + '> input').prop('checked', true);
+				}
+			});
+		</script>
+		
+		<script>
 		function college_radio_click()
 			{
 				var checkstatus = document.getElementById("pxp-signup-college-radio").checked;
@@ -177,11 +191,15 @@
 			document.getElementById('signup_form').action = ipaddress+'register';
 			
 		   }*/
-
+			
 		   onloadfunc();
 		   function onloadfunc()
 		   {
-
+			
+				$(".bootstrap3-multi-input").removeClass('row');
+				$(".bootstrap3-multi-input > div > input").css({"border":"2px solid silver", "border-radius":"30px"});
+				
+			
 			document.getElementById('id_logUserType_0').click();
 			$("#id_logUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
 			
@@ -228,11 +246,16 @@
 		   });
 		   
 		  </script>
+<<<<<<< HEAD
 		  
+=======
+		
+>>>>>>> origin/roomates
 		<script>
 			function toggle_signup_form(id)
 			{
 				if(id == 2) {
+<<<<<<< HEAD
 					$("#student_signup_form").fadeOut(200);
 					$("#landlord_signup_form").fadeIn(200);
 					$("#toggle-form-btn-1").css({"color":"grey","background-color":"transparent","border":"2px solid grey"});
@@ -247,6 +270,37 @@
 			}
 		</script>		
 
+=======
+					$("#student_signup_form").fadeOut(600);
+					$("#landlord_signup_form").fadeIn(600);
+					$("#toggle-form-btn-1").css({"color":"grey","background-color":"transparent"});
+					$("#toggle-form-btn-2").css({"color":"#fff","background-color":"grey"});
+				} else {
+					$("#landlord_signup_form").fadeOut(600);
+					$("#student_signup_form").fadeIn(600);
+					$("#toggle-form-btn-2").css({"color":"grey","background-color":"transparent"});
+					$("#toggle-form-btn-1").css({"color":"#fff","background-color":"grey"});
+					
+				}
+			}
+		</script>
+		
+		<script>
+			function opensml(id)
+			{
+				var smldispval = $("#"+id).css("display");
+				if(smldispval == 'none')
+				{
+					$("#"+id).show(500);
+				} else {
+					//$("#sml"+id).hide(500);
+				}
+				
+				
+			}
+		</script>
+		
+>>>>>>> origin/roomates
 	</body>
 
 <!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:20:47 GMT -->

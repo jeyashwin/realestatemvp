@@ -1,30 +1,31 @@
-<!doctype html>
-<html lang="en">
-    
-<!-- Mirrored from pixelprime.co/themes/resideo/light/single-agent.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:26:17 GMT -->
-<head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+{% include "layout/header.html" %}
 
-        <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
+{% load static %}
+
+	<style>
+		* { font-family: Times New Roman, Georgia; }
+	</style>
+
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <title>RE.</title>
 	
 		
 	
 		<!-- suneditor -->
-		<link href="plugins/wysiwyg/dist/css/suneditor.min.css" rel="stylesheet">
+		<link href="{% static '/plugins/wysiwyg/dist/css/suneditor.min.css' %}" rel="stylesheet">
 		<!-- codeMirror -->
-		<link rel="stylesheet" href="plugins/wysiwyg/cdn/codemirror.min.css">
+		<link rel="stylesheet" href="{% static '/plugins/wysiwyg/cdn/codemirror.min.css' %}">
 		<!-- KaTeX -->
-		<link rel="stylesheet" href="plugins/wysiwyg/cdn/katex.min.css">
+		<link rel="stylesheet" href="{% static '/plugins/wysiwyg/cdn/katex.min.css' %}">
 		
 		
 		<style>
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(0, 0, 0, 0.8) !important; }
+			
+			.list-inline-item > a { font-size:12px !important; }
+			
 			::-webkit-scrollbar {
 			  width: 7px;
 			  border-radius:10px;
@@ -103,37 +104,530 @@
 			
 		</style>
 		
-		
-    </head>
-    <body style='background-image:url("images/bg-pattern1.png"); font-family: Roboto,-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"; width:98%;'>
-	<!--body-->
-        
-		<nav class="navbar navbar-default" style="overflow: hidden; background-color: #333; position: fixed; top: 0; width: 100%; z-index: 999;">
-		  <div class="col-md-12">
-			<div class="navbar-header">
-			</div>
-			  <a class="navbar-brand" href="#"><b>RE.</b></a>
-				<ul class="nav navbar-nav">
-				  <li><a href="index.html">Home</a></li>
-				  <li><a href="properties.html">Properties</a></li>
-				  <li><a href="blog.html">Blog</a></li>
-				  <li><a href="contact.html">Contact us</a></li>
-				</ul>
-		  </div>
-		</nav>
-		
 		<div class="row bodycontent">		
 			<div class="container-fluid">
 				
-				  <ul class="nav nav-pills nav-justified">
+				  <!--ul class="nav nav-pills nav-justified">
 					<li class="active"><a data-toggle="pill" href="#home">Roommates</a></li>
 					<li><a data-toggle="pill" href="#menu1">All Posts</a></li>
-					<!--li><a data-toggle="pill" href="#menu2">Messages</a></li-->
 					<li><a data-toggle="pill" href="#menu3">Groups</a></li>
-				  </ul>
+				  </ul-->
 				  <br>
 				  <div class="tab-content">
 					<div id="home" class="tab-pane fade in active">
+						
+						<div class="col-md-2" style="background-color:#fff; border-radius:5px; margin-top:-22px;">
+							<br>
+							<center>
+								{% if user.is_authenticated%}
+									<img 
+										src=" {% if user.usertype.userstudent.profilePicture %}
+													{{user.usertype.userstudent.profilePicture.url}} 
+												{% else %} 
+													https://www.w3schools.com/bootstrap/img_avatar1.png
+												{% endif %}"
+										style="width:70px; height:70px; border-radius:100px; border:1px solid #ed8200;" />
+									<h4><b>{{user}}</b></h4>
+									<p style="color:grey;">{{user.usertype.userstudent.university}}</p>
+								{% endif %}
+							</center>
+							<hr>
+							<div>
+								<style>
+									.leftcategorylist { padding-bottom:150px; }
+									.leftcategorylist a > p { margin-top:1px; padding:5px 10px; background-color:rgba(96, 95, 95, 0.1); border-radius:15px; }
+									.leftcategorylist a > p:hover { background-color:rgba(0, 0, 0, 0.7); color:#fff; }
+								</style>
+								<a href="{% url 'students:roommates' %}"><p><i class="fa fa-filter"></i> &nbsp; My pOST</p></a>
+								<h5><b>Categories</b></h5>
+								<div class="leftcategorylist">
+									{{currentpreferences}}
+									{% for preference in preferences %}
+										<a href="{% url 'students:roommatesPreference' preference.preferenceSlug %}"><p><i class="fa fa-filter"></i> &nbsp; {{preference.preferenceType}}</p></a>
+									{% endfor %}
+									{% comment %} <p><i class="fa fa-filter"></i> &nbsp; Category 2</p>
+									<p><i class="fa fa-filter"></i> &nbsp; Category 3</p>
+									<p><i class="fa fa-filter"></i> &nbsp; Category 4</p>
+									<p><i class="fa fa-filter"></i> &nbsp; Category 5</p>
+									<p><i class="fa fa-filter"></i> &nbsp; Category 6</p> {% endcomment %}
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-md-6" style="max-height:600px; overflow-y:scroll; overflow-x:none;">
+							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
+
+							<!-- Tab content -->
+							<div id="classic" class="tabcontent" style="border-radius:10px; display: none; width:100%;">
+								
+								<span onclick="closeedit()" class="btn btn-default btn-xs pull-right" style="color:maroon;"> <i class="fa fa-times"></i> Cancel </span><br>
+								
+								<div class="inline-margin"></div>
+								<textarea rows="7" id="editor_classic" style="display:none;"></textarea>								
+								<br>
+								<div class="col-md-12">
+									<span onclick="cataddclick(this, 1)" id="catyspan1" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 1 </span> &nbsp;
+									<span onclick="cataddclick(this, 2)" id="catyspan2" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 2 </span> &nbsp;
+									<span onclick="cataddclick(this, 3)" id="catyspan3" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 3 </span> &nbsp;
+									<span onclick="cataddclick(this, 4)" id="catyspan4" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 4 </span> &nbsp;
+									<span onclick="cataddclick(this, 5)" id="catyspan5" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 5 </span> &nbsp;
+									<span onclick="cataddclick(this, 6)" id="catyspan6" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 6 </span> &nbsp;
+								</div>
+								
+								<br><br>
+								
+								<input type="text" class="form-control" id="catyinput1" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+								<input type="text" class="form-control" id="catyinput2" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+								<input type="text" class="form-control" id="catyinput3" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+								<input type="text" class="form-control" id="catyinput4" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+								<input type="text" class="form-control" id="catyinput5" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+								<input type="text" class="form-control" id="catyinput6" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+							
+								<center><span class="btn btn-primary" style="border-radius:15px; padding:3px 20px; background-color:rgba(0, 0, 0, 0.7);" onclick="submit_post()" id="submitpost">Submit</span></center>
+								
+								<script>
+									
+									function submit_post()
+									{
+										var postdata = $(".se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable").html();
+										console.log(postdata);
+									}
+									
+									function cataddclick(dis, id)
+										{
+											
+											var catidcolor = $(dis).css("color");
+											var catid = $(dis);
+											var catinput = $("#catyinput"+id).css("display");
+											
+											if(catinput == 'none') {
+												$("#catyspan"+id).text('- Category '+id);
+												$("#catyinput"+id).show(500);
+											} else {
+												$("#catyspan"+id).text('+ Category '+id);
+												$("#catyinput"+id).hide(500);
+											}
+											
+											if(catidcolor == "rgb(51, 51, 51)") {
+												catid.css({"background-color":"#383836", "color":"#fff"});
+											} else {
+												catid.css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
+											}
+											
+										}
+								</script>
+								
+							</div>
+
+							<br>
+							
+							<div>
+								
+								<div class="" style="border-top:2px solid #fff; padding-top:20px; font-weight:bold;"> 
+									<span onclick="catclickall(this, 0)" id="cat0" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px; background-color:#383836; color:#fff;">All</span> &nbsp;
+									<span onclick="catclick(this, 1)" id="caty1" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 1</span> &nbsp;
+									<span onclick="catclick(this, 2)" id="caty2" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 2</span> &nbsp;
+									<span onclick="catclick(this, 3)" id="caty3" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 3</span> &nbsp;
+									<span onclick="catclick(this, 4)" id="caty4" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 4</span> &nbsp;
+									<span onclick="catclick(this, 5)" id="caty5" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 5</span> &nbsp;
+									<span onclick="catclick(this, 6)" id="caty6" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 6</span> &nbsp;
+									
+									<script>
+										function catclickall(dis, val)
+										{
+											var catsel = dis.getAttribute('data-sel');
+											
+											if(catsel == 0) {
+												dis.setAttribute('data-sel', 1);
+												$(dis).css({"background-color":"#383836", "color":"#fff"});
+												$(".catys").css({"background-color":"#383836", "color":"#fff"});
+												$(".postspanel").show();
+												
+												$('.catys').each(function(i, obj) { 
+													var selval = obj.setAttribute('data-sel', 1);
+												});
+											} else {
+												/*
+												dis.setAttribute('data-sel', 0);
+												$(dis).css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
+												$(".catys").css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
+												$(".postspanel").hide();
+												
+												$('.catys').each(function(i, obj) { 
+													var selval = obj.setAttribute('data-sel', 0);
+												});
+												*/
+											}
+
+										}
+										
+										function catclick(dis, val)
+										{
+											var catsel = dis.getAttribute('data-sel');
+											
+											if(catsel == 0) {
+												dis.setAttribute('data-sel', 1);
+												$(dis).css({"background-color":"#383836", "color":"#fff"});
+											} else {
+												dis.setAttribute('data-sel', 0);
+												$(dis).css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
+											}
+											
+											$(".postspanel").hide();
+											
+											var catysclass = $('.catys');
+											
+											var catcount = 0;
+											$('.catys').each(function(i, obj) { 
+												var selval = obj.getAttribute('data-sel');
+												catcount = parseInt(selval)+parseInt(catcount);
+											});
+											var totalsel = catcount;
+											
+											$('.catys').each(function(i, obj) {
+												var selvalue = obj.getAttribute('data-sel');
+												var catind = i;
+												
+												if(selvalue == 1) {													
+													$(".catpanel"+catind).show();
+												} else {
+													if(totalsel == 0) {
+														$(".postspanel").show();
+														$("#cat0").css({"background-color":"#383836", "color":"#fff"});
+													} else {
+														$(".catpanel"+catind).hide();
+															
+															var totselval = totalsel;
+															
+															if(totselval >= catysclass.length) {
+																$("#cat0").css({"background-color":"#383836", "color":"#fff"});
+																document.getElementById("cat0").setAttribute('data-sel', 1);
+															} else {
+																$("#cat0").css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
+																document.getElementById("cat0").setAttribute('data-sel', 0);
+															}
+														
+													}
+												}
+											});
+											
+										}
+									</script>
+									
+								</div>
+								<br>
+								{% if form %}
+								<form action="{% url 'students:postCreate' currentpreferences.preferenceSlug %}" method="post" enctype="multipart/form-data">
+									{% csrf_token %}
+									{{form.as_p}}
+									<input type="submit" value="Create Post">
+								</form>
+								{% endif %}
+								{% for object in object_list %}
+								<div class="panel panel-default postspanel catpanel1" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img 
+													src="
+													{% if object.student.profilePicture %}
+													{{object.student.profilePicture.url}} 
+													{% else %}
+													https://xeroneit.net/upload/profile/20.jpg
+													{% endif %}
+													" 
+													style="width:75%; border-radius:100px; border:3px solid grey;" 
+												/>
+											</div>
+											<div class="col-md-6">
+												<h5><b>{{object.student.user.user.first_name|title}} {{object.student.user.user.last_name|title}}</b></h5>
+												<h6>{{object.student.user.user.email|title}}</h6>
+											</div>
+											<div class="col-md-4">
+												{% for interest in object.interest.all %}
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;">{{interest}}</span>
+												{% endfor %}
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>{{object.title|title}}</h3>
+												{% comment %} <h4>Test Head 2	</h4> {% endcomment %}
+												<p>{{object.description|safe}}</p>
+											</div>
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<a href="#"><i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i></a>
+												</div>
+												<div class="pull-right">
+													<a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a>
+												</div>
+											</div>	
+										</div>
+									</div>	
+								</div>
+								{% endfor %}
+								<div class="panel panel-default postspanel catpanel1" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+											</div>
+											<div class="col-md-6">
+												<h5><b> Test User 1 </b></h5>
+												<h6>testuser1@email.com</h6>
+											</div>
+											<div class="col-md-4">
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 1 </span>
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>Test Heading</h3>
+												<h4>Test Head 2	</h4>
+												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+											</div>
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<a href="#"><i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i></a>
+												</div>
+												<div class="pull-right">
+													<a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a>
+												</div>
+											</div>	
+										</div>
+									</div>	
+								</div>
+								
+								<div class="panel panel-default postspanel catpanel2" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+											</div>
+											<div class="col-md-6">
+												<h5><b> Test User 1 </b></h5>
+												<h6>testuser1@email.com</h6>
+											</div>
+											<div class="col-md-4">
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 2 </span>
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>Test Heading</h3>
+												<h4>Test Head 2	</h4>
+												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+											</div>
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
+												</div>
+												<div class="pull-right">
+													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
+												</div>
+											</div>			
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="panel panel-default postspanel catpanel3" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+											</div>
+											<div class="col-md-6">
+												<h5><b> Test User 1 </b></h5>
+												<h6>testuser1@email.com</h6>
+											</div>
+											<div class="col-md-4">
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 3 </span>
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>Test Heading</h3>
+												<h4>Test Head 2	</h4>
+												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+											</div>
+											
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
+												</div>
+												<div class="pull-right">
+													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
+												</div>
+											</div>
+											
+											
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="panel panel-default postspanel catpanel4" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+											</div>
+											<div class="col-md-6">
+												<h5><b> Test User 1 </b></h5>
+												<h6>testuser1@email.com</h6>
+											</div>
+											<div class="col-md-4">
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 4 </span>
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>Test Heading</h3>
+												<h4>Test Head 2	</h4>
+												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+											</div>
+											
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
+												</div>
+												<div class="pull-right">
+													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
+												</div>
+											</div>
+											
+											
+										</div>
+									</div>
+									
+								</div>
+								
+								<div class="panel panel-default postspanel catpanel5" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+											</div>
+											<div class="col-md-6">
+												<h5><b> Test User 1 </b></h5>
+												<h6>testuser1@email.com</h6>
+											</div>
+											<div class="col-md-4">
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 5 </span>
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>Test Heading</h3>
+												<h4>Test Head 2	</h4>
+												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+											</div>
+											
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
+												</div>
+												<div class="pull-right">
+													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
+												</div>
+											</div>
+											
+											
+										</div>
+									</div>
+									
+								</div>
+								
+							</div>
+							
+						</div>
+						
+						<div class="col-md-4" style="max-height:600px; overflow-y:scroll;">
+							
+							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+							
+								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>
+							
+								<div class="panel-body" style="min-height:500px;">
+									<div class="row" style="color:#565555">
+										<div class="col-md-2">
+											<img src="https://xeroneit.net/upload/profile/20.jpg" class="pull-right" style="width:75%; border-radius:100px; border:3px solid grey;" />
+										</div>
+										<div class="col-md-6">
+											<h5><b> Test User 1 </b></h5>
+											<h6>testuser1@email.com</h6>
+										</div>
+										
+										<div class="col-md-4">
+											<br>
+											<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 1 </span>
+										</div>
+
+										<div class="col-md-12" style="border-top:2px solid #fff;">
+											<h3>Test Heading</h3>
+											<h4>Test Head 2	</h4>
+											<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+										</div>
+										
+										<div class="col-md-12" style="padding-top:10px;">
+											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Enter here.."></textarea>
+											<br>
+											<span class="btn btn-primary btn-sm pull-right" onclick="addcomment()" style="background-color:#2b7b9b;">Submit</span>
+											<h4>Comments</h4><hr>
+											<div class="col-md-12" id="prevcomments"><span style="color:silver; text-align:center;">No comments yet</span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<script>
+							function expandcomment(dis)
+							{
+								dis.setAttribute('rows', 4);
+							}
+							
+							function addcomment()
+							{
+								var cmt = $("#commenttext").val();
+								var prevcmtdata = $("#prevcomments > span").text();
+								
+								var cmthtml = "<div style='margin-top:5px; padding:10px; background-color:#ECECEC; border-radius:10px;' class='col-md-12'><h5 style='clor:silver;'><img src='https://xeroneit.net/upload/profile/20.jpg' style='width:7%; border-radius:100px; border:2px solid grey;' /><b> &nbsp; You </b><small style='color:grey; font-size:10px;'> just now</small></h5><p style='padding-left:15%;'>"+cmt+"</p></div><br><br>";
+								
+									if(prevcmtdata == 'No comments yet') {
+										$("#prevcomments").html(cmthtml);
+									} else {
+										$("#prevcomments").append(cmthtml);
+									}
+								
+								$("#commenttext").val('');
+							}
+							
+							$(".postspanel").click(function(){
+								$("#viewpostdetails").hide(300);
+								$("#viewpostdetails").show(300);
+							});
+							
+							function startedit()
+							{								
+								$('#start_writing').hide(700);
+								$('#classic').show(700);
+								$(".se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable").focus();
+							}
+							function closeedit()
+							{
+								$('#start_writing').show(500);
+								$('#classic').hide(500);
+							}
+							function closeviewpost()
+							{
+								$("#viewpostdetails").hide(300);
+							}
+						</script>
+
+					
+					</div>
+					<div id="menu1" class="tab-pane fade">
 					
 						<div class="col-md-6 col-xs-12">
 						
@@ -337,445 +831,6 @@
 						</div>
 					
 					</div>
-					<div id="menu1" class="tab-pane fade">
-					
-						<div class="col-md-6" style="max-height:600px; overflow-y:scroll;">
-							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
-
-							<!-- Tab content -->
-							<div id="classic" class="tabcontent" style="border-radius:10px; display: none; width:100%;">
-								
-								<span onclick="closeedit()" class="btn btn-default btn-xs pull-right" style="color:maroon;"> <i class="fa fa-times"></i> Cancel </span><br>
-								
-								<div class="inline-margin"></div>
-								<textarea rows="7" id="editor_classic" style="display:none;"></textarea>								
-								<br>
-								<div class="col-md-12">
-									<span onclick="cataddclick(this, 1)" id="catyspan1" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 1 </span> &nbsp;
-									<span onclick="cataddclick(this, 2)" id="catyspan2" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 2 </span> &nbsp;
-									<span onclick="cataddclick(this, 3)" id="catyspan3" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 3 </span> &nbsp;
-									<span onclick="cataddclick(this, 4)" id="catyspan4" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 4 </span> &nbsp;
-									<span onclick="cataddclick(this, 5)" id="catyspan5" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 5 </span> &nbsp;
-									<span onclick="cataddclick(this, 6)" id="catyspan6" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 6 </span> &nbsp;
-								</div>
-								
-								<br><br>
-								
-								<input type="text" class="form-control" id="catyinput1" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-								<input type="text" class="form-control" id="catyinput2" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-								<input type="text" class="form-control" id="catyinput3" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-								<input type="text" class="form-control" id="catyinput4" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-								<input type="text" class="form-control" id="catyinput5" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-								<input type="text" class="form-control" id="catyinput6" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-							
-								<center><span class="btn btn-primary" onclick="submit_post()" id="submitpost">Submit</span></center>
-								
-								<script>
-									
-									function submit_post()
-									{
-										var postdata = $(".se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable").html();
-										console.log(postdata);
-									}
-									
-									function cataddclick(dis, id)
-										{
-											
-											var catidcolor = $(dis).css("color");
-											var catid = $(dis);
-											var catinput = $("#catyinput"+id).css("display");
-											
-											if(catinput == 'none') {
-												$("#catyspan"+id).text('- Category '+id);
-												$("#catyinput"+id).show(500);
-											} else {
-												$("#catyspan"+id).text('+ Category '+id);
-												$("#catyinput"+id).hide(500);
-											}
-											
-											if(catidcolor == "rgb(51, 51, 51)") {
-												catid.css({"background-color":"#383836", "color":"#fff"});
-											} else {
-												catid.css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-											}
-											
-										}
-								</script>
-								
-							</div>
-
-							<br>
-							
-							<div>
-								
-								<div class="" style="border-top:2px solid #fff; padding-top:20px; font-weight:bold;"> 
-									<span onclick="catclickall(this, 0)" id="cat0" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px; background-color:#383836; color:#fff;">All</span> &nbsp;
-									<span onclick="catclick(this, 1)" id="caty1" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 1</span> &nbsp;
-									<span onclick="catclick(this, 2)" id="caty2" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 2</span> &nbsp;
-									<span onclick="catclick(this, 3)" id="caty3" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 3</span> &nbsp;
-									<span onclick="catclick(this, 4)" id="caty4" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 4</span> &nbsp;
-									<span onclick="catclick(this, 5)" id="caty5" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 5</span> &nbsp;
-									<span onclick="catclick(this, 6)" id="caty6" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 6</span> &nbsp;
-									
-									<script>
-										function catclickall(dis, val)
-										{
-											var catsel = dis.getAttribute('data-sel');
-											
-											if(catsel == 0) {
-												dis.setAttribute('data-sel', 1);
-												$(dis).css({"background-color":"#383836", "color":"#fff"});
-												$(".catys").css({"background-color":"#383836", "color":"#fff"});
-												$(".postspanel").show();
-												
-												$('.catys').each(function(i, obj) { 
-													var selval = obj.setAttribute('data-sel', 1);
-												});
-											} else {
-												/*
-												dis.setAttribute('data-sel', 0);
-												$(dis).css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-												$(".catys").css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-												$(".postspanel").hide();
-												
-												$('.catys').each(function(i, obj) { 
-													var selval = obj.setAttribute('data-sel', 0);
-												});
-												*/
-											}
-
-										}
-										
-										function catclick(dis, val)
-										{
-											var catsel = dis.getAttribute('data-sel');
-											
-											if(catsel == 0) {
-												dis.setAttribute('data-sel', 1);
-												$(dis).css({"background-color":"#383836", "color":"#fff"});
-											} else {
-												dis.setAttribute('data-sel', 0);
-												$(dis).css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-											}
-											
-											$(".postspanel").hide();
-											
-											var catysclass = $('.catys');
-											
-											var catcount = 0;
-											$('.catys').each(function(i, obj) { 
-												var selval = obj.getAttribute('data-sel');
-												catcount = parseInt(selval)+parseInt(catcount);
-											});
-											var totalsel = catcount;
-											
-											$('.catys').each(function(i, obj) {
-												var selvalue = obj.getAttribute('data-sel');
-												var catind = i;
-												
-												if(selvalue == 1) {													
-													$(".catpanel"+catind).show();
-												} else {
-													if(totalsel == 0) {
-														$(".postspanel").show();
-														$("#cat0").css({"background-color":"#383836", "color":"#fff"});
-													} else {
-														$(".catpanel"+catind).hide();
-															
-															var totselval = totalsel;
-															
-															if(totselval >= catysclass.length) {
-																$("#cat0").css({"background-color":"#383836", "color":"#fff"});
-																document.getElementById("cat0").setAttribute('data-sel', 1);
-															} else {
-																$("#cat0").css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-																document.getElementById("cat0").setAttribute('data-sel', 0);
-															}
-														
-													}
-												}
-											});
-											
-										}
-									</script>
-									
-								</div>
-								<br>
-								<div class="panel panel-default postspanel catpanel1" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									
-									<div class="panel-body">
-										<div class="row" style="color:#565555">
-											<div class="col-md-2">
-												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
-											</div>
-											<div class="col-md-6">
-												<h5><b> Test User 1 </b></h5>
-												<h6>testuser1@email.com</h6>
-											</div>
-											<div class="col-md-4">
-												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 1 </span>
-											</div>
-											<br>
-											<div class="col-md-12" style="max-height:180px;">
-												<h3>Test Heading</h3>
-												<h4>Test Head 2	</h4>
-												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
-											</div>
-											
-											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
-												<div class="pull-left">
-													<a href="#"><i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i></a>
-												</div>
-												<div class="pull-right">
-													<a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a>
-												</div>
-											</div>
-											
-											
-										</div>
-									</div>
-									
-								</div>
-								
-								<div class="panel panel-default postspanel catpanel2" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									
-									<div class="panel-body">
-										<div class="row" style="color:#565555">
-											<div class="col-md-2">
-												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
-											</div>
-											<div class="col-md-6">
-												<h5><b> Test User 1 </b></h5>
-												<h6>testuser1@email.com</h6>
-											</div>
-											<div class="col-md-4">
-												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 2 </span>
-											</div>
-											<br>
-											<div class="col-md-12" style="max-height:180px;">
-												<h3>Test Heading</h3>
-												<h4>Test Head 2	</h4>
-												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
-											</div>
-											
-											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
-												<div class="pull-left">
-													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
-												</div>
-												<div class="pull-right">
-													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
-												</div>
-											</div>
-											
-											
-										</div>
-									</div>
-									
-								</div>
-								
-								<div class="panel panel-default postspanel catpanel3" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									
-									<div class="panel-body">
-										<div class="row" style="color:#565555">
-											<div class="col-md-2">
-												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
-											</div>
-											<div class="col-md-6">
-												<h5><b> Test User 1 </b></h5>
-												<h6>testuser1@email.com</h6>
-											</div>
-											<div class="col-md-4">
-												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 3 </span>
-											</div>
-											<br>
-											<div class="col-md-12" style="max-height:180px;">
-												<h3>Test Heading</h3>
-												<h4>Test Head 2	</h4>
-												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
-											</div>
-											
-											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
-												<div class="pull-left">
-													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
-												</div>
-												<div class="pull-right">
-													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
-												</div>
-											</div>
-											
-											
-										</div>
-									</div>
-									
-								</div>
-								
-								<div class="panel panel-default postspanel catpanel4" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									
-									<div class="panel-body">
-										<div class="row" style="color:#565555">
-											<div class="col-md-2">
-												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
-											</div>
-											<div class="col-md-6">
-												<h5><b> Test User 1 </b></h5>
-												<h6>testuser1@email.com</h6>
-											</div>
-											<div class="col-md-4">
-												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 4 </span>
-											</div>
-											<br>
-											<div class="col-md-12" style="max-height:180px;">
-												<h3>Test Heading</h3>
-												<h4>Test Head 2	</h4>
-												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
-											</div>
-											
-											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
-												<div class="pull-left">
-													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
-												</div>
-												<div class="pull-right">
-													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
-												</div>
-											</div>
-											
-											
-										</div>
-									</div>
-									
-								</div>
-								
-								<div class="panel panel-default postspanel catpanel5" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									
-									<div class="panel-body">
-										<div class="row" style="color:#565555">
-											<div class="col-md-2">
-												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
-											</div>
-											<div class="col-md-6">
-												<h5><b> Test User 1 </b></h5>
-												<h6>testuser1@email.com</h6>
-											</div>
-											<div class="col-md-4">
-												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 5 </span>
-											</div>
-											<br>
-											<div class="col-md-12" style="max-height:180px;">
-												<h3>Test Heading</h3>
-												<h4>Test Head 2	</h4>
-												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
-											</div>
-											
-											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
-												<div class="pull-left">
-													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
-												</div>
-												<div class="pull-right">
-													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></></i>
-												</div>
-											</div>
-											
-											
-										</div>
-									</div>
-									
-								</div>
-								
-							</div>
-							
-						</div>
-						
-						<div class="col-md-6" style="max-height:600px; overflow-y:scroll;">
-							
-							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-							
-								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>
-							
-								<div class="panel-body" style="min-height:500px;">
-									<div class="row" style="color:#565555">
-										<div class="col-md-2">
-											<img src="https://xeroneit.net/upload/profile/20.jpg" class="pull-right" style="width:75%; border-radius:100px; border:3px solid grey;" />
-										</div>
-										<div class="col-md-6">
-											<h5><b> Test User 1 </b></h5>
-											<h6>testuser1@email.com</h6>
-										</div>
-										
-										<div class="col-md-4">
-											<br>
-											<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:#383836; border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 1 </span>
-										</div>
-
-										<div class="col-md-12" style="border-top:2px solid #fff;">
-											<h3>Test Heading</h3>
-											<h4>Test Head 2	</h4>
-											<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
-										</div>
-										
-										
-										<div class="col-md-12" style="padding-top:10px;">
-											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Enter here.."></textarea>
-											<br>
-											<span class="btn btn-primary btn-sm pull-right" onclick="addcomment()">Submit</span>
-											
-											<h4>Comments</h4><hr>
-											<div class="col-md-12" id="prevcomments"><span style="color:silver; text-align:center;">No comments yet</span></div>
-										
-										</div>
-										
-									</div>
-								</div>
-								
-							</div>
-							
-						</div>
-						
-						<script>
-							function expandcomment(dis)
-							{
-								dis.setAttribute('rows', 4);
-							}
-							
-							function addcomment()
-							{
-								var cmt = $("#commenttext").val();
-								var prevcmtdata = $("#prevcomments > span").text();
-								
-								var cmthtml = "<div style='padding:10px; background-color:#ECECEC; border-radius:10px;' class='col-md-12'><h5 style='clor:silver;'><img src='https://xeroneit.net/upload/profile/20.jpg' style='width:7%; border-radius:100px; border:2px solid grey;' /><b> &nbsp; You </b><small style='color:grey; font-size:10px;'> just now</small></h5><p style='padding-left:15%;'>"+cmt+"</p></div><br><br>";
-								
-									if(prevcmtdata == 'No comments yet') {
-										$("#prevcomments").html(cmthtml);
-									} else {
-										$("#prevcomments").append(cmthtml);
-									}
-								
-								$("#commenttext").val('');
-							}
-							
-							$(".postspanel").click(function(){
-								$("#viewpostdetails").hide(300);
-								$("#viewpostdetails").show(300);
-							});
-							
-							function startedit()
-							{								
-								$('#start_writing').hide(700);
-								$('#classic').show(700);
-								$(".se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable").focus();
-							}
-							function closeedit()
-							{
-								$('#start_writing').show(500);
-								$('#classic').hide(500);
-							}
-							function closeviewpost()
-							{
-								$("#viewpostdetails").hide(300);
-							}
-						</script>
-
-					
-					</div>
 					<div id="menu2" class="tab-pane fade">
 					  
 					</div>
@@ -868,16 +923,16 @@
 			</div>
 		</div>
 		
-		<script src="js/common.js"></script>
+		<script src="{% static '/js/common.js' %}"></script>
 <!-- suneditor -->
-<script src="plugins/wysiwyg/dist/suneditor.min.js"></script>
+<script src="{% static '/plugins/wysiwyg/dist/suneditor.min.js' %}"></script>
 <!-- codeMirror -->
-<script src="plugins/wysiwyg/cdn/codemirror.min.js"></script>
-<script src="plugins/wysiwyg/cdn/htmlmixed.js"></script>
-<script src="plugins/wysiwyg/cdn/xml.js"></script>
-<script src="plugins/wysiwyg/cdn/css.js"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/codemirror.min.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/htmlmixed.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/xml.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/css.js' %}"></script>
 <!-- KaTeX -->
-<script src="plugins/wysiwyg/cdn/katex.min.js"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/katex.min.js' %}"></script>
 <script>
     SUNEDITOR.create('editor_classic', {
         display: 'block',
@@ -1034,8 +1089,6 @@
 				}
 			}
 		</script>
-        
-    </body>
+       
 
-<!-- Mirrored from pixelprime.co/themes/resideo/light/single-agent.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:26:18 GMT -->
-</html>
+{% include "layout/footer.html" %}

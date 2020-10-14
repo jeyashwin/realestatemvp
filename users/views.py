@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
+from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,8 +11,6 @@ from .models import UserStudent, UserLandLord, UserType
 from .forms import *
 
 # Create your views here.
-
-#User App views starts from here
 
 class CustomLoginView(LoginView):
     template_name = 'index.html'
@@ -27,8 +26,8 @@ class CustomLoginView(LoginView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["LandlordSignupForm"] = LandlordSignupForm
-        context["StudentSignupForm"] = StudentSignupForm
+        context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
+        context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
         return context
 
 
@@ -45,7 +44,7 @@ class LandlordSignUpView(CreateView):
                         userType="seller")
         landlordObject = UserLandLord.objects.create(user=userObject, 
                             phone=form.cleaned_data.get('phone'),
-                            profilePicture=form.cleaned_data.get('profilePicture'),
+                            profilePicture=form.cleaned_data.get('lanprofilePicture'),
                         )
         return redirect('user:home')
 
@@ -75,7 +74,11 @@ class StudentSignUpView(CreateView):
                             university=form.cleaned_data.get('university'), 
                             classYear=form.cleaned_data.get('classYear'), 
                             bio=form.cleaned_data.get('bio'), 
-                            profilePicture=form.cleaned_data.get('profilePicture')
+                            profilePicture=form.cleaned_data.get('profilePicture'),
+                            fbLink=form.cleaned_data.get('fblink'),
+                            snapLink=form.cleaned_data.get('snapLink'),
+                            instaLink=form.cleaned_data.get('instaLink'),
+                            redditLink=form.cleaned_data.get('redditLink'),
                         )
         studentObject.interests.set(interests)
 
@@ -153,5 +156,10 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
             raise Http404
 
 def Contact(request):
-    return render(request, "contact.html")
+    context = {
+        'form': AuthenticationForm,
+        "LandlordSignupForm" : LandlordSignupForm(label_suffix=''),
+        "StudentSignupForm": StudentSignupForm(label_suffix='')
+    }
+    return render(request, "contact.html", context=context)
 
