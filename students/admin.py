@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Favourite, RoommatePost, PostImage, PostComment, CommentReply
+from .models import Favourite, RoommatePost, PostComment, CommentReply, Preference
 
 # Register your models here.
 @admin.register(Favourite)
@@ -7,16 +7,16 @@ class FavouriteAdmin(admin.ModelAdmin):
     list_display = ["id", "student"]
 
 
-class RoomatePostImageInline(admin.TabularInline):
-    model = PostImage
-    extra = 1
-    max_num = 10
+@admin.register(Preference)
+class PreferenceAdmin(admin.ModelAdmin):
+    list_display = ['id', 'preferenceType']
+    readonly_fields = ['preferenceSlug',]
 
 
 @admin.register(RoommatePost)
 class RoommatesPostAdmin(admin.ModelAdmin):
     list_display = ['student', 'title']
-    inlines = [RoomatePostImageInline]
+    readonly_fields = ['totalHearts', 'updateDate', 'createdDate']
 
 
 @admin.register(PostComment)

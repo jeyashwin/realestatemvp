@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import RoommatePost, PostImage, PostComment, CommentReply
+from .models import RoommatePost, PostComment, CommentReply
 
 
 class StudentSerializer(serializers.RelatedField):
@@ -18,22 +18,13 @@ class StudentSerializer(serializers.RelatedField):
         return data
 
 
-class PostImageSerializer(serializers.ModelSerializer):
-    """Serializer for PostImage"""
-
-    class Meta:
-        model = PostImage
-        fields = ['id', 'roommatePost', 'image']
-        read_only_fields = ['id', 'roommatePost']
-
-
 class CommentReplySerializer(serializers.ModelSerializer):
     """Serializer for CommentReply"""
     student = StudentSerializer(read_only=True)
 
     class Meta:
         model = CommentReply
-        fields = ['id', 'comment', 'student', 'mention', 'reply', 'updateDate', 'createdDate']
+        fields = ['id', 'comment', 'student', 'reply', 'updateDate', 'createdDate']
         read_only_fields = ['id', 'comment', 'student', 'updateDate', 'createdDate']
 
 
@@ -48,14 +39,20 @@ class PostCommentSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'roomatePost', 'student', 'commentreply', 'updateDate', 'createdDate']
 
 
-class RoommatePostSerializer(serializers.ModelSerializer):
-    """Serializer for RoommatePost"""
+# class RoommatePostSerializer(serializers.ModelSerializer):
+
+#     class Meta:
+#         model = RoommatePost
+#         fields = ['id', 'title', 'description', 'interest']
+
+
+class RoommatePostDetailSerializer(serializers.ModelSerializer):
+    """Serializer for RoommatePost Detail"""
     student = StudentSerializer(read_only=True)
     interest = serializers.StringRelatedField(many=True)
-    roommateimages = PostImageSerializer(many=True, read_only=True)
     comments = PostCommentSerializer(many=True, read_only=True)
 
     class Meta:
         model = RoommatePost
-        fields = ['id', 'student', 'title', 'description', 'interest', 'roommateimages', 'comments', 'updateDate', 'createdDate']
-        read_only_fields = ['id', 'student', 'interest', 'comments', 'updateDate', 'createdDate']
+        fields = ['id', 'student', 'preference', 'title', 'description', 'interest', 'image', 'image1', 'image2', 'image3', 'totalHearts', 'comments', 'updateDate', 'createdDate']
+        read_only_fields = ['id', 'student', 'preference', 'interest', 'comments', 'updateDate', 'createdDate']
