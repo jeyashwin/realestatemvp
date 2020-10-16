@@ -124,6 +124,7 @@ class PostCommentCreateView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess)
 
     def perform_create(self, serializer):
+        print(self.request.data)
         postObj = get_object_or_404(RoommatePost, pk=self.kwargs.get('pk'))
         studentObject = get_object_or_404(UserStudent, user__user=self.request.user)
         serializer.save(roomatePost=postObj, student=studentObject)
@@ -148,6 +149,23 @@ class CommentReplyUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
     queryset = CommentReply.objects.all()
 
+
+@login_required
+@user_passes_test(studentAccessTest)
+def AddRemoveHeart(request, pk):
+    if request.method == "POST":
+        postObject = get_object_or_404(RoommatePost, pk=pk)
+        studentObj = get_object_or_404(UserStudent, user__user=request.user)
+        alreadyhearted = postObject.heart.filter(user=studentObj.user).exists()
+        if alreadyhearted:
+            postObject.heart.remove(studentObj)
+            hearted = False
+        else:
+            postObject.heart.add(studentObj)
+            hearted = True
+        postObject.save()
+        return JsonResponse({'hearted': hearted, 'total': postObject.totalHearts()})
+    return redirect('students:roommates')
 
 @login_required
 @user_passes_test(studentAccessTest)

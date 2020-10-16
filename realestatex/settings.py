@@ -144,6 +144,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 # AUTH_USER_MODEL = 'users.user'
 
+# PHONENUMBER_DB_FORMAT = 'INTERNATIONAL'
+# PHONENUMBER_DEFAULT_REGION = 'US'
+
 
 STATIC_URL = '/static/'
 # STATIC_ROOT = os.path.join(BASE_DIR, 'static')

@@ -156,6 +156,13 @@
 						
 						<div class="col-md-6" style="max-height:600px; overflow-y:scroll; overflow-x:none;">
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
+							{% if form %}
+							<form action="{% url 'students:postCreate' currentpreferences.preferenceSlug %}" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								{{form.as_p}}
+								<input type="submit" value="Create Post">
+							</form>
+							{% endif %}
 
 							<!-- Tab content -->
 							<div id="classic" class="tabcontent" style="border-radius:10px; display: none; width:100%;">
@@ -163,7 +170,7 @@
 								<span onclick="closeedit()" class="btn btn-default btn-xs pull-right" style="color:maroon;"> <i class="fa fa-times"></i> Cancel </span><br>
 								
 								<div class="inline-margin"></div>
-								<textarea rows="7" id="editor_classic" style="display:none;"></textarea>								
+								<textarea rows="7" id="editor_classic" style="display:none;"></textarea>
 								<br>
 								<div class="col-md-12">
 									<span onclick="cataddclick(this, 1)" id="catyspan1" class="btn btn-default btn-xs" style="border:2px solid #383836; border-radius:50px;">+ Category 1 </span> &nbsp;
@@ -316,13 +323,6 @@
 									
 								</div>
 								<br>
-								{% if form %}
-								<form action="{% url 'students:postCreate' currentpreferences.preferenceSlug %}" method="post" enctype="multipart/form-data">
-									{% csrf_token %}
-									{{form.as_p}}
-									<input type="submit" value="Create Post">
-								</form>
-								{% endif %}
 								{% for object in object_list %}
 								<div class="panel panel-default postspanel catpanel1" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 									<div class="panel-body">

@@ -16,7 +16,7 @@ class PreferenceAdmin(admin.ModelAdmin):
 @admin.register(RoommatePost)
 class RoommatesPostAdmin(admin.ModelAdmin):
     list_display = ['student', 'title']
-    readonly_fields = ['totalHearts', 'updateDate', 'createdDate']
+    readonly_fields = ['heart', 'totalHearts', 'updateDate', 'createdDate']
 
 
 @admin.register(PostComment)

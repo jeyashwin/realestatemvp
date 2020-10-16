@@ -17,6 +17,8 @@ urlpatterns = [
     path('roommates/post/<int:pk>/', RoommatesPostDetailView.as_view(), name="postDetail"),
     path('roommates/post/<int:pk>/delete/', RoommatesPostDeleteView.as_view(), name="postDelete"),
 
+    path('roommates/post/<int:pk>/heart/', AddRemoveHeart, name="addRemoveHeart"),
+
     path('roommates/<int:pk>/comment/create/', PostCommentCreateView.as_view(), name="commentCreate"),
     path('roommates/comment/<int:pk>/', PostCommentUpdateDeleteView.as_view(), name="commentUpdateDelete"),
 

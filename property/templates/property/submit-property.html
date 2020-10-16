@@ -43,7 +43,8 @@
 										<span class="fa fa-info-circle help"></span>
 										<small class="helptext">Your default Phone Number</small>
 									</div>
-									<input type="text" class="form-control" name="property-phone" id="pxp-submit-property-phone" placeholder="Enter phone number" value="{{user.usertype.userlandlord.phone}}" disabled>
+									{% load extraTags %}
+									<input type="text" class="form-control" name="property-phone" id="pxp-submit-property-phone" placeholder="Enter phone number" value="{{user.usertype.userlandlord.phone|phonenumber}}" disabled>
                                 </div>
                                 <div class="form-group">
 									<div class="help-container">

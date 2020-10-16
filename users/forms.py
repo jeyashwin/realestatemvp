@@ -4,9 +4,21 @@ from django.contrib.auth.forms import UserCreationForm
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
 
 from .models import UserStudent, UserLandLord, Interest
+import phonenumbers
 
+def validatePhone(number):
+    try:
+        phone = phonenumbers.parse(str(number), None)
+        if phone.country_code != 1:
+            # print(phone.country_code)
+            # print(type(phone.country_code))
+            raise ValidationError(_('Currently we accept only USA Numbers!'),)
+    except phonenumbers.NumberParseException:
+        pass
 
 class LandlordSignupForm(UserCreationForm):
 
@@ -16,6 +28,8 @@ class LandlordSignupForm(UserCreationForm):
                     'type': 'tel',
                     'placeholder': 'Enter your phone number'
                 }),
+                help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
+                validators=[validatePhone]
             )
     lanprofilePicture = forms.ImageField(
                             widget= forms.ClearableFileInput(attrs={
@@ -75,6 +89,8 @@ class StudentSignupForm(UserCreationForm):
                     'type': 'tel',
                     'placeholder': 'Enter your phone number'
                 }),
+                help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
+                validators=[validatePhone],
             )
     university = forms.CharField(max_length=50,
                     widget=forms.TextInput(attrs={

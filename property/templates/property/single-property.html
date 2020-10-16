@@ -226,7 +226,8 @@
 								<div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Phone</div>
-                                        <div class="pxp-sp-kd-item-value">{{object.landlord.phone}}</div>
+										{% load extraTags %}
+                                        <div class="pxp-sp-kd-item-value">{{object.landlord.phone|phonenumber}}</div>
                                     </div>
                                 </div>
 								<div class="col-sm-6">

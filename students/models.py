@@ -2,10 +2,21 @@ from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_delete
 
+import uuid, os
+
 from users.models import UserStudent, Interest
 from property.models import Property
-from .utils import unique_slug_generator_preference
+from .utils import unique_slug_generator_preference, random_string_generator
+
 # Create your models here.
+
+def roompost_image_file_path(instance, filename):
+    """Generate file path for new roompost image"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+
+    return os.path.join('uploads/post/', filename)
+
 
 class Favourite(models.Model):
 
@@ -30,10 +41,10 @@ class RoommatePost(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     interest = models.ManyToManyField(Interest)
-    image = models.ImageField(upload_to='uploads/post/')
-    image1 = models.ImageField(upload_to='uploads/post/')
-    image2 = models.ImageField(upload_to='uploads/post/')
-    image3 = models.ImageField(upload_to='uploads/post/', blank=True)
+    image = models.ImageField(upload_to=roompost_image_file_path)
+    image1 = models.ImageField(upload_to=roompost_image_file_path)
+    image2 = models.ImageField(upload_to=roompost_image_file_path)
+    image3 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
     heart = models.ManyToManyField(UserStudent, related_name="hearts", blank=True)
     updateDate = models.DateTimeField(auto_now=True)
     createdDate = models.DateTimeField(auto_now_add=True)
@@ -88,3 +99,57 @@ def auto_add_unique_slug_field_preference(sender, instance, **kwargs):
             instance.preferenceSlug = unique_slug_generator_preference(instance)
     if not instance.preferenceSlug:
         instance.preferenceSlug = unique_slug_generator_preference(instance)
+
+@receiver(pre_save, sender=RoommatePost)
+def auto_delete_roommate_post_images_if_modified(sender, instance, **kwargs):
+    """
+    Deletes roommates post images file from filesystem
+    when corresponding MediaFile is modified.
+    """
+    if instance.image or instance.image1 or instance.image2:
+        alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
+        if alreadyExists:
+            oldFile = RoommatePost.objects.get(pk=instance.pk)
+            if str(oldFile.image) != str(instance.image) and (str(oldFile.image) != ''):
+                if os.path.isfile(oldFile.image.path):
+                    os.remove(oldFile.image.path)
+            if str(oldFile.image1) != str(instance.image1) and (str(oldFile.image1) != ''):
+                if os.path.isfile(oldFile.image1.path):
+                    os.remove(oldFile.image1.path)
+            if str(oldFile.image2) != str(instance.image2) and (str(oldFile.image2) != ''):
+                if os.path.isfile(oldFile.image2.path):
+                    os.remove(oldFile.image2.path)
+
+    if instance.image3:
+        alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
+        if alreadyExists:
+            oldFile = RoommatePost.objects.get(pk=instance.pk)
+            if str(oldFile.image3) != str(instance.image3) and (str(oldFile.image3) != ''):
+                if os.path.isfile(oldFile.image3.path):
+                    os.remove(oldFile.image3.path)
+    else:
+        alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
+        if alreadyExists:
+            oldFile = RoommatePost.objects.get(pk=instance.pk)
+            if oldFile.image3:
+                if os.path.isfile(oldFile.image3.path):
+                    os.remove(oldFile.image3.path)
+
+@receiver(post_delete, sender=RoommatePost)
+def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
+    """
+    Deletes roommates post images file from filesystem
+    when corresponding MediaFile is deleted.
+    """
+    if instance.image:
+        if os.path.isfile(instance.image.path):
+            os.remove(instance.image.path)
+    if instance.image1:
+        if os.path.isfile(instance.image1.path):
+            os.remove(instance.image1.path)
+    if instance.image2:
+        if os.path.isfile(instance.image2.path):
+            os.remove(instance.image2.path)
+    if instance.image3:
+        if os.path.isfile(instance.image3.path):
+            os.remove(instance.image3.path)
