@@ -5,7 +5,7 @@
 <style>
 	.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 	.form-control { background-color:#f7f7f7; }
-	#id_profilePicture { display:none; }
+	#pictureContainer{ display:none; }
 </style>
 
 
@@ -22,19 +22,41 @@
 							</h2>
 							<br>
 							<form action="" method="post" enctype="multipart/form-data">
-								{% csrf_token %}
-								{{form.as_p}}
+                            	{% csrf_token %}
+								{% for field in form %}
+									{% if field == form.interests %}
+									<p>
+										{{field.label_tag}}
+										<ul class="signup-interests-ul">
+										{% for interest in field %}
+											<li><small><p>{{interest}}</p></small></li>
+										{% endfor %}
+										</ul>
+										{{field.errors.as_ul}}
+									</p>
+									<br>
+									<br>
+									<br>
+									<br>
+									<br>
+									{% elif field != form.profilePicture %}
+									<p>
+										{{field.label_tag}}
+										{{field}}
+										{{field.errors.as_ul}}
+									</p>
+									{% endif %}
+								{% endfor %}
 								<span>
 									<input type="submit"  value="Save" class="btn submitbtn" style="background-color:rgba(0, 0, 0, 0.8); color:#fff;">
 									
 									<a class="btn btn-danger pull-right" onclick="return confirm('Are you sure to delete your account?');" href="{% url 'user:deleteProfile' user.username %}"><i class="fa fa-trash"></i> Delete my account</a>
 								</span>
-							</form>
-							
-							<div class="form-group inputitems" id="flnameinput" style="display:none;">
+							<br>
+							{% comment %} <div class="form-group inputitems" id="flnameinput" style="display:none;">
 								<label for="pxp-signup-flname">Full Name</label>
 								<input type="text" class="form-control" id="pxp-signup-flname" placeholder="Enter your full name" value="Test" style="width:50%; background-color:#f4f4f2;">
-							</div>
+							</div>  {% endcomment %}
                             <!--span class="pxp-agent-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa
 							fa-star"></span><span class="fa fa-star"></span></span-->
                             <br>
@@ -49,8 +71,9 @@
 							{% endif %}
 							<br><br>
 							<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span>
-							<input type="file" accept="image/*" id="photoinput" onchange="loadPhoto(event)" style="display:none;">
-							
+                            <p id="pictureContainer">{{form.profilePicture}}</p>
+							<p>{{form.profilePicture.errors}}</p>
+							</form>
 							<br><br><br>
 							
 							<h3>Social Media</h3>
@@ -135,7 +158,7 @@
 			
 			function photoclick()
 			{
-				document.getElementById('photoinput').click();									
+				document.getElementById('{{form.profilePicture.id_for_label}}').click();									
 			}
 			
 			function loadPhoto()

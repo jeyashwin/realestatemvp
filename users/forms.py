@@ -229,7 +229,9 @@ class StudentProfileUpdateForm(forms.ModelForm):
         widgets = {
             'profilePicture': forms.ClearableFileInput(attrs={
                     'class': 'form-control',
+                    'onchange': "loadPhoto(event)",
                 }),
+            'interests': forms.CheckboxSelectMultiple()
         }
 
     def __init__(self, request=None, *args, **kwargs):
@@ -273,6 +275,7 @@ class LandlordProfileUpdateForm(forms.ModelForm):
         widgets = {
             'profilePicture': forms.ClearableFileInput(attrs={
                     'class': 'form-control',
+                    'onchange': "loadPhoto(event)",
                 }),
             'phone': forms.TextInput(attrs={
                     'class': 'form-control',

@@ -46,8 +46,10 @@
 										<h2 class="pxp-content-side-h2">Services for Rent</h2>
 									</div>
 									<div class="col-9 col-sm-9 col-md-9 col-lg-9 pxp-content-side-search-form-col">
-										<input type="text" class="form-control pxp-is-address" placeholder="Search by entering name" id="pxp-p-search-address">
-										<span class="fa fa-search"></span>
+										<form action="" method="get">
+											<input type="text" class="form-control pxp-is-address" name="serviceName" placeholder="Search by entering name" id="pxp-p-search-address">
+											<button type="submit"><span class="fa fa-search"></span></button>
+										</form>
 									</div>
 								</div>
 							</div>
@@ -94,50 +96,6 @@
 								</a>
 							</div>
 							{% endfor %}
-{% comment %} 						
-							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
-								<a href="/singleservice" class="pxp-results-card-1 rounded-lg" data-prop="3" style="background-color:rgba(4, 113, 166, 0.3); text-decoration:none;">
-									<h5 style="color:black; padding:10px;"> Mattress</h5>
-									<div id="card-carousel-3" class="carousel slide" data-ride="carousel" data-interval="false">
-										<div class="carousel-inner">
-											<div class="carousel-item active" style="background-image: url({% static '/images/services/matress1.jpg' %})"></div>
-											<div class="carousel-item" style="background-image: url({% static '/images/services/matress2.jpg' %});"></div>
-										</div>
-										<span class="carousel-control-prev" data-href="#card-carousel-3" data-slide="prev">
-											<span class="fa fa-angle-left" aria-hidden="true"></span>
-										</span>
-										<span class="carousel-control-next" data-href="#card-carousel-3" data-slide="next">
-											<span class="fa fa-angle-right" aria-hidden="true"></span>
-										</span>
-									</div>
-									<div class="pxp-results-card-1-gradient"></div>
-									<div class="pxp-results-card-1-details">
-										<div class="pxp-results-card-1-details-price" style="border-radius:50px; background-color:rgba(0, 0, 0, 0.5); padding:10px; width:60%; color:#fff;">$ 123 Monthly</div>
-									</div>
-								</a>
-							</div>
-							
-							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
-								<a href="/singleservice" class="pxp-results-card-1 rounded-lg" data-prop="2" style="background-color:rgba(4, 113, 166, 0.3); text-decoration:none;">
-									<h5 style="color:black; padding:10px;"> TV</h5>
-									<div id="card-carousel-2" class="carousel slide" data-ride="carousel" data-interval="false">
-										<div class="carousel-inner">
-											<div class="carousel-item active" style="background-image: url({% static '/images/services/tv3.jpg' %})"></div>
-											<div class="carousel-item" style="background-image: url({% static '/images/services/tv2.jpg' %});"></div>
-										</div>
-										<span class="carousel-control-prev" data-href="#card-carousel-2" data-slide="prev">
-											<span class="fa fa-angle-left" aria-hidden="true"></span>
-										</span>
-										<span class="carousel-control-next" data-href="#card-carousel-2" data-slide="next">
-											<span class="fa fa-angle-right" aria-hidden="true"></span>
-										</span>
-									</div>
-									<div class="pxp-results-card-1-gradient"></div>
-									<div class="pxp-results-card-1-details">
-										<div class="pxp-results-card-1-details-price" style="border-radius:50px; background-color:rgba(0, 0, 0, 0.5); padding:10px; width:60%; color:#fff;">$ 321 Monthly</div>
-									</div>
-								</a>
-							</div> {% endcomment %}
 						</div>
 
 						<ul class="pagination pxp-paginantion mt-2 mt-md-4">

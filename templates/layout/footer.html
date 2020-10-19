@@ -65,13 +65,14 @@
 		<script>
 			function regintclick(id)
 			{
-				var thiscolor = $('signup-check-'+id).css("background-color");
-				if(thiscolor == 'rgba(0, 0, 0, 0.7)') {
-					$('signup-check-'+id).css({"background-color":"rgba(0, 0, 0, 0)", "color":"black"});
-					$('signup-check-'+id+'>input').prop('checked', true);
+				if($("#"+id).prop('checked') == true) {
+					console.log("yes")
+					$('#'+id).prop('checked', false);
+					$('#signup-check-'+id).css({"background-color":"rgba(0, 0, 0, 0)", "color":"black"});
 				} else {
-					$('signup-check-'+id).css({"background-color":"rgba(0, 0, 0, 0.7)", "color":"#fff"});
-					$('signup-check-'+id+'>input').prop('checked', false);
+					console.log("no")
+					$("#"+id).prop('checked', true);
+					$('#signup-check-'+id).css({"background-color":"rgba(0, 0, 0, 0.7)", "color":"#fff"});
 				}
 			}
 		
