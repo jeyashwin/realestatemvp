@@ -34,7 +34,8 @@ class LandlordSignupForm(UserCreationForm):
     lanprofilePicture = forms.ImageField(
                             widget= forms.ClearableFileInput(attrs={
                                 'class': 'form-control',
-                                'style': 'display:none;'
+                                'style': 'display:none;',
+                                'onchange': "landlordsignupprofilepicchanged(this)"
                             }),
                             label="Profile picture"
                         )
@@ -95,7 +96,7 @@ class StudentSignupForm(UserCreationForm):
     university = forms.CharField(max_length=50,
                     widget=forms.TextInput(attrs={
                         'class': 'form-control formInput',
-                        'placeholder': 'Enter university name'
+                        'placeholder': 'Enter university name',
                     })
                 )
     classYear = forms.IntegerField(validators=[
@@ -118,7 +119,8 @@ class StudentSignupForm(UserCreationForm):
     profilePicture = forms.ImageField(
                         widget= forms.ClearableFileInput(attrs={
                             'class': 'form-control',
-                            'style': 'display:none;'
+                            'style': 'display:none;',
+                            'onchange': "studentsignupprofilepicchanged(this)",
                         }),
                         label="Profile picture"
                     )

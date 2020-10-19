@@ -8,10 +8,10 @@ from rest_framework import generics, permissions
 
 from property.utils import studentAccessTest
 from property.models import Property
-from users.models import UserStudent
+from users.models import UserStudent, Interest
 from .models import Favourite, RoommatePost, PostComment, CommentReply, Preference
 from .serializers import RoommatePostDetailSerializer, PostCommentSerializer, \
-                            CommentReplySerializer
+                            CommentReplySerializer, RoommatePostSerializer
 from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
 from .forms import RoommatePostForm
 
@@ -32,25 +32,25 @@ class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         return Favourite.objects.filter(student__user__user=self.request.user)
 
 
-class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
-    form_class = RoommatePostForm
-    model = RoommatePost
-    success_url = "/"
-    template_name = 'students/roommates.html'
+# class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+#     form_class = RoommatePostForm
+#     model = RoommatePost
+#     success_url = "/"
+#     template_name = 'students/roommates.html'
 
-    def test_func(self):
-        try:
-            return self.request.user.usertype.is_student
-        except:
-            raise Http404
+#     def test_func(self):
+#         try:
+#             return self.request.user.usertype.is_student
+#         except:
+#             raise Http404
 
-    def form_valid(self, form):
-        form.instance.student = get_object_or_404(UserStudent, user__user=self.request.user)
-        form.instance.preference = get_object_or_404(Preference, preferenceSlug=self.kwargs.get('preference'))
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.student = get_object_or_404(UserStudent, user__user=self.request.user)
+#         form.instance.preference = get_object_or_404(Preference, preferenceSlug=self.kwargs.get('preference'))
+#         return super().form_valid(form)
 
-    def get_success_url(self, **kwargs):
-        return reverse_lazy('students:roommatesPreference', kwargs={'preference':self.kwargs.get('preference')})
+#     def get_success_url(self, **kwargs):
+#         return reverse_lazy('students:roommatesPreference', kwargs={'preference':self.kwargs.get('preference')})
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -94,6 +94,7 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["preferences"] = Preference.objects.all()
+        context["interests"] = Interest.objects.all()
         pre = self.kwargs.get('preference', None)
         if pre is not None:
             context["form"] = RoommatePostForm()
@@ -105,6 +106,15 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 #     serializer_class = RoommatePostSerializer
 #     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
 #     queryset = RoommatePost.objects.all()
+
+class RoommatesPostCreateView(generics.CreateAPIView):
+    serializer_class = RoommatePostSerializer
+    permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess)
+
+    def perform_create(self, serializer):
+        preferenceObj = get_object_or_404(Preference, preferenceSlug=self.kwargs.get('preference'))
+        studentObject = get_object_or_404(UserStudent, user__user=self.request.user)
+        serializer.save(preference=preferenceObj, student=studentObject)
 
 
 class RoommatesPostDetailView(generics.RetrieveAPIView):
@@ -124,7 +134,6 @@ class PostCommentCreateView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess)
 
     def perform_create(self, serializer):
-        print(self.request.data)
         postObj = get_object_or_404(RoommatePost, pk=self.kwargs.get('pk'))
         studentObject = get_object_or_404(UserStudent, user__user=self.request.user)
         serializer.save(roomatePost=postObj, student=studentObject)

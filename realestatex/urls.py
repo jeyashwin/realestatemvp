@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include("users.urls", namespace='userApp')),
     path('',include("property.urls", namespace='propertyApp')),
     path('', include("students.urls", namespace='studentsApp')),
+    path('', include("services.urls", namespace='servicesApp')),
 ]
 
 

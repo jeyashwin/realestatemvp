@@ -57,9 +57,11 @@
 	
 	
 	.signup-interests-ul { list-style-type:none; }	
-	.signup-interests-ul > li { float:left; margin:5px 7px; padding:1px 5px; border-radius:4px; border:1px solid rgba(0, 0, 0, 0.5); }
+	.signup-interests-ul > li { float:left; margin:5px 7px; padding:1px 5px; border-radius:6px; border:1px solid rgba(0, 0, 0, 0.5); }
 	.signup-interests-ul > li:hover { background-color:rgba(0, 0, 0, 0.5); color:#fff; cursor:pointer; }
 	.signup-interests-ul > li > small > input { display:none; }
+
+	#user-action-btn:hover { color:black; }
 	
 	
 </style>
@@ -111,6 +113,9 @@
                             {% comment %} <li class="list-inline-item" style="padding:0px 20px;">
                                 <a href="blog.html">Blog </a>                                
                             </li>  {% endcomment %}
+							<li class="list-inline-item pxp-is-last">
+                                <a href="{% url 'services:servicesList' %}">Services</a>
+                            </li>
                             <li class="list-inline-item pxp-is-last">
                                 <a href="{% url 'user:contact' %}">Contact Us</a>
                             </li>
@@ -149,11 +154,11 @@
 										  </div>
 										  <div class="dropdown-content" id="header_dropdown_content" style="margin-left:25px; text-align:right;">
 											{% if user.usertype.is_student %}
-												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
+												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% elif user.usertype.is_landlord %}
-												<a class="aprofile" href="{% url 'user:landlordProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
+												<a class="aprofile" href="{% url 'user:landlordProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% endif %}
-											<a class="aclass" href="{% url 'user:logout' %}" style="color:maroon;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>
+											<a class="aclass" href="{% url 'user:logout' %}" style="color:maroon; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>
 										  </div>	
 										</div>
 									{% else %}
@@ -304,11 +309,11 @@
 								{{StudentSignupForm.profilePicture.label_tag}}
 								<div class="row">
 									<div class="col-md-10">
-										<center id="signupprofilepicsel" onclick="studentsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
+										<center id="stdsignupprofilepicsel" onclick="studentsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
 										{{StudentSignupForm.profilePicture}}
 									</div>
 									<div class="col-md-2">
-										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="border-radius:50px; border:2px solid #e2e2e2; width:40px; height:40px;" />
+										<img src="{% static '/images/user-default.png' %}" id="reg_stu_img_preview" style="border-radius:50px; border:2px solid #e2e2e2; width:50px; height:50px; margin-top:-7px;" />
 									</div>
 								</div>
 							</div>
@@ -342,13 +347,13 @@
 												{% for interest in StudentSignupForm.interests %}
 													<li><small>{{interest}}</small></li>
 												{% endfor %}
-												{% comment %} <li><small>Travelling <input type="checkbox" id="signup-travelling" name="signup-travelling"/></small></li>
-												<li><small>Sports <input type="checkbox" id="signup-sports" name="signup-sports"/></small></li>
-												<li><small>Adventuring <input type="checkbox" id="signup-adventuring" name="signup-adventuring" /></small></li>
-												<li><small>Smoking <input type="checkbox" id="signup-smoking" name="signup-smoking" /></small></li>
-												<li><small>Drinking <input type="checkbox" id="signup-drinking" name="signup-drinking" /></small></li>
-												<li><small>Net Surfing <input type="checkbox" id="signup-net-surfing" name="signup-net-surfing" /></small></li>
-												<li><small>Partying <input type="checkbox" id="signup-partying" name="signup-partying" /></small></li> {% endcomment %}
+												{% comment %} <li onclick="regintclick(1)"><small id="signup-check-1">Travelling <input type="checkbox" name="signup-travelling"/></small></li>
+												<li onclick="regintclick(2)"><small id="signup-check-1">Sports <input type="checkbox" name="signup-sports"/></small></li>
+												<li onclick="regintclick(3)"><small id="signup-check-1">Adventuring <input type="checkbox" name="signup-adventuring" /></small></li>
+												<li onclick="regintclick(4)"><small id="signup-check-1">Smoking <input type="checkbox" name="signup-smoking" /></small></li>
+												<li onclick="regintclick(5)"><small id="signup-check-1">Drinking <input type="checkbox" name="signup-drinking" /></small></li>
+												<li onclick="regintclick(6)"><small id="signup-check-1">Net Surfing <input type="checkbox" name="signup-net-surfing" /></small></li>
+												<li onclick="regintclick(7)"><small id="signup-check-1">Partying <input type="checkbox" name="signup-partying" /></small></li> {% endcomment %}
 											</ul>
 										</div>
 									</div>
@@ -441,11 +446,11 @@
 								{{LandlordSignupForm.lanprofilePicture.label_tag}}
 								<div class="row">
 									<div class="col-md-10">
-										<center id="signupprofilepicsel" onclick="landlordsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
+										<center id="lansignupprofilepicsel" onclick="landlordsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
 										{{LandlordSignupForm.lanprofilePicture}}
 									</div>
 									<div class="col-md-2">
-										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="border-radius:50px; border:2px solid #e2e2e2; width:40px; height:40px;" />
+										<img src="{% static '/images/user-default.png' %}" id="reg_land_img_preview" style="border-radius:50px; border:2px solid #e2e2e2; width:50px; height:50px; margin-top:-7px;" />
 									</div>
 								</div>
 							</div>
@@ -528,6 +533,32 @@
 			function landlordsignupprofilepicsel()
 			{
 				document.getElementById('{{LandlordSignupForm.lanprofilePicture.id_for_label}}').click();
+			}
+			function studentsignupprofilepicchanged(dis)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						document.getElementById('reg_stu_img_preview').src = e.target.result;
+						document.getElementById('stdsignupprofilepicsel').innerHTML = 'Change Image';
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
+			}
+			function landlordsignupprofilepicchanged(dis)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						document.getElementById('reg_land_img_preview').src = e.target.result;
+						document.getElementById('lansignupprofilepicsel').innerHTML = 'Change Image';
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
 			}
 		</script>
 		

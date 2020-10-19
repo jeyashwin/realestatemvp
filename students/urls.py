@@ -12,7 +12,8 @@ urlpatterns = [
     path('roommates/', RoommatesListView.as_view(), name="roommates"),
     path('roommates/<slug:preference>/', RoommatesListView.as_view(), name="roommatesPreference"),
 
-    path('roommates/<slug:preference>/post/create/', PostCreateView.as_view(), name="postCreate"),
+    # path('roommates/<slug:preference>/post/create/', PostCreateView.as_view(), name="postCreate"),
+    path('roommates/<slug:preference>/post/create/', RoommatesPostCreateView.as_view(), name="postCreate"),
     path('roommates/post/<int:pk>/update/', PostUpdateView.as_view(), name="postUpdate"),
     path('roommates/post/<int:pk>/', RoommatesPostDetailView.as_view(), name="postDetail"),
     path('roommates/post/<int:pk>/delete/', RoommatesPostDeleteView.as_view(), name="postDelete"),

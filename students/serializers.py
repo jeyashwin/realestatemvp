@@ -39,11 +39,11 @@ class PostCommentSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'roomatePost', 'student', 'commentreply', 'updateDate', 'createdDate']
 
 
-# class RoommatePostSerializer(serializers.ModelSerializer):
-
-#     class Meta:
-#         model = RoommatePost
-#         fields = ['id', 'title', 'description', 'interest']
+class RoommatePostSerializer(serializers.ModelSerializer):
+    """Serializer for RoommatePost create & update"""
+    class Meta:
+        model = RoommatePost
+        fields = ['id', 'title', 'description', 'interest', 'image', 'image1', 'image2', 'image3']
 
 
 class RoommatePostDetailSerializer(serializers.ModelSerializer):
