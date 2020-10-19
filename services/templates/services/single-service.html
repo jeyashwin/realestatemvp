@@ -29,15 +29,20 @@
                         </div>
 						<div class="col-xs-12 col-sm-12 col-md-5">
 							<a href="#" class="pxp-results-card-1 rounded-lg" data-prop="3" style="border:2px solid #0471a6;">
-								<div id="card-carousel-3" class="carousel slide" data-ride="carousel" data-interval="false">
+								<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
 									<div class="carousel-inner">
-										<div class="carousel-item active" style="background-image: url({% static '/images/services/matress1.jpg' %})"></div>
-										<div class="carousel-item" style="background-image: url({% static '/images/services/matress2.jpg' %});"></div>
+										{% for image in object.serviceimage_set.all %}
+											{% if forloop.first %}
+											<div class="carousel-item active" style="background-image: url({{image.image.url}})"></div>
+											{% else %}
+											<div class="carousel-item" style="background-image: url({{image.image.url}});"></div>
+											{% endif %}
+										{% endfor %}
 									</div>
-									<span class="carousel-control-prev" data-href="#card-carousel-3" data-slide="prev">
+									<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
 										<span class="fa fa-angle-left" aria-hidden="true"></span>
 									</span>
-									<span class="carousel-control-next" data-href="#card-carousel-3" data-slide="next">
+									<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
 										<span class="fa fa-angle-right" aria-hidden="true"></span>
 									</span>
 								</div>
@@ -45,12 +50,13 @@
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-5">
 							<div style="background-color:rgba(255, 255, 255, 1); padding:20px; border-radius:7px;">
-								<h4>Mattress</h4>
+								<h4>{{object.serviceName}}</h4>
 								<hr style="border-top:2px solid #f2f2f2;">
-								<p style="font-family:Book Antiqua; text-align:justify;">Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book.</p>
+								<p style="font-family:Book Antiqua; text-align:justify;">{{object.description|safe}}</p>
 								<br>
 								<hr style="border-top:2px solid #f2f2f2;">
-								<h5 class="pull-right" style="color:grey;">Monthly Rent <b>$123</b></h5>
+								{% load humanize %}
+								<h5 class="pull-right" style="color:grey;">{{object.rentCycle|title}} Rent <b>${{object.price|intcomma}}</b></h5>
 								<br><br>
 							</div>
 						</div>
@@ -88,214 +94,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<script>
-		function playvideo(dis)
-		{
-			var videourl = dis.getAttribute('data-vurl');
-			$("#videoframe").attr('src', videourl);
-			$("#videomodalbtn").click();
-			
-		} 
-	</script>
-
-
-	<script>
-		function readmore()
-		{
-			var readmorestatus = document.getElementById('pxp-dots-moree').style.display;
-		
-			$("#pxt-read-dots").hide();
-			$("#pxp-dots-moree").show(300);
-			$(".pxp-sp-more-1").hide();
-			$(".pxp-sp-more-2").show();
-		
-		}
-		
-		function readless()
-		{
-			$("#pxp-dots-moree").hide(300);
-			$("#pxt-read-dots").show();
-			$(".pxp-sp-more-2").hide();
-			$(".pxp-sp-more-1").show();
-		}
-	</script>
-	
-	<script>
-		function lifestyleselect(dis)
-		{
-			var classname = $(dis).attr('class');
-			if(classname == 'lifestyle-li-unsel') { 
-				$(dis).attr('class', 'lifestyle-li-sel'); 
-			} else {
-				$(dis).attr('class', 'lifestyle-li-unsel'); 
-			}
-		}
-		function likeclick(id, dis)
-		{
-			
-			var disid = dis.getAttribute('id');
-			$("#" + disid + " > i").show();
-			
-			var likecount = $("#" + disid + " > .likescount").text();
-			var addlikeval = parseInt(likecount) + 1;
-			var sublikeval1 = parseInt(likecount) - 1;
-			
-			if(sublikeval1 <= 0) { sublikeval = 0; }
-			
-			var dislikecount = $("#" + disid + " > .dislikescount").text();
-			var adddislikeval = parseInt(dislikecount) + 1;
-			var subdislikeval1 = parseInt(dislikecount) - 1;
-			
-			if(subdislikeval1 <= 0) { subdislikeval = 0; }
-			
-			var url = dis.getAttribute('likeurl');
-			var csrfmiddlewaretoken = dis.getAttribute('key');
-			
-			$.ajax({
-			  url: url,
-			  type: 'POST',
-			  data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
-			  success: function(res){
-				$("#" + disid + " > i").hide();
-				  console.log(res)
-					if(res.liked == 1) { 
-						$("#" + disid + " > .likescount").text(addlikeval);
-						$("#" + disid + " > #likefaicon"+id).css("color","green");
-						$("#" + disid).css({"border":"2px solid green", "background-color":"#d6ffd8;"});
-					} else {
-						$("#" + disid + " > .likescount").text(sublikeval);
-						$("#" + disid + " > #likefaicon"+id).css("color","grey");
-						$("#" + disid).css({"border":"none", "background-color":"#fff;"});
-					}
-					
-					if(res.disliked == 1) { 
-						$("#dislike" + id + " > .dislikescount").text(adddislikeval);
-						$("#dislike" + id + " > #dislikefaicon"+id).css("color","red");
-						$("#dislike" + id).css({"border":"2px solid green", "background-color":"#d6ffd8;"});
-					} else {
-						$("#dislike" + id + " > .dislikescount").text(subdislikeval);
-						$("#dislike" + id + " > #dislikefaicon"+id).css("color","grey");
-						$("#dislike" + id).css({"border":"none", "background-color":"#fff;"});
-					}
-				
-			  },
-			  error: function()
-			  {
-				$("#" + disid + " > i").hide();
-				console.log('Error!');
-			  }
-			});
-			
-		}
-		
-		function dislikeclick(id, dis)
-		{
-			
-			var disid = dis.getAttribute('id');
-			$("#" + disid + " > i").show();
-			
-			var dislikecount = $("#" + disid + " > .dislikescount").text();
-			var adddislikeval = parseInt(dislikecount) + 1;
-			var subdislikeval1 = parseInt(dislikecount) - 1;
-			
-			if(subdislikeval1 <= 0) { subdislikeval = 0; }
-			
-			var likecount = $("#" + disid + " > .likescount").text();
-			var addlikeval = parseInt(likecount) + 1;
-			var sublikeval1 = parseInt(likecount) - 1;
-			
-			if(sublikeval1 <= 0) { sublikeval = 0; }
-			
-			var url = dis.getAttribute('dislikeurl');
-			var csrfmiddlewaretoken = dis.getAttribute('key');
-			$.ajax({
-			  url: url,
-			  type: 'POST',
-			  data: {"dislike":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
-			  success: function(res){
-				console.log(res);
-				$("#" + disid + " > i").hide();
-				if(res.disliked == 1) { 
-					$("#" + disid + " > .dislikescount").text(adddislikeval);
-					$("#" + disid + " > #dislikefaicon"+id).css("color","red");
-					$("#" + disid).css({"border":"2px solid red", "background-color":"#ffc6c6;"});
-				} else {
-					$("#" + disid + " > .dislikescount").text(subdislikeval);
-					$("#" + disid + " > #dislikefaicon"+id).css("color","grey");
-					$("#" + disid).css({"border":"none", "background-color":"#fff;"});
-				}
-				
-				if(res.liked == 1) { 
-					$("#like" + id + " > .likescount").text(addlikeval);
-					$("#like" + id + " > #likefaicon"+id).css("color","green");
-					$("#like" + id).css({"border":"2px solid green", "background-color":"#d6ffd8;"});
-				} else {
-					$("#like" + id + " > .likescount").text(sublikeval);
-					$("#like" + id + " > #likefaicon"+id).css("color","grey");
-					$("#like" + id).css({"border":"none", "background-color":"#fff;"});
-				}
-			
-			  },
-			  error: function(){
-				$("#" + disid + " > i").hide();
-				console.log('Error!');
-			  }
-			});
-			
-		}
-		function submitquestion(id, dis)
-		{
-			$("#post_ques_loader").show();
-			
-			var url = dis.getAttribute('postquesurl');
-			var csrfmiddlewaretoken = dis.getAttribute('key');
-			var question = $("#prop-question").val();
-
-			if(question != '') {
-				$.ajax({
-				  url: url,
-				  type: 'POST',
-				  data: {"question":question, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
-				  success: function(res){
-					$("#prop-question").val("");
-					$("#post_ques_loader").hide();
-					$("#post_ques_success").show();
-					$("#post_ques_success").fadeOut(2000);
-					var newqueshtml = '<div class="qadiv"><hr><b>'+res.question+'</b><p style="padding-left:10px; color:grey; padding-top:10px;">&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;No reply</p></div>';
-					$("#ques_ans_card_h6").after(newqueshtml);
-				  },
-				  error: function(){
-					$("#post_ques_loader").hide();
-					$("#post_ques_failed").show();
-					$("#post_ques_failed").fadeOut(500);
-					console.log('Error!');
-				  }
-				});
-				return true;
-			} else {
-				$("#post_ques_loader").hide();
-				$("#post_ques_required").show();
-				$("#post_ques_required").fadeOut(2000);
-				return false;
-			}
-
-		}
-	</script>
-
-	<script>
-		function postques()
-		{
-			$("#prop-question").attr('rows', 3);
-			$("#prop-question-btns").show(200);
-		}
-		
-		function postquescancel()
-		{
-			$("#prop-question").attr('rows', 1);
-			$("#prop-question-btns").hide(200);
-		}
-		
-	</script>
 	
 	<script>
 		
@@ -328,14 +126,6 @@
 				
 			});
 	
-	</script>
-	
-	<script>
-		function postanswer(dis)
-		{
-			$(".answertextarea").attr('rows', '1');
-			$(dis).attr('rows', '3');
-		}
 	</script>
 	
 	<script>

@@ -59,37 +59,42 @@
 							<div class="col-sm-6">
 								<div class="pxp-sort-form form-inline float-right">
 									<div class="form-group">
-										{{filterSortForm.sort}}
-										{{filterSortForm.sort.errors}}
 									</div>
 								</div>
 							</div>
 						</div>
 						
 						<div class="row">
-						
+							{% load humanize %}
+							{% for object in object_list %}
 							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
-								<a href="/singleservice" class="pxp-results-card-1 rounded-lg" data-prop="3" style="background-color:rgba(4, 113, 166, 0.3); text-decoration:none;">
-									<h5 style="color:black; padding:10px;"> Sofa</h5>
-									<div id="card-carousel-3" class="carousel slide" data-ride="carousel" data-interval="false">
+								<a href="{% url 'services:servicesDetail' object.pk %}" class="pxp-results-card-1 rounded-lg" data-prop="3" style="background-color:rgba(4, 113, 166, 0.3); text-decoration:none;">
+									<h5 style="color:black; padding:10px;">{{object.serviceName}}</h5>
+									<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
 										<div class="carousel-inner">
-											<div class="carousel-item active" style="background-image: url({% static '/images/services/sofa1.jpg' %})"></div>
-											<div class="carousel-item" style="background-image: url({% static '/images/services/sofa2.jpg' %});"></div>
+											{% for image in object.serviceimage_set.all %}
+												{% if forloop.first %}
+												<div class="carousel-item active" style="background-image: url({{image.image.url}})"></div>
+												{% else %}
+												<div class="carousel-item" style="background-image: url({{image.image.url}});"></div>
+												{% endif %}
+											{% endfor %}
 										</div>
-										<span class="carousel-control-prev" data-href="#card-carousel-3" data-slide="prev">
+										<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
 											<span class="fa fa-angle-left" aria-hidden="true"></span>
 										</span>
-										<span class="carousel-control-next" data-href="#card-carousel-3" data-slide="next">
+										<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
 											<span class="fa fa-angle-right" aria-hidden="true"></span>
 										</span>
 									</div>
 									<div class="pxp-results-card-1-gradient"></div>
 									<div class="pxp-results-card-1-details">
-										<div class="pxp-results-card-1-details-price" style="border-radius:50px; background-color:rgba(0, 0, 0, 0.5); padding:10px; width:60%; color:#fff;">$ 123 Weekly</div>
+										<div class="pxp-results-card-1-details-price" style="border-radius:50px; background-color:rgba(0, 0, 0, 0.5); padding:10px; width:60%; color:#fff;">$ {{object.price|intcomma}} {{object.rentCycle|title}}</div>
 									</div>
 								</a>
 							</div>
-						
+							{% endfor %}
+{% comment %} 						
 							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
 								<a href="/singleservice" class="pxp-results-card-1 rounded-lg" data-prop="3" style="background-color:rgba(4, 113, 166, 0.3); text-decoration:none;">
 									<h5 style="color:black; padding:10px;"> Mattress</h5>
@@ -132,101 +137,7 @@
 										<div class="pxp-results-card-1-details-price" style="border-radius:50px; background-color:rgba(0, 0, 0, 0.5); padding:10px; width:60%; color:#fff;">$ 321 Monthly</div>
 									</div>
 								</a>
-							</div>
-							
-							
-							{% load humanize %}
-							{% for object in object_list %}
-								<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
-									<div style="margin-top: 10px; padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; background-image:url({% static '/images/bg-pattern1.png' %});">
-										<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg"  data-prop="1" style="height:270px;">
-											<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
-												<div class="carousel-inner">
-													{% for image in object.propertyimage_set.all %}
-														{% if forloop.first %}
-														<div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
-														{% else %}
-														<div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
-														{% endif %}
-													{% endfor %}
-												</div>
-												<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
-													<span class="fa fa-angle-left" aria-hidden="true"></span>
-												</span>
-												<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
-													<span class="fa fa-angle-right" aria-hidden="true"></span>
-												</span>
-											</div>
-											<div class="pxp-results-card-1-gradient"></div>
-											<div class="pxp-results-card-1-details">
-												<div class="pxp-results-card-1-details-title">{{object.title|title|truncatechars:25}}</div>
-												<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
-											</div>
-											<div class="pxp-results-card-1-features">
-												<span>{{object.rooms}} Room <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
-											</div>
-											
-											<div class="pxp-results-card-1-save">
-												<span id="like{{object.pk}}" onclick="return likeclick('prop1', this)" likeurl="{%url 'property:propertyReaction' %}" key="{{csrf_token}}" property="{% url 'property:propertyReaction' object.urlSlug %}" 
-													class="fa fa-thumbs-o-up 
-														{% for liked in object.likes.all  %}
-															{% if liked.user.user == user %}
-																thumbs-o-up
-															{% endif %}
-														{% endfor %}
-													">
-												</span>
-												<span id="dislike{{object.pk}}" onclick="return dislikeclick('prop1', this)" dislikeurl="{%url 'property:propertyReaction' %}" key="{{csrf_token}}" property="{% url 'property:propertyReaction' object.urlSlug %}" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;" 
-													class="fa fa-thumbs-o-down 
-														{% for disliked in object.dislikes.all  %}
-															{% if disliked.user.user == user %}
-																thumbs-o-down
-															{% endif %}
-														{% endfor %}
-													">
-												</span>
-											</div>
-										</a>
-										<div class="col-md-12" style="padding-bottom:10px; font-size:12px; margin-top:-20px; color:grey;">
-											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
-												<div class="col-md-6"><b>Distance </b></div>
-												<div class="col-md-6">10 Miles</div>
-											</div>
-											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
-												<div class="col-md-6"><b>Amenities </b></div>
-												<div class="col-md-6">
-													{% for amenity in object.amenities.all %}
-														{% if forloop.first %}
-															{{amenity}},
-														{% endif %} 
-													{% endfor %}
-												</div>
-												<div class="col-md-12">
-													{% for amenity in object.amenities.all %}
-														{% if not forloop.first and forloop.counter <= 4 %}
-															{{amenity}}
-															{% if forloop.counter != 4 and not forloop.last %}
-																,
-															{% endif %}
-														{% endif %} 
-													{% endfor %}
-												</div>
-											</div>
-											<div class="row" style="padding:4px 0px;">
-												<div class="col-md-6"><b>Occupants </b></div>
-												<div class="col-md-6">{{object.occupants}}</div>
-											</div>
-										</div>
-										
-										<div class="col-md-12" style="border-top:1px solid silver; padding:5px 10px; font-size:12px; color:black;">
-											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
-												<div class="col-md-12"><b>Tag a friend @ </b></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							{% endfor %}
-							 
+							</div> {% endcomment %}
 						</div>
 
 						<ul class="pagination pxp-paginantion mt-2 mt-md-4">
@@ -245,66 +156,5 @@
 			</div> <!--col-md-9-->
 			</div> <!--row-->
         </div>
-
-	<script>
-		function toggle_filters()
-		{
-			var filtersdivstatus = document.getElementById('filtersdiv').style.display;
-			
-			if(filtersdivstatus == 'none') {
-				//document.getElementById('filtersdiv').style.display = 'block';
-				$("#filtersdiv").show(700);
-				
-			} else {
-				//document.getElementById('filtersdiv').style.display = 'none';
-				$("#filtersdiv").hide(700);
-			}
-		}
-	</script>
-	
-	<script>
-		function likeclick(id, dis)
-		{
-			/*var like = document.getElementById(id);
-			like.classList.toggle("thumbs-o-up");*/
-			
-			var url = dis.getAttribute('likeurl');
-			$.ajax({
-			  url: url,
-			  type: 'POST',
-			  data: {like:1, dislike:0},
-			  success: function(res){
-				console.log(res);
-			  },
-			  error: function()
-			  {
-				console.log('Error!');
-			  }
-			});
-			
-		}
-		
-		function dislikeclick(id, dis)
-		{
-		
-			/*var dislike = document.getElementById(id);
-			dislike.classList.toggle("thumbs-o-down")*/
-			
-			var url = dis.getAttribute('dislikeurl');
-			$.ajax({
-			  url: url,
-			  type: 'POST',
-			  data: {like:0, dislike:1},
-			  success: function(res){
-				console.log(res);
-			  },
-			  error: function(){
-				console.log('Error!');
-			  }
-			});
-			
-		}
-	</script>
-
 
 {% include "layout/footer.html" %}

@@ -4,6 +4,6 @@ from .views import *
 app_name = "services"
 
 urlpatterns = [
-    path('services/', temp, name="servicesList"),
-    # path('services/<int:pk>', ServicesDetailView.as_view(), name="servicesDetail"),
+    path('services/', ServiceListView.as_view(), name="servicesList"),
+    path('services/<int:pk>', ServiceDetailView.as_view(), name="servicesDetail"),
 ]
