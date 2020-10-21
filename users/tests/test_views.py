@@ -27,7 +27,7 @@ def createLandlordUser(username="TestUser"):
     data = { 'first_name': 'Test1', 'last_name': 'Test2' , 
                 'email': 'TESTtest@123.com' , 'username': username,
                 'password1': 'first@123', 'password2': 'first@123',
-                'phone': "+21312312313", 'profilePicture': MockImage()
+                'phone': "+12125552368", 'lanprofilePicture': MockImage()
             }
     response = client.post(
             reverse('user:landlordSignup'),
@@ -43,7 +43,7 @@ def createStudentUser(username="TestUser"):
     data = { 'first_name': 'Test1', 'last_name': 'Test2' , 
                 'email': 'TESTtest@123.com' , 'username': username,
                 'password1': 'first@123', 'password2': 'first@123',
-                'phone': "+21312312313", 'university': 'aasd asdasd', 'classYear': 2025,
+                'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
                 'interests': [in1.pk, in2.pk] , 'fblink': "https://www.facebook.com/", 
                 'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
@@ -65,15 +65,15 @@ class LandlordSignUpViewTests(TestCase):
         self.validPayload = { 'first_name': 'Test Seller', 'last_name': 'TestLastname', 
                 'email': 'SellerTest@Prop.com' , 'username': 'seller', 
                 'password1': 'Password@123' , 'password2': 'Password@123',
-                'phone': "+21312312313", 'profilePicture': MockImage()
+                'phone': "+12125552368", 'lanprofilePicture': MockImage()
             }
         self.invalidPayload1 = { 'first_name': '', 'last_name': '', 'email': '' , 
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
-                'profilePicture': ''
+                'lanprofilePicture': ''
             }
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
                 'username': 'TestUser', 'password1': '12312312', 'password2': 'Test2323', 
-                'phone': "231212", 'profilePicture': MockImage('.mp4')
+                'phone': "231212", 'lanprofilePicture': MockImage('.mp4')
             }
 
     def test_create_seller_link_without_payload(self):
@@ -128,7 +128,7 @@ class LandlordSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('password1'), ['This field is required.'])
         self.assertEqual(errorData.get('password2'), ['This field is required.'])
         self.assertEqual(errorData.get('phone'), ['This field is required.'])
-        self.assertEqual(errorData.get('profilePicture'), ['This field is required.'])
+        self.assertEqual(errorData.get('lanprofilePicture'), ['This field is required.'])
 
     def test_create_seller_invalid_payload2(self):
         """Test creating a new Seller user with invalid payload2"""
@@ -145,7 +145,7 @@ class LandlordSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
         self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
         self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. +12125552368).'])
-        self.assertEqual(errorData.get('profilePicture'), ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData.get('lanprofilePicture'), ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
 
 
 class StudentSignUpViewTests(TestCase):
@@ -157,7 +157,7 @@ class StudentSignUpViewTests(TestCase):
         self.validPayload = { 'first_name': 'Test Seller', 'last_name': 'TestLastname', 
                 'email': 'SellerTEST@Prop.com' , 'username': 'student', 
                 'password1': 'Password@123' , 'password2': 'Password@123',
-                'phone': "+21312312313", 'university': 'aasd asdasd', 'classYear': 2025,
+                'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
                 'interests': [in1.pk, in2.pk], 
                 'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
@@ -191,7 +191,6 @@ class StudentSignUpViewTests(TestCase):
             reverse('user:studentSignup'),
             self.validPayload
         )
-
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, "/")
 
@@ -461,7 +460,7 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertNotEqual(studentObject.user.user.email, self.invalidPayload2.get('email'))
         self.assertNotEqual(studentObject.phone, self.invalidPayload2.get('phone'))
         self.assertEqual(errorData["email"],  ['Enter a valid email address.'])
-        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. +12125552368).'])
+        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData["classYear"],  ['Maximum year 2030'])
         self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
         self.assertEqual(errorData["interests"],  ['Select a valid choice. 10 is not one of the available choices.'])
@@ -573,7 +572,7 @@ class LandlordProfileUpdateViewTests(TestCase):
         self.assertNotEqual(landlordObject.user.user.first_name, self.validPayload.get('first_name'))
         self.assertNotEqual(landlordObject.user.user.last_name, self.validPayload.get('last_name'))
         self.assertEqual(errorData["email"],  ['Enter a valid email address.'])
-        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. +12125552368).'])
+        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
 
 

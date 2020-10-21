@@ -13,7 +13,6 @@ from .models import Favourite, RoommatePost, PostComment, CommentReply, Preferen
 from .serializers import RoommatePostDetailSerializer, PostCommentSerializer, \
                             CommentReplySerializer, RoommatePostSerializer
 from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
-from .forms import RoommatePostForm
 
 # Create your views here.
 
@@ -31,11 +30,10 @@ class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         return Favourite.objects.filter(student__user__user=self.request.user)
 
-
-# class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+# class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 #     form_class = RoommatePostForm
 #     model = RoommatePost
-#     success_url = "/"
+#     success_url = "/roommates/"
 #     template_name = 'students/roommates.html'
 
 #     def test_func(self):
@@ -45,31 +43,10 @@ class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 #             raise Http404
 
 #     def form_valid(self, form):
-#         form.instance.student = get_object_or_404(UserStudent, user__user=self.request.user)
-#         form.instance.preference = get_object_or_404(Preference, preferenceSlug=self.kwargs.get('preference'))
 #         return super().form_valid(form)
 
-#     def get_success_url(self, **kwargs):
-#         return reverse_lazy('students:roommatesPreference', kwargs={'preference':self.kwargs.get('preference')})
-
-
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    form_class = RoommatePostForm
-    model = RoommatePost
-    success_url = "/roommates/"
-    template_name = 'students/roommates.html'
-
-    def test_func(self):
-        try:
-            return self.request.user.usertype.is_student
-        except:
-            raise Http404
-
-    def form_valid(self, form):
-        return super().form_valid(form)
-
-    def get_queryset(self):
-        return super().get_queryset().filter(student__user__user=self.request.user)
+#     def get_queryset(self):
+#         return super().get_queryset().filter(student__user__user=self.request.user)
 
 
 class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -97,15 +74,9 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context["interests"] = Interest.objects.all()
         pre = self.kwargs.get('preference', None)
         if pre is not None:
-            context["form"] = RoommatePostForm()
             context["currentpreferences"] = get_object_or_404(Preference, preferenceSlug=pre)
         return context 
 
-
-# class RoommatesPostUpdateView(generics.RetrieveUpdateAPIView):
-#     serializer_class = RoommatePostSerializer
-#     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
-#     queryset = RoommatePost.objects.all()
 
 class RoommatesPostCreateView(generics.CreateAPIView):
     serializer_class = RoommatePostSerializer
@@ -117,15 +88,15 @@ class RoommatesPostCreateView(generics.CreateAPIView):
         serializer.save(preference=preferenceObj, student=studentObject)
 
 
-class RoommatesPostDetailView(generics.RetrieveAPIView):
-    serializer_class = RoommatePostDetailSerializer
-    permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess)
+class RoommatesPostDeleteView(generics.RetrieveUpdateDestroyAPIView):
+    serializer_class = RoommatePostSerializer
+    permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
     queryset = RoommatePost.objects.all()
 
 
-class RoommatesPostDeleteView(generics.DestroyAPIView):
+class RoommatesPostDetailView(generics.RetrieveAPIView):
     serializer_class = RoommatePostDetailSerializer
-    permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
+    permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess)
     queryset = RoommatePost.objects.all()
 
 
@@ -138,10 +109,12 @@ class PostCommentCreateView(generics.CreateAPIView):
         studentObject = get_object_or_404(UserStudent, user__user=self.request.user)
         serializer.save(roomatePost=postObj, student=studentObject)
 
+
 class PostCommentUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostCommentSerializer
     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
     queryset = PostComment.objects.all()
+
 
 class CommentReplyCreateView(generics.CreateAPIView):
     serializer_class = CommentReplySerializer

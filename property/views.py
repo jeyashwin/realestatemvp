@@ -16,8 +16,8 @@ from .utils import studentAccessTest, landlordAccessTest
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
 
 # Create your views here.
-data = pd.read_csv("ny_data.csv")
-data = data.dropna(subset=["CITY"])
+# data = pd.read_csv("ny_data.csv")
+# data = data.dropna(subset=["CITY"])
 
 class MONGO_CONFS:
     myclient = pymongo.MongoClient("mongodb://localhost:27017/")

@@ -81,9 +81,11 @@
 							<h6>Price Range</h6>
 							<div data-role="rangeslider">
 								<small>Min</small><br>
-								<input type="range" name="price-min" id="price-min" value="200" min="0" max="1000"><br>
+								{{filterSortForm.minPri}}
+								{{filterSortForm.minPri.errors}}
 								<small>Max</small><br>
-								<input type="range" name="price-max" id="price-max" value="800" min="0" max="1000"><br>
+								{{filterSortForm.maxPri}}
+								{{filterSortForm.maxPri.errors}}
 							  </div><br>
 
 							<style>
@@ -92,12 +94,30 @@
 							</style>
 							<h6>Amenities</h6>
 							<p class="filter-amenities-tags pull-left" style="list-style-type:none; width:100%;"> 
-							<span>Pool</span> <span>Gym</span> <span>Garage</span> <span>Garden</span>
+								{% comment %} <span onclick="amenitiesfilterclick(this, 1)" id="amenityspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Amenities 1 </span>
+								<input type="checkbox" class="form-control" name="amenity[]" value="1" id="amenityinput1" placeholder=style="display:none; margin-top:10px;"/>
+								
+								<span onclick="amenitiesfilterclick(this, 2)" id="amenityspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Amenities 2 </span>
+								<input type="checkbox" class="form-control" name="amenity[]" value="1" id="amenityinput2" placeholder=style="display:none; margin-top:10px;"/> {% endcomment %}
+								{{filterSortForm.amenities.errors}}
+								{% for amenities in filterSortForm.amenities %}
+									<span onclick="amenitiesfilterclick(this, '{{amenities.id_for_label}}')" id="amenityspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{amenities}} </span>
+								{% endfor %}
 							</p>
 							
 							<h6>Lifestyle</h6>
 							<p class="filter-lifestyle-tags pull-left" style="list-style-type:none; width:100%;"> 
-							<span>Partying</span> <span>Travelling</span> <span>Net Surfing</span> <span>Smoking</span>
+							<span onclick="interestfilterclick(this, 1)" id="interestspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 1 </span>
+							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput1" placeholder=style="display:non; margin-top:10px;"/>
+							
+							<span onclick="interestfilterclick(this, 2)" id="interestspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 2 </span>
+							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput2" placeholder=style="display:non; margin-top:10px;"/>
+							{% for interest in interests %}
+								<span onclick="interestfilterclick(this, {{interest.pk}})" id="interestspan{{interest.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
+							{% endfor %}
+							{% for interest in interests %}
+								<input type="checkbox" class="form-control" name="interest[]" value="{{interest.pk}}" id="interestinput{{interest.pk}}" style="display:non; margin-top:10px;"/>
+							{% endfor %}
 							</p>
 							
 							
@@ -105,7 +125,8 @@
 							<input type="number" name="filter-distance-max" class="form-control" style="height:30px;">
 							
 							<br>
-							<span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span>
+							{% comment %} <span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span> {% endcomment %}
+							<input type="submit" value="Apply Filters" class="pxp-filter-btn" />
 						</div>
 					</div>
 				  </div>
@@ -135,7 +156,7 @@
 								</div>
 							</div>
 							<div class="d-flex">
-								<a role="button" class="pxp-adv-toggle" onclick="toggle_filters()"><span class="fa fa-sliders"></span></a>
+								<!--a role="button" class="pxp-adv-toggle" onclick="toggle_filters()"><span class="fa fa-sliders"></span></a-->
 							</div>
 						</div>
 						<div class="pxp-content-side-search-form-advv mb-3" id="filtersdiv" style="display:none;">
@@ -143,15 +164,11 @@
 									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
 										<div class="form-group">
 											<label for="pxp-p-filter-price-min">Price</label>
-											{{filterSortForm.minPri}}
-											{{filterSortForm.minPri.errors}}
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
 										<div class="form-group">
 											<label for="pxp-p-filter-price-max" class="d-none d-sm-inline-block">&nbsp;</label>
-											{{filterSortForm.maxPri}}
-											{{filterSortForm.maxPri.errors}}
 										</div>
 									</div>
 									
@@ -174,7 +191,7 @@
 								<div class="form-group">
 									<label class="mb-2">Amenities</label>
 									<div class="row pxp-content-side-search-form-row">
-										{{filterSortForm.amenities.errors}}
+										{% comment %} {{filterSortForm.amenities.errors}}
 										{% for amenities in filterSortForm.amenities %}
 											<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
 												<div class="form-group">
@@ -183,7 +200,7 @@
 													</div>
 												</div>
 											</div>
-										{% endfor %}
+										{% endfor %} {% endcomment %}
 										{% comment %} <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
 											<div class="form-group">
 												<div class="checkbox custom-checkbox">
@@ -455,6 +472,38 @@
 			return false;
 		}
 	</script>
+	
+	<script>
+		function interestfilterclick(dis, id)
+		{
+			
+			var catidcolor = $(dis).css("color");
+			var catid = $(dis);
+			if($("#interestinput"+id).prop('checked') == true) {
+				$("#interestinput"+id).prop('checked', false);
+				$(dis).css({"background-color":"transparent", "color":"black"});
+			} else {
+				$("#interestinput"+id).prop('checked', true);
+				$(dis).css({"background-color":"#094A66", "color":"#fff"});
+			}
+			
+		}
+		
+		function amenitiesfilterclick(dis, id)
+		{
+			var catidcolor = $(dis).css("color");
+			var catid = $(dis);
 
+			if($("#"+id).prop('checked') == true) {
+				$("#"+id).prop('checked', false);
+				$(dis).css({"background-color":"transparent", "color":"black"});
+			} else {
+				$("#"+id).prop('checked', true);
+				$(dis).css({"background-color":"#094A66", "color":"#fff"});
+			}
+			
+		}
+	</script>
+	
 
 {% include "layout/footer.html" %}
