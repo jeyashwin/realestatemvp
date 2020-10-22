@@ -34,7 +34,10 @@ def MockImage(ftype='.png'):
 
 def sample_preference(name="cool"):
     """Return new sample preference object"""
-    return Preference.objects.create(preferenceType=name)
+    if Preference.objects.filter(preferenceType=name).exists():
+        return Preference.objects.get(preferenceType=name)
+    else:
+        return Preference.objects.create(preferenceType=name)
 
 def sample_interest(name="Sports"):
     return Interest.objects.create(interest=name)

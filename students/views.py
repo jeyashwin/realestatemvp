@@ -19,7 +19,6 @@ from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
 class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Favourite
     template_name = "students/favourites.html"
-    # ordering = ['-properties']
 
     def test_func(self):
         try:
@@ -72,6 +71,8 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["preferences"] = Preference.objects.all()
         context["interests"] = Interest.objects.all()
+        fil = self.request.GET.get('fil', None)
+        context["filtinterest"] = fil
         pre = self.kwargs.get('preference', None)
         if pre is not None:
             context["currentpreferences"] = get_object_or_404(Preference, preferenceSlug=pre)
@@ -135,8 +136,8 @@ class CommentReplyUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
 @login_required
 @user_passes_test(studentAccessTest)
 def AddRemoveHeart(request, pk):
+    postObject = get_object_or_404(RoommatePost, pk=pk)
     if request.method == "POST":
-        postObject = get_object_or_404(RoommatePost, pk=pk)
         studentObj = get_object_or_404(UserStudent, user__user=request.user)
         alreadyhearted = postObject.heart.filter(user=studentObj.user).exists()
         if alreadyhearted:
@@ -153,9 +154,9 @@ def AddRemoveHeart(request, pk):
 @user_passes_test(studentAccessTest)
 def AddFavourite(request, slug):
     added = True
+    propObject = get_object_or_404(Property, urlSlug=slug)
     if request.method == "POST":
         student = Favourite.objects.filter(student__user__user=request.user).exists()
-        propObject = get_object_or_404(Property, urlSlug=slug)
         if student:
             favouriteObject = Favourite.objects.get(student__user__user=request.user)
             propExists = favouriteObject.properties.filter(pk=propObject.pk).exists()
@@ -176,9 +177,9 @@ def AddFavourite(request, slug):
 @user_passes_test(studentAccessTest)
 def RemoveFavourite(request, slug):
     removed = True
+    propObject = get_object_or_404(Property, urlSlug=slug)
     if request.method == "POST":
         student = Favourite.objects.filter(student__user__user=request.user).exists()
-        propObject = get_object_or_404(Property, urlSlug=slug)
         if student:
             favouriteObject = Favourite.objects.get(student__user__user=request.user)
             propExists = favouriteObject.properties.filter(pk=propObject.pk).exists()

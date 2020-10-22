@@ -407,10 +407,28 @@
 							<div style="min-height:600px;">
 								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
 								<h3><b>All Posts</b></h3><br>
-									
-									<span onclick="catclickall(this, 0)" id="cat0" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px; background-color:#383836; color:#fff;">All</span> &nbsp;
+									<a href=""><span class="btn btn-default btn-xs catys" style="margin-top: 5px; border:2px solid #383836; border-radius:50px; background-color:#383836; color:#fff;">All</span></a>
 									{% for interest in interests %}
-										<span onclick="catclick(this, 1)" id="caty1" data-sel="0" class="btn btn-default btn-xs catys" style="padding:1px 10px; border:2px solid #383836; border-radius:50px;">{{interest}}</span> &nbsp;
+										<a 
+											href="?fil=
+											{% if filtinterest %}
+												{{filtinterest}}.
+											{% endif %}
+											{{interest.pk}}" 
+										>
+											<span class="btn btn-default btn-xs filtercontainer 
+												{% if filtinterest %}
+													{% for filt in filtinterest %}
+														{% if filt == interest.pk %}
+														filterinterestactive
+														{% endif %}
+													{% endfor %}
+												{% endif %}
+												"
+											>
+												{{interest}}
+											</span>
+										</a>
 									{% endfor %}
 									
 									{% comment %}
