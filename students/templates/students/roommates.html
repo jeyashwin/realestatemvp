@@ -407,22 +407,23 @@
 							<div style="min-height:600px;">
 								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
 								<h3><b>All Posts</b></h3><br>
-									<a href=""><span class="btn btn-default btn-xs catys" style="margin-top: 5px; border:2px solid #383836; border-radius:50px; background-color:#383836; color:#fff;">All</span></a>
-									{% for interest in interests %}
-										<a 
-											href="?fil=
-											{% if filtinterest %}
-												{{filtinterest}}.
+									<a style="text-decoration: none;"  href="{% if currentpreferences %}{% url 'students:roommatesPreference' currentpreferences.preferenceSlug %} {% else %}{% url 'students:roommates' %}{% endif %}">
+										<span 
+											class="btn btn-default btn-xs filtercontainer 
+											{% if not filtinterest %}
+												filterinterestactive
 											{% endif %}
-											{{interest.pk}}" 
+											"
 										>
+										All
+										</span>
+									</a>
+									{% load extraTags %}
+									{% for interest in interests %}
+										<a style="text-decoration: none;" href="?fil={{interest.pk|filterurl:filtinterest}}">
 											<span class="btn btn-default btn-xs filtercontainer 
-												{% if filtinterest %}
-													{% for filt in filtinterest %}
-														{% if filt == interest.pk %}
-														filterinterestactive
-														{% endif %}
-													{% endfor %}
+												{% if interest.pk|filterclass:filtinterest %}
+													filterinterestactive
 												{% endif %}
 												"
 											>

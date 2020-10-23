@@ -26,6 +26,7 @@
 	}
 	#filter_checks > p > input { width:13px; height:13px; }
 	#filter_checks > p { font-size:15px; }
+
 </style>
 
 
@@ -100,18 +101,22 @@
 								<span onclick="amenitiesfilterclick(this, 2)" id="amenityspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Amenities 2 </span>
 								<input type="checkbox" class="form-control" name="amenity[]" value="1" id="amenityinput2" placeholder=style="display:none; margin-top:10px;"/> {% endcomment %}
 								{{filterSortForm.amenities.errors}}
+								{% load extraTags %}
 								{% for amenities in filterSortForm.amenities %}
-									<span onclick="amenitiesfilterclick(this, '{{amenities.id_for_label}}')" id="amenityspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{amenities}} </span>
+									<span onclick="amenitiesfilterclick(this, '{{amenities.id_for_label}}')" id="amenityspan2" 
+										class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;{% if amenities|checkboxActive %}background-color:#094A66; color:#fff;{% endif %}"> 
+										<i class="fa fa-check" style="display:none;"></i> {{amenities}} 
+									</span>
 								{% endfor %}
 							</p>
 							
 							<h6>Lifestyle</h6>
 							<p class="filter-lifestyle-tags pull-left" style="list-style-type:none; width:100%;"> 
 							<span onclick="interestfilterclick(this, 1)" id="interestspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 1 </span>
-							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput1" style="display:non; margin-top:10px;"/>
+							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput1" style="display:none; margin-top:10px;"/>
 							
 							<span onclick="interestfilterclick(this, 2)" id="interestspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 2 </span>
-							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput2" placeholder=style="display:non; margin-top:10px;"/>
+							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput2" style="display:none; margin-top:10px;"/>
 							{% for interest in interests %}
 								<span onclick="interestfilterclick(this, {{interest.pk}})" id="interestspan{{interest.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
 							{% endfor %}

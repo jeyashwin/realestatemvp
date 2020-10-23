@@ -233,6 +233,12 @@ class StudentProfileUpdateForm(forms.ModelForm):
                 }),
             'interests': forms.CheckboxSelectMultiple()
         }
+        labels = {
+            'fbLink': 'Facebook',
+            'snapLink': 'SnapChat',
+            'instaLink': 'Instagram', 
+            'redditLink': 'Reddit'
+        }
 
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(*args, **kwargs)

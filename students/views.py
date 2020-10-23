@@ -61,11 +61,22 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         pre = self.kwargs.get('preference', None)
+        fil = self.request.GET.get('fil', None)
         if pre is not None:
             preference = get_object_or_404(Preference, preferenceSlug=pre)
-            return super().get_queryset().filter(preference=preference)
+            if fil:
+                fil = fil.replace('.', '')
+                fil = list(fil)
+                return super().get_queryset().filter(preference=preference).filter(interest__pk__in=fil)
+            else:
+                return super().get_queryset().filter(preference=preference)
         else:
-            return super().get_queryset().filter(student__user__user=self.request.user)
+            if fil:
+                fil = fil.replace('.', '')
+                fil = list(fil)
+                return super().get_queryset().filter(student__user__user=self.request.user).filter(interest__pk__in=fil)
+            else:
+                return super().get_queryset().filter(student__user__user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
