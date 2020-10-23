@@ -28,6 +28,8 @@ urlpatterns = [
     path('',include("property.urls", namespace='propertyApp')),
     path('', include("students.urls", namespace='studentsApp')),
     path('', include("services.urls", namespace='servicesApp')),
+    path('', include("checkout.urls", namespace='checkoutApp')),
+    path('', include("notifications.urls", namespace='notificationApp')),
 ]
 
 

@@ -6,6 +6,15 @@
 		<script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
 		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDIKVsUE3OpqZ7o5oun4HHrVG1X6eGKUec&sensor=false&v=3&libraries=geometry"></script>
 		
+		<link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/photoswipe.css' %}">
+        <link rel="stylesheet" href="{% static '/css/default-skin/default-skin.css' %}">
+        <link rel="stylesheet" href="{% static '/css/styled354.css' %}">
+
+
 		<style>
 			.videoiconspan > img:hover { border:3px dashed #f25c00 !important; }
 
@@ -21,13 +30,23 @@
         <div class="pxp-content">
             <div class="pxp-single-property-top pxp-content-wrapper mt-100">
                 <div class="container">
+					{% if messages %}
+					{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+						<strong>{{ message }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endfor %}
+					{% endif %}
 					{% load humanize %}
                     <div class="row">
-                        <div class="col-sm-12 col-md-5">
+                        <div class="col-sm-12 {% if user.usertype.is_student %}col-md-4 {% else %}col-md-5{% endif %}">
                             <h2 class="pxp-sp-top-title">{{object.title|title}}</h2>
                             <p class="pxp-sp-top-address pxp-text-light">{{object.address}}, {{object.city}} {{object.zipcode}} </p>
                         </div>
-                        <div class="col-sm-12 col-md-7">
+                        <div class="col-sm-12 {% if user.usertype.is_student %}col-md-6 {% else %}col-md-7 {% endif %}">
                             <div class="pxp-sp-top-btns mt-2 mt-md-0">
 								{% if user.usertype.is_student %}
 									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
@@ -71,7 +90,7 @@
 												{% else %}
 													fa-star-o
 												{% endif %}
-											">
+											" style="font-size:20px;">
 										</span>
 										<span></span>
 										<i class="fa fa-spinner fa-spin" style="display:none; color:grey;"></i>
@@ -109,6 +128,157 @@
 								{% endif %}
 								</div>
                         </div>
+						{% if user.usertype.is_student %}
+						<div class="col-md-2">
+							<style> #property_req_to_rent:hover { background-color:#003a8c !important; color:#fff !important; } </style>
+								<center>
+									<b class="btn btn-default btn-sm pull-right" style="background-color:#fff; padding:10px 5px; color:#003a8c; border:2px solid #003a8c; border-radius:50px; cursor:pointer;" id="property_req_to_rent" data-toggle="modal" data-target="#reqforrent"> &nbsp; REQUEST TO RENT &nbsp; </b> 
+									<!-- The Modal -->
+									<div id="reqForRentModal" class="modal">
+						<style>
+						#reqForRentModal {
+							display: none; /* Hidden by default */
+							position: fixed; /* Stay in place */
+							z-index: 1; /* Sit on top */
+							padding-top: 100px; /* Location of the box */
+							left: 0;
+							top: 0;
+							width: 100%; /* Full width */
+							height: 100%; /* Full height */
+							overflow: auto; /* Enable scroll if needed */
+							background-color: rgb(0,0,0); /* Fallback color */
+							background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+						}
+
+						/* Modal Content */
+						.modal-content {
+							background-color: #fff;
+							margin: auto;
+							margin-top: 50px;
+							padding: 20px;
+							border: 1px solid #888;
+							width: 45%;
+						}
+
+						/* The Close Button */
+						.modalClose {
+							color: #aaaaaa;
+							float: right;
+							font-size: 28px;
+							font-weight: bold;
+						}
+
+						.modalClose:hover,
+						.modalClose:focus {
+							color: #000;
+							text-decoration: none;
+							cursor: pointer;
+						}
+						</style>
+							<!-- Modal content -->
+							<div class="modal-content">
+								<h4 style="text-align:left; color:black; border-bottom:2px solid #bfeaff; padding-bottom:7px;">Request to Rent <span class="modalClose" style="text-align:right;">&times;</span></h4>
+								<hr>
+								<form method="POST" action="{% url 'checkout:requestRent' object.urlSlug %}">
+									<div class="form-group">
+										<div class="row">
+											<div class="col-md-2" style="text-align:left;">
+												<label>Occupants</label>
+												{{form.occupants}}
+											</div>
+											<div class="col-md-5" style="text-align:left;">
+												<label> &nbsp; Move In</label>
+												{{form.moveIn}}
+											</div>
+											<div class="col-md-5" style="text-align:left;">
+												<label> &nbsp; Move Out</label>
+												{{form.moveOut}}
+											</div>
+										</div>
+									</div>
+									<br>
+									<hr style="border-top:2px solid #bfeaff;">
+									<div class="row">
+										<div class="col-md-8"></div>
+										<div class="col-md-4">
+											<input type="submit" name="submit" value="Send Request" class="btn btn-default pull-right" style="background-color:#003a8c; color:#fff;" />
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+
+						<script>
+						// Get the modal
+						var modal = document.getElementById("reqForRentModal");
+
+						// Get the button that opens the modal
+						var btn = document.getElementById("property_req_to_rent");
+
+						// Get the <span> element that closes the modal
+						var span = document.getElementsByClassName("modalClose")[0];
+
+						// When the user clicks the button, open the modal 
+						btn.onclick = function() {
+						$(modal).show(1000);
+						}
+
+						// When the user clicks on <span> (x), close the modal
+						span.onclick = function() {
+						$(modal).hide(1000);
+						}
+
+						// When the user clicks anywhere outside of the modal, close it
+						window.onclick = function(event) {
+						if (event.target == modal) {
+							modal.style.display = "none";
+						}
+						}
+						</script>	
+						<!-- Modal -->
+						<div id="reqforrent2" class="modal fade" role="dialog">
+							<div class="modal-dialog">
+								<!-- Modal content-->
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h4 class="modal-title">Request for Rent</h4>
+									</div>
+									<div class="modal-body">
+										<form>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-md-3"></div>
+													<div class="col-md-4">
+														<label>Occupants</label>
+													</div>
+													<div class="col-md-2">
+														<input type="number" class="form-control" name="rent_occupants">
+													</div>
+													<div class="col-md-3"></div>
+												</div>
+											</div>		
+											<div class="form-group">
+												<div class="col-md-6">
+													<label>Move In</label>
+													<input type="date" class="form-control" name="rent_movein">
+												</div>
+												<div class="col-md-6">
+													<label>Move Out</label>
+													<input type="date" class="form-control" name="rent_moveout">
+												</div>
+											</div>
+										</form>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>	
+					</center>
+						</div>
+						{% endif %}
                     </div>
                 </div>
             </div>
@@ -396,7 +566,7 @@
             </div>
         </div>
 
-        <!--div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="pswp__bg"></div>
             <div class="pswp__scroll-wrap">
                 <div class="pswp__container">
@@ -429,7 +599,10 @@
                     </div>
                 </div>
             </div>
-        </div-->
+        </div>
+		<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
 
         
         <script src="{% static '/js/photoswipe.min.js' %}"></script> 
@@ -696,6 +869,7 @@
 			$(".answertextarea").attr('rows', '1');
 			$(dis).attr('rows', '3');
 		}
+		$('.alert').alert()
 	</script>
 	
 {% include "layout/footer.html" %}

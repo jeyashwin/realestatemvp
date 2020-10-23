@@ -14,6 +14,7 @@ from users.models import UserLandLord , UserStudent
 from .models import Property, PostQuestion, PostAnswer
 from .utils import studentAccessTest, landlordAccessTest
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
+from checkout.forms import RequestToRentPropertyForm
 
 # Create your views here.
 # data = pd.read_csv("ny_data.csv")
@@ -266,6 +267,8 @@ class PropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context["alreadyLiked"] = self.object.likes.filter(user__user=self.request.user).exists()
         context["alreadyDisLiked"] = self.object.dislikes.filter(user__user=self.request.user).exists()
         context["alreadyFavourite"] = self.object.favourite_set.filter(student__user__user=self.request.user).exists()
+        if self.request.user.usertype.is_student:
+            context["form"] = RequestToRentPropertyForm()
         return context  
 
 

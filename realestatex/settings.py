@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'property',
     'students',
     'services',
+    'checkout',
+    'notifications',
 ]
 
 MIDDLEWARE = [
