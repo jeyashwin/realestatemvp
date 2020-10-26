@@ -79,6 +79,14 @@ class StudentSignUpView(CreateView):
                             snapLink=form.cleaned_data.get('snapLink'),
                             instaLink=form.cleaned_data.get('instaLink'),
                             redditLink=form.cleaned_data.get('redditLink'),
+                            sleepScheduleFrom=form.cleaned_data.get('ssFrom'),
+                            sleepScheduleTo=form.cleaned_data.get('ssTo'),
+                            studyHourFrom=form.cleaned_data.get('shFrom'),
+                            studyHourTo=form.cleaned_data.get('shTo'),
+                            tobaccoUsage=form.cleaned_data.get('tbUsage'),
+                            alcoholUsage=form.cleaned_data.get('alUsage'),
+                            cleanliness=form.cleaned_data.get('cleanliness'),
+                            guests=form.cleaned_data.get('guests'),
                         )
         studentObject.interests.set(interests)
 

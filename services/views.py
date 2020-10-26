@@ -1,16 +1,23 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import Http404
 
 from .models import *
-from users.forms import LandlordSignupForm, StudentSignupForm
+from checkout.forms import RequestToRentServiceForm
 
 # Create your views here.
-class ServiceListView(ListView):
+class ServiceListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Service
     template_name = "services/services.html"
     paginate_by = 10
     ordering = ['-createdDate']
+
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_student
+        except:
+            raise Http404
 
     def get_queryset(self):
         serviceName = self.request.GET.get('serviceName', None)
@@ -22,22 +29,28 @@ class ServiceListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = AuthenticationForm
-        context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
-        context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
         num_pages = context["page_obj"].paginator.num_pages
         context["total_pages"] = [ i for i in range(1, num_pages+1)]
         return context
 
 
-class ServiceDetailView(DetailView):
+class ServiceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Service
     template_name = "services/single-service.html"
 
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_student
+        except:
+            raise Http404
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["form"] = AuthenticationForm
-        context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
-        context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
+        context["form"] = RequestToRentServiceForm(initial={
+                                'first_name': self.request.user.first_name,
+                                'last_name': self.request.user.last_name,
+                                'phone_number': self.request.user.usertype.userstudent.phone,
+                                'email': self.request.user.email
+                            })
         return context
-    
+

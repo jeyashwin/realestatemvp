@@ -179,9 +179,10 @@
 							<div class="modal-content">
 								<h4 style="text-align:left; color:black; border-bottom:2px solid #bfeaff; padding-bottom:7px;">Request to Rent <span class="modalClose" style="text-align:right;">&times;</span></h4>
 								<hr>
-								<form method="POST" action="{% url 'checkout:requestRent' object.urlSlug %}">
+								<form method="POST" action="{% url 'checkout:requestRent' object.urlSlug %}" id='propertyRequest'>
 									<div class="form-group">
 										<div class="row">
+											{% csrf_token %}
 											<div class="col-md-2" style="text-align:left;">
 												<label>Occupants</label>
 												{{form.occupants}}
@@ -201,7 +202,7 @@
 									<div class="row">
 										<div class="col-md-8"></div>
 										<div class="col-md-4">
-											<input type="submit" name="submit" value="Send Request" class="btn btn-default pull-right" style="background-color:#003a8c; color:#fff;" />
+										<input type="submit" name="submit" value="Send Request" class="btn btn-default pull-right" style="background-color:#003a8c; color:#fff;" />
 										</div>
 									</div>
 								</form>

@@ -54,6 +54,17 @@ class Interest(models.Model):
 class UserStudent(models.Model):
     """Custom userStudent model that stores Student information"""
 
+    usageChoices = [
+        ('never', 'Never'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('occasionally', 'Occasionally')
+    ]
+    normalChoices = [
+        ('daily', 'Daily'),
+        ('occasionally', 'Occasionally'),
+    ]
+
     user = models.OneToOneField(UserType, on_delete=models.CASCADE)
     phone = PhoneNumberField(region='US')
     university = models.CharField(max_length=50)
@@ -68,6 +79,14 @@ class UserStudent(models.Model):
     snapLink = models.URLField(max_length=250, null=True, blank=True)
     instaLink = models.URLField(max_length=250, null=True, blank=True)
     redditLink = models.URLField(max_length=250, null=True, blank=True)
+    sleepScheduleFrom = models.TimeField(blank=True, null=True)
+    sleepScheduleTo = models.TimeField(blank=True, null=True)
+    studyHourFrom = models.TimeField(blank=True, null=True)
+    studyHourTo = models.TimeField(blank=True, null=True)
+    tobaccoUsage = models.CharField(max_length=100, choices=usageChoices, default='never')
+    alcoholUsage = models.CharField(max_length=100, choices=usageChoices, default='never')
+    cleanliness = models.CharField(max_length=100, choices=normalChoices, default='daily')
+    guests = models.CharField(max_length=100, choices=normalChoices, default='daily')
     emailVerified = models.BooleanField(default=False)
     phoneVerified = models.BooleanField(default=False)
     createdDate = models.DateTimeField(auto_now_add=True)

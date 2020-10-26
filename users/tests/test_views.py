@@ -353,7 +353,8 @@ class StudentProfileUpdateViewTests(TestCase):
                 'classYear': 2015, 'bio': "test bio data", 'profilePicture': MockImage('.jpg'),
                 'interests': [int1.pk] , 'fbLink': "https://www.facebook.com/", 
                 'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
-                'redditLink': "https://www.reddit.com/",
+                'redditLink': "https://www.reddit.com/", 'tobaccoUsage': 'never', 
+                'alcoholUsage': 'never', 'cleanliness': 'daily', 'guests': 'occasionally', 
             }
         self.invalidPayload1 = {'first_name': '', 'last_name': '' , 'email': '' , 'phone': "", 
                 'university': '', 'classYear': '', 'bio': "", 'profilePicture': '', 'interests': [] 
@@ -404,6 +405,7 @@ class StudentProfileUpdateViewTests(TestCase):
                 reverse('user:studentProfile', kwargs={'username': self.student.username}),
                 data=self.validPayload
             )
+        
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/student/profile/{}/'.format(self.student.username))
 

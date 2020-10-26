@@ -5,7 +5,7 @@ from .models import Notification
 
 @admin.register(Notification)
 class NotificationAdmin(admin.ModelAdmin):
-    list_display = ['id', 'fromObject', 'toObject', 'notificationType', 'viewed']
-    readonly_fields = ['createdDate']
+    list_display = ['id', 'fromUser', 'toUser', 'notificationType', 'content', 'viewed']
+    readonly_fields = ['createdDate', 'updatedDate']
     
 

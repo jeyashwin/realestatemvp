@@ -10,3 +10,8 @@ def notification(request, pk):
         obj.viewed = True
         obj.save()
         return redirect('property:propertyDetail', slug=obj.identifier)
+
+    if obj.notificationType == 'serviceRequest':
+        obj.viewed = True
+        obj.save()
+        return redirect('services:servicesDetail', pk=obj.identifier)

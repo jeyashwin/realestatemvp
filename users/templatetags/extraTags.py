@@ -1,4 +1,5 @@
 from django import template
+from notifications.models import Notification
 import phonenumbers
 
 register = template.Library()
@@ -39,3 +40,10 @@ def checkboxActive(value):
     if value.data.get('selected', False):
         return True
     return False
+
+@register.simple_tag(takes_context=True)
+def get_all_notifications(context):
+    user = context.get("user")
+    if user.is_authenticated:
+        notifi = Notification.objects.filter(toUser=user, viewed=False)
+        return notifi

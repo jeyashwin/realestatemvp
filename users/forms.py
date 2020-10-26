@@ -84,6 +84,17 @@ class LandlordSignupForm(UserCreationForm):
 
 class StudentSignupForm(UserCreationForm):
 
+    usageChoices = [
+        ('never', 'Never'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('occasionally', 'Occasionally')
+    ]
+    normalChoices = [
+        ('daily', 'Daily'),
+        ('occasionally', 'Occasionally'),
+    ]
+
     phone = PhoneNumberField(
                 widget=forms.TextInput(attrs={
                     'class': 'form-control formInput',
@@ -151,12 +162,57 @@ class StudentSignupForm(UserCreationForm):
                         'placeholder': 'Enter reddit link',
                     })
                 )
+    ssFrom = forms.TimeField(required=False, 
+                widget=forms.TimeInput(attrs={
+                    'class': 'form-control',
+                    'type': 'time'
+                })
+            )
+    ssTo = forms.TimeField(required=False, 
+                widget=forms.TimeInput(attrs={
+                    'class': 'form-control',
+                    'type': 'time'
+                })
+            )
+    shFrom = forms.TimeField(required=False, 
+                widget=forms.TimeInput(attrs={
+                    'class': 'form-control',
+                    'type': 'time'
+                })
+            )
+    shTo = forms.TimeField(required=False, 
+                widget=forms.TimeInput(attrs={
+                    'class': 'form-control',
+                    'type': 'time'
+                })
+            )
+    tbUsage = forms.ChoiceField(choices=usageChoices, required=False, 
+                widget=forms.Select(attrs={
+                    'class': 'form-control select2'
+                })
+            )
+    alUsage = forms.ChoiceField(choices=usageChoices, required=False, 
+                widget=forms.Select(attrs={
+                    'class': 'form-control select2'
+                })
+            )
+    cleanliness = forms.ChoiceField(choices=normalChoices, required=False, 
+                widget=forms.Select(attrs={
+                    'class': 'form-control select2'
+                })
+            )
+    guests = forms.ChoiceField(choices=normalChoices, required=False, 
+                widget=forms.Select(attrs={
+                    'class': 'form-control select2'
+                })
+            )
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
                     'password2', 'university', 'classYear', 'bio', 'interests', 'phone', 
-                    'profilePicture', 'fblink', 'snapLink', 'instaLink', 'redditLink')
+                    'profilePicture', 'fblink', 'snapLink', 'instaLink', 'redditLink', 'ssFrom',
+                    'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 'cleanliness', 'guests')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control formInput',
@@ -224,7 +280,9 @@ class StudentProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserStudent
         fields = ('first_name', 'last_name', 'email', 'phone', 'university', 'classYear', 'bio', 
-                    'interests', 'profilePicture', 'fbLink', 'snapLink', 'instaLink', 'redditLink')
+                    'interests', 'profilePicture', 'fbLink', 'snapLink', 'instaLink', 'redditLink', 
+                    'sleepScheduleFrom', 'sleepScheduleTo', 'studyHourFrom', 'studyHourTo', 
+                    'tobaccoUsage', 'alcoholUsage', 'cleanliness', 'guests')
 
         widgets = {
             'profilePicture': forms.ClearableFileInput(attrs={
