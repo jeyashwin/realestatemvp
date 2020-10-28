@@ -17,7 +17,6 @@ from notifications.models import Notification
 def RequestToRentPropertyCreateView(request, slug):
     form = RequestToRentPropertyForm()
     if request.method == 'POST':
-        print(form)
         form = RequestToRentPropertyForm(request.POST)
         form.instance.propertyObj = get_object_or_404(Property, urlSlug=slug)
         form.instance.studentObj = get_object_or_404(UserStudent, user__user=request.user)

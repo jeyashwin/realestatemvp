@@ -8,6 +8,9 @@ class Notification(models.Model):
     NotificationChoice = [
         ('rentRequest', 'Property Rent Request'),
         ('serviceRequest', 'Service Rent Request'),
+        ('question', 'Asked Question'),
+        ('answered', 'Question is answered'),
+        ('deletedQuestion', 'Question is deleted'),
     ]
 
     fromUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fromUser')

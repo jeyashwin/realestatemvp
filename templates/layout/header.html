@@ -29,6 +29,25 @@
         <title>RE</title>
 
 <style>
+	/* width */
+	::-webkit-scrollbar {
+	  width: 10px;
+	}
+
+	/* Track */
+	::-webkit-scrollbar-track {
+	  background: #f1f1f1;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+	  background: #0471A6;
+	}
+
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+	  background: #0471A6;
+	}
 	.form-control { background-color: rgba(255, 255, 255, 0.2); border-radius:30px; }
 	
 	.select2-selection.select2-selection--single { border-radius:30px !important; outline:none !important; background-color:rgba(255, 255, 255, 0.3) !important; padding:7px 5px !important; border:1px solid #e2e2e2 !important; height:43px !important; }
@@ -139,14 +158,17 @@
                             </li>
 							
 							<li class="pull-right" class="usernamesec">
+								<span data-toggle="modal" data-target="#pxp-invite-people-modal" class="pxp-modal-link pxp-invite-people-trigger" onclick="invite_people_modal_open_click()">
+									<i class="fa fa-users" id="invitepeople" style="color:#fff; font-size:18px; cursor:pointer;"></i> &nbsp; &nbsp;
+								</span>
 								{% if user.is_authenticated %}
 								<i class="fa fa-bell-o" id="notificationbell" onmouseover="hover_notification()" onmouseleave="leave_notification()" onclick="open_notifications()" style="color:gold; font-size:22px; cursor:pointer;"></i> &nbsp; &nbsp;
 									<div id="notificationpanel" class="panel" style="position:absolute; z-index:1000; background-color:#fff; margin-left:-150px; border-radius:7px; width:300px; display:none;">
-										<div class="panel-header" style="border-top-left-radius:7px; border-top-right-radius:7px; background-color:#003a8c; color:#fff; padding:5px 5px;">
+										<div class="panel-header" style="border-top-left-radius:7px; border-top-right-radius:7px; background-color:rgba(4, 113, 166, 0.8); color:#fff; padding:5px 5px;">
 											<h5><b>Notifications</b></h5>
 										</div>
-										<div class="panel-body" style="text-align:left; margin-top:10px; max-height:700px;">										
-											<ul style="list-style-type:none;">
+										<div class="panel-body" style="text-align:left; margin-top:10px;  max-height:400px; overflow-y:scroll;">										
+											<ul style="list-style-type:none; color: black;">
 											{% load extraTags %}
 											{% get_all_notifications as notifcation %}
 												{% if notifcation %}
@@ -165,6 +187,27 @@
 														</li>
 														</a>
 														{% endif %}
+														{% if notify.notificationType == "question" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" >
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has asked question on {{notify.content}} property.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "answered" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" >
+														<li> 
+															<p>You got answer for the  question <b>{{notify.content}}?</b>.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "deletedQuestion" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" >
+														<li> 
+															<p>Landlord has deleted your <b>{{notify.content}}? </b> question.</p><hr>
+														</li>
+														</a>
+														{% endif %}
 													{% endfor %}
 												{% else %}
 												<li> 
@@ -173,8 +216,8 @@
 												{% endif %}
 											</ul>
 										</div>
-										<div class="panel-header" style="border-bottom-left-radius:7px; border-bottom-right-radius:7px; background-color:#003a8c; color:#fff; padding:5px 5px;">
-											<span><b>Close</b></span>
+										<div class="panel-header" style="border-bottom-left-radius:7px; border-bottom-right-radius:7px; background-color:rgba(4, 113, 166, 0.8); color:#fff; padding:5px 5px;">
+											<span onclick="open_notifications()" style="cursor:pointer; color:#f1f1f1;"><b>Close</b></span>
 										</div>
 									</div>
 									
@@ -261,6 +304,35 @@
                 </div>
             </div>
         </div>
+		<div class="modal fade" id="pxp-invite-people-modal" tabindex="-1" role="dialog" aria-labelledby="pxpInvitePeopleModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width:200%;">
+                <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <center><h5 class="modal-title" id="pxpInvitePeopleModal">Invite your Friends</h5></center>
+                        {% comment %} <form class="mt-4" onsubmit="forgot_pass()" action="#"> {% endcomment %}
+                            <div class="form-group">
+								<div class="row">
+									<div class="col-md-11">
+										<input type="text" id="invitepeoplelink" class="form-control" style="background-color:rgba(255, 255, 255, 0.5);" readonly>
+										<br>
+										<center><span class="alert alert-success alert-sm" id="invitecopyalert" style="font-size:13px; display:none;"><i class="fa fa-check"></i> Link Copied</span></center>
+									</div>
+									<div class="col-md-1">
+										<style> .fa.fa-copy:hover { color:silver; cursor:pointer; } </style>
+										<i class="fa fa-copy" onclick="invitecopyclick()" style="font-size:20px; margin-top:13px;"></i>
+									</div>
+								</div>
+                            </div>
+                        {% comment %} </form> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
 
  {% if not user.is_authenticated %}
         <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
@@ -278,7 +350,7 @@
                             {% load bootstrap3 %}
                             {% csrf_token %}
                             {% bootstrap_form form %}
-                            <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px;">
+                            <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
 							{% comment %} <span class="pxp-agent-contact-modal-btn" onclick="submitsigninclick()" style="background-color:#003a8c; border-radius:30px; cursor:pointer;">SIGN IN</span> {% endcomment %}
 
 			    			<div class="form-group mt-4 text-center pxp-modal-small">
@@ -322,8 +394,7 @@
                 </div>
             </div>
         </div>
-		
-		
+
         <div class="modal fade" id="pxp-signup-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSignupModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
@@ -334,24 +405,7 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
-						<center>
-						<br>
-							<!--div class="row">				
-								<style> 
-									.toggle-form-btns:hover { background-color: #e2e2e2; } 
-									div.help-block { display:none; }
-								</style>
-								<div class="col-md-1"></div>
-								<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-1" onclick="return toggle_signup_form(1)" style="cursor:pointer; color:#fff; border:2px solid grey; background-color:grey; padding-top:3px; padding-bottom:2px; border-radius:50px; font-size:14px;">I am a Student</div>
-								
-								&nbsp; &nbsp;
-								
-								<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-2" onclick="return toggle_signup_form(2)" style="cursor:pointer; color:grey; border:2px solid grey; padding-top:3px; padding-bottom:2px; border-radius:50px; font-size:14px;">I am a Renter</div>
-								<div class="col-md-1"></div>	
-
-							</div>
-						<br-->
-						</center>						
+						<center><br></center>						
 						<center><i id="signup-error-msg" style="color:maroon;">{{StudentSignupForm.errors}}</i></center>
 						<center><i id="signup-error-msg" style="color:maroon;">{{LandlordSignupForm.errors}}</i></center>
 						<div class="row" id="signupusertypebtns">							
@@ -716,7 +770,7 @@
 									</div>
 									<div class="col-md-6" id="signupsubmitbtn" style="display:none;">
 										<div class="row">
-											<input class="pxp-agent-contact-modal-btn" id="signup_submit_btn" type="submit" name="submit" value="Sign Up" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver;">
+											<input class="pxp-agent-contact-modal-btn" id="signup_submit_btn" type="submit" name="submit" value="Sign Up" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver; outline:none;">
 											{% comment %} <span class="pxp-agent-contact-modal-btn" id="signup_submit_btn" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver;">Sign Up</span> {% endcomment %}
 										</div>
 									</div>

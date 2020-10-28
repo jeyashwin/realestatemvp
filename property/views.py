@@ -15,6 +15,7 @@ from .models import Property, PostQuestion, PostAnswer
 from .utils import studentAccessTest, landlordAccessTest
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
 from checkout.forms import RequestToRentPropertyForm
+from notifications.models import Notification
 
 # Create your views here.
 # data = pd.read_csv("ny_data.csv")
@@ -325,20 +326,53 @@ def PostQuestionView(request, slug):
             prop = get_object_or_404(Property, urlSlug=slug)
             stud = get_object_or_404(UserStudent, user__user=request.user)
             quesObject = PostQuestion.objects.create(propKey=prop, student=stud, question=question)
+            notfy = Notification.objects.create(
+                        fromUser=request.user,
+                        toUser=prop.landlord.user.user,
+                        notificationType='question',
+                        content=prop.title,
+                        identifier=prop.urlSlug,
+                    )
         return JsonResponse({'question': question})
 
     return redirect('property:propertyDetail', slug)
 
 @login_required
 @user_passes_test(landlordAccessTest)
-def PostAnswerView(request, slug, pk):
-    prop = get_object_or_404(Property, urlSlug=slug)
-    if prop.landlord.user.user == request.user:
+def PostAnswerView(request, pk):
+    ques = get_object_or_404(PostQuestion, pk=pk)
+    if ques.propKey.landlord.user.user == request.user:
         if request.method == "POST":
             answer = request.POST.get("prop-answer", None)
             if answer is not None and answer != "":
-                ques = get_object_or_404(PostQuestion, pk=pk)
                 ansObject = PostAnswer.objects.create(question=ques, answer=answer)
-        return redirect('property:propertyDetail', slug)
+                notfy = Notification.objects.create(
+                        fromUser=request.user,
+                        toUser=ques.student.user.user,
+                        notificationType='answered',
+                        content=ques.question,
+                        identifier=ques.propKey.urlSlug,
+                    )
+                return JsonResponse({'answer': answer})
+        return redirect('property:propertyDetail', ques.propKey.urlSlug)
+    else:
+        raise Http404
+
+@login_required
+@user_passes_test(landlordAccessTest)
+def PostQuestionDeleteView(request, pk):
+    ques = get_object_or_404(PostQuestion, pk=pk)
+    if ques.propKey.landlord.user.user == request.user:
+        if request.method == "POST":
+            notfy = Notification.objects.create(
+                    fromUser=request.user,
+                    toUser=ques.student.user.user,
+                    notificationType='deletedQuestion',
+                    content=ques.question,
+                    identifier=ques.propKey.urlSlug,
+                )
+            ques.delete()
+            return JsonResponse({'deleted': True})
+        return redirect('property:propertyDetail', ques.propKey.urlSlug)
     else:
         raise Http404

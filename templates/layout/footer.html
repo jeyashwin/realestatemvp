@@ -58,9 +58,9 @@
         <script src="{% static '/js/main3813.js' %}"></script>
 		
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script>
-        <script src="js/markerclusterer.js"></script>
-        <script src="js/maine2a5.js?asdsd"></script>
-        <script src="js/mapee61.js?asldksjd"></script>
+        <script src="{% static '/js/markerclusterer.js' %}"></script>
+        <script src="{% static '/js/maine2a5.js' %}"></script>
+        <script src="{% static '/js/mapee61.js' %}"></script>
 		
 		<script>
 			function regintclick(id)
@@ -211,18 +211,23 @@
 		   function onloadfunc()
 		   {
 			
+				var issigninmsg = $(".alert.alert-danger.alert-dismissable.alert-link");
+				if (issigninmsg.length > 0) {
+					$(".pxp-signin-trigger").click();
+				}
+
 				$(".bootstrap3-multi-input").removeClass('row');
 				$(".bootstrap3-multi-input > div > input").css({"border":"2px solid silver", "border-radius":"30px"});
 				
 			
-			document.getElementById('id_logUserType_0').click();
+			{% comment %} document.getElementById('id_logUserType_0').click();
 			$("#id_logUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
 			
 			document.getElementById('id_regUserType_0').click();
 			$("#id_regUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
 
 			document.getElementById('id_is_college_student').setAttribute("checked", "true");
-			$('#id_college_name').prop('readonly', false);
+			$('#id_college_name').prop('readonly', false); {% endcomment %}
 
 		   }
 		   
@@ -294,7 +299,72 @@
 				
 			}
 		</script>
+		<script>
+			function submitsignupclick()
+			{
+				var url = $("#student_signup_form2").attr('action');
+				var formdata = $("#student_signup_form2").serialize();
+				
+				console.log(url);
+				console.log(formdata);
+				 
+				$.ajax({
+					type: 'POST',
+					url: url,
+					data: { formdata },
+					success: function(res) {
+						console.log(res);
+					},
+					error: function() {
+						console.log('Failed');
+					}
+				});
+			}
+		</script>
+	
+		<script>
+			function submitsigninclick()
+			{
+				var url = $("#signinform").attr('action');
+				var formdata = $("#signinform").serialize();
+				
+				console.log(url);
+				console.log(formdata);
+				 
+				$.ajax({
+					type: 'POST',
+					url: url,
+					data: { formdata },
+					success: function(res) {
+						console.log(res);
+					},
+					error: function() {
+						console.log('Failed');
+					}
+				});
+			}
+		</script>
 		
+		<script>
+			function invite_people_modal_open_click()
+			{
+				$("#invitecopyalert").hide();
+				var baseurl = window.location.href;
+				var uniqid = Math.random().toString(20).slice(2);
+				$("#invitepeoplelink").val(baseurl+'?code='+uniqid);
+			}
+			
+			function invitecopyclick()
+			{
+			
+				var copyText = document.getElementById("invitepeoplelink");
+				  copyText.select();
+				  copyText.setSelectionRange(0, 999999)
+				  document.execCommand("copy");
+			
+				$("#invitecopyalert").show(200);
+			}
+		</script>
 	</body>
 
 <!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:20:47 GMT -->

@@ -6,7 +6,7 @@ from .models import Notification
 def notification(request, pk):
     obj = get_object_or_404(Notification, pk=pk)
 
-    if obj.notificationType == 'rentRequest':
+    if obj.notificationType == 'rentRequest' or obj.notificationType == 'question' or obj.notificationType == 'answered':
         obj.viewed = True
         obj.save()
         return redirect('property:propertyDetail', slug=obj.identifier)
@@ -15,3 +15,8 @@ def notification(request, pk):
         obj.viewed = True
         obj.save()
         return redirect('services:servicesDetail', pk=obj.identifier)
+    
+    if obj.notificationType == 'deletedQuestion':
+        obj.viewed = True
+        obj.save()
+        return redirect('property:propertyDetail', slug=obj.identifier)
