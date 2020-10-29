@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserStudent, UserLandLord, UserType, Interest, ContactUS
+from .models import UserStudent, UserLandLord, UserType, Interest, InviteCode, ContactUS
 
 # Register your models here.
 
@@ -19,6 +19,11 @@ class UserLandLordAdmin(admin.ModelAdmin):
 @admin.register(Interest)
 class UserLandLordAdmin(admin.ModelAdmin):
     list_display = ('interest',)
+
+@admin.register(InviteCode)
+class InviteCodeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'student', 'inviteCode')
+    readonly_fields = ['createdDate']
 
 @admin.register(ContactUS)
 class UserLandLordAdmin(admin.ModelAdmin):

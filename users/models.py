@@ -7,6 +7,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 import uuid, os, random, string, phonenumbers
 
+from .utils import unique_invite_code_generator
+
 #User App model starts from here
 
 def profile_image_file_path(instance, filename):
@@ -135,6 +137,18 @@ class UserLandLord(models.Model):
         return self.user.user.username
 
 
+class InviteCode(models.Model):
+    """Stores student user invite code and the student who joined using that code."""
+
+    student = models.OneToOneField(UserStudent, on_delete=models.CASCADE, related_name='student_invite')
+    inviteCode = models.CharField(max_length=200, unique=True)
+    studentJoined = models.ManyToManyField(UserStudent, related_name='joined_user', blank=True)
+    createdDate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.inviteCode
+
+
 class ContactUS(models.Model):
     """Stores Contact US information"""
 
@@ -188,6 +202,17 @@ def auto_delete_student_profile_pic_on_modified(sender, instance, **kwargs):
             if str(oldFile.profilePicture) != str(instance.profilePicture) and (str(oldFile.profilePicture) != ''):
                 if os.path.isfile(oldFile.profilePicture.path):
                     os.remove(oldFile.profilePicture.path)
+
+@receiver(models.signals.post_save, sender=UserStudent)
+def auto_create_invite_code_on_student_user_creation(sender, instance, **kwargs):
+    """
+    Auto create invite code on student user creation.
+    """
+    alreadyExists = InviteCode.objects.filter(student=instance).exists()
+    if not alreadyExists:
+        newInvite = InviteCode.objects.create(student=instance)
+        newInvite.inviteCode = unique_invite_code_generator(instance=newInvite, size=20)
+        newInvite.save()
 
 @receiver(models.signals.post_delete, sender=UserStudent)
 def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):

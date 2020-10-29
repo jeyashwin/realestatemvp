@@ -1,4 +1,5 @@
 from django import template
+from django.urls import reverse
 from notifications.models import Notification
 import phonenumbers
 
@@ -47,3 +48,11 @@ def get_all_notifications(context):
     if user.is_authenticated:
         notifi = Notification.objects.filter(toUser=user, viewed=False)
         return notifi
+
+@register.simple_tag(takes_context=True)
+def get_invite_url(context):
+    user = context.get("user")
+    if user.is_authenticated:
+        url = context.get("request").build_absolute_uri(reverse('user:home'))
+        url_full = '{}{}{}'.format(url, "?invite_code=", user.usertype.userstudent.student_invite.inviteCode)
+        return url_full

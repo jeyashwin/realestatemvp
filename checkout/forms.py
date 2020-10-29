@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import RequestToRentProperty, RequestToRentService
+from .models import RequestToRentProperty, RequestToTourProperty, RequestToRentService
 
 
 class RequestToRentPropertyForm(forms.ModelForm):
@@ -24,6 +24,47 @@ class RequestToRentPropertyForm(forms.ModelForm):
                 'style': 'border-radius:50px;',
                 'type': 'date'
             })
+        }
+
+
+class RequestToTourPropertyForm(forms.ModelForm):
+
+    class Meta:
+        model = RequestToTourProperty
+        fields = ['preference1Date', 'preference1Time', 'preference2Date', 'preference2Time', 
+                    'preference3Date', 'preference3Time']
+
+        widgets = {
+            'preference1Date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'style': 'border-radius:50px;',
+                'type': 'date'
+            }),
+            'preference1Time': forms.TimeInput(attrs={
+                'class': 'form-control',
+                'style': 'border-radius:50px;',
+                'type': 'time'
+            }),
+            'preference2Date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'style': 'border-radius:50px;',
+                'type': 'date'
+            }),
+            'preference2Time': forms.TimeInput(attrs={
+                'class': 'form-control',
+                'style': 'border-radius:50px;',
+                'type': 'time'
+            }),
+            'preference3Date': forms.DateInput(attrs={
+                'class': 'form-control',
+                'style': 'border-radius:50px;',
+                'type': 'date'
+            }),
+            'preference3Time': forms.TimeInput(attrs={
+                'class': 'form-control',
+                'style': 'border-radius:50px;',
+                'type': 'time'
+            }),
         }
 
 

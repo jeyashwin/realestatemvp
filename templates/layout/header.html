@@ -148,7 +148,7 @@
                                 <a href="blog.html">Blog </a>                                
                             </li>  {% endcomment %}
                             <li class="list-inline-item pxp-is-last">
-                                <a href="{% url 'user:contactUs' %}">Contact Us</a>
+                                <a href="{% url 'user:contactUs' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}">Contact Us</a>
                             </li>
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
@@ -158,10 +158,12 @@
                             </li>
 							
 							<li class="pull-right" class="usernamesec">
+								{% if user.is_authenticated %}
+								{% if user.usertype.is_student %}
 								<span data-toggle="modal" data-target="#pxp-invite-people-modal" class="pxp-modal-link pxp-invite-people-trigger" onclick="invite_people_modal_open_click()">
 									<i class="fa fa-users" id="invitepeople" style="color:#fff; font-size:18px; cursor:pointer;"></i> &nbsp; &nbsp;
 								</span>
-								{% if user.is_authenticated %}
+								{% endif %}
 								<i class="fa fa-bell-o" id="notificationbell" onmouseover="hover_notification()" onmouseleave="leave_notification()" onclick="open_notifications()" style="color:gold; font-size:22px; cursor:pointer;"></i> &nbsp; &nbsp;
 									<div id="notificationpanel" class="panel" style="position:absolute; z-index:1000; background-color:#fff; margin-left:-150px; border-radius:7px; width:300px; display:none;">
 										<div class="panel-header" style="border-top-left-radius:7px; border-top-right-radius:7px; background-color:rgba(4, 113, 166, 0.8); color:#fff; padding:5px 5px;">
@@ -304,6 +306,8 @@
                 </div>
             </div>
         </div>
+		{% if user.is_authenticated %}
+		{% if user.usertype.is_student %}
 		<div class="modal fade" id="pxp-invite-people-modal" tabindex="-1" role="dialog" aria-labelledby="pxpInvitePeopleModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document" style="width:200%;">
                 <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
@@ -314,25 +318,25 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpInvitePeopleModal">Invite your Friends</h5></center>
-                        {% comment %} <form class="mt-4" onsubmit="forgot_pass()" action="#"> {% endcomment %}
-                            <div class="form-group">
-								<div class="row">
-									<div class="col-md-11">
-										<input type="text" id="invitepeoplelink" class="form-control" style="background-color:rgba(255, 255, 255, 0.5);" readonly>
-										<br>
-										<center><span class="alert alert-success alert-sm" id="invitecopyalert" style="font-size:13px; display:none;"><i class="fa fa-check"></i> Link Copied</span></center>
-									</div>
-									<div class="col-md-1">
-										<style> .fa.fa-copy:hover { color:silver; cursor:pointer; } </style>
-										<i class="fa fa-copy" onclick="invitecopyclick()" style="font-size:20px; margin-top:13px;"></i>
-									</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-11">
+									<input type="text" id="invitepeoplelink" class="form-control" value="{% get_invite_url %}" style="background-color:rgba(255, 255, 255, 0.5);" readonly>
+									<br>
+									<center><span class="alert alert-success alert-sm" id="invitecopyalert" style="font-size:13px; display:none;"><i class="fa fa-check"></i> Link Copied</span></center>
 								</div>
-                            </div>
-                        {% comment %} </form> {% endcomment %}
+								<div class="col-md-1">
+									<style> .fa.fa-copy:hover { color:silver; cursor:pointer; } </style>
+									<i class="fa fa-copy" onclick="invitecopyclick()" style="font-size:20px; margin-top:13px;"></i>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
         </div>
+	{% endif %}
+	{% endif %}
 
  {% if not user.is_authenticated %}
         <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
@@ -415,7 +419,7 @@
 							<label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:5px 0px; border:2px solid #003a8c; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Landlord </label>	
 						</div>
 						
-						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data" >
+						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}" method="POST" enctype="multipart/form-data" >
 							{% csrf_token %} 
 							{% comment %} {% bootstrap_form StudentSignupForm %} {% endcomment %}
 							<div id="step1div">	

@@ -349,9 +349,9 @@
 			function invite_people_modal_open_click()
 			{
 				$("#invitecopyalert").hide();
-				var baseurl = window.location.href;
+				{% comment %} var baseurl = window.location.href;
 				var uniqid = Math.random().toString(20).slice(2);
-				$("#invitepeoplelink").val(baseurl+'?code='+uniqid);
+				$("#invitepeoplelink").val(baseurl+'?code='+uniqid); {% endcomment %}
 			}
 			
 			function invitecopyclick()

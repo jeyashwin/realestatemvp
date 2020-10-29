@@ -14,7 +14,7 @@ from users.models import UserLandLord , UserStudent
 from .models import Property, PostQuestion, PostAnswer
 from .utils import studentAccessTest, landlordAccessTest
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
-from checkout.forms import RequestToRentPropertyForm
+from checkout.forms import RequestToRentPropertyForm, RequestToTourPropertyForm
 from notifications.models import Notification
 
 # Create your views here.
@@ -270,6 +270,7 @@ class PropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context["alreadyFavourite"] = self.object.favourite_set.filter(student__user__user=self.request.user).exists()
         if self.request.user.usertype.is_student:
             context["form"] = RequestToRentPropertyForm()
+            context["tourForm"] = RequestToTourPropertyForm()
         return context  
 
 

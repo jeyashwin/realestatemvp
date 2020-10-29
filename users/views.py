@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
 from django.contrib.auth.models import User
 
-from .models import UserStudent, UserLandLord, UserType, ContactUS
+from .models import UserStudent, UserLandLord, UserType, InviteCode, ContactUS
 from .forms import *
 
 # Create your views here.
@@ -89,6 +89,16 @@ class StudentSignUpView(CreateView):
                             guests=form.cleaned_data.get('guests'),
                         )
         studentObject.interests.set(interests)
+        studentObject.save()
+
+        inviteCode = self.request.GET.get('invite_code', None)
+        if inviteCode:
+            try:
+                newUser = InviteCode.objects.get(inviteCode=inviteCode)
+                newUser.studentJoined.add(studentObject)
+                newUser.save()
+            except InviteCode.DoesNotExist:
+                print("Invite codes doesn't match! Ask your friend to resend.")
 
         return redirect('user:home')
 

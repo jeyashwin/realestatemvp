@@ -7,6 +7,7 @@ class Notification(models.Model):
 
     NotificationChoice = [
         ('rentRequest', 'Property Rent Request'),
+        ('tourRequest', 'Property Tour Request'),
         ('serviceRequest', 'Service Rent Request'),
         ('question', 'Asked Question'),
         ('answered', 'Question is answered'),
