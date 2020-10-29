@@ -7,7 +7,7 @@ from phonenumber_field.formfields import PhoneNumberField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
-from .models import UserStudent, UserLandLord, Interest
+from .models import UserStudent, UserLandLord, Interest, ContactUS
 import phonenumbers
 
 def validatePhone(number):
@@ -29,7 +29,8 @@ class LandlordSignupForm(UserCreationForm):
                     'placeholder': 'Enter your phone number'
                 }),
                 help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
-                validators=[validatePhone]
+                validators=[validatePhone],
+                region='US'
             )
     lanprofilePicture = forms.ImageField(
                             widget= forms.ClearableFileInput(attrs={
@@ -103,6 +104,7 @@ class StudentSignupForm(UserCreationForm):
                 }),
                 help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
                 validators=[validatePhone],
+                region='US'
             )
     university = forms.CharField(max_length=50,
                     widget=forms.TextInput(attrs={
@@ -156,10 +158,10 @@ class StudentSignupForm(UserCreationForm):
                         'placeholder': 'Enter instagram link',
                     })
                 )
-    redditLink = forms.URLField(required=False, max_length=250,
+    twitterLink = forms.URLField(required=False, max_length=250,
                     widget=forms.URLInput(attrs={
                         'class': 'socialmediainput',
-                        'placeholder': 'Enter reddit link',
+                        'placeholder': 'Enter twitter link',
                     })
                 )
     ssFrom = forms.TimeField(required=False, 
@@ -211,7 +213,7 @@ class StudentSignupForm(UserCreationForm):
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
                     'password2', 'university', 'classYear', 'bio', 'interests', 'phone', 
-                    'profilePicture', 'fblink', 'snapLink', 'instaLink', 'redditLink', 'ssFrom',
+                    'profilePicture', 'fblink', 'snapLink', 'instaLink', 'twitterLink', 'ssFrom',
                     'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 'cleanliness', 'guests')
         widgets = {
             'first_name': forms.TextInput(attrs={
@@ -280,7 +282,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserStudent
         fields = ('first_name', 'last_name', 'email', 'phone', 'university', 'classYear', 'bio', 
-                    'interests', 'profilePicture', 'fbLink', 'snapLink', 'instaLink', 'redditLink', 
+                    'interests', 'profilePicture', 'fbLink', 'snapLink', 'instaLink', 'twitterLink', 
                     'sleepScheduleFrom', 'sleepScheduleTo', 'studyHourFrom', 'studyHourTo', 
                     'tobaccoUsage', 'alcoholUsage', 'cleanliness', 'guests')
 
@@ -295,7 +297,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'fbLink': 'Facebook',
             'snapLink': 'SnapChat',
             'instaLink': 'Instagram', 
-            'redditLink': 'Reddit'
+            'twitterLink': 'Twitter'
         }
 
     def __init__(self, request=None, *args, **kwargs):
@@ -353,3 +355,26 @@ class LandlordProfileUpdateForm(forms.ModelForm):
         self.fields['first_name'].initial = landlordInfo.user.user.first_name
         self.fields['last_name'].initial = landlordInfo.user.user.last_name
         self.fields['email'].initial = landlordInfo.user.user.email
+
+
+class ContactUSForm(forms.ModelForm):
+
+    class Meta:
+        model = ContactUS
+        fields = '__all__'
+
+        widgets = {
+            'contactEmail': forms.EmailInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Your Email Address'
+            }),
+            'subject': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter Subject'
+            }),
+            'message': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter your queries here..',
+                'rows': "4"
+            }),
+        }

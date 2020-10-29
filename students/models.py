@@ -41,9 +41,9 @@ class RoommatePost(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     interest = models.ManyToManyField(Interest)
-    image = models.ImageField(upload_to=roompost_image_file_path)
-    image1 = models.ImageField(upload_to=roompost_image_file_path)
-    image2 = models.ImageField(upload_to=roompost_image_file_path)
+    image = models.ImageField(upload_to=roompost_image_file_path, blank=True)
+    image1 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
+    image2 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
     image3 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
     heart = models.ManyToManyField(UserStudent, related_name="hearts", blank=True)
     updateDate = models.DateTimeField(auto_now=True)
@@ -106,31 +106,38 @@ def auto_delete_roommate_post_images_if_modified(sender, instance, **kwargs):
     Deletes roommates post images file from filesystem
     when corresponding MediaFile is modified.
     """
-    if instance.image or instance.image1 or instance.image2:
-        alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = RoommatePost.objects.get(pk=instance.pk)
+    alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
+    if alreadyExists:
+        oldFile = RoommatePost.objects.get(pk=instance.pk)
+        if instance.image:
             if str(oldFile.image) != str(instance.image) and (str(oldFile.image) != ''):
                 if os.path.isfile(oldFile.image.path):
                     os.remove(oldFile.image.path)
+        else:
+            if oldFile.image:
+                if os.path.isfile(oldFile.image.path):
+                    os.remove(oldFile.image.path)
+        if instance.image1:
             if str(oldFile.image1) != str(instance.image1) and (str(oldFile.image1) != ''):
                 if os.path.isfile(oldFile.image1.path):
                     os.remove(oldFile.image1.path)
+        else:
+            if oldFile.image1:
+                if os.path.isfile(oldFile.image1.path):
+                    os.remove(oldFile.image1.path)
+        if instance.image2:
             if str(oldFile.image2) != str(instance.image2) and (str(oldFile.image2) != ''):
                 if os.path.isfile(oldFile.image2.path):
                     os.remove(oldFile.image2.path)
-
-    if instance.image3:
-        alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = RoommatePost.objects.get(pk=instance.pk)
+        else:
+            if oldFile.image2:
+                if os.path.isfile(oldFile.image2.path):
+                    os.remove(oldFile.image2.path)
+        if instance.image3:
             if str(oldFile.image3) != str(instance.image3) and (str(oldFile.image3) != ''):
                 if os.path.isfile(oldFile.image3.path):
                     os.remove(oldFile.image3.path)
-    else:
-        alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = RoommatePost.objects.get(pk=instance.pk)
+        else:
             if oldFile.image3:
                 if os.path.isfile(oldFile.image3.path):
                     os.remove(oldFile.image3.path)

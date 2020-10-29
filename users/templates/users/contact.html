@@ -1,38 +1,14 @@
-<img{% include "layout/header.html" %}
+{% include "layout/header.html" %}
 
 {% load static %}
-    
-    <style>
-	.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
-	
-a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-box !important;box-sizing:content-box !important;vertical-align:middle}.hs-breadcrumb-menu{list-style-type:none;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px}.hs-breadcrumb-menu-item{float:left;padding:10px 0px 10px 10px}.hs-breadcrumb-menu-divider:before{content:'›';padding-left:10px}.hs-featured-image-link{border:0}.hs-featured-image{float:right;margin:0 0 20px 20px;max-width:50%}@media (max-width: 568px){.hs-featured-image{float:none;margin:0;width:100%;max-width:100%}}.hs-screen-reader-text{clip:rect(1px, 1px, 1px, 1px);height:1px;overflow:hidden;position:absolute !important;width:1px}
+<style>
+    .pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+    a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-box !important;box-sizing:content-box !important;vertical-align:middle}.hs-breadcrumb-menu{list-style-type:none;margin:0px 0px 0px 0px;padding:0px 0px 0px 0px}.hs-breadcrumb-menu-item{float:left;padding:10px 0px 10px 10px}.hs-breadcrumb-menu-divider:before{content:'›';padding-left:10px}.hs-featured-image-link{border:0}.hs-featured-image{float:right;margin:0 0 20px 20px;max-width:50%}@media (max-width: 568px){.hs-featured-image{float:none;margin:0;width:100%;max-width:100%}}.hs-screen-reader-text{clip:rect(1px, 1px, 1px, 1px);height:1px;overflow:hidden;position:absolute !important;width:1px}
 </style>
-
 <link rel="stylesheet" href="{% static '/cpage/wt-assets/static-files/2564/core-nav/styles.css' %}">
-  
 <script src="{% static '/cpage/wt-assets/static-files/compliance/index.js' %}" type="text/javascript" data-gtm-id="GTM-N5LT88" nonce="NjY0NTkyNzQ3LDI1OTA4NjI1MDY="></script>
-  
-
-
-
-
-
-
-
-
-  
-    <link href="{% static '/cpage/static2cdn.hubspot.com/hubspot.com/static-1.4742/_hsg-ss/build/icons/hsg-icons.css' %}" rel="stylesheet">
-    
- 
-    <link href="{% static '/cpage/wt-assets/static-files/2564/styleguide/styles.css' %}" rel="stylesheet">
-  
-
-
-
-
-
- 
-
+<link href="{% static '/cpage/static2cdn.hubspot.com/hubspot.com/static-1.4742/_hsg-ss/build/icons/hsg-icons.css' %}" rel="stylesheet">
+<link href="{% static '/cpage/wt-assets/static-files/2564/styleguide/styles.css' %}" rel="stylesheet">
 <!-- start coded_template: id:30301876168 path:_Web Team Assets/Website/_globals/cookieNoticeOverrides.html -->
 <!-- Style GDPR Compliance Banner -->
 <style>
@@ -91,9 +67,7 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
 <link rel="stylesheet" href="{% static '/cpage/cdn2.hubspot.net/hub/-1/hub_generated/template_assets/1495141902003/hubspot_default/shared/responsive/layout.min.css' %}">
 <link rel="stylesheet" href="{% static '/cpage/hs-fs/hub/53/hub_generated/template_assets/424656211/1593536432415/Custom/page/custom-stylemanager/Hubspot_Style_Guide.min.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static '/cpage/wt-assets/static-files/755/contact-us/styles.css' %}">
-
-</head>
-<body class="hs-content-id-6198984535 hs-site-page page hs-content-path-company-contact hs-content-name-contact-us-v2  " style="">
+<div class="hs-content-id-6198984535 hs-site-page page hs-content-path-company-contact hs-content-name-contact-us-v2  " style="">
     <div class="header-container-wrapper">
     <div class="header-container container-fluid">
 
@@ -201,7 +175,7 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
 <img class="contact-box-item logo" src="https://www.hubspot.com/hubfs/Contact Us/chat.svg">
 <span class="contact-box-item title">Mail to Customer Support</span>
 <span class="contact-box-item blurb">Sometimes you need a little help from your friends. Or a RE support rep. Don’t worry… we’re here for you.</span>
-<a class="cta cta--blue contact-sales" onclick="open_contact_form()" href="#" style="background-color:#0471a6; border:none;">Contact Form</a>
+<a class="cta cta--blue contact-sales" onclick="open_contact_form()" href="javascript:void(0);" style="background-color:#0471a6; border:none;">Contact Form</a>
 
 </div>
 </div>
@@ -232,15 +206,19 @@ a.cta_button{-moz-box-sizing:content-box !important;-webkit-box-sizing:content-b
 							<div class="col-md-2 col-xs-0"></div>
 							<div class="col-md-8 col-xs-12" style="background-color:#fff; border-radius:7px; box-shadow:3px 3px 4px silver;">
 								<center><h2 style="color:black;" class="section-header__header"> Fill out the form below </h2></center>
-								<form action="#" method="POST" style="padding:20px;">
+								<form action="" method="POST" style="padding:20px;">
+                  {% csrf_token %}
 									<label style="color:black;"> &nbsp; Email Address</label>
-									<input type="email" class="form-control" id="contact_email" name="contact_email" placeholder="Your Email Address" required />
+                  {{contactusform.contactEmail}}
+                  <small style="color: red;">{{contactusform.contactEmail.errors}}</small>
 									<br>
 									<label style="color:black;"> &nbsp; Subject</label>
-									<input type="text" class="form-control" name="contact_email" placeholder="Enter Title" required />
+                  {{contactusform.subject}}
+                  <small style="color: red;">{{contactusform.subject.errors}}</small>
 									<br>
 									<label style="color:black;"> &nbsp; Your Message</label>
-									<textarea rows="4" class="form-control" name="contact_email" placeholder="Enter your queries here.." required ></textarea>
+                  {{contactusform.message}}
+                  <small style="color: red;">{{contactusform.message.errors}}</small>
 									<br>
 									<input class="btn form-control" type="submit" name="submit" value="Submit" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">
 									<br><br>
@@ -418,9 +396,9 @@ var hsVars = {
 	function open_contact_form()
 	{
 		$("#hs_cos_wrapper_widget_1597673519107").show(1000);
-		$("#contact_email").focus();
+		$("#{{contactusform.contactEmail.id_for_label}}").focus();
 		$('html, body').animate({
-			scrollTop: $("#contact_email").offset().top - 500
+			scrollTop: $("#{{contactusform.contactEmail.id_for_label}}").offset().top - 500
 		}, 1000);
 		
 	}

@@ -78,7 +78,7 @@ class UserStudent(models.Model):
     fbLink = models.URLField(max_length=250, null=True, blank=True)
     snapLink = models.URLField(max_length=250, null=True, blank=True)
     instaLink = models.URLField(max_length=250, null=True, blank=True)
-    redditLink = models.URLField(max_length=250, null=True, blank=True)
+    twitterLink = models.URLField(max_length=250, null=True, blank=True)
     sleepScheduleFrom = models.TimeField(blank=True, null=True)
     sleepScheduleTo = models.TimeField(blank=True, null=True)
     studyHourFrom = models.TimeField(blank=True, null=True)
@@ -133,6 +133,21 @@ class UserLandLord(models.Model):
 
     def __str__(self):
         return self.user.user.username
+
+
+class ContactUS(models.Model):
+    """Stores Contact US information"""
+
+    contactEmail = models.EmailField(max_length=254)
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    createdDate = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.contactEmail
+
+    class Meta:
+        verbose_name_plural = 'Contact US'
 
 
 @receiver(models.signals.pre_save, sender=UserLandLord)

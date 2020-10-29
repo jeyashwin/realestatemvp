@@ -7,7 +7,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
 from django.contrib.auth.models import User
 
-from .models import UserStudent, UserLandLord, UserType
+from .models import UserStudent, UserLandLord, UserType, ContactUS
 from .forms import *
 
 # Create your views here.
@@ -78,7 +78,7 @@ class StudentSignUpView(CreateView):
                             fbLink=form.cleaned_data.get('fblink'),
                             snapLink=form.cleaned_data.get('snapLink'),
                             instaLink=form.cleaned_data.get('instaLink'),
-                            redditLink=form.cleaned_data.get('redditLink'),
+                            twitterLink=form.cleaned_data.get('twitterLink'),
                             sleepScheduleFrom=form.cleaned_data.get('ssFrom'),
                             sleepScheduleTo=form.cleaned_data.get('ssTo'),
                             studyHourFrom=form.cleaned_data.get('shFrom'),
@@ -163,11 +163,20 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
         else:
             raise Http404
 
-def Contact(request):
-    context = {
-        'form': AuthenticationForm,
-        "LandlordSignupForm" : LandlordSignupForm(label_suffix=''),
-        "StudentSignupForm": StudentSignupForm(label_suffix='')
-    }
-    return render(request, "contact.html", context=context)
+
+class ContactUSCreateView(CreateView):
+    model = ContactUS
+    template_name = "users/contact.html"
+    form_class = ContactUSForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["contactusform"] = context["form"]
+        context["form"] = AuthenticationForm
+        context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
+        context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
+        return context
+
+    def get_success_url(self, **kwargs):
+        return reverse_lazy('user:contactUs')
 

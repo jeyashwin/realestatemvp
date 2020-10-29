@@ -47,7 +47,7 @@ def createStudentUser(username="TestUser"):
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
                 'interests': [in1.pk, in2.pk] , 'fblink': "https://www.facebook.com/", 
                 'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
-                'redditLink': "https://www.reddit.com/",
+                'twitterLink': "https://www.twitter.com/",
             }
     response = client.post(
             reverse('user:studentSignup'),
@@ -144,7 +144,7 @@ class LandlordSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('email'), ['Enter a valid email address.'])
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
         self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
-        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. +12125552368).'])
+        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData.get('lanprofilePicture'), ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
 
 
@@ -161,12 +161,12 @@ class StudentSignUpViewTests(TestCase):
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
                 'interests': [in1.pk, in2.pk], 
                 'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
-                'instaLink':"https://www.instagram.com/", 'redditLink': "https://www.reddit.com/",
+                'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
             }
         self.invalidPayload1 = { 'first_name': '', 'last_name': '', 'email': '' , 
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
                 'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interests': [], 
-                'fblink': '', 'snapLink': '', 'instaLink':'', 'redditLink': '',
+                'fblink': '', 'snapLink': '', 'instaLink':'', 'twitterLink': '',
             }
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
                 'username': 'TestUser', 'password1': '12312312', 'password2': 'Test2323', 
@@ -174,7 +174,7 @@ class StudentSignUpViewTests(TestCase):
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage('.avi'),
                 'interests': ['123'], 'fblink': "facebook", 
                 'snapLink': "snapchat", 'instaLink':"instagram",
-                'redditLink': "reddit",
+                'twitterLink': "twitter",
             }
 
     def test_create_student_link_without_payload(self):
@@ -251,11 +251,11 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('email'), ['Enter a valid email address.'])
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
         self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
-        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. +12125552368).'])
+        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData.get('fblink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('redditLink'), ['Enter a valid URL.'])
+        self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('classYear'), ['Minimum year 2010'])
         self.assertEqual(errorData.get('interests'), ['Select a valid choice. 123 is not one of the available choices.'])
         self.assertEqual(errorData.get('profilePicture'), ["File extension 'avi' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
@@ -353,16 +353,16 @@ class StudentProfileUpdateViewTests(TestCase):
                 'classYear': 2015, 'bio': "test bio data", 'profilePicture': MockImage('.jpg'),
                 'interests': [int1.pk] , 'fbLink': "https://www.facebook.com/", 
                 'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
-                'redditLink': "https://www.reddit.com/", 'tobaccoUsage': 'never', 
+                'twitterLink': "https://www.twitter.com/", 'tobaccoUsage': 'never', 
                 'alcoholUsage': 'never', 'cleanliness': 'daily', 'guests': 'occasionally', 
             }
         self.invalidPayload1 = {'first_name': '', 'last_name': '' , 'email': '' , 'phone': "", 
                 'university': '', 'classYear': '', 'bio': "", 'profilePicture': '', 'interests': [] 
-                , 'fbLink': "", 'snapLink': "", 'instaLink':"", 'redditLink': "",
+                , 'fbLink': "", 'snapLink': "", 'instaLink':"", 'twitterLink': "",
             }
         self.invalidPayload2 = {'email': 'TESTEmail' , 'phone': "+1234567", 'classYear': 2040, 
                 'profilePicture': MockImage('.mp4'), 'interests': [10] , 'fbLink': "facebook", 
-                'snapLink': "zsfsdf", 'instaLink':"dfsdf", 'redditLink': "adas",}
+                'snapLink': "zsfsdf", 'instaLink':"dfsdf", 'twitterLink': "adas",}
 
     def test_retrieve_student_profile_success(self):
         """Test retrieving profile for logged in student user"""
@@ -469,7 +469,7 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(errorData.get('fbLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('redditLink'), ['Enter a valid URL.'])
+        self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
 
 
 class LandlordProfileUpdateViewTests(TestCase):

@@ -141,7 +141,7 @@ class PropertyFilterSortForm(forms.Form):
         ('1', '1'),
         ('2', '2'),
         ('3', '3'),
-        ('4', '>=4')
+        ('4', '+4')
     ]
     maxp = Property.objects.aggregate(Max('rentPerPerson'))
     minp = Property.objects.aggregate(Min('rentPerPerson'))

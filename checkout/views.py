@@ -59,6 +59,5 @@ def RequestToRentServiceCreateView(request, pk):
             #             )
             messages.add_message(request, messages.SUCCESS, 'Request Sent Successfully.')
         else:
-            for error in form.errors:
-                messages.add_message(request, messages.ERROR, form.errors[error])
+            messages.add_message(request, messages.ERROR, form.errors)
     return redirect('services:servicesDetail', pk=pk)

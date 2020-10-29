@@ -536,10 +536,12 @@
 							  
 							<div class="card-body" id="ques_ans_card_body" style="font-size:13px; max-height:520px; overflow-y:scroll;">
 								<h6 id="ques_ans_card_h6">
+								{% if object.postquestion_set.all %}
 									<b style="color:grey;">User Queries</b>
 									{% if user.usertype.is_landlord %}
 									<b class="btn btn-default btn-xs pull-right pxp-signup-trigger" style="color:#fff; background-color:#003a8c; border-radius:50px; cursor:pointer; padding:1px 7px;"> Answer </b> <br>
 									{% endif %}
+								{% endif %}
 								</h6>
 								{% if object.postquestion_set.all %}
 									{% for question in object.postquestion_set.all %}

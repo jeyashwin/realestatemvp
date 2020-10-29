@@ -70,7 +70,7 @@ class UsersModelTests(TestCase):
             fbLink="https://www.facebook.com/",
             snapLink="https://www.snapchat.com/",
             instaLink="https://www.instagram.com/",
-            redditLink="https://www.reddit.com/",
+            twitterLink="https://www.twitter.com/",
         )
         userstudent.interests.set([interest1, interest2])
 
@@ -104,7 +104,7 @@ class UsersModelTests(TestCase):
             fbLink="https://www.facebook.com/",
             snapLink="https://www.snapchat.com/",
             instaLink="https://www.instagram.com/",
-            redditLink="https://www.reddit.com/",
+            twitterLink="https://www.twitter.com/",
         )
         userstudent.interests.set([interest1, interest2])
 
