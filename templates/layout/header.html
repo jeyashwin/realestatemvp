@@ -178,7 +178,14 @@
 														{% if notify.notificationType == "rentRequest" %}
 														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='text-decoration: none;'>
 														<li> 
-															<p><b>{{notify.fromUser}}</b> has requested <b>{{notify.content}}</b> for Rent</p><hr>
+															<p><b>{{notify.fromUser}}</b> has requested <b>{{notify.content}}</b> for Rent.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "tourRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='text-decoration: none;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has requested <b>{{notify.content}}</b> property for tour.</p><hr>
 														</li>
 														</a>
 														{% endif %}
