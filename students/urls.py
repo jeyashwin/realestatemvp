@@ -10,9 +10,13 @@ urlpatterns = [
     path('favourites/remove/<slug:slug>/', RemoveFavourite, name="removeFavourites"),
 
     path('roommates/', RoommatesListView.as_view(), name="roommates"),
-    path('roommates/<slug:preference>/', RoommatesListView.as_view(), name="roommatesPreference"),
+    path('roommates/mypost/', RoommatesMyPostListView.as_view(), name="roommatesMypost"),
+    
+    #enable if preferences
+    # path('roommates/<slug:preference>/', RoommatesListView.as_view(), name="roommatesPreference"),
+    # path('roommates/<slug:preference>/post/create/', RoommatesPostCreateView.as_view(), name="postCreate"),
 
-    path('roommates/<slug:preference>/post/create/', RoommatesPostCreateView.as_view(), name="postCreate"),
+    path('roommates/post/create/', RoommatesPostCreateView.as_view(), name="postCreate"),
     # path('roommates/post/<int:pk>/update/', PostUpdateView.as_view(), name="postUpdate"),
     path('roommates/post/<int:pk>/', RoommatesPostDetailView.as_view(), name="postDetail"),
     path('roommates/post/<int:pk>/delete/', RoommatesPostDeleteView.as_view(), name="postDelete"),

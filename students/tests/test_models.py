@@ -17,22 +17,23 @@ def createStudent(username="studentroommates"):
     return student
 
 def createRoommatesPost(student=None):
-    int1 = Interest.objects.create(interest="sports")
-    int2 = Interest.objects.create(interest="gym")
-    int3 = Interest.objects.create(interest="coding")
+    # int1 = Interest.objects.create(interest="sports")
+    # int2 = Interest.objects.create(interest="gym")
+    # int3 = Interest.objects.create(interest="coding")
     img = MockImageVideo(ftype='jpg')
     img1 = MockImageVideo(ftype='jpg')
     img2 = MockImageVideo(ftype='jpg')
     img3 = MockImageVideo()
     if student is None:
         student = createStudent()
-    prefObj = Preference.objects.create(preferenceType="Quiet hours")
-    roomObj = RoommatePost.objects.create(student=student, preference=prefObj,
+    # prefObj = Preference.objects.create(preferenceType="Quiet hours")
+    #  preference=prefObj,
+    roomObj = RoommatePost.objects.create(student=student,
                     title="New post", description="Welcome to new post", image=img.name, 
                     image1=img1.name, image2=img2.name, 
                     image3=img3.name
                 )
-    roomObj.interest.set([int1, int2, int3])
+    # roomObj.interest.set([int1, int2, int3])
     roomObj.heart.set([createStudent(username="123"), createStudent(username="1234")])
     return roomObj
 
@@ -50,18 +51,18 @@ class StudentModelTests(TestCase):
         self.assertEqual(str(favouriteObj), str(favouriteObj.pk))
         self.assertEqual(list(favouriteObj.properties.all()), [propobject, propobject1])
 
-    def test_preference_model_str(self):
-        """Test the preference model string representation"""
-        pref = Preference.objects.create(preferenceType="Quiet hours")
-        pref1 = Preference.objects.create(preferenceType="Sleep")
-        pref2 = Preference.objects.create(preferenceType="Sleep")
+    # def test_preference_model_str(self):
+    #     """Test the preference model string representation"""
+    #     pref = Preference.objects.create(preferenceType="Quiet hours")
+    #     pref1 = Preference.objects.create(preferenceType="Sleep")
+    #     pref2 = Preference.objects.create(preferenceType="Sleep")
 
-        self.assertEqual(str(pref), pref.preferenceType)
-        self.assertEqual(pref.preferenceSlug, "quiet-hours")
-        self.assertEqual(str(pref1), pref1.preferenceType)
-        self.assertEqual(pref1.preferenceSlug, "sleep")
-        self.assertEqual(str(pref2), pref2.preferenceType)
-        self.assertIn("sleep", pref2.preferenceSlug)
+    #     self.assertEqual(str(pref), pref.preferenceType)
+    #     self.assertEqual(pref.preferenceSlug, "quiet-hours")
+    #     self.assertEqual(str(pref1), pref1.preferenceType)
+    #     self.assertEqual(pref1.preferenceSlug, "sleep")
+    #     self.assertEqual(str(pref2), pref2.preferenceType)
+    #     self.assertIn("sleep", pref2.preferenceSlug)
 
     def test_roommatepost_model_str(self):
         """Test the RoommatePost model string representation"""
@@ -69,7 +70,7 @@ class StudentModelTests(TestCase):
 
         self.assertEqual(post.totalHearts(), 2)
         self.assertEqual(str(post), post.title)
-        self.assertEqual(post.preference.preferenceType, "Quiet hours")
+        # self.assertEqual(post.preference.preferenceType, "Quiet hours")
         self.assertEqual(post.student.user.user.username, "studentroommates")
         heart = post.heart.first()
         self.assertEqual(heart.user.user.username, "123")

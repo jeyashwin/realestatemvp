@@ -117,13 +117,13 @@ class PrivateAccessTests(TestCase):
     def test_post_answer_view(self):
         """Test get & post request login required for post answer view"""
         prop = sampleProperty()
-        response = client.get(reverse('property:propertyAnswer', kwargs={'slug': prop.urlSlug, 'pk': 1}))
+        response = client.get(reverse('property:propertyAnswer', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/property/answer/{}/1/'.format(prop.urlSlug))
+        self.assertEqual(response.url, '/?next=/property/answer/1/')
 
-        response = client.post(reverse('property:propertyAnswer', kwargs={'slug': prop.urlSlug, 'pk': 1}))
+        response = client.post(reverse('property:propertyAnswer', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/property/answer/{}/1/'.format(prop.urlSlug))
+        self.assertEqual(response.url, '/?next=/property/answer/1/')
 
 
 class PrivateLandlordAccessTests(TestCase):
@@ -293,50 +293,41 @@ class PrivateLandlordAccessTests(TestCase):
         stud = createStudentUser(username="StudentUser")
         studObject = models.UserStudent.objects.get(user__user=stud)
         q1 = propmodel.PostQuestion.objects.create(propKey=prop1, question="What is the amount of rent?", student=studObject)
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}))
+        response = self.client.get(reverse('property:propertyAnswer', kwargs={'pk': q1.pk}))
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/property/{}/'.format(prop1.urlSlug))
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q1.pk}),
                         data={'prop-answer': "Per month $1000"}
                     )
         answer = propmodel.PostAnswer.objects.get(question=q1)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/property/{}/'.format(prop1.urlSlug))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.json().get('answer'), "Per month $1000")
         self.assertEqual(answer.answer, "Per month $1000")
 
         #invalid Requests
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': "sad-sad", 'pk': q1.pk}))
-
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-        
-        response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': "sad-sad", 'pk': q1.pk}),
-                        data={'prop-answer': "Per month $1000"}
-                    )
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-
         prop2 = sampleProperty(landName="LandlordUser")
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': prop2.urlSlug, 'pk': q1.pk}))
+        q2 = propmodel.PostQuestion.objects.create(propKey=prop2, question="What is the amount of rent?", student=studObject)
+        response = self.client.get(reverse('property:propertyAnswer', kwargs={'pk': q2.pk}))
 
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop2.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q2.pk}),
                         data={'prop-answer': "Per month $1000"}
                     )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': 20}),
+                        reverse('property:propertyAnswer', kwargs={'pk': 20}),
                         data={'prop-answer': 4234}
                     )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q1.pk}),
                         data={'prop-answer': ""}
                     )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -505,11 +496,11 @@ class PrivateStudentAccessTests(TestCase):
         studObject = models.UserStudent.objects.get(user__user=self.student)
         q1 = propmodel.PostQuestion.objects.create(propKey=prop1, question="Is there 24hrs WIFI?", student=studObject)
 
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}))
+        response = self.client.get(reverse('property:propertyAnswer', kwargs={'pk': q1.pk}))
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q1.pk}),
                         data={'prop-answer': "Yes we have"}
                     )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)

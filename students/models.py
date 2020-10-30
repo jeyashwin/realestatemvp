@@ -4,9 +4,10 @@ from django.db.models.signals import pre_save, post_delete
 
 import uuid, os
 
-from users.models import UserStudent, Interest
+# from users.models import UserStudent, Interest
+from users.models import UserStudent
 from property.models import Property
-from .utils import unique_slug_generator_preference, random_string_generator
+# from .utils import unique_slug_generator_preference, random_string_generator
 
 # Create your models here.
 
@@ -27,20 +28,20 @@ class Favourite(models.Model):
         return "{}".format(self.pk)
 
 
-class Preference(models.Model):
-    preferenceSlug = models.SlugField(unique=True, max_length=200, editable=False)
-    preferenceType = models.CharField(max_length=100, help_text="eg Quiet hours")
+# class Preference(models.Model):
+#     preferenceSlug = models.SlugField(unique=True, max_length=200, editable=False)
+#     preferenceType = models.CharField(max_length=100, help_text="eg Quiet hours")
 
-    def __str__(self):
-        return self.preferenceType
+#     def __str__(self):
+#         return self.preferenceType
 
 class RoommatePost(models.Model):
 
     student = models.ForeignKey(UserStudent, related_name='student', on_delete=models.CASCADE)
-    preference = models.ForeignKey(Preference, on_delete=models.CASCADE)
+    # preference = models.ForeignKey(Preference, on_delete=models.CASCADE)
     title = models.CharField(max_length=150)
     description = models.TextField()
-    interest = models.ManyToManyField(Interest)
+    # interest = models.ManyToManyField(Interest)
     image = models.ImageField(upload_to=roompost_image_file_path, blank=True)
     image1 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
     image2 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
@@ -88,17 +89,17 @@ class CommentReply(models.Model):
 
 
 # Signals and receivers of models here
-@receiver(pre_save, sender=Preference)
-def auto_add_unique_slug_field_preference(sender, instance, **kwargs):
-    """
-    Automatically add unique slug field to the Preference models
-    """
-    if instance.preferenceSlug:
-        prop = Preference.objects.get(pk=instance.pk)
-        if instance.preferenceType != prop.preferenceType:
-            instance.preferenceSlug = unique_slug_generator_preference(instance)
-    if not instance.preferenceSlug:
-        instance.preferenceSlug = unique_slug_generator_preference(instance)
+# @receiver(pre_save, sender=Preference)
+# def auto_add_unique_slug_field_preference(sender, instance, **kwargs):
+#     """
+#     Automatically add unique slug field to the Preference models
+#     """
+#     if instance.preferenceSlug:
+#         prop = Preference.objects.get(pk=instance.pk)
+#         if instance.preferenceType != prop.preferenceType:
+#             instance.preferenceSlug = unique_slug_generator_preference(instance)
+#     if not instance.preferenceSlug:
+#         instance.preferenceSlug = unique_slug_generator_preference(instance)
 
 @receiver(pre_save, sender=RoommatePost)
 def auto_delete_roommate_post_images_if_modified(sender, instance, **kwargs):

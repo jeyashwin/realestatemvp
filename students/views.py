@@ -8,8 +8,9 @@ from rest_framework import generics, permissions
 
 from property.utils import studentAccessTest
 from property.models import Property
-from users.models import UserStudent, Interest
-from .models import Favourite, RoommatePost, PostComment, CommentReply, Preference
+# from users.models import UserStudent, Interest
+from users.models import UserStudent
+from .models import Favourite, RoommatePost, PostComment, CommentReply
 from .serializers import RoommatePostDetailSerializer, PostCommentSerializer, \
                             CommentReplySerializer, RoommatePostSerializer
 from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
@@ -29,24 +30,6 @@ class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_queryset(self):
         return Favourite.objects.filter(student__user__user=self.request.user)
 
-# class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-#     form_class = RoommatePostForm
-#     model = RoommatePost
-#     success_url = "/roommates/"
-#     template_name = 'students/roommates.html'
-
-#     def test_func(self):
-#         try:
-#             return self.request.user.usertype.is_student
-#         except:
-#             raise Http404
-
-#     def form_valid(self, form):
-#         return super().form_valid(form)
-
-#     def get_queryset(self):
-#         return super().get_queryset().filter(student__user__user=self.request.user)
-
 
 class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = RoommatePost
@@ -60,34 +43,52 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             raise Http404
 
     def get_queryset(self):
-        pre = self.kwargs.get('preference', None)
-        fil = self.request.GET.get('fil', None)
-        if pre is not None:
-            preference = get_object_or_404(Preference, preferenceSlug=pre)
-            if fil:
-                fil = fil.replace('.', '')
-                fil = list(fil)
-                return super().get_queryset().filter(preference=preference).filter(interest__pk__in=fil)
-            else:
-                return super().get_queryset().filter(preference=preference)
-        else:
-            if fil:
-                fil = fil.replace('.', '')
-                fil = list(fil)
-                return super().get_queryset().filter(student__user__user=self.request.user).filter(interest__pk__in=fil)
-            else:
-                return super().get_queryset().filter(student__user__user=self.request.user)
+        # uncomment the below if we need preferences and interest and interest filter
+        # pre = self.kwargs.get('preference', None)
+        # fil = self.request.GET.get('fil', None)
+        # if pre is not None:
+        #     preference = get_object_or_404(Preference, preferenceSlug=pre)
+        #     if fil:
+        #         fil = fil.replace('.', '')
+        #         fil = list(fil)
+        #         return super().get_queryset().filter(preference=preference).filter(interest__pk__in=fil)
+        #     else:
+        #         return super().get_queryset().filter(preference=preference)
+        # else:
+        #     if fil:
+        #         fil = fil.replace('.', '')
+        #         fil = list(fil)
+        #         return super().get_queryset().filter(student__user__user=self.request.user).filter(interest__pk__in=fil)
+        #     else:
+        #         return super().get_queryset().filter(student__user__user=self.request.user)
+        return super().get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["preferences"] = Preference.objects.all()
-        context["interests"] = Interest.objects.all()
-        fil = self.request.GET.get('fil', None)
-        context["filtinterest"] = fil
-        pre = self.kwargs.get('preference', None)
-        if pre is not None:
-            context["currentpreferences"] = get_object_or_404(Preference, preferenceSlug=pre)
+        # uncomment the below if we need preferences and interest and interest filter
+        # context["preferences"] = Preference.objects.all()
+        # context["interests"] = Interest.objects.all()
+        # fil = self.request.GET.get('fil', None)
+        # context["filtinterest"] = fil
+        # pre = self.kwargs.get('preference', None)
+        # if pre is not None:
+        #     context["currentpreferences"] = get_object_or_404(Preference, preferenceSlug=pre)
         return context 
+
+
+class RoommatesMyPostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+    model = RoommatePost
+    template_name = "students/roommates.html"
+    ordering = ['-createdDate']
+
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_student
+        except:
+            raise Http404
+
+    def get_queryset(self):
+        return super().get_queryset().filter(student__user__user=self.request.user)
 
 
 class RoommatesPostCreateView(generics.CreateAPIView):
@@ -95,9 +96,10 @@ class RoommatesPostCreateView(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess)
 
     def perform_create(self, serializer):
-        preferenceObj = get_object_or_404(Preference, preferenceSlug=self.kwargs.get('preference'))
+        # preferenceObj = get_object_or_404(Preference, preferenceSlug=self.kwargs.get('preference'))
         studentObject = get_object_or_404(UserStudent, user__user=self.request.user)
-        serializer.save(preference=preferenceObj, student=studentObject)
+        # serializer.save(preference=preferenceObj, student=studentObject)
+        serializer.save(student=studentObject)
 
 
 class RoommatesPostDeleteView(generics.RetrieveUpdateDestroyAPIView):

@@ -538,7 +538,7 @@
 							<div class="card-body" id="ques_ans_card_body" style="font-size:13px; max-height:520px; overflow-y:scroll;">
 								<h6 id="ques_ans_card_h6">
 								{% if object.postquestion_set.all %}
-									<b style="color:grey;">User Queries</b>
+									<b style="color:grey;">FAQ's</b>
 									{% if user.usertype.is_landlord %}
 									<b class="btn btn-default btn-xs pull-right pxp-signup-trigger" style="color:#fff; background-color:#003a8c; border-radius:50px; cursor:pointer; padding:1px 7px;"> Answer </b> <br>
 									{% endif %}
@@ -569,7 +569,7 @@
 									<div class="modal-dialog modal-dialog-centered" role="document" style="min-width:60%; margin-top:50px;">
 										<div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
 											<div class="modal-header">
-												<h5 class="modal-title" id="pxpSigninModal">User Queries</h5>
+												<h5 class="modal-title" id="pxpSigninModal">FAQ's</h5>
 												<button id="signin-close-btn" type="button" class="close" data-dismiss="modal" aria-label="Close">
 													<span aria-hidden="true">&times;</span>
 												</button>
@@ -962,8 +962,18 @@
 		}
 		
 		google.maps.event.addDomListener(window, 'load', initialize);
-		$('.pxp-single-property-gallery-container').click(function(){
+		{% comment %} $('.pxp-single-property-gallery-container').click(function(){
 			return false;
+		}); {% endcomment %}
+		$('.pxp-content').click(function(){
+			var srcval = document.getElementById('VideoModal').style.display;
+
+				if(srcval == 'block') {
+					$("#videoframe").attr('src', '#');
+					return false;
+				} else {
+					return true;
+				}
 		});
 	
 	</script>

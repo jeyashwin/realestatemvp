@@ -71,8 +71,8 @@ class PrivateAccessTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/roommates/post/{}/heart/'.format(post.pk))
     
-    def test_roommates_post_list_mypost_view(self):
-        """Test get & post request login required for roommates post list view mypost"""
+    def test_roommates_post_list_allpost_view(self):
+        """Test get & post request login required for roommates post list view All post"""
         response = client.get(reverse('students:roommates'))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/roommates/')
@@ -81,16 +81,26 @@ class PrivateAccessTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/roommates/')
     
-    def test_roommates_post_list_preferences_view(self):
-        """Test get & post request login required for roommates post list view preferences"""
-        pre = sample_preference()
-        response = client.get(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+    def test_roommates_post_list_mypost_view(self):
+        """Test get & post request login required for roommates post list view mypost"""
+        response = client.get(reverse('students:roommatesMypost'))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/roommates/{}/'.format(pre.preferenceSlug))
+        self.assertEqual(response.url, '/?next=/roommates/mypost/')
 
-        response = client.post(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+        response = client.post(reverse('students:roommatesMypost'))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/roommates/{}/'.format(pre.preferenceSlug))
+        self.assertEqual(response.url, '/?next=/roommates/mypost/')
+
+    # def test_roommates_post_list_preferences_view(self):
+    #     """Test get & post request login required for roommates post list view preferences"""
+    #     pre = sample_preference()
+    #     response = client.get(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/?next=/roommates/{}/'.format(pre.preferenceSlug))
+
+    #     response = client.post(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/?next=/roommates/{}/'.format(pre.preferenceSlug))
 
 
 class PrivateLandlordAccessStudentAppTests(TestCase):
@@ -145,22 +155,30 @@ class PrivateLandlordAccessStudentAppTests(TestCase):
         response = client.post(reverse('students:addRemoveHeart', kwargs={'pk': post.pk}))
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
     
-    def test_roommates_post_list_mypost_view_as_landlord(self):
-        """Test get & post request for roommates post list view mypost as landlord"""
+    def test_roommates_post_list_allpost_view_as_landlord(self):
+        """Test get & post request for roommates post list view allpost as landlord"""
         response = client.get(reverse('students:roommates'))
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
 
         response = client.post(reverse('students:roommates'))
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
-    
-    def test_roommates_post_list_preferences_view_as_landlord(self):
-        """Test get & post request login roommates post list view preferences as landlord"""
-        pre = sample_preference()
-        response = client.get(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+
+    def test_roommates_post_list_mypost_view_as_landlord(self):
+        """Test get & post request for roommates post list view mypost as landlord"""
+        response = client.get(reverse('students:roommatesMypost'))
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
 
-        response = client.post(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+        response = client.post(reverse('students:roommatesMypost'))
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+    
+    # def test_roommates_post_list_preferences_view_as_landlord(self):
+    #     """Test get & post request login roommates post list view preferences as landlord"""
+    #     pre = sample_preference()
+    #     response = client.get(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
+
+    #     response = client.post(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
 
 
 class PrivateStudentAccessStudentAppTests(TestCase):
@@ -360,8 +378,8 @@ class PrivateStudentAccessStudentAppTests(TestCase):
         response = client.post(reverse('students:addRemoveHeart', kwargs={'pk': 20}))
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-    def test_roommate_my_post_check_get(self):
-        """ Test that /roommates/ url return only the post the current user posted """
+    def test_roommate_all_post_check_get(self):
+        """ Test that /roommates/ url return all post"""
         po1 = sample_roommate_post(student=self.student)
         po2 = sample_roommate_post(student=self.student)
         po3 = sample_roommate_post(student=self.student)
@@ -373,56 +391,81 @@ class PrivateStudentAccessStudentAppTests(TestCase):
         response = client.get(reverse('students:roommates'))
         objectlist = list(response.context.get('object_list'))
         self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(len(objectlist), 6)
+        self.assertEqual(op2, objectlist[0])
+        self.assertEqual(op1, objectlist[1])
+        self.assertEqual(po4, objectlist[2])
+        self.assertEqual(po3, objectlist[3])
+        self.assertEqual(po2, objectlist[4])
+        self.assertEqual(po1, objectlist[5])
+        # self.assertEqual(response.context.get('currentpreferences', None), None)
+    
+    def test_roommate_my_post_check_get(self):
+        """ Test that /roommates/mypost/ url return only the post the current user posted """
+        po1 = sample_roommate_post(student=self.student)
+        po2 = sample_roommate_post(student=self.student)
+        po3 = sample_roommate_post(student=self.student)
+        po4 = sample_roommate_post(student=self.student)
+        std = createStudent(username='roomotheruser')
+        op1 = sample_roommate_post(student=std)
+        op2 = sample_roommate_post(student=std)
+
+        response = client.get(reverse('students:roommatesMypost'))
+        objectlist = list(response.context.get('object_list'))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(len(objectlist), 4)
         self.assertEqual(po4, objectlist[0])
         self.assertEqual(po3, objectlist[1])
         self.assertEqual(po2, objectlist[2])
         self.assertEqual(po1, objectlist[3])
-        self.assertEqual(response.context.get('currentpreferences', None), None)
+        # self.assertEqual(response.context.get('currentpreferences', None), None)
 
-    def test_roommate_preference_post_check_get(self):
-        """ Test that only the post with that preference is returened"""
-        po1 = sample_roommate_post(student=self.student)
-        po2 = sample_roommate_post(student=self.student)
-        po3 = sample_roommate_post(student=self.student, preference='hours sports')
-        po4 = sample_roommate_post(student=self.student, preference='hours sports')
-        std = createStudent(username='roomotheruser')
-        op1 = sample_roommate_post(student=std)
-        op2 = sample_roommate_post(student=std, preference='hours sports')
+    # def test_roommate_preference_post_check_get(self):
+    #     """ Test that only the post with that preference is returened"""
+    #     po1 = sample_roommate_post(student=self.student)
+    #     po2 = sample_roommate_post(student=self.student)
+    #     po3 = sample_roommate_post(student=self.student, preference='hours sports')
+    #     po4 = sample_roommate_post(student=self.student, preference='hours sports')
+    #     std = createStudent(username='roomotheruser')
+    #     op1 = sample_roommate_post(student=std)
+    #     op2 = sample_roommate_post(student=std, preference='hours sports')
 
-        response = client.get(reverse('students:roommatesPreference', kwargs={'preference': po1.preference.preferenceSlug}))
-        objectlist = list(response.context.get('object_list'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(len(objectlist), 3)
-        self.assertEqual(op1, objectlist[0])
-        self.assertEqual(po2, objectlist[1])
-        self.assertEqual(po1, objectlist[2])
-        self.assertEqual(response.context.get('currentpreferences'), po1.preference)
+    #     response = client.get(reverse('students:roommatesPreference', kwargs={'preference': po1.preference.preferenceSlug}))
+    #     objectlist = list(response.context.get('object_list'))
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     self.assertEqual(len(objectlist), 3)
+    #     self.assertEqual(op1, objectlist[0])
+    #     self.assertEqual(po2, objectlist[1])
+    #     self.assertEqual(po1, objectlist[2])
+    #     self.assertEqual(response.context.get('currentpreferences'), po1.preference)
 
-        response = client.get(reverse('students:roommatesPreference', kwargs={'preference': po3.preference.preferenceSlug}))
-        objectlist = list(response.context.get('object_list'))
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(len(objectlist), 3)
-        self.assertEqual(op2, objectlist[0])
-        self.assertEqual(po4, objectlist[1])
-        self.assertEqual(po3, objectlist[2])
-        self.assertEqual(response.context.get('currentpreferences'), po3.preference)
+    #     response = client.get(reverse('students:roommatesPreference', kwargs={'preference': po3.preference.preferenceSlug}))
+    #     objectlist = list(response.context.get('object_list'))
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     self.assertEqual(len(objectlist), 3)
+    #     self.assertEqual(op2, objectlist[0])
+    #     self.assertEqual(po4, objectlist[1])
+    #     self.assertEqual(po3, objectlist[2])
+    #     self.assertEqual(response.context.get('currentpreferences'), po3.preference)
     
     def test_roommates_post_list_view_post_request(self):
         """Test post request for roommates post list view"""
         response = client.post(reverse('students:roommates'))
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
-        pre = sample_preference()
+        # pre = sample_preference()
         
-        response = client.post(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+        # response = client.post(reverse('students:roommatesPreference', kwargs={'preference': pre.preferenceSlug}))
+        # self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+        response = client.post(reverse('students:roommatesMypost'))
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
-
-    def test_roommates_post_list_view_invalid_preferences(self):
-        """Test get and post request for roommates post list view with invalid prefereces"""
-
-        response = client.get(reverse('students:roommatesPreference', kwargs={'preference': 'asdas-sad'}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         
-        response = client.post(reverse('students:roommatesPreference', kwargs={'preference': 'asdas-asd'}))
-        self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    # def test_roommates_post_list_view_invalid_preferences(self):
+    #     """Test get and post request for roommates post list view with invalid prefereces"""
+
+    #     response = client.get(reverse('students:roommatesPreference', kwargs={'preference': 'asdas-sad'}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+        
+    #     response = client.post(reverse('students:roommatesPreference', kwargs={'preference': 'asdas-asd'}))
+    #     self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)

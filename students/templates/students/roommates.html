@@ -258,21 +258,29 @@
 									.mypost > p:hover { cursor:pointer; background-color:rgba(13, 118, 170, 0.5); color:#fff; }
 								</style>
 								
-								<a href="{% url 'students:roommates' %}" class="mypost"><p>My Post</p></a>
+								<div id="sideLinks">
+									<a href="{% url 'students:roommates' %}" class="mypost"><p>All Post</p></a>
+									<a href="{% url 'students:roommatesMypost' %}" class="mypost"><p>My Post</p></a>
+								</div>
+								{% comment %} 
+						<----------------------preference left panel section starts here------------------------------>
 								<h5><b>Categories</b></h5>
 								<div class="leftcategorylist">
 								{% for preference in preferences %}
 								<a href="{% url 'students:roommatesPreference' preference.preferenceSlug %}"><p><i class="fa fa-filter"></i> &nbsp; {{preference.preferenceType}}</p></a>
 								{% endfor %}
-								</div>
+								</div> 
+						<----------------------preference left panel section ends here------------------------------>
+								{% endcomment %}
 							</div>
 						</div>
 						<div class="col-md-6" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:600px; overflow-y:scroll; overflow-x:none;">
-						{% if currentpreferences %}
+						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
 							<!-- Tab content -->
 							<div id="classic" class="tabcontent" style="border-radius:10px; display: none; width:100%;">
-								<form action="{% url 'students:postCreate' currentpreferences.preferenceSlug %}" method="post" enctype="multipart/form-data" id="createPostForm">
+							{% comment %} {% url 'students:postCreate' currentpreferences.preferenceSlug %} {% endcomment %}
+								<form action="{% url 'students:postCreate'%}" method="post" enctype="multipart/form-data" id="createPostForm">
 									<div>
 										<span class="pull-left" style="font-size:22px; font-weight:bold; color:grey;"> New Post </span>
 										<span onclick="closeedit()" class="btn btn-default btn-xs pull-right" style="color:maroon; font-size:20px; padding:2px 8px; border-radius:50px; margin-bottom:10px;"> <i class="fa fa-times"></i></span><br>
@@ -285,30 +293,23 @@
 									<br>
 									<textarea rows="7" class="form-control" name="description" placeholder="About yourself.."></textarea>
 									<br>
+									{% comment %} 
+							<------------------interest section for creation of post starts here------------------->
+									
 									<div class="row">
 										<div class="col-md-12">
 											<h5><b>Interests</b></h5>
 											{% for interest in interests %}
 											<span onclick="cataddclick(this, {{interest.pk}})" id="catyspan{{interest.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
 											{% endfor %}
-											{% comment %} <span onclick="cataddclick(this, 1)" id="catyspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Sports </span> &nbsp;
-											<span onclick="cataddclick(this, 2)" id="catyspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Partying </span> &nbsp;
-											<span onclick="cataddclick(this, 3)" id="catyspan3" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Net Surfing </span> &nbsp;
-											<span onclick="cataddclick(this, 4)" id="catyspan4" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Travelling </span> &nbsp;
-											<span onclick="cataddclick(this, 5)" id="catyspan5" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Interest A </span> &nbsp;
-											<span onclick="cataddclick(this, 6)" id="catyspan6" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Interest B </span> &nbsp; {% endcomment %}
 										</div>
 									</div>
 									<br>
 									{% for interest in interests %}
 									<input type="checkbox" class="form-control" name="interest" value="{{interest.pk}}" id="catyinput{{interest.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
 									{% endfor %}
-									{% comment %} <input type="text" class="form-control" id="catyinput1" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-									<input type="text" class="form-control" id="catyinput2" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-									<input type="text" class="form-control" id="catyinput3" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-									<input type="text" class="form-control" id="catyinput4" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-									<input type="text" class="form-control" id="catyinput5" placeholder="Enter here" style="display:none; margin-top:10px;"/>
-									<input type="text" class="form-control" id="catyinput6" placeholder="Enter here" style="display:none; margin-top:10px;"/> {% endcomment %}
+							<------------------interest section for creation of post ends here-------------------> 
+								{% endcomment %}
 									
 									<div class="row">
 										<div class="col-md-6">
@@ -360,14 +361,14 @@
 												});
 											});
 										});
-										
+							{% comment %} 
+							<------------------interest section for creation of post click check box function starts here------------------->
 										function cataddclick(dis, id)
 											{
 												
 												var catidcolor = $(dis).css("color");
 												var catid = $(dis);
 												//var catinput = $("#catyinput"+id).css("display");
-												{% comment %} var catinput = $("#catyinput"+id).prop('checked'); {% endcomment %}
 												if($("#catyinput"+id).prop('checked') == true) {
 													$("#catyspan"+id+"> i").hide();
 													//$("#catyinput"+id).show(500);
@@ -381,13 +382,15 @@
 												}
 												
 											}
-											
+							<------------------interest section for creation of post click check box function ends here-------------------> 
+							{% endcomment %}
+							{% comment %}
+							<------------------interest section for update of post click check box function starts here------------------->
 										function cateditclick(dis, id)
 										{
 											
 											var catidcolor = $(dis).css("color");
 											var catid = $(dis);
-											{% comment %} var catinput = $("#catyinput"+id).prop('checked'); {% endcomment %}
 											if($("#cateinput"+id).prop('checked') == true) {
 												$("#catespan"+id+"> i").hide();
 												$("#cateinput"+id).prop('checked', false);
@@ -399,14 +402,18 @@
 											}
 											
 										}
+							<------------------interest section for updation of post click check box function ends here------------------->
+							 {% endcomment %}
 									</script>
 								</form>
 							</div>
 							<br>
-							{% endif %}
+							{% comment %} {% endif %} {% endcomment %}
 							<div style="min-height:600px;">
 								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
-								<h3><b>All Posts</b></h3><br>
+								<h3><b>All Posts</b></h3>
+								{% comment %} 								
+								 <------- interest filters starts here ------->
 									<a style="text-decoration: none;"  href="{% if currentpreferences %}{% url 'students:roommatesPreference' currentpreferences.preferenceSlug %} {% else %}{% url 'students:roommates' %}{% endif %}">
 										<span 
 											class="btn btn-default btn-xs filtercontainer 
@@ -430,106 +437,11 @@
 												{{interest}}
 											</span>
 										</a>
-									{% endfor %}
-									
-									{% comment %}
-									<span onclick="catclick(this, 1)" id="caty1" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 1</span> &nbsp;
-									<span onclick="catclick(this, 2)" id="caty2" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 2</span> &nbsp;
-									<span onclick="catclick(this, 3)" id="caty3" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 3</span> &nbsp;
-									<span onclick="catclick(this, 4)" id="caty4" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 4</span> &nbsp;
-									<span onclick="catclick(this, 5)" id="caty5" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 5</span> &nbsp;
-									<span onclick="catclick(this, 6)" id="caty6" data-sel="0" class="btn btn-default btn-xs catys" style="border:2px solid #383836; border-radius:50px;">Category 6</span> &nbsp;
+									{% endfor %} 
+									<------- interest filters ends here ------->
 									{% endcomment %}
-									
-									<script>
-										function catclickall(dis, val)
-										{
-											var catsel = dis.getAttribute('data-sel');
-											
-											if(catsel == 0) {
-												dis.setAttribute('data-sel', 1);
-												$(dis).css({"background-color":"#094a66", "color":"#fff"});
-												$(".catys").css({"background-color":"#094a66", "color":"#fff"});
-												$(".postspanel").show();
-												
-												$('.catys').each(function(i, obj) { 
-													var selval = obj.setAttribute('data-sel', 1);
-												});
-											} else {
-												/*
-												dis.setAttribute('data-sel', 0);
-												$(dis).css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-												$(".catys").css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-												$(".postspanel").hide();
-												
-												$('.catys').each(function(i, obj) { 
-													var selval = obj.setAttribute('data-sel', 0);
-												});
-												*/
-											}
-
-										}
-										
-										function catclick(dis, val)
-										{
-											var catsel = dis.getAttribute('data-sel');
-											
-											if(catsel == 0) {
-												dis.setAttribute('data-sel', 1);
-												$(dis).css({"background-color":"#094a66", "color":"#fff"});
-											} else {
-												dis.setAttribute('data-sel', 0);
-												$(dis).css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-											}
-											
-											$(".postspanel").hide();
-											
-											var catysclass = $('.catys');
-											
-											var catcount = 0;
-											$('.catys').each(function(i, obj) { 
-												var selval = obj.getAttribute('data-sel');
-												catcount = parseInt(selval)+parseInt(catcount);
-											});
-											var totalsel = catcount;
-											
-											$('.catys').each(function(i, obj) {
-												var selvalue = obj.getAttribute('data-sel');
-												var catind = i;
-												
-												if(selvalue == 1) {													
-													$(".catpanel"+catind).show();
-												} else {
-													if(totalsel == 0) {
-														$(".postspanel").show();
-														$("#cat0").css({"background-color":"#383836", "color":"#fff"});
-													} else {
-														$(".catpanel"+catind).hide();
-															
-															var totselval = totalsel;
-															
-															if(totselval >= catysclass.length) {
-																$("#cat0").css({"background-color":"#383836", "color":"#fff"});
-																document.getElementById("cat0").setAttribute('data-sel', 1);
-															} else {
-																$("#cat0").css({"background-color":"#fff", "color":"rgb(51, 51, 51)"});
-																document.getElementById("cat0").setAttribute('data-sel', 0);
-															}
-														
-													}
-												}
-											});
-											
-										}
-									</script>
-									
 								</div>
 								<br>
-								
-								
-								
-								
-								
 								{% for object in object_list %}
 									<div class="panel panel-default postspanel catpanel1" id="postid{{ object.pk }}" onclick="viewpostdetails(this)" data-postid="{{ object.pk }}" data-url="{% url 'students:postDetail' object.pk %}" data-commenturl="{% url 'students:commentCreate' object.pk %}" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 									<form action="#" method="POST" enctype="multipart/form-data">
@@ -554,7 +466,7 @@
 													<h6> &nbsp; {{object.student.user.user.email|title}}</h6>
 												</div>
 												<div class="col-md-4">
-													{% for interest in object.interest.all %}
+													{% for interest in object.student.interests.all %}
 													<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;">{{interest}}</span>
 													{% endfor %}
 												</div>
@@ -565,13 +477,16 @@
 													
 													<p class="postkeyviewfields{{object.pk}}">{{object.description|safe}}</p>
 													<p class="postkeyeditfields{{object.pk}}" style="display:none;"><textarea rows="7" class="form-control" name="description" placeholder="About yourself.."></textarea></p>
-													 
+
+											{% comment %} <-------------------- interest selection for update post starts here --------------------> 
 													{% for interest in interests %}
 														<span onclick="cateditclick(this, {{interest.pk}})" id="catespan{{interest.pk}}" class="btn btn-default btn-xs postkeyeditfields{{object.pk}}" style="background-color:transparent; border:2px solid #383836; border-radius:50px; display:none;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
 													{% endfor %}
 													{% for interest in interests %}
 													<input type="checkbox" class="form-control" name="interest" value="{{interest.pk}}" id="cateinput{{interest.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
 													{% endfor %}
+											<-------------------- interest selection for update post starts here -------------------->  {% endcomment %}
+
 												</div>
 												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
 											<div class="pull-left">
@@ -884,7 +799,14 @@
 										$("#viewpostdetails > .panel-body > .panelrow > .userheadcol > h5 > b").html(res.student.name);
 										$("#viewpostdetails > .panel-body > .panelrow > .userheadcol > h6").html(res.student.email);
 										var catyhtml = '';
-										$.each(res.interest, function(i, item) {
+
+										{% comment %} $.each(res.interest, function(i, item) {
+											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span><br>';
+											
+											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
+										}); {% endcomment %}
+										
+										$.each(res.student.interest, function(i, item) {
 											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span><br>';
 											
 											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
@@ -1681,6 +1603,14 @@
 				$("#viewimageinmodal").attr('src', imgsrc);
 				$("#viewImageModalBtn").click();
 			}
+
+			$(document).ready(function () {
+				var url = window.location;
+				$('#sideLinks a[href="'+ url +'"]').children().addClass('active');
+				$('#sideLinks a').filter(function() {
+					return this.href == url;
+				}).children().addClass('active');
+			});
 	   </script>
 
 {% include "layout/footer.html" %}

@@ -9,14 +9,16 @@ from PIL import Image
 import tempfile
 
 from students.serializers import RoommatePostDetailSerializer, RoommatePostSerializer
-from students.models import RoommatePost, Preference
+# from students.models import RoommatePost, Preference
+from students.models import RoommatePost
 from students.tests.test_models import createStudent
 from users.models import *
 
 
-def create_url(preference):
+def create_url(preference="dummy"):
     """Return roommatepost create URL"""
-    return reverse('students:postCreate', args=[preference])
+    # return reverse('students:postCreate', args=[preference])
+    return reverse('students:postCreate')
 
 def detail_url(post_id):
     """Return roommate post detail URL"""
@@ -44,15 +46,16 @@ def sample_interest(name="Sports"):
 
 def sample_roommate_post(student, preference="hours"):
     """Return new sample roommate post object"""
-    pre = sample_preference(name=preference)
-    int1 = sample_interest()
-    int2 = sample_interest(name="Gym")
-    int3 = sample_interest(name="coding")
-    roompost = RoommatePost.objects.create(student=student, preference=pre, title="Sample Post",
+    # pre = sample_preference(name=preference)
+    # int1 = sample_interest()
+    # int2 = sample_interest(name="Gym")
+    # int3 = sample_interest(name="coding")
+    #  preference=pre, 
+    roompost = RoommatePost.objects.create(student=student, title="Sample Post",
                 description="Body of the post", image="image1", image1="image2", image2="image3",
                 image3="image4"
             )
-    roompost.interest.set([int1, int2, int3])
+    # roompost.interest.set([int1, int2, int3])
     return roompost
 
 
@@ -64,8 +67,9 @@ class PublicRoommatePostApiTests(TestCase):
 
     def test_auth_create_roommate_post_required(self):
         """Test that authentication is required for creation of roommate post"""
-        pre = sample_preference()
-        res = self.client.get(create_url(pre.preferenceSlug))
+        # pre = sample_preference()
+        # res = self.client.get(create_url(pre.preferenceSlug))
+        res = self.client.get(create_url())
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_auth_retrive_required_roommate_post(self):
@@ -94,7 +98,8 @@ class PrivateLandlordRoommatePostApiTests(TestCase):
 
     def test_no_access_create_roommate_post_required(self):
         """Test that landlord has no access for creation of roommate post"""
-        res = self.client.get(create_url(20))
+        # res = self.client.get(create_url(20))
+        res = self.client.get(create_url())
         self.assertEqual(res.status_code, status.HTTP_403_FORBIDDEN)
 
     def test_no_access_retrive_roommate_post_required(self):
@@ -120,26 +125,28 @@ class PrivateStudentRoommatePostApiTests(TestCase):
 
     def test_get_create_roommate_post(self):
         """Test that GET access for creation of roommatepost"""
-        pre = sample_preference()
-        res = self.client.get(create_url(pre.preferenceSlug))
+        # pre = sample_preference()
+        # res = self.client.get(create_url(pre.preferenceSlug))
+        res = self.client.get(create_url())
 
         self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_create_roommate_post(self):
         """Test that create roommate Post"""
-        pre = sample_preference()
-        int1 = sample_interest()
-        int2 = sample_interest(name="Pool")
+        # pre = sample_preference()
+        # int1 = sample_interest()
+        # int2 = sample_interest(name="Pool")
         payload = {
             "title": "Sample Piost",
             "description": "Description Post",
-            "interest": [int1.pk, int2.pk],
+            # "interest": [int1.pk, int2.pk],
             "image": MockImage(),
             "image1": MockImage(),
             "image2": MockImage(),
             "image3": MockImage()
         }
-        res = self.client.post(create_url(pre.preferenceSlug), payload, format='multipart')
+        # res = self.client.post(create_url(pre.preferenceSlug), payload, format='multipart')
+        res = self.client.post(create_url(), payload, format='multipart')
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         roompost = RoommatePost.objects.get(id=res.data['id'])
@@ -148,9 +155,9 @@ class PrivateStudentRoommatePostApiTests(TestCase):
         
         self.assertEqual(payload['title'], roompost.title)
         self.assertEqual(payload['description'], roompost.description)
-        interest = roompost.interest.all()
-        self.assertIn(int1, interest)
-        self.assertIn(int2, interest)
+        # interest = roompost.interest.all()
+        # self.assertIn(int1, interest)
+        # self.assertIn(int2, interest)
         self.assertTrue(os.path.exists(roompost.image.path))
         self.assertTrue(os.path.exists(roompost.image1.path))
         self.assertTrue(os.path.exists(roompost.image2.path))
@@ -161,40 +168,41 @@ class PrivateStudentRoommatePostApiTests(TestCase):
         self.assertFalse(os.path.exists(roompost.image2.path))
         self.assertFalse(os.path.exists(roompost.image3.path))
 
-    def test_create_invalid_preferences_roommatepost(self):
-        """Test that create roommate post with invalid preferece slug"""
-        int1 = sample_interest()
-        payload = {
-            "title": "Sample Piost",
-            "description": "Description Post",
-            "interest": [int1.pk],
-            "image": MockImage(),
-            "image1": MockImage(),
-            "image2": MockImage(),
-        }
-        res = self.client.post(create_url("asda-sadas"), payload, format='multipart')
+    # def test_create_invalid_preferences_roommatepost(self):
+    #     """Test that create roommate post with invalid preferece slug"""
+    #     int1 = sample_interest()
+    #     payload = {
+    #         "title": "Sample Piost",
+    #         "description": "Description Post",
+    #         "interest": [int1.pk],
+    #         "image": MockImage(),
+    #         "image1": MockImage(),
+    #         "image2": MockImage(),
+    #     }
+    #     res = self.client.post(create_url("asda-sadas"), payload, format='multipart')
 
-        self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
+    #     self.assertEqual(res.status_code, status.HTTP_404_NOT_FOUND)
     
     def test_create_invalid1_fields_roommatepost(self):
         """Test that create invalid fields roommate post"""
-        pre = sample_preference()
-        int1 = sample_interest()
-        int2 = sample_interest(name="Pool")
+        # pre = sample_preference()
+        # int1 = sample_interest()
+        # int2 = sample_interest(name="Pool")
         payload = {
             "title": "",
             "description": "",
-            "interest": [int1.pk, int2.pk, '10'],
+            # "interest": [int1.pk, int2.pk, '10'],
             "image": MockImage(),
             "image1": MockImage(ftype='.mp4'),
             "image2": '',
         }
-        res = self.client.post(create_url(pre.preferenceSlug), payload, format='multipart')
+        # res = self.client.post(create_url(pre.preferenceSlug), payload, format='multipart')
+        res = self.client.post(create_url(), payload, format='multipart')
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
         
         self.assertEqual(res.data.get('title')[0], exceptions.ErrorDetail("This field may not be blank.", code="blank"))
         self.assertEqual(res.data.get('description')[0], exceptions.ErrorDetail("This field may not be blank.", code="blank"))
-        self.assertEqual(res.data.get('interest')[0], exceptions.ErrorDetail('Invalid pk "10" - object does not exist.', code="does_not_exist"))
+        # self.assertEqual(res.data.get('interest')[0], exceptions.ErrorDetail('Invalid pk "10" - object does not exist.', code="does_not_exist"))
 
     def test_retrive_roommatepost_detail(self):
         """Test that retrive roommate post"""
@@ -246,11 +254,11 @@ class PrivateStudentRoommatePostApiTests(TestCase):
 
     def test_update_roommates_full_post(self):
         """Test that update full roommates post"""
-        int1 = sample_interest(name="new")
+        # int1 = sample_interest(name="new")
         payload = {
             "title": "Sample Piost sdfds",
             "description": "Description Post sdfds",
-            "interest": [int1.pk],
+            # "interest": [int1.pk],
             "image": MockImage(),
             "image1": MockImage(),
             "image2": MockImage(),
@@ -293,7 +301,7 @@ class PrivateStudentRoommatePostApiTests(TestCase):
         payload = {
             "title": "Sample Piost sdfds",
             "description": "Description Post sdfds",
-            "interest": ['10'],
+            # "interest": ['10'],
             "image": MockImage(),
             "image1": MockImage(),
             "image2": MockImage(),
@@ -308,7 +316,7 @@ class PrivateStudentRoommatePostApiTests(TestCase):
         payload = {
             "title": "",
             "description": "",
-            "interest": '',
+            # "interest": '',
             "image": '',
             "image1": '',
             "image2": '',
@@ -324,13 +332,13 @@ class PrivateStudentRoommatePostApiTests(TestCase):
 
     def test_update_other_user_roommates_post(self):
         """Test that update other user Roommate Post"""
-        int1 = sample_interest(name="new")
+        # int1 = sample_interest(name="new")
         std = createStudent(username='otherstudentowner')
         roompost = sample_roommate_post(student=std)
         payload = {
             "title": "Sample Piost sdfds",
             "description": "Description Post sdfds",
-            "interest": [int1.pk],
+            # "interest": [int1.pk],
             "image": MockImage(),
             "image1": MockImage(),
             "image2": MockImage(),
