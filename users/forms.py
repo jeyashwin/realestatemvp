@@ -140,6 +140,11 @@ class StudentSignupForm(UserCreationForm):
     interests = forms.ModelMultipleChoiceField(queryset=Interest.objects.all(), 
                     widget=forms.CheckboxSelectMultiple()
                 )
+    # interest1 = forms.CharField(max_length=100,
+    #                 widget=forms.TextInput(attrs={
+    #                     'class': 'form-control'
+    #                 }),
+    #             )
     fblink = forms.URLField(required=False, max_length=250, 
                 widget=forms.URLInput(attrs={
                     'class': 'socialmediainput',
@@ -291,7 +296,19 @@ class StudentProfileUpdateForm(forms.ModelForm):
                     'class': 'form-control',
                     'onchange': "loadPhoto(event)",
                 }),
-            'interests': forms.CheckboxSelectMultiple()
+            'interests': forms.CheckboxSelectMultiple(),
+            'tobaccoUsage': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'alcoholUsage': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'cleanliness': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'guests': forms.Select(attrs={
+                'class': 'form-control',
+            }),
         }
         labels = {
             'fbLink': 'Facebook',

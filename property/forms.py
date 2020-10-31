@@ -143,20 +143,39 @@ class PropertyFilterSortForm(forms.Form):
         ('3', '3'),
         ('4', '+4')
     ]
-    maxp = Property.objects.aggregate(Max('rentPerPerson'))
-    minp = Property.objects.aggregate(Min('rentPerPerson'))
     room = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
     occp = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
     bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
-    minPri = forms.IntegerField(widget=forms.NumberInput(attrs={
-                'class': 'form-control', 'placeholder': 'Min', 'type': 'range', 'value': minp.get('rentPerPerson__min', 0)}), 
-                min_value=minp.get('rentPerPerson__min', 0), max_value=maxp.get('rentPerPerson__max', 0), required=False)
-    maxPri = forms.IntegerField(widget=forms.NumberInput(attrs={
-                'class': 'form-control', 'placeholder': 'Max', 'type': 'range', 'value': maxp.get('rentPerPerson__max', 0)}), 
-                min_value=minp.get('rentPerPerson__min', 0), max_value=maxp.get('rentPerPerson__max', 0), required=False)
+    minPri = forms.IntegerField(required=False)
+    maxPri = forms.IntegerField(required=False)
     amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={
                     'style': 'display:none; margin-top:10px;'
                 }), 
                 queryset=Amenities.objects.all(), required=False)
     sort = forms.ChoiceField(widget=forms.Select(attrs={'class': 'custom-select'}), 
                 choices=sortChoices, required=False)
+
+    def __init__(self, request=None, *args, **kwargs):
+        super(PropertyFilterSortForm, self).__init__(*args, **kwargs)
+        maxp = Property.objects.aggregate(Max('rentPerPerson'))
+        minp = Property.objects.aggregate(Min('rentPerPerson'))
+        self.fields['minPri'] = forms.IntegerField(
+                                    widget=forms.NumberInput(attrs={
+                                        'class': 'form-control', 
+                                        'placeholder': 'Min', 'type': 'range', 
+                                        'value': minp.get('rentPerPerson__min', 0)
+                                    }),
+                                    min_value=minp.get('rentPerPerson__min', 0),
+                                    max_value=maxp.get('rentPerPerson__max', 0),
+                                    required=False
+                                )
+        self.fields['maxPri'] = forms.IntegerField(
+                                    widget=forms.NumberInput(attrs={
+                                        'class': 'form-control', 
+                                        'placeholder': 'Max', 'type': 'range', 
+                                        'value': maxp.get('rentPerPerson__max', 0)
+                                    }),
+                                    max_value = maxp.get('rentPerPerson__max', 0),
+                                    min_value = minp.get('rentPerPerson__min', 0),
+                                    required=False,
+                                )

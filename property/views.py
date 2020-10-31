@@ -170,7 +170,7 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             raise Http404
 
     def get_queryset(self):
-        filterSortForm = PropertyFilterSortForm(self.request.GET)
+        filterSortForm = PropertyFilterSortForm(data=self.request.GET)
         propObjects = super().get_queryset()
         if filterSortForm.is_valid():
             room = filterSortForm.cleaned_data.get('room', None)
@@ -180,6 +180,8 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             maxPri = filterSortForm.cleaned_data.get('maxPri', None)
             amenities = filterSortForm.cleaned_data.get('amenities', None)
             sort = filterSortForm.cleaned_data.get('sort', None)
+            # print(minPri)
+            # print(maxPri)
             if room is not None and room != []:
                 room = [ int(i) for i in room ]
                 if 4 not in room:
@@ -233,12 +235,13 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                     propObjects = propObjects.order_by("-bathrooms")
                 if sort == "sqft":
                     propObjects = propObjects.order_by("-sqft")
-
+        else:
+            print(filterSortForm)
         return propObjects
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filterSortForm"] = PropertyFilterSortForm(self.request.GET)
+        context["filterSortForm"] = PropertyFilterSortForm(data=self.request.GET)
         num_pages = context["page_obj"].paginator.num_pages
         context["total_pages"] = [ i for i in range(1, num_pages+1)]
         context["total_count"] = self.object_list.count()
