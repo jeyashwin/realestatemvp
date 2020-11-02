@@ -137,14 +137,27 @@ class StudentSignupForm(UserCreationForm):
                         }),
                         label="Profile picture"
                     )
-    interests = forms.ModelMultipleChoiceField(queryset=Interest.objects.all(), 
-                    widget=forms.CheckboxSelectMultiple()
-                )
-    # interest1 = forms.CharField(max_length=100,
-    #                 widget=forms.TextInput(attrs={
-    #                     'class': 'form-control'
-    #                 }),
+    # interests = forms.ModelMultipleChoiceField(queryset=Interest.objects.all(), 
+    #                 widget=forms.CheckboxSelectMultiple()
     #             )
+    interest1 = forms.CharField(max_length=100,
+                    widget=forms.TextInput(attrs={
+                        'class': 'interestTextbox',
+                        'placeholder': 'Eg Adventuring'
+                    }),
+                )
+    interest2 = forms.CharField(max_length=100,
+                    widget=forms.TextInput(attrs={
+                        'class': 'interestTextbox',
+                        'placeholder': 'Eg Cycling'
+                    }),
+                )
+    interest3 = forms.CharField(max_length=100,
+                    widget=forms.TextInput(attrs={
+                        'class': 'interestTextbox',
+                        'placeholder': 'Eg Partying'
+                    }),
+                )
     fblink = forms.URLField(required=False, max_length=250, 
                 widget=forms.URLInput(attrs={
                     'class': 'socialmediainput',
@@ -217,9 +230,10 @@ class StudentSignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
-                    'password2', 'university', 'classYear', 'bio', 'interests', 'phone', 
-                    'profilePicture', 'fblink', 'snapLink', 'instaLink', 'twitterLink', 'ssFrom',
-                    'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 'cleanliness', 'guests')
+                    'password2', 'university', 'classYear', 'bio', 'interest1', 'interest2', 
+                    'interest3', 'phone', 'profilePicture', 'fblink', 'snapLink', 'instaLink', 
+                    'twitterLink', 'ssFrom', 'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 
+                    'cleanliness', 'guests')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control formInput',

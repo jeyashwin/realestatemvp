@@ -41,9 +41,12 @@
 											<li id="liinterest{{interest.id_for_label}}" onclick="interestclick('{{interest.id_for_label}}')" class="{% if interest|checkboxActive %}activeinterest{% endif %}"><small>{{interest}}</small></li>
 										{% endfor %}
 										</ul>
-										<br>
 										<p>{{field.errors.as_ul}}</p>
 									</p>
+									<br>
+									<br>
+									<br>
+									<br>
 									{% elif field != form.profilePicture %}
 									<p>
 										{{field.label_tag}}

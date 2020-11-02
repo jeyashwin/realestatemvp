@@ -85,11 +85,19 @@
 	
 	
 	.signup-interests-ul { list-style-type:none; }	
-	.signup-interests-ul > li { float:left; margin:5px 7px; padding:1px 5px; border-radius:6px; border:1px solid rgba(0, 0, 0, 0.5); }
-	.signup-interests-ul > li:hover { background-color:rgba(0, 0, 0, 0.5); color:#fff; cursor:pointer; }
+	.signup-interests-ul > li { float:left; margin:5px 7px; padding:3px 5px; border-radius:6px; background-color:rgba(255, 255, 255, 0.5); border-radius:50px; width:30%; font-size:13px; }
+	.signup-interests-ul > li:hover { background-color:rgba(255, 255, 255, 0.5); color:#fff; cursor:pointer; }
 	.signup-interests-ul > li > small > label > input { display:none; }
 
 	#user-action-btn:hover { color:black; }
+	
+	#signinform > .alert-danger { font-size: 12px !important; }
+	.socialmediainput { outline:none !important; }
+	.interestTextbox {
+		outline:none; 
+		border:none; 
+		background-color:transparent;
+	}
 	
 	
 </style>
@@ -160,11 +168,11 @@
 							<li class="pull-right" class="usernamesec">
 								{% if user.is_authenticated %}
 								{% if user.usertype.is_student %}
-								<span data-toggle="modal" data-target="#pxp-invite-people-modal" class="pxp-modal-link pxp-invite-people-trigger" onclick="invite_people_modal_open_click()">
+								<span data-toggle="modal" data-target="#pxp-invite-people-modal" class="pxp-invite-people-trigger" onclick="invite_people_modal_open_click()">
 									<i class="fa fa-users" id="invitepeople" style="color:#fff; font-size:18px; cursor:pointer;"></i> &nbsp; &nbsp;
 								</span>
 								{% endif %}
-								<i class="fa fa-bell-o" id="notificationbell" onmouseover="hover_notification()" onmouseleave="leave_notification()" onclick="open_notifications()" style="color:gold; font-size:22px; cursor:pointer;"></i> &nbsp; &nbsp;
+								<i class="fa fa-bell-o" id="notificationbell" onmouseover="hover_notification()" onmouseleave="leave_notification()" onclick="open_notifications()" style="color:silver; font-size:22px; cursor:pointer;"></i> &nbsp; &nbsp;
 									<div id="notificationpanel" class="panel" style="position:absolute; z-index:1000; background-color:#fff; margin-left:-150px; border-radius:7px; width:300px; display:none;">
 										<div class="panel-header" style="border-top-left-radius:7px; border-top-right-radius:7px; background-color:rgba(4, 113, 166, 0.8); color:#fff; padding:5px 5px;">
 											<h5><b>Notifications</b></h5>
@@ -269,7 +277,7 @@
 									<a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
 									{% if user.is_authenticated%}
 										<div class="dropdown" id="header_dropdown">
-										  <div class="dropbtn" style="border:none; padding:0px 0px;">
+										  <div class="dropbtnn" style="border:none; padding:0px 0px; color:#fff;">
 											{% if user.usertype.is_student %}
 												<img 
 													src=" {% if user.usertype.userstudent.profilePicture %}
@@ -497,16 +505,17 @@
 											<h6><b>Interests: </b></h6>
 											<div class="row">
 												<ul class="signup-interests-ul">
+													<li>{{StudentSignupForm.interest1}}</li>
+													
+													<li>{{StudentSignupForm.interest2}}</li>
+													
+													<li>{{StudentSignupForm.interest3}}</li>
+
+													{% comment %} 
 													{% for interest in StudentSignupForm.interests %}
 														<li id="signup-check-{{interest.id_for_label}}" onclick="regintclick('{{interest.id_for_label}}')"><small>{{interest}}</small></li>
 													{% endfor %}
-													{% comment %} <li onclick="regintclick(1)"><small id="signup-check-1">Travelling <input type="checkbox" name="signup-travelling"/></small></li>
-													<li onclick="regintclick(2)"><small id="signup-check-1">Sports <input type="checkbox" name="signup-sports"/></small></li>
-													<li onclick="regintclick(3)"><small id="signup-check-1">Adventuring <input type="checkbox" name="signup-adventuring" /></small></li>
-													<li onclick="regintclick(4)"><small id="signup-check-1">Smoking <input type="checkbox" name="signup-smoking" /></small></li>
-													<li onclick="regintclick(5)"><small id="signup-check-1">Drinking <input type="checkbox" name="signup-drinking" /></small></li>
-													<li onclick="regintclick(6)"><small id="signup-check-1">Net Surfing <input type="checkbox" name="signup-net-surfing" /></small></li>
-													<li onclick="regintclick(7)"><small id="signup-check-1">Partying <input type="checkbox" name="signup-partying" /></small></li> {% endcomment %}
+													{% endcomment %}
 												</ul>
 											</div>
 										</div>
@@ -516,15 +525,17 @@
 										<div class="col-md-12">
 											<h6><b>Social media accounts: </b></h6>
 											<div class="col-md-12">
-												<i class="fa fa-facebook" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;">{{StudentSignupForm.fblink}}</i>
+												<i class="fa fa-instagramm" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;"><img src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:32px; height:25px; position:relative; z-index:9999;" />{{StudentSignupForm.instaLink}}</i>
+												&nbsp;
+												<i class="fa fa-facebookk" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;"><img src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:30px; height:25px; position:relative; z-index:9999;" />{{StudentSignupForm.fblink}}</i>
+												&nbsp;
+												{% comment %} <i class="fa fa-facebook" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;">{{StudentSignupForm.fblink}}</i>
 												&nbsp;
 												<i class="fa fa-instagram" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.instaLink}}</i>
 												&nbsp;
 												<i class="fa fa-snapchat-ghost" onclick="opensml('{{StudentSignupForm.snapLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.snapLink}}</i>
 												&nbsp;
-												<i class="fa fa-twitter" onclick="opensml('{{StudentSignupForm.twitterLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.twitterLink}}</i>
-												{% comment %} &nbsp;
-												<i class="fa fa-pinterest" onclick="opensml(5)" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;"><input id="sml5" type="text" name="pinterestlink" style="display:none; border:none; background-color:transparent; margin-left:5px;" placeholder="Enter pinterest link"/></i> {% endcomment %}
+												<i class="fa fa-twitter" onclick="opensml('{{StudentSignupForm.twitterLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.twitterLink}}</i> {% endcomment %}
 											</div>
 										</div>
 									</div>

@@ -40,14 +40,15 @@ def createLandlordUser(username="TestUser"):
 def createStudentUser(username="TestUser"):
     in1 = createInterest()
     in2 = createInterest(name="sports")
+    # 'interests': [in1.pk, in2.pk]
     data = { 'first_name': 'Test1', 'last_name': 'Test2' , 
                 'email': 'TESTtest@123.com' , 'username': username,
                 'password1': 'first@123', 'password2': 'first@123',
                 'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
-                'interests': [in1.pk, in2.pk] , 'fblink': "https://www.facebook.com/", 
-                'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
-                'twitterLink': "https://www.twitter.com/",
+                'interest1': 'sports', 'interest2': 'party', 'interest3': 'cycling',
+                'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
+                'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
             }
     response = client.post(
             reverse('user:studentSignup'),
@@ -154,25 +155,29 @@ class StudentSignUpViewTests(TestCase):
     def setUp(self):
         in1 = createInterest()
         in2 = createInterest("Adventure")
+        # 'interests': [in1.pk, in2.pk],
         self.validPayload = { 'first_name': 'Test Seller', 'last_name': 'TestLastname', 
                 'email': 'SellerTEST@Prop.com' , 'username': 'student', 
                 'password1': 'Password@123' , 'password2': 'Password@123',
                 'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
-                'interests': [in1.pk, in2.pk], 
+                'interest1': 'Adventure', 'interest2': 'sports', 'interest3': 'loud', 
                 'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
                 'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
             }
+        # 'interests': []
         self.invalidPayload1 = { 'first_name': '', 'last_name': '', 'email': '' , 
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
-                'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interests': [], 
-                'fblink': '', 'snapLink': '', 'instaLink':'', 'twitterLink': '',
+                'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interest1': '', 
+                'interest2': '', 'interest3': '', 'fblink': '', 'snapLink': '', 'instaLink':'', 
+                'twitterLink': '',
             }
+        # 'interests': ['123']
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
                 'username': 'TestUser', 'password1': '12312312', 'password2': 'Test2323', 
                 'phone': "231212", 'university': 'aasd asdasd', 'classYear': 2001,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage('.avi'),
-                'interests': ['123'], 'fblink': "facebook", 
+                'interest1': 'sad', 'interest2': 'asd', 'interest3': 'asda', 'fblink': "facebook", 
                 'snapLink': "snapchat", 'instaLink':"instagram",
                 'twitterLink': "twitter",
             }
@@ -211,7 +216,7 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(userStudent.classYear, self.validPayload.get('classYear'))
         self.assertFalse(userStudent.emailVerified)
         self.assertFalse(userStudent.phoneVerified)
-        self.assertTrue(userStudent.interests.filter(interest="Developer").exists)
+        self.assertTrue(userStudent.interests.filter(interest="Adventure").exists)
         deleteImage(userStudent.profilePicture)
 
     def test_create_student_invalid_payload1(self):
@@ -230,6 +235,9 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('username'), ['This field is required.'])
         self.assertEqual(errorData.get('password1'), ['This field is required.'])
         self.assertEqual(errorData.get('password2'), ['This field is required.'])
+        self.assertEqual(errorData.get('interest1'), ['This field is required.'])
+        self.assertEqual(errorData.get('interest2'), ['This field is required.'])
+        self.assertEqual(errorData.get('interest3'), ['This field is required.'])
         self.assertEqual(errorData.get('phone'), ['This field is required.'])
         self.assertEqual(errorData.get('university'), ['This field is required.'])
         self.assertEqual(errorData.get('classYear'), ['This field is required.'])
@@ -257,7 +265,7 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('classYear'), ['Minimum year 2010'])
-        self.assertEqual(errorData.get('interests'), ['Select a valid choice. 123 is not one of the available choices.'])
+        # self.assertEqual(errorData.get('interests'), ['Select a valid choice. 123 is not one of the available choices.'])
         self.assertEqual(errorData.get('profilePicture'), ["File extension 'avi' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
         self.invalidPayload2["classYear"] = 2040
         response = client.post(

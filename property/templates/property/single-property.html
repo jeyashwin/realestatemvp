@@ -26,6 +26,8 @@
 			.pxp-sp-amenities-item { font-size:14px !important; }
 			
 			.pxp-header.fixed-top.pxp-animate { background-color: rgba(4, 113, 166, 1) !important; }
+			
+			#message_seller_btn:hover { background-color:rgba(4, 113, 166, 1) !important; }
 		</style>
         <div class="pxp-content">
             <div class="pxp-single-property-top pxp-content-wrapper mt-100">
@@ -120,6 +122,9 @@
                                 <div>{{object.sqft|intcomma}} <span>SF</span></div>
                             </div>
                             <div class="pxp-sp-top-price mt-3 mt-md-0">
+								{% if user.usertype.is_student %}
+									<a href="#" id="message_seller_btn" class="btn" style="background-color:rgba(4, 113, 166, 0.8); color:#fff; font-size:15px; font-weight:normal; border-radius:50px;"><i class="fa fa-commenting-o"></i> &nbsp; Message Seller </a> &nbsp;
+								{% endif %}
 								<span style="font-size:15px; color:grey; font-weight:normal;">Price </span>${{object.rentPerPerson|intcomma}} &nbsp; <span style="font-size:15px; color:grey; font-weight:normal;">Security Deposit </span>
 								{% if object.securityDeposit %}
 									${{object.amount|intcomma}}
@@ -129,157 +134,20 @@
 								</div>
                         </div>
 						{% if user.usertype.is_student %}
-						<div class="col-md-2">
-							<style> #property_req_to_rent:hover { background-color:#003a8c !important; color:#fff !important; } </style>
-								<center>
-									<b class="btn btn-default btn-sm pull-right" style="background-color:#fff; padding:10px 5px; color:#003a8c; border:2px solid #003a8c; border-radius:50px; cursor:pointer;" id="property_req_to_rent" data-toggle="modal" data-target="#reqforrent"> &nbsp; REQUEST TO RENT &nbsp; </b> 
-									<!-- The Modal -->
-									<div id="reqForRentModal" class="modal">
-						<style>
-						#reqForRentModal {
-							display: none; /* Hidden by default */
-							position: fixed; /* Stay in place */
-							z-index: 1; /* Sit on top */
-							padding-top: 100px; /* Location of the box */
-							left: 0;
-							top: 0;
-							width: 100%; /* Full width */
-							height: 100%; /* Full height */
-							overflow: auto; /* Enable scroll if needed */
-							background-color: rgb(0,0,0); /* Fallback color */
-							background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
-						}
-
-						/* Modal Content */
-						.modal-content {
-							background-color: #fff;
-							margin: auto;
-							margin-top: 50px;
-							padding: 20px;
-							border: 1px solid #888;
-							width: 45%;
-						}
-
-						/* The Close Button */
-						.modalClose {
-							color: #aaaaaa;
-							float: right;
-							font-size: 28px;
-							font-weight: bold;
-						}
-
-						.modalClose:hover,
-						.modalClose:focus {
-							color: #000;
-							text-decoration: none;
-							cursor: pointer;
-						}
-						</style>
-						{% comment %} {{tourForm}} {% endcomment %}
-							<!-- Modal content -->
-							<div class="modal-content">
-								<h4 style="text-align:left; color:black; border-bottom:2px solid #bfeaff; padding-bottom:7px;">Request to Rent <span class="modalClose" style="text-align:right;">&times;</span></h4>
-								<hr>
-								<form method="POST" action="{% url 'checkout:requestRent' object.urlSlug %}" id='propertyRequest'>
-									<div class="form-group">
-										<div class="row">
-											{% csrf_token %}
-											<div class="col-md-2" style="text-align:left;">
-												<label>Occupants</label>
-												{{form.occupants}}
-											</div>
-											<div class="col-md-5" style="text-align:left;">
-												<label> &nbsp; Move In</label>
-												{{form.moveIn}}
-											</div>
-											<div class="col-md-5" style="text-align:left;">
-												<label> &nbsp; Move Out</label>
-												{{form.moveOut}}
-											</div>
-										</div>
-									</div>
-									<br>
-									<hr style="border-top:2px solid #bfeaff;">
-									<div class="row">
-										<div class="col-md-8"></div>
-										<div class="col-md-4">
-										<input type="submit" name="submit" value="Send Request" class="btn btn-default pull-right" style="background-color:#003a8c; color:#fff;" />
-										</div>
-									</div>
-								</form>
+							<div class="col-md-2">
+								<style> 
+									#property_req_a_tour{ border-top-left-radius:25px; border-top-right-radius:25px; border-bottom-left-radius:0px; border-bottom-right-radius:0px; }
+									#property_req_to_rent { border-top-left-radius:0px; border-top-right-radius:0px; border-bottom-left-radius:25px; border-bottom-right-radius:25px; }
+									#property_req_a_tour:hover { background-color:#0471A6 !important; color:#fff !important; }
+									#property_req_to_rent:hover { background-color:#0471A6 !important; color:#fff !important; }
+								</style>
+									
+									<center>
+										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-signin-trigger" style="background-color:#fff; padding:7px 8.5px; color:#003a8c; border:1.5px solid #003a8c; cursor:pointer;" id="property_req_a_tour"> &nbsp; REQUEST A TOUR &nbsp; </b> 
+										
+										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-forgot-password-trigger" style="background-color:#fff; padding:7px 5px; color:#003a8c; border:1.5px solid #003a8c; cursor:pointer; margin-top:-1px;" id="property_req_to_rent" onclick="open_req_to_rent()"> &nbsp; REQUEST TO RENT &nbsp; </b> 
+									</center>
 							</div>
-						</div>
-
-						<script>
-						// Get the modal
-						var modal = document.getElementById("reqForRentModal");
-
-						// Get the button that opens the modal
-						var btn = document.getElementById("property_req_to_rent");
-
-						// Get the <span> element that closes the modal
-						var span = document.getElementsByClassName("modalClose")[0];
-
-						// When the user clicks the button, open the modal 
-						btn.onclick = function() {
-						$(modal).show(1000);
-						}
-
-						// When the user clicks on <span> (x), close the modal
-						span.onclick = function() {
-						$(modal).hide(1000);
-						}
-
-						// When the user clicks anywhere outside of the modal, close it
-						window.onclick = function(event) {
-						if (event.target == modal) {
-							modal.style.display = "none";
-						}
-						}
-						</script>	
-						<!-- Modal -->
-						<div id="reqforrent2" class="modal fade" role="dialog">
-							<div class="modal-dialog">
-								<!-- Modal content-->
-								<div class="modal-content">
-									<div class="modal-header">
-										<button type="button" class="close" data-dismiss="modal">&times;</button>
-										<h4 class="modal-title">Request for Rent</h4>
-									</div>
-									<div class="modal-body">
-										<form>
-											<div class="form-group">
-												<div class="row">
-													<div class="col-md-3"></div>
-													<div class="col-md-4">
-														<label>Occupants</label>
-													</div>
-													<div class="col-md-2">
-														<input type="number" class="form-control" name="rent_occupants">
-													</div>
-													<div class="col-md-3"></div>
-												</div>
-											</div>		
-											<div class="form-group">
-												<div class="col-md-6">
-													<label>Move In</label>
-													<input type="date" class="form-control" name="rent_movein">
-												</div>
-												<div class="col-md-6">
-													<label>Move Out</label>
-													<input type="date" class="form-control" name="rent_moveout">
-												</div>
-											</div>
-										</form>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									</div>
-								</div>
-							</div>
-						</div>	
-					</center>
-						</div>
 						{% endif %}
                     </div>
                 </div>
@@ -650,6 +518,140 @@
                 </div>
             </div>
         </div>
+		
+		
+		
+		
+	
+<div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="min-width:60%;">
+		<div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+			<div class="modal-header">
+				<button id="signin-close-btn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<center><h5 class="modal-title" id="pxpSigninModal">Request a Tour</h5></center>
+				<hr>
+				<form method="POST" action="{% url 'checkout:requestTour' object.urlSlug %}" id='requesttourform'>
+					{% csrf_token %}
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4" style="text-align:left;">
+								<br>
+								<label style="font-size:17px;">1<sup>st</sup> Preference</label>
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Date</label>
+								{{tourForm.preference1Date}}
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Time</label>
+								{{tourForm.preference1Time}}
+							</div>
+							
+						</div>
+						<br>
+						<div class="row">
+							
+							<div class="col-md-4" style="text-align:left;">
+								<br>
+								<label style="font-size:17px;">2<sup>nd</sup> Preference</label>
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Date</label>
+								{{tourForm.preference2Date}}
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Time</label>
+								{{tourForm.preference2Time}}
+							</div>
+							
+						</div>
+						<br>
+						<div class="row">
+							
+							<div class="col-md-4" style="text-align:left;">
+								<br>
+								<label style="font-size:17px;">3<sup>rd</sup> Preference</label>
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Date</label>
+								{{tourForm.preference3Date}}
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Time</label>
+								{{tourForm.preference3Time}}
+							</div>
+							
+						</div>
+						
+					</div>
+					
+					<br>
+					<input type="submit" value="Send Request" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<button id="ReqToRentModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ReqToRentModal" style="display:none;" ></button>
+
+<div id="ReqToRentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="min-width:60%; margin-top:10%;">
+
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+        <h4 class="modal-title">
+			Request to Rent 
+		</h4>
+		<button class="pull-right close" data-dismiss="modal" style="text-align:right; color:red; outline:none;">&times;</button>
+      </div>
+      <div class="modal-body">
+		<hr>
+     
+		<form method="POST" action="{% url 'checkout:requestRent' object.urlSlug %}" id='propertyRequest'>
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-1" style="text-align:left;">
+					</div>
+					<div class="col-md-2" style="text-align:left;">
+						<label>&nbsp;Occupants</label>
+						{{form.occupants}}
+					</div>
+					<div class="col-md-4" style="text-align:left;">
+						<label> &nbsp; Move In</label>
+						{{form.moveIn}}
+					</div>
+					<div class="col-md-4" style="text-align:left;">
+						<label> &nbsp; Move Out</label>
+						{{form.moveOut}}
+					</div>
+				</div>				
+			</div>
+			<br>
+			<input type="submit" value="Send Request" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
+			<!--span class="pxp-agent-contact-modal-btn" onclick="submitsigninclick()" style="background-color:#003a8c; border-radius:30px; cursor:pointer;">SIGN IN</span-->
+
+		</form>
+		
+      </div>
+      <!--div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div-->
+    </div>
+	
+  </div>
+</div>
+		
+	
+		
+		
+		
 		<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
         <script src="{% static '/js/popper.min.js' %}"></script>
         <script src="{% static '/js/bootstrap.min.js' %}"></script>
@@ -987,5 +989,13 @@
 		}
 		// $('.alert').alert()
 	</script>
+	
+	<script>
+		function open_req_to_rent()
+		{
+			$("#ReqToRentModalBtn").click();
+		}
+	</script>
+
 	
 {% include "layout/footer.html" %}

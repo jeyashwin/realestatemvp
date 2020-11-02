@@ -27,6 +27,73 @@
 	#filter_checks > p > input { width:13px; height:13px; }
 	#filter_checks > p { font-size:15px; }
 
+								
+	input[type=range] {
+		-webkit-appearance: none;
+		margin: 20px 0;
+		width: 100%;
+	}
+	input[type=range]:focus {
+		outline: none;
+	}
+	input[type=range]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 4px;
+		cursor: pointer;
+		animate: 0.2s;
+		background: #044c7e;
+		border-radius: 25px;
+	}
+	input[type=range]::-webkit-slider-thumb {
+		height: 20px;
+		width: 20px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: -8px;
+	}
+	input[type=range]:focus::-webkit-slider-runnable-track {
+		background: #003279;
+	}
+	.range-wrap{
+		width: 100%;
+		position: relative;
+	}
+	.range-value{
+		position: absolute;
+		top: -50%;
+	}
+	.range-value span{
+		min-width: 40px;
+		height: 24px;
+		line-height: 24px;
+		text-align: center;
+		/*background: #03a9f4;*/
+		background: #044c7e;
+		color: #fff;
+		font-size: 12px;
+		display: block;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, 0);
+		border-radius: 6px;
+	}
+	.range-value span:before{
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 0;
+		border-top: 10px solid #044c7e;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		top: 100%;
+		left: 50%;
+		margin-left: -5px;
+		margin-top: -1px;
+	}
+
 </style>
 
 
@@ -80,6 +147,24 @@
 							</p>
 							<hr>
 							<h6>Price Range</h6>
+														
+							<center><label>Min</label></center>
+							<div class="range-wrap">
+								<div class="range-value" id="rangeV"></div>
+								{% comment %} <input id="range" type="range" min="0" max="1000" value="0" step="1"> {% endcomment %}
+								{{filterSortForm.minPri}}
+								{{filterSortForm.minPri.errors}}
+							</div>
+							
+							<center><label>Max</label></center>
+							<div class="range-wrap">
+								<div class="range-value" id="rangeV2"></div>
+								{% comment %} <input id="range2" type="range" min="0" max="10000" value="1000" step="1"> {% endcomment %}
+								{{filterSortForm.maxPri}}
+								{{filterSortForm.maxPri.errors}}
+							</div>
+							
+							{% comment %}
 							<div data-role="rangeslider">
 								<small>Min</small><br>
 								{{filterSortForm.minPri}}
@@ -88,6 +173,9 @@
 								{{filterSortForm.maxPri}}
 								{{filterSortForm.maxPri.errors}}
 							  </div><br>
+							{% endcomment %}
+
+
 
 							<style>
 								.filter-amenities-tags > span, .filter-lifestyle-tags > span { border-radius:50px; font-size:11px; border:1px solid grey; background-color:transparent; margin:3px 3px; padding:1px 10px; float:left; color:grey; }
@@ -131,7 +219,7 @@
 							
 							<br>
 							{% comment %} <span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span> {% endcomment %}
-							<input type="submit" value="Apply Filters" class="pxp-filter-btn" />
+							<input type="submit" value="Apply Filters" class="pxp-filter-btn" style="background-color: #044C7E; border-radius:50px;" />
 						</div>
 					</div>
 				  </div>
@@ -510,5 +598,40 @@
 		}
 	</script>
 	
+
+	<script>
+		
+		var
+			range = document.getElementById('{{filterSortForm.minPri.id_for_label}}'),
+			rangeV = document.getElementById('rangeV'),
+			setValue = ()=>{
+				var
+					newValue = Number( (range.value - range.min) * 100 / (range.max - range.min) ),
+					newPosition = 10 - (newValue * 0.2);
+				rangeV.innerHTML = `<span>$${range.value}</span>`;
+				rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+			};
+		document.addEventListener("DOMContentLoaded", setValue);
+		range.addEventListener('input', setValue);
+		
+	</script>
+	
+	
+	<script>
+		
+		var
+			range2 = document.getElementById('{{filterSortForm.maxPri.id_for_label}}'),
+			rangeV2 = document.getElementById('rangeV2'),
+			setValue2 = ()=>{
+				var
+					newValue2 = Number( (range2.value - range2.min) * 100 / (range2.max - range2.min) ),
+					newPosition2 = 10 - (newValue2 * 0.2);
+				rangeV2.innerHTML = `<span>$${range2.value}</span>`;
+				rangeV2.style.left = `calc(${newValue2}% + (${newPosition2}px))`;
+			};
+		document.addEventListener("DOMContentLoaded", setValue2);
+		range2.addEventListener('input', setValue2);
+		
+	</script>
 
 {% include "layout/footer.html" %}

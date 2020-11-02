@@ -80,7 +80,7 @@
 				color:#383836;
 				font-weight:bold;
 			}
-			
+			#header_dropdown > .dropbtnn { font-size:15px !important; }
 			.panel {
 				border-radius: 20px;
 			}
@@ -216,9 +216,9 @@
 			<div class="container-fluid">
 				
 				<div class="pull-right" style="margin-top:0px;">
-					<span data-toggle="pill" href="#home" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="background-color:#094a66; color:#fff; transform: skew(15deg,0deg); display:none;"> Posts </span>
-					<span data-toggle="pill" href="#menu1" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="background-color:#094a66; color:#fff; transform: skew(15deg,0deg);"> Groups </span>
-					<span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="background-color:#094a66; color:#fff; transform: skew(15deg,0deg);"> Messages </span>
+					<span data-toggle="pill" href="#home" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </span>
+					<span data-toggle="pill" href="#menu1" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </span>
+					<span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span>
 					&nbsp;
 				</div><br>
 				
@@ -460,17 +460,92 @@
 													/>
 												</div>
 												<div class="col-md-7">
-									
-													<h5> &nbsp; <b>{{object.student.user.user.first_name|title}} {{object.student.user.user.last_name|title}}</b>
+													<h5> 
+														&nbsp; 
+														<b>{{object.student.user.user.first_name|title}} {{object.student.user.user.last_name|title}}</b>
+														&nbsp;
+														{% for interest in object.student.interests.all %}
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
+														{% endfor %}
 													</h5>
-													<h6> &nbsp; {{object.student.user.user.email|title}}</h6>
 												</div>
 												<div class="col-md-4">
-													{% for interest in object.student.interests.all %}
-													<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;">{{interest}}</span>
-													{% endfor %}
+													<div class="pull-right">
+														{% if object.student.instaLink %}
+														<a href="{{object.student.instaLink}}" style="text-decoration:none;" target="blank">
+															<img onmouseover="hoverinsta(this)" onmouseleave="leaveinsta(this)" src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:40px; height:28px; position:relative; z-index:9999;" />
+														</a>
+														&nbsp;
+														{% endif %}
+														{% if object.student.fbLink %}
+														<a href="{{object.student.fbLink}}" style="text-decoration:none;" target="blank">
+															<img onmouseover="hoverfb(this)" onmouseleave="leavefb(this)" src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:25px; height:25px; position:relative; z-index:9999;" />
+														</a>
+														{% endif %}
+														{% if object.student.twitterLink %}
+														<a href="{{object.student.twitterLink}}" style="text-decoration:none;" target="blank">
+															<img onmouseover="hovertwitter(this)" onmouseleave="leavetwitter(this)" src="https://i.pinimg.com/originals/88/69/9b/88699b2ec3b3164abaf20a23e20ed935.png" style="width:30px; height:25px; position:relative; z-index:9999;" />
+														</a>
+														{% endif %}
+													</div>
+													<script>
+														function hoverinsta(dis)
+														{
+															$(dis).css({"width":"55px", "height":"40px"});
+														}
+														function leaveinsta(dis)
+														{
+															$(dis).css({"width":"40px", "height":"28px"});
+														}
+														
+														function hoverfb(dis)
+														{
+															$(dis).css({"width":"35px", "height":"35px"});
+														}
+														function leavefb(dis)
+														{
+															$(dis).css({"width":"25px", "height":"25px"});
+														}
+														
+														function hovertwitter(dis)
+														{
+															$(dis).css({"width":"40px", "height":"35px"});
+														}
+														function leavetwitter(dis)
+														{
+															$(dis).css({"width":"30px", "height":"25px"});
+														}
+													</script>
 												</div>
-												<br>
+												<div class="row" style="padding-bottom:10px; width:100%;">
+													<div class="col-md-1"></div>
+													<div class="col-md-11">
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:#fff;
+														background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Tobacco Usage &nbsp; | &nbsp; {{object.student.tobaccoUsage|title}} </span>
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Alcohol Usage &nbsp; | &nbsp; {{object.student.alcoholUsage|title}} </span>
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Cleanliness &nbsp; | &nbsp; {{object.student.cleanliness|title}} </span>
+													</div>
+													<br>
+												</div>
+												
+												<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
+													<div class="col-md-1"></div>
+													<div class="col-md-11">
+														&nbsp; &nbsp;
+														{% if object.student.sleepScheduleFrom and object.student.sleepScheduleTo %}
+														<span class="btn btn-default btn-xs" style="color:grey;
+														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Sleep Schedule | {{object.student.sleepScheduleFrom}} - {{object.student.sleepScheduleTo}} </span>
+														&nbsp;
+														{% endif %}
+														{% if object.student.studyHourFrom and object.student.studyHourTo %}
+														<span class="btn btn-default btn-xs" style="color:grey;
+														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Study Hours | {{object.student.studyHourFrom}} - {{object.student.studyHourTo}} </span>
+														{% endif %}
+													</div>
+												</div>
 												<div class="col-md-12" style="max-height:180px;">
 													<h3 class="postkeyviewfields{{object.pk}}">{{object.title|title}}</h3>
 													<h3 class="postkeyeditfields{{object.pk}}" style="display:none;"><input type="text" name="title" id="edit_rmposttitle" placeholder="Enter Title"></h3>
@@ -646,10 +721,10 @@
 										
 										<div class="col-md-12" style="padding-top:10px;">
 											<hr>
-											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.."></textarea>
+											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.."  style="border-radius:15px;"></textarea>
 											
 											<br>
-											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#2b7b9b;">Submit</span>
+											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#044C7E;">Submit</span>
 											
 											<h4>Comments</h4><hr>
 											<input type="hidden" id="thisusername" value="{{user}}" />

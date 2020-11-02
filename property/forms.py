@@ -161,8 +161,7 @@ class PropertyFilterSortForm(forms.Form):
         minp = Property.objects.aggregate(Min('rentPerPerson'))
         self.fields['minPri'] = forms.IntegerField(
                                     widget=forms.NumberInput(attrs={
-                                        'class': 'form-control', 
-                                        'placeholder': 'Min', 'type': 'range', 
+                                        'placeholder': 'Min', 'type': 'range', 'step': '1',
                                         'value': minp.get('rentPerPerson__min', 0)
                                     }),
                                     min_value=minp.get('rentPerPerson__min', 0),
@@ -171,11 +170,17 @@ class PropertyFilterSortForm(forms.Form):
                                 )
         self.fields['maxPri'] = forms.IntegerField(
                                     widget=forms.NumberInput(attrs={
-                                        'class': 'form-control', 
-                                        'placeholder': 'Max', 'type': 'range', 
+                                        'placeholder': 'Max', 'type': 'range', 'step': '1',
                                         'value': maxp.get('rentPerPerson__max', 0)
                                     }),
                                     max_value = maxp.get('rentPerPerson__max', 0),
                                     min_value = minp.get('rentPerPerson__min', 0),
                                     required=False,
                                 )
+    def clean(self):
+        minprice = self.cleaned_data.get("minPri")
+        maxprice = self.cleaned_data.get("maxPri")
+        if minprice and maxprice:
+            if minprice >= maxprice:
+                raise forms.ValidationError({'minPri': "minimum price must be less than max price"})
+

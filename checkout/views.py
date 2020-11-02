@@ -34,7 +34,6 @@ def RequestToRentPropertyCreateView(request, slug):
             for error in form.errors:
                 messages.add_message(request, messages.ERROR, form.errors[error])
     return redirect('property:propertyDetail', slug=slug)
-    # return render(request, 'checkout/sample.html', context={'form': form})
 
 
 @login_required
@@ -58,7 +57,6 @@ def RequestToTourPropertyCreateView(request, slug):
         else:
             messages.add_message(request, messages.ERROR, form.errors)
     return redirect('property:propertyDetail', slug=slug)
-    # return render(request, 'checkout/sample.html', context={'form': form})
 
 
 @login_required

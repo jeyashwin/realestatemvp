@@ -11,17 +11,14 @@ class RequestToRentPropertyForm(forms.ModelForm):
 
         widgets = {
             'occupants': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'style': 'width:100%; border-radius:50px;',
+                'class': 'form-control forminputrequests',
             }),
             'moveIn': forms.DateInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'date'
             }),
             'moveOut': forms.DateInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'date'
             })
         }
@@ -36,33 +33,27 @@ class RequestToTourPropertyForm(forms.ModelForm):
 
         widgets = {
             'preference1Date': forms.DateInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'date'
             }),
             'preference1Time': forms.TimeInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'time'
             }),
             'preference2Date': forms.DateInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'date'
             }),
             'preference2Time': forms.TimeInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'time'
             }),
             'preference3Date': forms.DateInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'date'
             }),
             'preference3Time': forms.TimeInput(attrs={
-                'class': 'form-control',
-                'style': 'border-radius:50px;',
+                'class': 'form-control forminputrequests',
                 'type': 'time'
             }),
         }

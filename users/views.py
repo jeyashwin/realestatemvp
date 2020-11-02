@@ -56,6 +56,12 @@ class LandlordSignUpView(CreateView):
         return redirect('user:home')
 
 
+def get_or_create_interest(tempInterest):
+    tempInterest = tempInterest.title()
+    # print(tempInterest)
+    return Interest.objects.get_or_create(interest=tempInterest)
+
+
 class StudentSignUpView(CreateView):
     form_class = StudentSignupForm
     success_url = "/"
@@ -65,7 +71,12 @@ class StudentSignUpView(CreateView):
         #creating new user with email (converting into lowercase)
         form.instance.email = form.cleaned_data.get('email').lower()
         valid = super().form_valid(form)
-        interests=form.cleaned_data.get('interests')
+        # interests=form.cleaned_data.get('interests')
+        interest1 = get_or_create_interest(form.cleaned_data.get('interest1'))
+        interest2 = get_or_create_interest(form.cleaned_data.get('interest2'))
+        interest3 = get_or_create_interest(form.cleaned_data.get('interest3'))
+        
+
         userObject = UserType.objects.create(user=form.instance,
                         userType="student")
         
@@ -88,7 +99,8 @@ class StudentSignUpView(CreateView):
                             cleanliness=form.cleaned_data.get('cleanliness'),
                             guests=form.cleaned_data.get('guests'),
                         )
-        studentObject.interests.set(interests)
+        # studentObject.interests.set(interests)
+        studentObject.interests.set([interest1[0].pk, interest2[0].pk, interest3[0].pk])
         studentObject.save()
 
         inviteCode = self.request.GET.get('invite_code', None)
