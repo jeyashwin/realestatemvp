@@ -443,6 +443,10 @@
 										<div class="form-group">
 											{{StudentSignupForm.first_name.label_tag}}
 											{{StudentSignupForm.first_name}}
+											{% comment %} This will give unique id {% endcomment %}
+											<small id="studentForm-{{StudentSignupForm.first_name.id_for_label}}" class='error'></small>
+											{% comment %} {{StudentSignupForm.first_name.id_for_label}} - to get id of a field
+											{{StudentSignupForm.first_name}} - first_name - key name in error {% endcomment %}
 										</div>
 									</div>
 									<div class="col-6">
@@ -836,6 +840,10 @@
 									<div class="form-group">
 										{{LandlordSignupForm.first_name.label_tag}}
                                     	{{LandlordSignupForm.first_name}}
+										{% comment %} This will give unique id {% endcomment %}
+										<small id="landlordForm-{{LandlordSignupForm.first_name.id_for_label}}" class='error'></small>
+										{% comment %} {{LandlordSignupForm.first_name.id_for_label}} - to get id of a field
+										{{LandlordSignupForm.first_name}} - first_name - key name in error {% endcomment %}
 									</div>
 								</div>
 								<div class="col-6">

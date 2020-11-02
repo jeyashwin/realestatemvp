@@ -94,17 +94,31 @@ class UserStudent(models.Model):
     createdDate = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
+        errorMess = {}
         if not self.user.is_student:
-            raise ValidationError({'user': ValidationError(('User is not a student!'), code='invalid')})
+            errorMess['user'] = ValidationError(('User is not a student!'), code='invalid')
+        
+        if self.sleepScheduleFrom is not None and self.sleepScheduleTo is None:
+            errorMess['sleepScheduleTo'] = ValidationError(('Sleep Schedule To Time is required!'), code='required')
+        if self.sleepScheduleFrom is None and self.sleepScheduleTo is not None:
+            errorMess['sleepScheduleFrom'] = ValidationError(('Sleep Schedule From Time is required!'), code='required')
+
+        if self.studyHourFrom is not None and self.studyHourTo is None:
+            errorMess['studyHourTo'] = ValidationError(('Study Hour To Time is required!'), code='required')
+        if self.studyHourFrom is None and self.studyHourTo is not None:
+            errorMess['studyHourFrom'] = ValidationError(('Study Hour From Time is required!'), code='required')
         
         try:
             phone = phonenumbers.parse(str(self.phone), None)
             if phone.country_code != 1:
                 # print(phone.country_code)
                 # print(type(phone.country_code))
-                raise ValidationError({'phone': ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')})
+                errorMess['phone'] = ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')
         except phonenumbers.NumberParseException:
             pass
+
+        if errorMess is not None:
+            raise ValidationError(errorMess)
 
     def __str__(self):
         return self.user.user.username
@@ -121,17 +135,22 @@ class UserLandLord(models.Model):
     createdDate = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
+        errorMess = {}
+
         if not self.user.is_landlord:
-            raise ValidationError({'user': ValidationError(('User is not a Seller!'), code='invalid')})
+            errorMess['user'] = ValidationError(('User is not a Seller!'), code='invalid')
 
         try:
             phone = phonenumbers.parse(str(self.phone), None)
             if phone.country_code != 1:
                 # print(phone.country_code)
                 # print(type(phone.country_code))
-                raise ValidationError({'phone': ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')})
+                errorMess['phone'] = ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')
         except phonenumbers.NumberParseException:
             pass
+
+        if errorMess is not None:
+            raise ValidationError(errorMess)
 
     def __str__(self):
         return self.user.user.username

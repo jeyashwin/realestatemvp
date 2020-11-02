@@ -91,8 +91,10 @@ class LandlordSignUpViewTests(TestCase):
             reverse('user:landlordSignup'),
             self.validPayload
         )
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, "/")
+        # self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        # self.assertEqual(response.url, "/")
+        self.assertEqual(response.status_code, HTTPStatus.CREATED)
+        self.assertEqual(response.json().get('success_message'), "Landlord Profile created")
 
         user = UserType.objects.get(user__username=self.validPayload.get('username'))
         userSeller = UserLandLord.objects.get(user=user)
@@ -170,7 +172,7 @@ class StudentSignUpViewTests(TestCase):
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
                 'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interest1': '', 
                 'interest2': '', 'interest3': '', 'fblink': '', 'snapLink': '', 'instaLink':'', 
-                'twitterLink': '',
+                'twitterLink': '', 'ssFrom': '', 'ssTo': '12:00', 'shFrom': '11:00', 'shTo': ''
             }
         # 'interests': ['123']
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
@@ -179,7 +181,7 @@ class StudentSignUpViewTests(TestCase):
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage('.avi'),
                 'interest1': 'sad', 'interest2': 'asd', 'interest3': 'asda', 'fblink': "facebook", 
                 'snapLink': "snapchat", 'instaLink':"instagram",
-                'twitterLink': "twitter",
+                'twitterLink': "twitter"
             }
 
     def test_create_student_link_without_payload(self):
@@ -196,8 +198,10 @@ class StudentSignUpViewTests(TestCase):
             reverse('user:studentSignup'),
             self.validPayload
         )
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, "/")
+        # self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        # self.assertEqual(response.url, "/")
+        self.assertEqual(response.status_code, HTTPStatus.CREATED)
+        self.assertEqual(response.json().get('success_message'), "Student Profile created")
 
         user = UserType.objects.get(user__username=self.validPayload.get('username'))
         userStudent = UserStudent.objects.get(user=user)
@@ -238,11 +242,13 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('interest1'), ['This field is required.'])
         self.assertEqual(errorData.get('interest2'), ['This field is required.'])
         self.assertEqual(errorData.get('interest3'), ['This field is required.'])
+        self.assertEqual(errorData.get('ssFrom'), ['This field is required.'])
+        self.assertEqual(errorData.get('shTo'), ['This field is required.'])
         self.assertEqual(errorData.get('phone'), ['This field is required.'])
         self.assertEqual(errorData.get('university'), ['This field is required.'])
         self.assertEqual(errorData.get('classYear'), ['This field is required.'])
         self.assertEqual(errorData.get('bio'), ['This field is required.'])
-        self.assertEqual(errorData.get('interests'), ['This field is required.'])
+        # self.assertEqual(errorData.get('interests'), ['This field is required.'])
         self.assertEqual(errorData.get('profilePicture'), ['This field is required.'])
 
     def test_create_student_invalid_payload1(self):

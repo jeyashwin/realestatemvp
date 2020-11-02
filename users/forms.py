@@ -271,6 +271,23 @@ class StudentSignupForm(UserCreationForm):
         })
         self.fields['password2'].label = "Confirm Password"
 
+    def clean(self):
+        errorMess = {}
+
+        if self.cleaned_data.get('ssFrom') is not None and self.cleaned_data.get('ssTo') is None:
+            errorMess['ssTo'] = ValidationError(_('Sleep Schedule To Time is required!'), code='required')
+        if self.cleaned_data.get('ssFrom') is None and self.cleaned_data.get('ssTo') is not None:
+            errorMess['ssFrom'] = ValidationError(_('Sleep Schedule From Time is required!'), code='required')
+
+        if self.cleaned_data.get('shFrom') is not None and self.cleaned_data.get('shTo') is None:
+            errorMess['shTo'] = ValidationError(_('Study Hour To Time is required!'), code='required')
+        if self.cleaned_data.get('shFrom') is None and self.cleaned_data.get('shTo') is not None:
+            errorMess['shFrom'] = ValidationError(_('Study Hour From Time is required!'), code='required')
+
+        if errorMess != {}:
+            raise ValidationError(errorMess)
+        return super().clean()
+
 
 class StudentProfileUpdateForm(forms.ModelForm):
 

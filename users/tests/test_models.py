@@ -155,7 +155,7 @@ class UsersModelTests(TestCase):
         try:
             userlandlord.full_clean()
         except ValidationError as e:
-            self.assertEqual(dict(e).get("phone"), ["The phone number entered is not valid."])
+            self.assertEqual(dict(e).get("phone"), ["The phone number entered is not valid.", 'Currently we accept only USA Numbers!'])
             self.assertEqual(dict(e).get("user"), ["User is not a Seller!"])
 
     @patch('uuid.uuid4')
