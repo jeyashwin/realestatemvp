@@ -136,15 +136,21 @@ class StudentProfileUpdateView(LoginRequiredMixin, UpdateView):
             raise Http404
     
     def form_valid(self, form):
+        valid = super().form_valid(form)
         first_name = form.cleaned_data.get('first_name')
         last_name = form.cleaned_data.get('last_name')
         email = form.cleaned_data.get('email').lower()
+        interest1 = get_or_create_interest(form.cleaned_data.get('interest1'))
+        interest2 = get_or_create_interest(form.cleaned_data.get('interest2'))
+        interest3 = get_or_create_interest(form.cleaned_data.get('interest3'))
+        form.instance.interests.set([interest1[0].pk, interest2[0].pk, interest3[0].pk])
+        # form.save()
         studentUser = User.objects.get(username=self.request.user.username)
         studentUser.first_name = first_name
         studentUser.last_name = last_name
         studentUser.email = email
         studentUser.save()
-        return super().form_valid(form)
+        return valid
     
     def get_success_url(self, **kwargs):
         return reverse_lazy('user:studentProfile', kwargs={'username':self.kwargs.get('username')})

@@ -297,6 +297,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'placeholder': "Enter first name",
         }),
         required=True,
+        label='First Name',
     )
 
     last_name = forms.CharField(
@@ -305,6 +306,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'placeholder': "Enter last name",
         }),
         required=True,
+        label='Last Name',
     )
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={
@@ -312,22 +314,44 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'placeholder': "Enter your email address",
         }),
         required=True,
-        label="Email",
+    )
+    interest1 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Adventuring'
+        }),
+    )
+    interest2 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Cycling'
+        }),
+    )
+    interest3 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Partying'
+        }),
     )
 
     class Meta:
         model = UserStudent
         fields = ('first_name', 'last_name', 'email', 'phone', 'university', 'classYear', 'bio', 
-                    'interests', 'profilePicture', 'fbLink', 'snapLink', 'instaLink', 'twitterLink', 
-                    'sleepScheduleFrom', 'sleepScheduleTo', 'studyHourFrom', 'studyHourTo', 
-                    'tobaccoUsage', 'alcoholUsage', 'cleanliness', 'guests')
+                    'interest1', 'interest2', 'interest3', 'profilePicture', 'fbLink', 
+                    'instaLink', 'twitterLink', 'sleepScheduleFrom', 'sleepScheduleTo', 
+                    'studyHourFrom', 'studyHourTo', 'tobaccoUsage', 'alcoholUsage', 'cleanliness',
+                    'guests')
 
         widgets = {
+            'bio': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter bio..',
+                'rows': 2,
+            }),
             'profilePicture': forms.ClearableFileInput(attrs={
-                    'class': 'form-control',
-                    'onchange': "loadPhoto(event)",
-                }),
-            'interests': forms.CheckboxSelectMultiple(),
+                'class': 'form-control',
+                'onchange': "loadPhoto(event)",
+            }),
             'tobaccoUsage': forms.Select(attrs={
                 'class': 'form-control',
             }),
@@ -340,20 +364,47 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'guests': forms.Select(attrs={
                 'class': 'form-control',
             }),
+            'sleepScheduleFrom': forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'), 
+            'sleepScheduleTo':  forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'),
+            'studyHourFrom':  forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'),
+            'studyHourTo':  forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'),
         }
         labels = {
+            'classYear': 'Class Year',
             'fbLink': 'Facebook',
-            'snapLink': 'SnapChat',
             'instaLink': 'Instagram', 
-            'twitterLink': 'Twitter'
+            'twitterLink': 'Twitter',
+            'sleepScheduleFrom': 'Sleep Schedule From', 
+            'sleepScheduleTo': 'Sleep Schedule To', 
+            'studyHourFrom': 'Study Hour From', 
+            'studyHourTo': 'Study Hour To', 
+            'tobaccoUsage': 'Tobacco Usage',
+            'alcoholUsage': 'Alcohol Usage',
         }
 
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         studentInfo = get_object_or_404(UserStudent, pk=kwargs.get('instance').pk)
+        for count, i in enumerate(studentInfo.interests.all()):
+            if count < 3:
+                self.fields['interest{}'.format(count+1)].initial = i.interest
         self.fields['first_name'].initial = studentInfo.user.user.first_name
         self.fields['last_name'].initial = studentInfo.user.user.last_name
         self.fields['email'].initial = studentInfo.user.user.email
+
+        self.label_suffix = ''
 
 
 class LandlordProfileUpdateForm(forms.ModelForm):
