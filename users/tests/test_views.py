@@ -47,9 +47,10 @@ def createStudentUser(username="TestUser"):
                 'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
                 'interest1': 'sports', 'interest2': 'party', 'interest3': 'cycling',
-                'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
+                'fblink': "https://www.facebook.com/", 
                 'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
             }
+    # , 'snapLink': "https://www.snapchat.com/"
     response = client.post(
             reverse('user:studentSignup'),
             data
@@ -164,25 +165,28 @@ class StudentSignUpViewTests(TestCase):
                 'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
                 'interest1': 'Adventure', 'interest2': 'sports', 'interest3': 'loud', 
-                'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
+                'fblink': "https://www.facebook.com/", 
                 'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
+                # , 'snapLink': "https://www.snapchat.com/"
             }
         # 'interests': []
         self.invalidPayload1 = { 'first_name': '', 'last_name': '', 'email': '' , 
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
                 'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interest1': '', 
-                'interest2': '', 'interest3': '', 'fblink': '', 'snapLink': '', 'instaLink':'', 
+                'interest2': '', 'interest3': '', 'fblink': '', 'instaLink':'', 
                 'twitterLink': '', 'ssFrom': '', 'ssTo': '12:00', 'shFrom': '11:00', 'shTo': ''
             }
+        # , 'snapLink': "https://www.snapchat.com/"
         # 'interests': ['123']
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
                 'username': 'TestUser', 'password1': '12312312', 'password2': 'Test2323', 
                 'phone': "231212", 'university': 'aasd asdasd', 'classYear': 2001,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage('.avi'),
                 'interest1': 'sad', 'interest2': 'asd', 'interest3': 'asda', 'fblink': "facebook", 
-                'snapLink': "snapchat", 'instaLink':"instagram",
+                'instaLink':"instagram",
                 'twitterLink': "twitter"
             }
+            # 'snapLink': "snapchat", 
 
     def test_create_student_link_without_payload(self):
         """Test creating a new Student link user without payload"""
@@ -267,7 +271,7 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
         self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData.get('fblink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
+        # self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('classYear'), ['Minimum year 2010'])
@@ -365,18 +369,22 @@ class StudentProfileUpdateViewTests(TestCase):
         self.validPayload = {'first_name': 'Testfirst', 'last_name': 'Testlast' , 
                 'email': 'TESTEmail@123.com' , 'phone': "+12345678901", 'university': 'Test college', 
                 'classYear': 2015, 'bio': "test bio data", 'profilePicture': MockImage('.jpg'),
-                'interests': [int1.pk] , 'fbLink': "https://www.facebook.com/", 
-                'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
+                'interest1': 'asd', 'interest2': 'asd', 'interest3': 'asd' , 'fbLink': "https://www.facebook.com/", 
+                'instaLink':"https://www.instagram.com/",
                 'twitterLink': "https://www.twitter.com/", 'tobaccoUsage': 'never', 
                 'alcoholUsage': 'never', 'cleanliness': 'daily', 'guests': 'occasionally', 
             }
+        # 'snapLink': "https://www.snapchat.com/",
         self.invalidPayload1 = {'first_name': '', 'last_name': '' , 'email': '' , 'phone': "", 
-                'university': '', 'classYear': '', 'bio': "", 'profilePicture': '', 'interests': [] 
-                , 'fbLink': "", 'snapLink': "", 'instaLink':"", 'twitterLink': "",
+                'university': '', 'classYear': '', 'bio': "", 'profilePicture': '', 'interest1': '',
+                 'interest2': '', 'interest3': ''
+                , 'fbLink': "", 'instaLink':"", 'twitterLink': "",
             }
+        # 'snapLink': "",
         self.invalidPayload2 = {'email': 'TESTEmail' , 'phone': "+1234567", 'classYear': 2040, 
-                'profilePicture': MockImage('.mp4'), 'interests': [10] , 'fbLink': "facebook", 
-                'snapLink': "zsfsdf", 'instaLink':"dfsdf", 'twitterLink': "adas",}
+                'profilePicture': MockImage('.mp4'), 'fbLink': "facebook", 
+                 'instaLink':"dfsdf", 'twitterLink': "adas",}
+        # 'snapLink': "zsfsdf",
 
     def test_retrieve_student_profile_success(self):
         """Test retrieving profile for logged in student user"""
@@ -434,7 +442,7 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(studentObject.profilePicture.url[-4:], ".jpg")
         self.assertTrue(os.path.isfile(studentObject.profilePicture.path))
         self.assertEqual(studentObject.bio, self.validPayload.get('bio'))
-        self.assertTrue(studentObject.interests.filter(pk__in=self.validPayload.get('interests')).exists())
+        # self.assertTrue(studentObject.interests.filter(pk__in=self.validPayload.get('interests')).exists())
         self.assertEqual(studentObject.fbLink, self.validPayload.get('fbLink'))
 
         deleteImage(studentObject.profilePicture)
@@ -459,7 +467,10 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(errorData["university"],  ['This field is required.'])
         self.assertEqual(errorData["classYear"],  ['This field is required.'])
         self.assertEqual(errorData["bio"],  ['This field is required.'])
-        self.assertEqual(errorData["interests"],  ['This field is required.'])
+        # self.assertEqual(errorData["interests"],  ['This field is required.'])
+        self.assertEqual(errorData["interest1"],  ['This field is required.'])
+        self.assertEqual(errorData["interest2"],  ['This field is required.'])
+        self.assertEqual(errorData["interest3"],  ['This field is required.'])
         self.assertEqual(errorData.get("fbLink", None), None)
 
     def test_update_student_profile_with_invalidPayload2(self):
@@ -479,9 +490,9 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData["classYear"],  ['Maximum year 2030'])
         self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
-        self.assertEqual(errorData["interests"],  ['Select a valid choice. 10 is not one of the available choices.'])
+        # self.assertEqual(errorData["interests"],  ['Select a valid choice. 10 is not one of the available choices.'])
         self.assertEqual(errorData.get('fbLink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
+        # self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
 

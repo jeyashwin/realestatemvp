@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.gis.admin import OSMGeoAdmin
 from django.contrib.admin.decorators import register
 from .models import *
 
@@ -30,13 +31,17 @@ class PropertyVideoInline(admin.TabularInline):
     max_num = 4
 
 
+class PropertyNearbyInline(admin.TabularInline):
+    model = PropertyNearby
+
+
 @admin.register(Property)
-class PropertyAdmin(admin.ModelAdmin):
+class PropertyAdmin(OSMGeoAdmin):
     list_display = ['landlord', 'title', 'city']
-    readonly_fields = ['urlSlug','totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
+    readonly_fields = ['urlSlug', 'locationType', 'placeId', 'totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
     fieldsets = [
         (None, {'fields': ['landlord', 'title', 'urlSlug']}),
-        ('Location Information', {'fields': ['city', 'zipcode', 'address']}),
+        ('Location Information', {'fields': ['city', 'zipcode', 'address', 'locationType', 'placeId', 'location']}),
         ('Specfic Details', {'fields': ['sqft', 'occupants', 'rooms', 'bathrooms', 
                 'securityDeposit', 'amount', 'rentPerPerson', 'description']}),
         ('Extra Information', {'fields': ['utilities', 'garage', 'parkingSpace', 'amenities']}),
@@ -44,7 +49,7 @@ class PropertyAdmin(admin.ModelAdmin):
         ('Likes & Dislikes', {'fields': ['totalLikes', 'totalDislikes']}),
         ('Important Date Information', {'fields': ['updatedDate', 'createdDate']}),
     ]
-    inlines = [PropertyImageInline, PropertyVideoInline]
+    inlines = [PropertyImageInline, PropertyVideoInline, PropertyNearbyInline]
 
 
 @admin.register(PostQuestion)

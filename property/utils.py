@@ -46,3 +46,6 @@ def landlordAccessTest(user):
             return True
     except:
         raise Http404
+
+def get_lat_long_from_address(address, city):
+    pass

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.gis.db import models as geoModel
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
@@ -46,7 +47,7 @@ class Amenities(models.Model):
         return self.amenityType
 
 
-class Property(models.Model):
+class Property(geoModel.Model):
     
     landlord = models.ForeignKey(UserLandLord, on_delete=models.CASCADE)
     urlSlug = models.SlugField(unique=True, max_length=200, editable=False, verbose_name='URL')
@@ -57,6 +58,9 @@ class Property(models.Model):
                         MinLengthValidator(5, '5 digit code'),
                     ], help_text="Eg 503 - 00503")
     address = models.CharField(max_length=250, help_text="Address of your property")
+    location = geoModel.PointField(null=True, blank=True)
+    locationType = models.CharField(null=True, blank=True, max_length=200)
+    placeId = models.CharField(null=True, blank=True, max_length=300)
     sqft = models.FloatField(
                         verbose_name="Square Feet", 
                         help_text="Total Square feet of property",
@@ -105,8 +109,6 @@ class Property(models.Model):
     dislikes = models.ManyToManyField(UserStudent, related_name="propDislikes", blank=True)
     updatedDate = models.DateTimeField(auto_now=True, verbose_name="Last Updated Date")
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
-    # lat = models.DecimalField(max_digits=9, decimal_places=6)
-    # lon = models.DecimalField(max_digits=9, decimal_places=6)
 
     class Meta:
         verbose_name_plural = "Properties"
@@ -145,6 +147,9 @@ class Property(models.Model):
             if self.toDate <= self.fromDate:
                 hasError = True
                 errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
+
+        if self.address:
+            pass
 
         if hasError:
             raise ValidationError(errorMess)
@@ -196,6 +201,19 @@ class PropertyVideo(models.Model):
 
     def __str__(self):
         return "{}".format(self.pk)
+
+
+class PropertyNearby(geoModel.Model):
+    
+    propObject = models.ForeignKey(Property, on_delete=models.CASCADE)
+    nearByType = models.CharField(max_length=100)
+    nearByName = models.CharField(max_length=200)
+    location = geoModel.PointField()
+    placeId = models.CharField(max_length=300)
+    distanceToProp = models.FloatField(help_text='Distance to property in miles.')
+
+    def __str__(self):
+        return self.nearByType
 
 
 class PostQuestion(models.Model):
