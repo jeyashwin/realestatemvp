@@ -222,7 +222,7 @@ class PrivateLandlordAccessTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('user'), self.landlord)
         self.assertEqual(response.context.get('object_list').count(), 2)
-        self.assertEqual(str(response.context.get('object_list')), f"<QuerySet [<Property: {prop}>, <Property: {prop1}>]>")
+        self.assertEqual(str(response.context.get('object_list')), f"<QuerySet [<Property: {prop1}>, <Property: {prop}>]>")
 
         response = self.client.post(reverse('property:propertyManage'))
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
@@ -523,7 +523,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': True, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description", 'utilities': True,
                                 'garage': True, 'parkingSpace': 10, 
-                                'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                # 'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                'amenity1': 'Pool', 'amenity2': 'Pool2', 'amenity3': 'cool',
+                                'amenity4': 'cooler', 'amenity5': 'wifi', 'amenity6': 'Internet', 
                                 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 10, 
@@ -565,8 +567,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'address': "address of property", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description",
-                                'amenities': [amenity().pk, amenity(name="Pool").pk],
-                                'fromDate': datetime.date.today(), 
+                                # 'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                'amenity1': 'Pool', 'amenity2': 'gated home', 'amenity3': 'heater', 
+                                'amenity4': 'gym', 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 5, 
                                 'propertyimage_set-INITIAL_FORMS': 0, 
@@ -593,7 +596,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                             }
         self.invalidPayload1 = {'title': "", 'city': '', 'zipcode': '', 'address': '', 'sqft': '', 
                                 'occupants': '', 'rooms': '', 'bathrooms': '', 'securityDeposit': True, 
-                                'amount': '', 'rentPerPerson': '', 'description': '', 'amenities': [],
+                                'amount': '', 'rentPerPerson': '', 'description': '',
+                                # 'amenities': [],
+                                'amenity1': '', 'amenity2': '', 'amenity3': '', 'amenity4': '',
                                 'fromDate': '', 'toDate': '',
                                 'propertyimage_set-TOTAL_FORMS': 4, 
                                 'propertyimage_set-INITIAL_FORMS': 0, 
@@ -620,7 +625,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'address': "address of property", 'sqft': -10, 'occupants': -5,
                                 'rooms': 0, 'bathrooms': -2, 'securityDeposit': True, 'amount': -1000,
                                 'rentPerPerson': -2000, 'description': "Description", 'utilities': '23',
-                                'garage': '23', 'parkingSpace': -50, 'amenities': [234],
+                                'garage': '23', 'parkingSpace': -50, 
+                                # 'amenities': [234],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
                                 'fromDate': '202asas', 'toDate': '4324324dsfds',
                                 'propertyimage_set-TOTAL_FORMS': 6, 
                                 'propertyimage_set-INITIAL_FORMS': 0, 
@@ -651,7 +658,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'address': "address of property", 'sqft': 1000, 'occupants': 21,
                                 'rooms': 30, 'bathrooms': 43, 'securityDeposit': True, 'amount': 0,
                                 'rentPerPerson': 0, 'description': "Description", 'utilities': '23',
-                                'garage': '23', 'parkingSpace': 65, 'amenities': [234],
+                                'garage': '23', 'parkingSpace': 65, 
+                                # 'amenities': [234],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
                                 'fromDate': datetime.date.today() - datetime.timedelta(days=1), 
                                 'toDate': datetime.date.today() - datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 4, 
@@ -676,7 +685,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'rooms': 5, 'bathrooms': 2, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 500, 'description': "Description", 'utilities': False,
                                 'garage': False, 'parkingSpace': 1, 
-                                'amenities': [amenity(name="Heater").pk, amenity(name="Gym").pk],
+                                # 'amenities': [amenity(name="Heater").pk, amenity(name="Gym").pk],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
+                                'amenity5': 'asd', 'amenity6': 'asdd',
                                 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=30),
                                 'propertyimage_set-TOTAL_FORMS': 8, 
@@ -722,7 +733,8 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'address': "address of property", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description",
-                                'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                # 'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
                                 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 3, 
@@ -748,7 +760,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                             }
         self.invalidUpdatePayload1 = {'title': "", 'city': '', 'zipcode': '', 'address': '', 'sqft': '', 
                                 'occupants': '', 'rooms': '', 'bathrooms': '', 'securityDeposit': True, 
-                                'amount': '', 'rentPerPerson': '', 'description': '', 'amenities': [],
+                                'amount': '', 'rentPerPerson': '', 'description': '', 
+                                # 'amenities': [],
+                                'amenity1': '', 'amenity2': '', 'amenity3': '', 'amenity4': '', 
                                 'fromDate': '', 'toDate': '',
                                 'propertyimage_set-TOTAL_FORMS': 4, 
                                 'propertyimage_set-INITIAL_FORMS': 4, 
@@ -857,7 +871,11 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), ['This field is required.'])
         self.assertEqual(errorForm.get("rentPerPerson"), ['This field is required.'])
         self.assertEqual(errorForm.get("description"), ['This field is required.'])
-        self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity1"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity2"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity3"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity4"), ['This field is required.'])
         self.assertEqual(errorForm.get("fromDate"), ['This field is required.'])
         self.assertEqual(errorForm.get("toDate"), ['This field is required.'])
 
@@ -892,7 +910,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), ['Minimum Amount cannot be lower than 0'])
         self.assertEqual(errorForm.get("rentPerPerson"), ['Minimum Price cannot be lower than 0'])
         self.assertEqual(errorForm.get("parkingSpace"), ['Minimum 0'])
-        self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
+        # self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
         self.assertEqual(errorForm.get("fromDate"), ['Enter a valid date.'])
         self.assertEqual(errorForm.get("toDate"), ['Enter a valid date.'])
 
@@ -920,7 +938,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), None)
         self.assertEqual(errorForm.get("rentPerPerson"), None)
         self.assertEqual(errorForm.get("parkingSpace"), ['Maximum 20'])
-        self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
+        # self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
         self.assertEqual(errorForm.get("fromDate"), ['From Date cannot be older than today.'])
         self.assertEqual(errorForm.get("toDate"), ['To Date cannot be less than or equal to From Date.'])
 
@@ -1050,7 +1068,12 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), ['This field is required.'])
         self.assertEqual(errorForm.get("rentPerPerson"), ['This field is required.'])
         self.assertEqual(errorForm.get("description"), ['This field is required.'])
-        self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity1"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity2"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity3"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity4"), ['This field is required.'])
+        
         self.assertEqual(errorForm.get("fromDate"), ['This field is required.'])
         self.assertEqual(errorForm.get("toDate"), ['This field is required.'])
 

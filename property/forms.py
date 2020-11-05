@@ -6,10 +6,50 @@ from .models import Property, PropertyImage, PropertyVideo, Amenities
 
 
 class PropertyForm(forms.ModelForm):
+
+    amenity1 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Pool'
+        }),
+        help_text="Add Minimum 4 Amenities."
+    )
+    amenity2 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Gym'
+        }),
+    )
+    amenity3 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Furnished'
+        }),
+    )
+    amenity4 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Unfurnished'
+        }),
+    )
+    amenity5 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Wifi'
+        }),
+        required=False,
+    )
+    amenity6 = forms.CharField(max_length=100,
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Eg Air Condition'
+        }),
+        required=False,
+    )
     
     class Meta:
         model = Property
-        exclude = ['landlord', 'likes', 'dislikes']
+        exclude = ['landlord', 'likes', 'dislikes', 'amenities']
 
         widgets = {
             'title': forms.TextInput(attrs={
@@ -60,7 +100,7 @@ class PropertyForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': 'Enter deposit amount'
             }),
-            'amenities': forms.CheckboxSelectMultiple(),
+            # 'amenities': forms.CheckboxSelectMultiple(),
             'fromDate': forms.DateInput(attrs={
                 'type':'date',
                 'class': 'form-control',
@@ -76,6 +116,20 @@ class PropertyForm(forms.ModelForm):
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.label_suffix = ''
+        if self.initial:
+            for count, i in enumerate(self.instance.amenities.all()):
+                if count < 7:
+                    self.fields['amenity{}'.format(count+1)].initial = i.amenityType
+            self.fields['fromDate'].widget = forms.DateInput(attrs={
+                'type':'date',
+                'class': 'form-control',
+                'min': self.instance.fromDate
+            })
+            self.fields['toDate'].widget = forms.DateInput(attrs={
+                'type':'date',
+                'class': 'form-control',
+                'min': self.instance.toDate
+            })
 
 
 class PropertyImageForm(forms.ModelForm):

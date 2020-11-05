@@ -237,15 +237,39 @@
 						<div class="d-flex">
 							<div class="pxp-content-side-search-form">
 								<div class="row pxp-content-side-search-form-row">
-									<div class="col-5 col-sm-5 col-md-4 col-lg-3 pxp-content-side-search-form-col">
+									
+									<div class="col-5 col-sm-5 col-md-2 col-lg-2 pxp-content-side-search-form-col">
 										<select class="custom-select" id="pxp-p-search-status">
 											<option value="stony_brook" selected="selected">Stony Brook</option>
 										</select>
 									</div>
-									<div class="col-7 col-sm-7 col-md-8 col-lg-9 pxp-content-side-search-form-col">
+									<div class="col-5 col-sm-6 col-md-6 col-lg-6 pxp-content-side-search-form-col">
 										<input type="text" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="pxp-p-search-address">
 										<span class="fa fa-search"></span>
 									</div>
+									<div class="col-2 col-sm-1 col-md-2 col-lg-2 pxp-content-side-search-form-col">
+										<div class="row">
+											<div class="col-md-12">
+												<span style="font-size:12px; position:absolute; font-family:Century Gothic;">&nbsp;Distance from university</span>
+												<div class="range-wrap">
+													<div class="range-value" id="rangeV3"></div>
+													<input id="range3" type="range" min="1" max="5" value="5" step="1">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-2 col-sm-1 col-md-2 col-lg-2 pxp-content-side-search-form-col">
+										<div class="row">
+											<div class="col-md-12">
+												<span style="font-size:12px; position:absolute; font-family:Century Gothic;">&nbsp;Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
+												<div class="range-wrap">
+													<div class="range-value" id="rangeV4"></div>
+													<input id="range4" type="range" min="1" max="10" value="10" step="1">
+												</div>
+											</div>
+										</div>
+									</div>
+									
 								</div>
 							</div>
 							<div class="d-flex">
@@ -387,7 +411,7 @@
 							{% load humanize %}
 							{% for object in object_list %}
 								<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
-									<div style="margin-top: 10px; padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; background-image:url({% static '/images/bg-pattern1.png' %});">
+									<div style="margin-top: 10px; padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; border:2px solid #044C7E; background-color:#fff;">
 										<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg"  data-prop="1" style="height:270px;">
 											<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
 												<div class="carousel-inner">
@@ -412,7 +436,7 @@
 												<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
 											</div>
 											<div class="pxp-results-card-1-features">
-												<span>{{object.rooms}} Room <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
+												<span>{{object.rooms}} Rooms <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
 											</div>
 											<div class="pxp-results-card-1-save">
 												<span id="like{{object.pk}}" onclick="return likeclick('like{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}" 
@@ -435,24 +459,26 @@
 												</span>
 											</div>
 										</a>
-										<div class="col-md-12" style="padding-bottom:10px; font-size:12px; margin-top:-20px; color:grey;">
+										<div class="col-md-12" style="padding-bottom:10px; font-size:12px; margin-top:-20px; color:black;">
 											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
-												<div class="col-md-6"><b>Distance </b></div>
-												<div class="col-md-6">10 Miles</div>
+												<div class="col-md-6"><b><i class="fa fa-street-view"></i>&nbsp;&nbsp; Distance </b></div>
+												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												<div class="col-md-4">10 Miles</div>
 											</div>
 											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
-												<div class="col-md-6"><b>Amenities </b></div>
-												<div class="col-md-6">
+												<div class="col-md-6"><b><i class="fa fa-cubes"></i> Amenities </b></div>
+												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												<div class="col-md-4">
 													{% for amenity in object.amenities.all %}
 														{% if forloop.first %}
-															{{amenity}},
+															{{amenity|truncatewords:1|truncatechars:8}},
 														{% endif %} 
 													{% endfor %}
 												</div>
 												<div class="col-md-12">
 													{% for amenity in object.amenities.all %}
 														{% if not forloop.first and forloop.counter <= 4 %}
-															{{amenity}}
+															{{amenity|truncatechars:8}}
 															{% if forloop.counter != 4 and not forloop.last %}
 																,
 															{% endif %}
@@ -461,12 +487,13 @@
 												</div>
 											</div>
 											<div class="row" style="padding:4px 0px;">
-												<div class="col-md-6"><b>Occupants </b></div>
-												<div class="col-md-6">{{object.occupants}}</div>
+												<div class="col-md-6"><b><i class="fa fa-users"></i>&nbsp; Occupants </b></div>
+												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												<div class="col-md-4">{{object.occupants}}</div>
 											</div>
 										</div>
 										
-										<div class="col-md-12" style="border-top:1px solid silver; padding:5px 10px; font-size:12px; color:black;">
+										<div class="col-md-12" style="border-top:1px solid silver; padding:5px 10px; font-size:12px; background-color:#044C7E; color:#fff;">
 											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
 												<div class="col-md-12"><b>Tag a friend @ </b></div>
 											</div>
@@ -479,7 +506,7 @@
 
 						<ul class="pagination pxp-paginantion mt-2 mt-md-4">
 							{% for page in total_pages %}
-								<li class="page-item {% if page == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+								<li class="page-item {% if page == page_obj.number %}active{% endif %}" style="background: none !important;"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
 							{% endfor %}
 							{% if page_obj.has_next %}
 								<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next <span class="fa fa-angle-right"></span></a></li>
@@ -632,6 +659,16 @@
 		document.addEventListener("DOMContentLoaded", setValue2);
 		range2.addEventListener('input', setValue2);
 		
+	</script>
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDIKVsUE3OpqZ7o5oun4HHrVG1X6eGKUec&sensor=false&v=3&libraries=places"></script>
+	<script>
+		var autocomplete = new google.maps.places.Autocomplete($("#pxp-p-search-address")[0], {});
+
+		google.maps.event.addListener(autocomplete, 'place_changed', function() {
+			var place = autocomplete.getPlace();
+			console.log(place.address_components);
+		});
 	</script>
 
 {% include "layout/footer.html" %}

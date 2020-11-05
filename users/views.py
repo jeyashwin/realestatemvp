@@ -58,7 +58,7 @@ class LandlordSignUpView(CreateView):
 
 
 def get_or_create_interest(tempInterest):
-    tempInterest = tempInterest.title()
+    tempInterest = tempInterest.capitalize()
     # print(tempInterest)
     return Interest.objects.get_or_create(interest=tempInterest)
 

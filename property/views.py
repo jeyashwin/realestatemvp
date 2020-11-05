@@ -11,7 +11,7 @@ from django.http import Http404, JsonResponse
 from django.urls import reverse_lazy
 
 from users.models import UserLandLord , UserStudent
-from .models import Property, PostQuestion, PostAnswer
+from .models import Property, PostQuestion, PostAnswer, Amenities
 from .utils import studentAccessTest, landlordAccessTest
 from .forms import PropertyForm, PropertyImageFormset, PropertyVideoFormset, PropertyFilterSortForm
 from checkout.forms import RequestToRentPropertyForm, RequestToTourPropertyForm
@@ -46,6 +46,14 @@ def search(request,text):
 
 #Property App views starts from here
 
+def get_or_create_amenity(tempAmenity):
+    if tempAmenity:
+        tempAmenity = tempAmenity.capitalize()
+        # print(tempAmenity)
+        return Amenities.objects.get_or_create(amenityType=tempAmenity)
+    return None
+
+
 class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Property
     template_name = "property/submit-property.html"
@@ -69,6 +77,24 @@ class PropertyCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 imageForm.save()
                 videoForm.instance = self.object
                 videoForm.save()
+                amenity1 = get_or_create_amenity(form.cleaned_data.get('amenity1', None))
+                amenity2 = get_or_create_amenity(form.cleaned_data.get('amenity2', None))
+                amenity3 = get_or_create_amenity(form.cleaned_data.get('amenity3', None))
+                amenity4 = get_or_create_amenity(form.cleaned_data.get('amenity4', None))
+                amenity5 = get_or_create_amenity(form.cleaned_data.get('amenity5', None))
+                amenity6 = get_or_create_amenity(form.cleaned_data.get('amenity6', None))
+                if amenity1:
+                    form.instance.amenities.add(amenity1[0].pk)
+                if amenity2:
+                    form.instance.amenities.add(amenity2[0].pk)
+                if amenity3:
+                    form.instance.amenities.add(amenity3[0].pk)
+                if amenity4:
+                    form.instance.amenities.add(amenity4[0].pk)
+                if amenity5:
+                    form.instance.amenities.add(amenity5[0].pk)
+                if amenity6:
+                    form.instance.amenities.add(amenity6[0].pk)
             else:
                 return super().form_invalid(form)
                 print(imageForm.errors)
@@ -110,6 +136,26 @@ class PropertyUpdateView(LoginRequiredMixin, UpdateView):
                 imageForm.save()
                 videoForm.instance = self.object
                 videoForm.save()
+
+                form.instance.amenities.clear()
+                amenity1 = get_or_create_amenity(form.cleaned_data.get('amenity1', None))
+                amenity2 = get_or_create_amenity(form.cleaned_data.get('amenity2', None))
+                amenity3 = get_or_create_amenity(form.cleaned_data.get('amenity3', None))
+                amenity4 = get_or_create_amenity(form.cleaned_data.get('amenity4', None))
+                amenity5 = get_or_create_amenity(form.cleaned_data.get('amenity5', None))
+                amenity6 = get_or_create_amenity(form.cleaned_data.get('amenity6', None))
+                if amenity1:
+                    form.instance.amenities.add(amenity1[0].pk)
+                if amenity2:
+                    form.instance.amenities.add(amenity2[0].pk)
+                if amenity3:
+                    form.instance.amenities.add(amenity3[0].pk)
+                if amenity4:
+                    form.instance.amenities.add(amenity4[0].pk)
+                if amenity5:
+                    form.instance.amenities.add(amenity5[0].pk)
+                if amenity6:
+                    form.instance.amenities.add(amenity6[0].pk)
             else:
                 return super().form_invalid(form)
                 print(imageForm.errors)
@@ -153,7 +199,7 @@ class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
             raise Http404
 
     def get_queryset(self):
-        return Property.objects.filter(landlord__user__user=self.request.user)
+        return super().get_queryset().filter(landlord__user__user=self.request.user)
 
 
 class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):

@@ -91,7 +91,8 @@
 							
 							<div class="col-xs-12 col-sm-12 col-md-2" id="rentsect">
 								<center>
-									<a class="btn form-control" onclick="rentnowclick(this)" style="padding-top:10px; border-radius:30px; color:; cursor:pointer; border:2px solid #0471a6; background-color:transparent;" data-status="0"> Request to Rent <i class="fa fa-caret-down"></i></a>
+									<!--a class="btn form-control" onclick="rentnowclick(this)" style="padding-top:10px; border-radius:30px; color:; cursor:pointer; border:2px solid #0471a6; background-color:transparent;" data-status="0"> Request to Rent <i class="fa fa-caret-down"></i></a-->
+									<button id="service_req_to_rent" onclick="service_req_to_rent_click()" class="btn form-control" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">Request to Rent</button>
 								</center>
 								<br>
 								<div style="display:none;" id="rentnowdiv">
@@ -110,7 +111,7 @@
 										</div>
 										<br>
 										<center>
-											<button id="service_req_to_rent" onclick="service_req_to_rent_click()" class="btn form-control" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">Request</button>
+											<!--button id="service_req_to_rent" onclick="service_req_to_rent_click()" class="btn form-control" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">Request</button-->
 										</center>
 									<!--/form-->
 								</div>
@@ -262,7 +263,7 @@
 									var span = document.getElementsByClassName("modalClose")[0];
 									
 										btn.onclick = function() {
-											var fromdate = document.getElementById('fromdate').value;
+											/*var fromdate = document.getElementById('fromdate').value;
 											var todate = document.getElementById('todate').value;
 											
 											if(fromdate == '' && todate == '') {
@@ -281,8 +282,10 @@
 												$(modal).show(1000);
 												return true;
 											}
-											
+											*/
+											$(modal).show(1000);
 										}
+										
 										span.onclick = function() {
 										  $(modal).hide(1000);
 										}

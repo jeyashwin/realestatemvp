@@ -101,21 +101,65 @@
                             <div class="row mt-3 mt-md-0" style="margin-bottom:15px; padding:15px 0px 7px 0px; border-radius:15px; border-bottom:2px solid #e2e2e2;background-color:#fff;">
                                 <div class="col-sm-12 col-md-12">
 									<div class="help-container">
-										<h3>{{form.amenities.label}}</h3>
+										<h3>Amenities</h3>
 										<span class="fa fa-info-circle help" style="margin-top: 6px;"></span>
-										<small class="helptext" style="margin-top: 6px;">{{ form.amenities.help_text|safe }}</small>
-										<small class="errorview" style="margin-top: 6px;"> {{form.amenities.errors}}</small>
+										<small class="helptext" style="margin-top: 6px;">{{ form.amenity1.help_text|safe }}</small>
 									</div>
 								</div>
-								{% for amenity in form.amenities %}
-                                <div class="col-sm-6 col-md-4">
+								
+								<div class="col-sm-6 col-md-4">
                                     <div class="form-group">
-                                        <div class="checkbox custom-checkbox ">
-                                            {{amenity}}
-                                        </div>
+										{{form.amenity1}}
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenity1.errors}}</small>
                                     </div>
                                 </div>
-                                {% endfor %}
+								
+								<div class="col-sm-6 col-md-4">
+                                    <div class="form-group">
+										{{form.amenity2}}
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenity2.errors}}</small>                         
+                                    </div>
+                                </div>
+								
+								<div class="col-sm-6 col-md-4">
+                                    <div class="form-group">
+										{{form.amenity3}}
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenity3.errors}}</small>                         
+                                    </div>
+                                </div>
+								
+								<div class="col-sm-6 col-md-4">
+                                    <div class="form-group">
+										{{form.amenity4}}
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenity4.errors}}</small>                         
+                                    </div>
+                                </div>
+								
+								<div class="col-sm-6 col-md-4">
+                                    <div class="form-group">
+										{{form.amenity5}}
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenity5.errors}}</small>
+                                    </div>
+                                </div>
+								
+								<div class="col-sm-6 col-md-4">
+                                    <div class="form-group">
+										{{form.amenity6}}
+										<small class="errorview" style="margin-top: 6px;"> {{form.amenity6.errors}}</small>                
+                                    </div>
+                                </div>
+								
+								{% comment %}
+									{% for amenity in form.amenities %}
+									<div class="col-sm-6 col-md-4">
+										<div class="form-group">
+											<div class="checkbox custom-checkbox ">
+												{{amenity}}
+											</div>
+										</div>
+									</div>
+									{% endfor %}
+								{% endcomment %}
                             </div>
 							</div>
 
