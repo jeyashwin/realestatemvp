@@ -4,11 +4,13 @@ from django.core.validators import MinValueValidator, MaxValueValidator, MinLeng
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_delete
+from django.contrib.gis.geos import fromstr
 
 import datetime, os
 
 from users.models import UserLandLord, UserStudent
 from .utils import unique_slug_generator, unique_file_path_generator
+from .locationApi import *
 
 
 # Create your models here.
@@ -149,7 +151,21 @@ class Property(geoModel.Model):
                 errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
 
         if self.address:
-            pass
+            fullAddress = '{}, {} {}'.format(self.address, self.city, self.zipcode)
+            placeId, locationType, location, status = get_lat_long_from_address(fullAddress)
+            # print(placeId, locationType, location, status)
+            if status:
+                if placeId:
+                    self.placeId = placeId
+                if locationType:
+                    self.locationType = locationType
+                if location:
+                    longitude = location.get('lng', 0)
+                    latitude = location.get('lat', 0)
+                    self.location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+            else:
+                hasError = True
+                errorMess['address'] = ValidationError(('We are unable to locate the exact location. Please enter the address correctly.'), code='error')
 
         if hasError:
             raise ValidationError(errorMess)
