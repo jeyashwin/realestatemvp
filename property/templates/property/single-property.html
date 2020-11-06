@@ -949,17 +949,17 @@
 		
 		function initialize() {
 		  $("#mapspin").hide();
-		  var myLatlng = new google.maps.LatLng(40.925690, -73.141129);
+		  {% comment %} var myLatlng = new google.maps.LatLng(40.925690, -73.141129); {% endcomment %}
+		  var myLatlng = new google.maps.LatLng({% if object.location %}{{object.location.y}}, {{object.location.x}}{% else %}40.925690, -73.141129{% endif %});
 		  var mapOptions = {
 			zoom: 10,
 			center: myLatlng
-			
 		  }  
 		  var map = new google.maps.Map(document.getElementById('maplocator'), mapOptions);
 		  var marker = new google.maps.Marker({
 			  position: myLatlng,
 			  map: map,
-			  title: 'Hello World!'
+			  title: "{{object.title|title}}"
 		  });
 		}
 		

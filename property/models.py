@@ -3,8 +3,9 @@ from django.contrib.gis.db import models as geoModel
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, RegexValidator
 from django.core.exceptions import ValidationError
 from django.dispatch import receiver
-from django.db.models.signals import pre_save, post_delete
+from django.db.models.signals import pre_save, post_delete, post_save
 from django.contrib.gis.geos import fromstr
+from django.contrib.gis.db.models.functions import Distance
 
 import datetime, os
 
@@ -62,6 +63,7 @@ class Property(geoModel.Model):
     address = models.CharField(max_length=250, help_text="Address of your property")
     location = geoModel.PointField(null=True, blank=True)
     locationType = models.CharField(null=True, blank=True, max_length=200)
+    averageDistance = models.IntegerField(default=0, help_text='Average distance between the nearby amenities (in miles).')
     placeId = models.CharField(null=True, blank=True, max_length=300)
     sqft = models.FloatField(
                         verbose_name="Square Feet", 
@@ -223,10 +225,10 @@ class PropertyNearby(geoModel.Model):
     
     propObject = models.ForeignKey(Property, on_delete=models.CASCADE)
     nearByType = models.CharField(max_length=100)
-    nearByName = models.CharField(max_length=200)
-    location = geoModel.PointField()
-    placeId = models.CharField(max_length=300)
-    distanceToProp = models.FloatField(help_text='Distance to property in miles.')
+    nearByName = models.CharField(max_length=200, null=True, blank=True)
+    location = geoModel.PointField(null=True, blank=True)
+    placeId = models.CharField(max_length=300, null=True, blank=True)
+    distanceToProp = models.FloatField(help_text='Distance to property in miles.', default=0)
 
     def __str__(self):
         return self.nearByType
@@ -268,6 +270,49 @@ def auto_add_unique_slug_field(sender, instance, **kwargs):
             instance.urlSlug = unique_slug_generator(instance)
     if not instance.urlSlug:
         instance.urlSlug = unique_slug_generator(instance)
+
+def get_or_create_near_by(instance, nearByType):
+    return PropertyNearby.objects.get_or_create(propObject=instance, nearByType=nearByType)
+
+@receiver(post_save, sender=Property)
+def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
+    """
+    Automatically add neary by necessary in the property.
+    """
+    nearByTypes = ['restaurant', 'shopping_mall', 'bar', ]
+    nearByText = ['Costco in', 'Target in', 'Walmart in', ]
+    for types in nearByTypes:
+        success, nearByName, locationDict, placeId = get_near_by_types(instance=instance, types=types)
+        if success:
+            longitude = locationDict.get('lng', 0)
+            latitude = locationDict.get('lat', 0)
+            location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+            obj = get_or_create_near_by(instance, types)
+            obj[0].nearByName = nearByName
+            obj[0].location = location
+            obj[0].placeId = placeId
+            obj[0].save()
+    for place in nearByText:
+        success, nearByName, locationDict, placeId = get_near_by_text_places(instance=instance, place=place)
+        if success:
+            longitude = locationDict.get('lng', 0)
+            latitude = locationDict.get('lat', 0)
+            location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+            obj = get_or_create_near_by(instance, place)
+            obj[0].nearByName = nearByName
+            obj[0].location = location
+            obj[0].placeId = placeId
+            obj[0].save()
+    nearbys = PropertyNearby.objects.filter(propObject=instance).annotate(distance=Distance(instance.location, 'location'))
+    totalmiles = 0
+    count = nearbys.count()
+    for nearby in nearbys:
+        nearby.distanceToProp = nearby.distance.mi
+        nearby.save()
+        totalmiles = totalmiles + nearby.distance.mi
+    if not instance.averageDistance or instance.averageDistance != round(totalmiles/count):
+        instance.averageDistance = round(totalmiles/count)
+        instance.save()
 
 @receiver(pre_save, sender=PropertyImage)
 def auto_delete_property_image_on_modified(sender, instance, **kwargs):

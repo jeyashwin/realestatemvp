@@ -49,7 +49,8 @@ class PropertyForm(forms.ModelForm):
     
     class Meta:
         model = Property
-        exclude = ['landlord', 'likes', 'dislikes', 'amenities']
+        exclude = ['landlord', 'likes', 'dislikes', 'amenities', 'averageDistance', 'location',
+                    'locationType', 'placeId']
 
         widgets = {
             'title': forms.TextInput(attrs={

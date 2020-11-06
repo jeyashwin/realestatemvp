@@ -38,10 +38,11 @@ class PropertyNearbyInline(admin.TabularInline):
 @admin.register(Property)
 class PropertyAdmin(OSMGeoAdmin):
     list_display = ['landlord', 'title', 'city']
-    readonly_fields = ['urlSlug', 'locationType', 'placeId', 'totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
+    readonly_fields = ['urlSlug', 'locationType', 'placeId', 'averageDistance', 'totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
     fieldsets = [
         (None, {'fields': ['landlord', 'title', 'urlSlug']}),
-        ('Location Information', {'fields': ['city', 'zipcode', 'address', 'locationType', 'placeId', 'location']}),
+        ('Location Information', {'fields': ['city', 'zipcode', 'address', 'locationType', 
+        'placeId', 'location', 'averageDistance']}),
         ('Specfic Details', {'fields': ['sqft', 'occupants', 'rooms', 'bathrooms', 
                 'securityDeposit', 'amount', 'rentPerPerson', 'description']}),
         ('Extra Information', {'fields': ['utilities', 'garage', 'parkingSpace', 'amenities']}),

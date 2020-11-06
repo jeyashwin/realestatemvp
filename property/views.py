@@ -6,6 +6,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.geos import Point
 from django.db import transaction
 from django.http import Http404, JsonResponse
 from django.urls import reverse_lazy
@@ -205,7 +207,7 @@ class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
     template_name = "property/properties.html"
-    ordering = ['-createdDate']
+    ordering = ['distance']
     paginate_by = 10
     form_class = PropertyFilterSortForm
 
@@ -216,8 +218,13 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             raise Http404
 
     def get_queryset(self):
+        longitude = -73.12082590786636
+        latitude = 40.91638132127517
+        userlocation = Point(longitude, latitude, srid=4326)
+        
         filterSortForm = PropertyFilterSortForm(data=self.request.GET)
-        propObjects = super().get_queryset()
+        propObjects = super().get_queryset().annotate(distance=Distance(userlocation, 'location'))
+
         if filterSortForm.is_valid():
             room = filterSortForm.cleaned_data.get('room', None)
             occp = filterSortForm.cleaned_data.get('occp', None)
