@@ -1,0 +1,629 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+		
+		<style>
+			* { font-family: Century Gothic; }
+			
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			
+			.list-inline-item > a { font-size:12px !important; }
+			
+			::-webkit-scrollbar {
+			  width: 7px;
+			  border-radius:10px;
+			}
+			::-webkit-scrollbar-track {
+			  background: #f1f1f1;
+			}
+			::-webkit-scrollbar-thumb {
+			  background: #0471A6;
+			}
+			::-webkit-scrollbar-thumb:hover {
+			  background: #555;
+			}
+			
+			.bodycontent {
+				padding-top:100px;
+			}
+			.navbar.navbar-default {
+				background-color:rgba(0, 0, 0, 0.8) !important; 
+				padding:10px !important;
+			}
+		
+			.navbar-brand {
+				color: #fff !important;
+				font-size:20px;
+			}
+			
+			.nav.navbar-nav {
+				padding-left: 27% !important;
+			}
+			
+			.nav.navbar-nav > li {
+				padding: 0px 17px !important;				
+			}
+			
+			.nav.navbar-nav > li > a {
+				color:#fff !important;
+				font-weight:bold !important;
+			}
+			
+			.nav.nav-pills > li > a {
+				border-radius:100px !important;
+				border:2px solid #F5F5F5;
+				background-color:#F5F5F5 !important;
+				color:black;
+			}
+			
+			.nav.nav-pills > li.active > a {
+				color:#fff;
+				background-color:#383836 !important;
+			}
+			
+			.panelatag {
+				color:#383836;
+				font-weight:bold;
+			}
+			#header_dropdown > .dropbtnn { font-size:15px !important; }
+			.panel {
+				border-radius: 20px;
+			}
+			
+			.panel-heading {
+				border-top-left-radius: 20px;
+				border-top-right-radius: 20px;
+			}
+			
+			.panel-footer {
+				border-bottom-left-radius: 20px;
+				border-bottom-right-radius: 20px;
+			}
+			
+			.fa.fa-heart:hover {
+				/*color:red !important;*/
+				cursor:pointer;
+			}
+			
+		</style>
+		
+
+		<style>
+				
+				.btn:focus, .btn:active:focus, .btn.active:focus {
+					
+					outline: none !important;
+					box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 0px rgba(120, 144, 156,0.8);
+				}
+
+
+				textarea:focus,
+						input[type="text"]:focus,
+						input[type="password"]:focus,
+						input[type="datetime"]:focus,
+						input[type="datetime-local"]:focus,
+						input[type="date"]:focus,
+						input[type="month"]:focus,
+						input[type="time"]:focus,
+						input[type="week"]:focus,
+						input[type="number"]:focus,
+						input[type="email"]:focus,
+						input[type="url"]:focus,
+						input[type="search"]:focus,
+						input[type="tel"]:focus,
+						input[type="color"]:focus,
+						.uneditable-input:focus {   
+						border-color: rgba(120, 144, 156,1.0); color: rgba(120, 144, 156,1.0); opacity: 0.9;
+						box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 10px rgba(120, 144, 156,0.3);
+						outline: 0 none; }
+
+
+				.card::-webkit-scrollbar {
+					width: 1px;
+				}
+				 
+				::-webkit-scrollbar-thumb {
+					border-radius: 9px;
+					background: rgba(96, 125, 139,0.99);
+				}
+
+				.balon1, .balon2 {
+
+					margin-top: 5px !important;
+					margin-bottom: 5px !important;
+
+					}
+
+
+				.balon1 a {
+
+					background: #42a5f5;
+					color: #fff !important;
+					border-radius: 20px 20px 3px 20px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+
+					}
+
+				.balon1:before {
+
+					content: attr(data-is);
+					position: absolute;
+					right: 15px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+					
+					}
+
+				.balon2 a {
+
+					background: #f1f1f1;
+					color: #000 !important;
+					border-radius: 20px 20px 20px 3px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+					
+					}
+					
+				.balon2:before {
+
+					content: attr(data-is);
+					position: absolute;
+					left: 13px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+				  
+					}
+					
+				.bg-sohbet:before {
+
+					content: "";
+					background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
+					opacity: 0.06;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					height:100%;
+					position: absolute;   
+
+					}
+					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
+		</style>
+		
+		<div class="roww bodycontent">		
+			<div class="container-fluid">
+				
+				<div class="pull-right" style="margin-top:0px;">
+					<a href="/roommates" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </a>
+					<a href="/roommates_messages" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </a>
+					&nbsp;
+				</div><br>
+				
+				  <!--ul class="nav nav-pills nav-justified">
+					<li class="active"><a data-toggle="pill" href="#home">Roommates</a></li>
+					<li><a data-toggle="pill" href="#menu1">All Posts</a></li>
+					<li><a data-toggle="pill" href="#menu3">Groups</a></li>
+				  </ul-->
+				  <br>
+				  <div class="tab-content">
+					<div id="home" class="home-div">
+						
+						
+					  <div class="container">
+						  <div class="panel panel-default">									
+							<div class="panel-heading" style="background-color:#094A66; color:#fff;">
+								<h3>
+									&nbsp; &nbsp; <b>Test Property Name</b>
+									<!--span class="pull-right"><i class="fa fa-plus" style="font-size:20px;"></i></span-->
+								</h3>
+							</div>								
+							<div class="panel-body">
+								<div class="col-md-3" style="overflow-y:scroll; max-height:400px;">
+									<ul style="list-style-type:none;">
+										<li><h4><b> MEMBERS </b></h4></li>
+										<hr>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Test User 1
+											</h4><br>
+										</li>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Test User 2
+											</h4><br>
+										</li>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Test User 3
+											</h4><br>
+										</li>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Test User 4
+											</h4><br>
+										</li>
+										<br><br>
+									</ul>
+								</div>
+								<div class="col-md-9" style="margin-top:-20px; max-height:400px; overflow-y:scroll;">
+									<br>
+									<div id="usermsgbody">
+									 
+										<small class="pull-left">
+										<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
+										<b style="font-size:17px;">You</b> <i>04:00 pm</i></small><br><br>
+										<div class="msg1" style="max-width:50%; padding-left:35px;">
+											Hello all
+										</div><hr>
+										
+										<small class="pull-left">
+										<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
+										<b style="font-size:17px;">Test user 1</b> <i>04:05 pm</i></small><br><br>
+										<div class="msg2" style="max-width:50%; padding-left:35px;">
+											Hi How are you?
+										</div><hr>
+										 
+										<small class="pull-left">
+										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
+										<b style="font-size:17px;">Test user 2</b> <i>04:07 pm</i></small><br><br>
+										<div class="msg2" style="max-width:50%; padding-left:35px;">
+											Hi dude. How is it going?
+										</div><hr>
+										
+										<small class="pull-left">
+										<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
+										<b style="font-size:17px;">You</b> <i>04:10 pm</i></small><br><br>
+										<div class="msg1" style="max-width:50%; padding-left:35px;">											
+											Yeah. I'm good
+										</div><hr>
+										
+										<small class="pull-left">
+										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
+										<b style="font-size:17px;">Test user 2</b> <i>04:07 pm</i></small><br><br>
+										<div class="msg1" style="max-width:50%; padding-left:35px;">											
+											Where are you now?
+										</div><hr>
+									</div>
+									
+									<div class="row"><hr><br>
+										<div class="col-md-11">
+											<textarea rows="2" id="group_user_message" class="form-control" placeholder="Type your message.." ></textarea>
+										</div>
+										<div class="col-md-1">
+											<span class="btn btn-primary" onclick="sendgroupmessageclick()" style="padding:15px 5px;">&nbsp; <i class="fa fa-paper-plane"></i> &nbsp;</span>
+										</div>										
+									</div>
+									
+								</div>
+								
+							</div>
+							
+						</div>
+					</div>
+					  
+						
+					</div>
+					
+				  </div>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+		</div>
+		
+		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>
+
+			<!-- Modal -->
+			<div id="viewImageModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+				  <div class="modal-body">
+					<button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+					<img src="#" id="viewimageinmodal" style="width:100%; height:500px;"/>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+		
+		<script src="{% static '/js/common.js' %}"></script>
+<!-- suneditor -->
+<script src="{% static '/plugins/wysiwyg/dist/suneditor.min.js' %}"></script>
+<!-- codeMirror -->
+<script src="{% static '/plugins/wysiwyg/cdn/codemirror.min.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/htmlmixed.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/xml.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/css.js' %}"></script>
+<!-- KaTeX -->
+<script src="{% static '/plugins/wysiwyg/cdn/katex.min.js' %}"></script>
+<script>
+    SUNEDITOR.create('editor_classic', {
+        display: 'block',
+        width: '100%',
+        height: '150px',
+        popupDisplay: 'full',
+        charCounter: true,
+        charCounterLabel: 'Characters :',
+        imageGalleryUrl: 'https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo',
+        buttonList: [
+            // default
+            ['undo', 'redo'],
+            ['formatBlock'],
+            ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+            ['fontColor', 'hiliteColor', 'textStyle'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['table', 'link', 'image', 'video', 'audio', 'math'],
+            ['imageGallery'],
+            ['fullScreen', 'showBlocks', 'codeView'],
+            ['preview', 'print'],
+            ['save', 'template'],
+            // (min-width: 1565)
+            ['%1565', [
+                ['undo', 'redo'],                
+                ['formatBlock'],
+				['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['table', 'link', 'image', 'video', 'audio', 'math'],
+                ['imageGallery'],
+                ['fullScreen', 'showBlocks', 'codeView'],
+                ['-right', ':i-More Misc-default.more_vertical', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 1455)
+            ['%1455', [
+                ['undo', 'redo'],
+                ['formatBlock'],
+                ['bold', 'underline', 'italic'],
+                ['removeFormat'],
+				['table', 'link', 'image'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],                
+                ['-right', ':i-More Misc-default.more_vertical', 'fontColor', 'hiliteColor', 'textStyle', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 1326)
+            ['%1326', [
+                ['undo', 'redo'],
+                ['font', 'fontSize', 'formatBlock'],
+                ['paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 1123)
+            ['%1123', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 817)
+            ['%817', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike'],
+                [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 673)
+            ['%673', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 525)
+            ['%525', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 420)
+            ['%420', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle', 'removeFormat'],
+                [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]]
+        ],
+        placeholder: 'Start typing something...',
+        templates: [
+            {
+                name: 'Template-1',
+                html: '<p>HTML source1</p>'
+            },
+            {
+                name: 'Template-2',
+                html: '<p>HTML source2</p>'
+            }
+        ],
+        codeMirror: CodeMirror,
+        katex: katex
+    });
+    
+</script>
+		
+		<script>				
+			function postlikeclick(dis) {
+				var likeurl = dis.getAttribute('data-url');
+				
+				const csrftok = getCookie('csrftoken');
+				console.log(csrftok);
+				
+				$.ajax({
+					url: likeurl,
+					type: 'POST',
+					headers: {"X-CSRFToken": csrftok},
+					success: function(res){
+						console.log(res);
+						
+						if(res.hearted == true){
+							$(dis).css("color","red");
+							$(dis).next().text(res.total);
+						} else {
+							$(dis).css("color","silver");
+							$(dis).next().text(res.total);
+						}
+					},
+					error: function() {
+						console.log('Failed to like post!');
+					}
+				});
+				
+			}
+			
+			function commentclick(dis) {
+			
+				var cmtval = $(dis).css("color");
+				
+				if(cmtval == 'rgb(192, 192, 192)') {
+					$(dis).css("color","black");
+				} else {
+					$(dis).css("color","silver");
+				}
+			}
+		</script>
+		
+		<script>
+			function rmtogglebtnclick(key)
+			{
+				if(key == 1) {
+					$("#postsbtn").hide();
+					$("#groupsbtn").show();
+					$("#messagesbtn").show();
+					
+					$("#menu1").fadeOut(100);
+					$("#menu2").fadeOut(100);
+					$("#home").fadeIn(350);
+				} else if(key == 2) {
+					$("#groupsbtn").hide();
+					$("#postsbtn").show();
+					$("#messagesbtn").show();
+					
+					$("#home").fadeOut(100);
+					$("#menu2").fadeOut(100);
+					$("#menu1").fadeIn(350);
+				} else {
+					$("#messagesbtn").hide();
+					$("#postsbtn").show();
+					$("#groupsbtn").show();
+					
+					$("#home").fadeOut(100);
+					$("#menu1").fadeOut(100);
+					$("#menu2").fadeIn(350);
+				}
+			}
+		</script>
+       
+	   <script>
+			function rmpostimageclick(id)
+			{
+				$("#rmpostimage"+id).click();
+			}
+			
+			function rmpostimagechange(dis, id)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						$('#rmpostpreview'+id).attr('src', e.target.result);
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
+			}
+	   </script>
+	   
+	   <script>
+		function openuserchat(id)
+		{
+			$("#chatmessagesname > b").text('User name '+id);
+			$("#chatmessagesbody").fadeOut(200);
+			$("#chatmessagesbody").fadeIn(300);
+		}
+	   </script>
+	   
+	   <script>
+		function sendgroupmessageclick()
+		{
+			var message = $("#group_user_message").val();
+			
+			var msghtm = '<small class="pull-left"><img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> <b style="font-size:17px;">You</b> <i>04:07 pm</i></small><br><br><div class="msg1" style="max-width:50%; padding-left:35px;">'+message+'</div><hr>';
+			
+			$("#group_user_message").val('');
+			$("#usermsgbody").append(msghtm);
+		}
+		
+		function sendmessageclick()
+		{
+			var message = $("#user_message").val();
+			var time = new Date().toLocaleTimeString();
+			var msghtm = '<div class="balon1 p-2 m-0 position-relative" data-is="You - '+time+'"><a class="float-right"> '+message+' </a></div>';
+			
+			$("#user_message").val('');
+			$("#sohbet").append(msghtm);
+		}
+	   </script>
+	   
+	   <script>
+			function viewpostimage(dis)
+			{
+				var imgsrc = dis.getAttribute('data-imgsrc');
+				$("#viewimageinmodal").attr('src', imgsrc);
+				$("#viewImageModalBtn").click();
+			}
+
+			$(document).ready(function () {
+				var url = window.location;
+				$('#sideLinks a[href="'+ url +'"]').children().addClass('active');
+				$('#sideLinks a').filter(function() {
+					return this.href == url;
+				}).children().addClass('active');
+			});
+	   </script>
+
+{% include "layout/footer.html" %}

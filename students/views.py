@@ -205,3 +205,9 @@ def RemoveFavourite(request, slug):
             raise Http404
         return JsonResponse({'removed': removed})
     return redirect('property:propertyDetail', slug)
+
+def roommatesGroup(request):
+    return render(request, 'students/roommates_groups.html')
+
+def roommatesMessage(request):
+    return render(request, 'students/roommates_messages.html')
