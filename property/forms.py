@@ -224,6 +224,14 @@ class PropertyFilterSortForm(forms.Form):
         minp = obj.aggregate(Min('rentPerPerson'))
         maxDisP = obj.aggregate(Max('distance'))
         minDisP = obj.aggregate(Min('distance'))
+        minDistanceInMile = minDisP.get('distance__min', 0)
+        maxDistanceInMile = maxDisP.get('distance__max', 0)
+        if type(minDistanceInMile) != type(0):
+            if minDistanceInMile:
+                minDistanceInMile = round(minDistanceInMile.mi, 1)
+        if type(maxDistanceInMile) != type(0):
+            if maxDistanceInMile:
+                maxDistanceInMile = round(maxDistanceInMile.mi, 1)
         maxDisA = obj.aggregate(Max('averageDistance'))
         minDisA = obj.aggregate(Min('averageDistance'))
         self.fields['minPri'] = forms.IntegerField(
@@ -248,10 +256,10 @@ class PropertyFilterSortForm(forms.Form):
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Property Distance', 
                                         'type': 'range', 'step': '0.1',
-                                        'value': round(minDisP.get('distance__min', 0).mi, 1)
+                                        'value': minDistanceInMile
                                     }),
-                                    min_value=round(minDisP.get('distance__min', 0).mi, 1),
-                                    max_value=round(maxDisP.get('distance__max', 0).mi, 1),
+                                    min_value=minDistanceInMile,
+                                    max_value=maxDistanceInMile,
                                     required=False
                                 )
         self.fields['disAmen'] = forms.FloatField(

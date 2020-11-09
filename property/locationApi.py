@@ -3,7 +3,9 @@ from django.conf import settings
 
 gmapsClient = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 
+
 logging.basicConfig(level=logging.DEBUG, filename='completeApp.log', format='%(asctime)s - %(name)s - %(process)d - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
+logging = logging.getLogger(name='locationApiLogger')
 
 def get_lat_long_from_address(address):
     """ function to get lat and long based on property address"""

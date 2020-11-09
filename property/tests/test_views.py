@@ -519,7 +519,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.client = client
         self.client.force_login(user=self.landlord)
         self.validPayload1 = {'title': "New Property Near Lake", 'city': city().pk, 'zipcode': 12345,
-                                'address': "address of property", 'sqft': 123, 'occupants': 10,
+                                'address': "1419 Westwood Blvd", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': True, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description", 'utilities': True,
                                 'garage': True, 'parkingSpace': 10, 
@@ -564,7 +564,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'propertyvideo_set-3-videoPath': MockImageVideo('.mkv'),
                             }
         self.validPayload2 = {'title': "New Property Near Lake", 'city': city().pk, 'zipcode': "54353",
-                                'address': "address of property", 'sqft': 123, 'occupants': 10,
+                                'address': "1419 Westwood Blvd", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description",
                                 # 'amenities': [amenity().pk, amenity(name="Pool").pk],
@@ -655,7 +655,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'propertyvideo_set-2-videoPath': MockImageVideo('.pdf'),
                             }
         self.invalidPayload3 = {'title': "New Property Near Lake", 'city': 100, 'zipcode': "115",
-                                'address': "address of property", 'sqft': 1000, 'occupants': 21,
+                                'address': "1419 Westwood Blvd", 'sqft': 1000, 'occupants': 21,
                                 'rooms': 30, 'bathrooms': 43, 'securityDeposit': True, 'amount': 0,
                                 'rentPerPerson': 0, 'description': "Description", 'utilities': '23',
                                 'garage': '23', 'parkingSpace': 65, 
@@ -730,7 +730,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'propertyvideo_set-3-videoPath': MockImageVideo('.mkv'),
                             }
         self.validUpdatePayload2 = {'title': "lake property", 'city': city().pk, 'zipcode': "54353",
-                                'address': "address of property", 'sqft': 123, 'occupants': 10,
+                                'address': "1419 Westwood Blvd", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description",
                                 # 'amenities': [amenity().pk, amenity(name="Pool").pk],
@@ -1000,7 +1000,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
             data=self.validPayload2
         )
         prop = propmodel.Property.objects.get(landlord__user__user=self.landlord)
-        
+        # print(response.context.get('form').errors)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/myproperty/')
 
@@ -1138,7 +1138,7 @@ def samplePropertyList(landName=None, room=1, bath=6, occp=10, rent=2000, sqft=1
         landlord = createLandlordUser(username=landName)
     landlordObject = models.UserLandLord.objects.get(user__user=landlord)
     prop = propmodel.Property.objects.create(landlord=landlordObject, title="New property near lake", 
-            city=city(), zipcode=12345, address="10/2 North cross", sqft=sqft, occupants=occp, rooms=room,
+            city=city(), zipcode=12345, address="1419 Westwood Blvd", sqft=sqft, occupants=occp, rooms=room,
             bathrooms=bath, securityDeposit=True, amount=1000, rentPerPerson=rent, 
             description="asdas asdas", utilities=True, garage=True, parkingSpace=10, 
             fromDate=datetime.date.today(), toDate=datetime.date.today() + datetime.timedelta(days=2)
