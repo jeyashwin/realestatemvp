@@ -1,9 +1,14 @@
 from django import forms
 from django.db.models import Max, Min
 from datetime import date
+from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.geos import Point
 
 from .models import Property, PropertyImage, PropertyVideo, Amenities
 
+longitude = -73.12082590786636
+latitude = 40.91638132127517
+userlocation = Point(longitude, latitude, srid=4326)
 
 class PropertyForm(forms.ModelForm):
 
@@ -203,6 +208,8 @@ class PropertyFilterSortForm(forms.Form):
     bath = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=commonChoices, required=False)
     minPri = forms.IntegerField(required=False)
     maxPri = forms.IntegerField(required=False)
+    disPro = forms.FloatField(required=False)
+    disAmen = forms.FloatField(required=False)
     amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={
                     'style': 'display:none; margin-top:10px;'
                 }), 
@@ -212,8 +219,13 @@ class PropertyFilterSortForm(forms.Form):
 
     def __init__(self, request=None, *args, **kwargs):
         super(PropertyFilterSortForm, self).__init__(*args, **kwargs)
-        maxp = Property.objects.aggregate(Max('rentPerPerson'))
-        minp = Property.objects.aggregate(Min('rentPerPerson'))
+        obj = Property.objects.all().annotate(distance=Distance(userlocation, 'location'))
+        maxp = obj.aggregate(Max('rentPerPerson'))
+        minp = obj.aggregate(Min('rentPerPerson'))
+        maxDisP = obj.aggregate(Max('distance'))
+        minDisP = obj.aggregate(Min('distance'))
+        maxDisA = obj.aggregate(Max('averageDistance'))
+        minDisA = obj.aggregate(Min('averageDistance'))
         self.fields['minPri'] = forms.IntegerField(
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Min', 'type': 'range', 'step': '1',
@@ -232,6 +244,27 @@ class PropertyFilterSortForm(forms.Form):
                                     min_value = minp.get('rentPerPerson__min', 0),
                                     required=False,
                                 )
+        self.fields['disPro'] = forms.FloatField(
+                                    widget=forms.NumberInput(attrs={
+                                        'placeholder': 'Property Distance', 
+                                        'type': 'range', 'step': '0.1',
+                                        'value': round(minDisP.get('distance__min', 0).mi, 1)
+                                    }),
+                                    min_value=round(minDisP.get('distance__min', 0).mi, 1),
+                                    max_value=round(maxDisP.get('distance__max', 0).mi, 1),
+                                    required=False
+                                )
+        self.fields['disAmen'] = forms.FloatField(
+                                    widget=forms.NumberInput(attrs={
+                                        'placeholder': 'Property Amenity', 
+                                        'type': 'range', 'step': '0.1',
+                                        'value': minDisA.get('averageDistance__min', 0)
+                                    }),
+                                    min_value=minDisA.get('averageDistance__min', 0),
+                                    max_value=maxDisA.get('averageDistance__max', 0),
+                                    required=False
+                                )
+    
     def clean(self):
         minprice = self.cleaned_data.get("minPri")
         maxprice = self.cleaned_data.get("maxPri")

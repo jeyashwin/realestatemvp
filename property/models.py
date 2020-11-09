@@ -6,12 +6,14 @@ from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_delete, post_save
 from django.contrib.gis.geos import fromstr
 from django.contrib.gis.db.models.functions import Distance
+from django.utils import timezone
 
 import datetime, os
 
 from users.models import UserLandLord, UserStudent
-from .utils import unique_slug_generator, unique_file_path_generator
-from .locationApi import *
+from .utils import unique_slug_generator, unique_file_path_generator, random_string_generator
+from .locationApi import get_lat_long_from_address, get_near_by_text_places, get_near_by_types, logging
+from .taskSchedulers import scheduler
 
 
 # Create your models here.
@@ -63,7 +65,7 @@ class Property(geoModel.Model):
     address = models.CharField(max_length=250, help_text="Address of your property")
     location = geoModel.PointField(null=True, blank=True)
     locationType = models.CharField(null=True, blank=True, max_length=200)
-    averageDistance = models.IntegerField(default=0, help_text='Average distance between the nearby amenities (in miles).')
+    averageDistance = models.FloatField(default=0, help_text='Average distance between the nearby amenities (in miles).')
     placeId = models.CharField(null=True, blank=True, max_length=300)
     sqft = models.FloatField(
                         verbose_name="Square Feet", 
@@ -234,6 +236,17 @@ class PropertyNearby(geoModel.Model):
         return self.nearByType
 
 
+class PropertyJobStore(models.Model):
+
+    propObject = models.OneToOneField(Property, on_delete=models.CASCADE)
+    jobid = models.CharField(max_length=50)
+    address = models.CharField(max_length=300)
+    updatedDate = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return address
+
+
 class PostQuestion(models.Model):
 
     propKey = models.ForeignKey(Property, on_delete=models.CASCADE, verbose_name="Property")
@@ -274,20 +287,17 @@ def auto_add_unique_slug_field(sender, instance, **kwargs):
 def get_or_create_near_by(instance, nearByType):
     return PropertyNearby.objects.get_or_create(propObject=instance, nearByType=nearByType)
 
-@receiver(post_save, sender=Property)
-def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
-    """
-    Automatically add neary by necessary in the property.
-    """
-    nearByTypes = ['restaurant', 'shopping_mall', 'bar', ]
-    nearByText = ['Costco in', 'Target in', 'Walmart in', ]
+def fetch_near_by_places(instance):
+    # {type_to_search: display name in frontend}
+    nearByTypes = {'restaurant': 'Restaurant', 'shopping_mall': 'Shopping Mall', 'bar': 'Bar', }
+    nearByText = {'Costco in': 'Costco', 'Target in': 'Target', 'Walmart in': 'Walmart', }
     for types in nearByTypes:
         success, nearByName, locationDict, placeId = get_near_by_types(instance=instance, types=types)
         if success:
             longitude = locationDict.get('lng', 0)
             latitude = locationDict.get('lat', 0)
             location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-            obj = get_or_create_near_by(instance, types)
+            obj = get_or_create_near_by(instance, nearByTypes[types])
             obj[0].nearByName = nearByName
             obj[0].location = location
             obj[0].placeId = placeId
@@ -298,7 +308,7 @@ def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
             longitude = locationDict.get('lng', 0)
             latitude = locationDict.get('lat', 0)
             location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-            obj = get_or_create_near_by(instance, place)
+            obj = get_or_create_near_by(instance, nearByText[place])
             obj[0].nearByName = nearByName
             obj[0].location = location
             obj[0].placeId = placeId
@@ -310,9 +320,47 @@ def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
         nearby.distanceToProp = nearby.distance.mi
         nearby.save()
         totalmiles = totalmiles + nearby.distance.mi
-    if not instance.averageDistance or instance.averageDistance != round(totalmiles/count):
-        instance.averageDistance = round(totalmiles/count)
-        instance.save()
+    # if not instance.averageDistance or instance.averageDistance != round(totalmiles/count):
+    instance.averageDistance = round(totalmiles/count, 1)
+    instance.save()
+    logging.info('Nearby location fetch finished for property "{}"'.format(instance.title))
+
+def startFetchNearByJob(instance):
+    jobId = random_string_generator(size=5)
+    runDate = instance.updatedDate + datetime.timedelta(seconds=30)
+    s = scheduler.add_job(fetch_near_by_places, 'date', [instance], run_date = runDate, id = jobId, misfire_grace_time=300, coalesce=True)
+    logging.info('Nearby location fetch added for property "{}" and job id {}'.format(instance.title, jobId))
+    return jobId
+
+@receiver(post_save, sender=Property)
+def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
+    """
+    Automatically add near by necessary in the property.
+    """
+    address = '{}, {} {}'.format(instance.address, instance.city, instance.zipcode)
+    if kwargs.get('created'):
+        newJob = startFetchNearByJob(instance)
+        PropertyJobStore.objects.create(propObject=instance, jobid=newJob, 
+            address=address)
+    else:
+        if PropertyJobStore.objects.filter(propObject=instance).exists():
+            oldJob = PropertyJobStore.objects.get(propObject=instance)
+            if oldJob.address == address:
+                oldJob_updated_time = oldJob.updatedDate + datetime.timedelta(days=30)
+                if oldJob_updated_time <= timezone.now():
+                    newJob = startFetchNearByJob(instance)
+                    oldJob.address = address
+                    oldJob.jobid = newJob
+                    oldJob.save()
+            else:
+                newJob = startFetchNearByJob(instance)
+                oldJob.address = address
+                oldJob.jobid = newJob
+                oldJob.save()
+        else:
+            newJob = startFetchNearByJob(instance)
+            PropertyJobStore.objects.create(propObject=instance, jobid=newJob, 
+                address=address)
 
 @receiver(pre_save, sender=PropertyImage)
 def auto_delete_property_image_on_modified(sender, instance, **kwargs):

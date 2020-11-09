@@ -163,7 +163,6 @@
 								{{filterSortForm.maxPri}}
 								{{filterSortForm.maxPri.errors}}
 							</div>
-							
 							{% comment %}
 							<div data-role="rangeslider">
 								<small>Min</small><br>
@@ -198,7 +197,7 @@
 								{% endfor %}
 							</p>
 							
-							<h6>Lifestyle</h6>
+							{% comment %} <h6>Lifestyle</h6>
 							<p class="filter-lifestyle-tags pull-left" style="list-style-type:none; width:100%;"> 
 							<span onclick="interestfilterclick(this, 1)" id="interestspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 1 </span>
 							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput1" style="display:none; margin-top:10px;"/>
@@ -211,11 +210,11 @@
 							{% for interest in interests %}
 								<input type="checkbox" class="form-control" name="interest[]" value="{{interest.pk}}" id="interestinput{{interest.pk}}" style="display:non; margin-top:10px;"/>
 							{% endfor %}
-							</p>
+							</p> {% endcomment %}
 							
 							
-							<h6>Distance <small>(Max in km)</small></h6>
-							<input type="number" name="filter-distance-max" class="form-control" style="height:30px;">
+							{% comment %} <h6>Distance <small>(Max in km)</small></h6>
+							<input type="number" name="filter-distance-max" class="form-control" style="height:30px;"> {% endcomment %}
 							
 							<br>
 							{% comment %} <span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span> {% endcomment %}
@@ -253,7 +252,8 @@
 												<span style="font-size:12px; position:absolute; font-family:Century Gothic;">&nbsp;Distance from university</span>
 												<div class="range-wrap">
 													<div class="range-value" id="rangeV3"></div>
-													<input id="range3" type="range" min="1" max="5" value="5" step="1">
+													{{filterSortForm.disPro}}
+													{{filterSortForm.disPro.errors}}
 												</div>
 											</div>
 										</div>
@@ -264,7 +264,8 @@
 												<span style="font-size:12px; position:absolute; font-family:Century Gothic;">&nbsp;Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
 												<div class="range-wrap">
 													<div class="range-value" id="rangeV4"></div>
-													<input id="range4" type="range" min="1" max="10" value="10" step="1">
+													{{filterSortForm.disAmen}}
+													{{filterSortForm.disAmen.errors}}
 												</div>
 											</div>
 										</div>
@@ -292,14 +293,14 @@
 									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
 										<div class="form-group">
 											<label for="pxp-p-filter-distance" class="d-none d-sm-inline-block">Distance</label>
-											<input type="text" class="form-control" placeholder="Max" id="pxp-p-filter-distance" name="pxp-p-filter-distance">
+											<input type="text" class="form-control" placeholder="Max" id="pxp-p-filter-distance">
 										</div>
 									</div>
 																	
 									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
 										<div class="form-group">
 											<label for="pxp-p-filter-size-max" class="d-none d-sm-inline-block">Lifestyle</label>
-											<select class="form-control" id="pxp-p-filter-lifestyle" name="pxp-p-filter-lifestyle" placeholder="Max">
+											<select class="form-control" id="pxp-p-filter-lifestyle" placeholder="Max">
 												<option> ~ Select ~ </option>
 											</select>
 										</div>
@@ -663,7 +664,7 @@
 	<script>
 		
 		var
-			range3 = document.getElementById('range3'),
+			range3 = document.getElementById('{{filterSortForm.disPro.id_for_label}}'),
 			rangeV3 = document.getElementById('rangeV3'),
 			setValue = ()=>{
 				var
@@ -681,7 +682,7 @@
 	<script>
 		
 		var
-			range4 = document.getElementById('range4'),
+			range4 = document.getElementById('{{filterSortForm.disAmen.id_for_label}}'),
 			rangeV4 = document.getElementById('rangeV4'),
 			setValue2 = ()=>{
 				var

@@ -7,6 +7,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.gis.db.models.functions import Distance
+from django.contrib.gis.measure import D
 from django.contrib.gis.geos import Point
 from django.db import transaction
 from django.http import Http404, JsonResponse
@@ -233,8 +234,12 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             maxPri = filterSortForm.cleaned_data.get('maxPri', None)
             amenities = filterSortForm.cleaned_data.get('amenities', None)
             sort = filterSortForm.cleaned_data.get('sort', None)
-            # print(minPri)
-            # print(maxPri)
+            disPro = filterSortForm.cleaned_data.get('disPro', None)
+            disAmen = filterSortForm.cleaned_data.get('disAmen', None)
+            if disPro is not None:
+                propObjects = propObjects.filter(distance__gte=D(mi=disPro).m)
+            if disAmen is not None:
+                propObjects = propObjects.filter(averageDistance__gte=disAmen)
             if room is not None and room != []:
                 room = [ int(i) for i in room ]
                 if 4 not in room:

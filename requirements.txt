@@ -1,3 +1,4 @@
+APScheduler==3.6.3
 certifi==2020.6.20
 chardet==3.0.4
 Django==2.2.5
@@ -18,5 +19,6 @@ pytz==2020.1
 requests==2.24.0
 six==1.15.0
 sqlparse==0.3.1
+tzlocal==2.1
 urllib3==1.25.11
 zipp==3.2.0

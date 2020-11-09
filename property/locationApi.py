@@ -5,12 +5,6 @@ gmapsClient = googlemaps.Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 logging.basicConfig(level=logging.DEBUG, filename='completeApp.log', format='%(asctime)s - %(name)s - %(process)d - %(levelname)s - %(message)s', datefmt='%d-%b-%y %H:%M:%S')
 
-# logging.warning('This will get logged to a file')
-# logging.debug('This will get logged to a file')
-# logging.info('This will get logged to a file')
-# logging.error('This will get logged to a file')
-# logging.critical('This will get logged to a file')
-
 def get_lat_long_from_address(address):
     """ function to get lat and long based on property address"""
     status = True

@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'bootstrap3',
     'users',
-    'property',
+    'property.apps.PropertyConfig',
     'students',
     'services',
     'checkout',

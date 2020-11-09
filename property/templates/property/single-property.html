@@ -18,10 +18,10 @@
 		<style>
 			.videoiconspan > img:hover { border:3px dashed #f25c00 !important; }
 
-			.lifestyle-ul > li { cursor:pointer; width:auto; border-radius:3px; margin:0px 7px; padding:1px 10px; float:left; font-size:13px; }
+			.lifestyle-ul > li { cursor:pointer; width:auto; border-radius:3px; margin-right: 7px; margin-bottom: 5px; padding:1px 5px; float:left; font-size:13px; }
 			.lifestyle-li-unsel:hover { background-color:rgba(0, 0, 0, 0.4); color:#fff; border:1px solid transparent; }
 			.lifestyle-li-unsel { border:1px solid #4f4f4c; color:#4f4f4c; }
-			.lifestyle-li-sel { border:1px solid #4f4f4c; background-color:rgba(0, 0, 0, 0.5); color:#fff; }
+			.lifestyle-li-sel { background-color:rgba(0, 0, 0, 0.5); color:#fff; }
 			
 			.pxp-sp-amenities-item { font-size:14px !important; }
 			
@@ -366,17 +366,30 @@
 						<br>
 						
 						<div>
+							{% if object.propertynearby_set.all %}
 							<b>Lifestyle nearby:</b>
 							<br><br>
 							<div class="row">
-								<ul class="lifestyle-ul" style="list-style-type:none;">
-									<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Bars</li>
-									<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Shopping</li>
-									<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">School</li>
-									<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Restaurant</li>
-									<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Fitness</li>
-								</ul> 
+								<div class="col-sm-12">
+									<ul class="lifestyle-ul" id='lifestyleUL' style="list-style-type:none;">
+										{% for nearby in object.propertynearby_set.all %}
+											<li class="lifestyle-li-unsel" onclick="lifestyleselect(this, name='{{nearby.nearByName|title}}', distance='{{nearby.distanceToProp|floatformat:1}}')">{{nearby.nearByType}}</li>
+										{% endfor %}
+										{% comment %} <li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Restaurant</li>
+										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Shopping Mall</li>
+										<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Bar</li>
+										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Costco</li>
+										<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Target</li>
+										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Walmart</li> {% endcomment %}
+									</ul>
+								</div>
+								<div class="col-sm-12">
+									<div id="lifestyleDisplay" style="font-size:18px; text-align:center; margin-top: 10px"></div>
+								</div>
 							</div>
+							{% else %}
+							<div>No Nearby Lifestyle Styles fetched.</div>
+							{% endif %}
 						</div>
 						
                     </div>
@@ -701,13 +714,17 @@
 	</script>
 	
 	<script>
-		function lifestyleselect(dis)
+		function lifestyleselect(dis, name, distance)
 		{
 			var classname = $(dis).attr('class');
+			$('#lifestyleUL li.lifestyle-li-sel').removeClass('lifestyle-li-sel');
 			if(classname == 'lifestyle-li-unsel') { 
-				$(dis).attr('class', 'lifestyle-li-sel'); 
+				$(dis).addClass('lifestyle-li-sel');
+				$('#lifestyleDisplay').show()
+				$('#lifestyleDisplay').text(name + ' is ' + distance + ' miles from the property.')
 			} else {
-				$(dis).attr('class', 'lifestyle-li-unsel'); 
+				$(dis).attr('class', 'lifestyle-li-unsel');
+				$('#lifestyleDisplay').hide()
 			}
 		}
 		function likeclick(id, dis)
@@ -948,21 +965,37 @@
 	<script>
 		
 		function initialize() {
-		  $("#mapspin").hide();
-		  {% comment %} var myLatlng = new google.maps.LatLng(40.925690, -73.141129); {% endcomment %}
-		  var myLatlng = new google.maps.LatLng({% if object.location %}{{object.location.y}}, {{object.location.x}}{% else %}40.925690, -73.141129{% endif %});
-		  var mapOptions = {
-			zoom: 10,
-			center: myLatlng
-		  }  
-		  var map = new google.maps.Map(document.getElementById('maplocator'), mapOptions);
-		  var marker = new google.maps.Marker({
-			  position: myLatlng,
-			  map: map,
-			  title: "{{object.title|title}}"
-		  });
+			$("#mapspin").hide();
+			{% comment %} var myLatlng = new google.maps.LatLng(40.925690, -73.141129); {% endcomment %}
+			var myLatlng = new google.maps.LatLng({% if object.location %}{{object.location.y}}, {{object.location.x}}{% else %}40.925690, -73.141129{% endif %});
+			var mapOptions = {
+				zoom: 10,
+				center: myLatlng
+			}
+			var map = new google.maps.Map(document.getElementById('maplocator'), mapOptions);
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: "{{object.title|title}}"
+			});
+		  	const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			const markers = locations.map((location, i) => {
+				return new google.maps.Marker({
+				position: location,
+				label: labels[i % labels.length],
+				});
+			});
+  			// Add a marker clusterer to manage the markers.
+			new MarkerClusterer(map, markers, {
+				imagePath:
+					"https://unpkg.com/@googlemaps/markerclustererplus@1.0.3/images/m1.png",
+				});
 		}
-		
+		const locations = [
+			{% for nearby in object.propertynearby_set.all %}
+			{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}} },
+			{% endfor %}
+		];
 		google.maps.event.addDomListener(window, 'load', initialize);
 		{% comment %} $('.pxp-single-property-gallery-container').click(function(){
 			return false;
