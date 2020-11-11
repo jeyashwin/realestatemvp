@@ -30,3 +30,8 @@ class ServicesModelTests(TestCase):
         exp_path = f'uploads/services/{uuid}.jpg'
 
         self.assertEqual(file_path, exp_path)
+
+# Not tested
+# post delete image from filesystem
+# pre save image delete if modified in filesystem
+# invalid fields

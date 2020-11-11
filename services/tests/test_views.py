@@ -85,7 +85,8 @@ class PrivateStudentAccessServiceTests(TestCase):
 
     def setUp(self):
         self.user = get_user_model().objects.create_user(username='teststudserviceview', 
-                        password="Student@123")
+                        password="Student@123", first_name="TestUser", last_name="lastName",
+                        email="email@gmail.com")
         usertype = UserType.objects.create(user=self.user, userType='student')
         self.student = UserStudent.objects.create(user=usertype, phone="+12345678901", 
                         university='Test college', classYear=2015, bio="test bio data", 
@@ -217,10 +218,15 @@ class PrivateStudentAccessServiceTests(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         obj = response.context.get('object')
+        form = response.context.get('form').initial
         self.assertEqual(obj.serviceName, service.serviceName)
         self.assertEqual(obj.description, service.description)
         self.assertEqual(obj.rentCycle, service.rentCycle)
         self.assertEqual(obj.price, service.price)
+        self.assertEqual(form.get('first_name'), 'TestUser')
+        self.assertEqual(form.get('last_name'), 'lastName')
+        self.assertEqual(form.get('phone_number'), '+12345678901')
+        self.assertEqual(form.get('email'), 'email@gmail.com')
 
         response = client.get(reverse('services:servicesDetail', kwargs={'pk': 123}))
 
