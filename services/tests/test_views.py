@@ -221,8 +221,6 @@ class PrivateStudentAccessServiceTests(TestCase):
         self.assertEqual(obj.description, service.description)
         self.assertEqual(obj.rentCycle, service.rentCycle)
         self.assertEqual(obj.price, service.price)
-        #image needs to be checked
-        #invalid fields check
 
         response = client.get(reverse('services:servicesDetail', kwargs={'pk': 123}))
 
