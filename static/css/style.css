@@ -338,7 +338,7 @@ h1.pxp-page-header {
  */
 
 .pxp-header {
-    padding: 30px 0;
+    padding: 12px 16px;
 }
 .pxp-header.pxp-no-bg {
     background-color: #fff;
@@ -490,19 +490,19 @@ h1.pxp-page-header {
 .pxp-is-sticky .pxp-nav > li > a:hover,
 .pxp-mobile .pxp-nav > li > a,
 .pxp-mobile .pxp-nav > li > a:hover {
-    color: #333;
+    color: #fff;
 }
 .pxp-no-bg .pxp-nav > li > a,
 .pxp-no-bg .pxp-nav > li > a:hover {
-    color: #333;
+    color: #fff;
 }
 .pxp-header.pxp-full .pxp-nav > li > a,
 .pxp-header.pxp-full > li > a:hover {
-    color: #333;
+    color: #fff;
 }
 .pxp-is-sticky .pxp-nav > li:hover > a:after, 
 .pxp-mobile .pxp-nav > li:hover > a:after {
-    background: #333;
+    background: #fff;
 }
 .pxp-no-bg .pxp-nav > li:hover > a:after {
     background: #333;
@@ -601,29 +601,29 @@ h1.pxp-page-header {
 .pxp-is-sticky .pxp-header-user, 
 .pxp-is-sticky .pxp-header-nav-trigger,
 .pxp-mobile .pxp-header-nav-trigger {
-    border: 1px solid #333;
-    color: #333;
+    border: 1px solid #fff;
+    color: #fff;
 }
 .pxp-no-bg .pxp-header-user, 
 .pxp-no-bg .pxp-header-nav-trigger {
-    border: 1px solid #333;
-    color: #333;
+    border: 1px solid #fff;
+    color: #fff;
 }
 .pxp-header.pxp-full .pxp-header-user, 
 .pxp-header.pxp-full .pxp-header-nav-trigger {
-    border: 1px solid #333;
-    color: #333;
+    border: 1px solid #fff;
+    color: #fff;
 }
 .pxp-is-sticky .pxp-header-user:hover, 
 .pxp-is-sticky .pxp-header-nav-trigger:hover,
 .pxp-mobile .pxp-header-nav-trigger:hover {
     color: #fff;
-    background-color: #333;
+    background-color: #fff;
 }
 .pxp-no-bg .pxp-header-user:hover, 
 .pxp-no-bg .pxp-header-nav-trigger:hover {
     color: #fff;
-    background-color: #333;
+    background-color: #fff;
 }
 .pxp-header.pxp-full .pxp-header-user:hover, 
 .pxp-header.pxp-full .pxp-header-nav-trigger:hover {

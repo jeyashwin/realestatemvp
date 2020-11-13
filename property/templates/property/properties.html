@@ -66,7 +66,7 @@
 		top: -50%;
 	}
 	.range-value span{
-		min-width: 40px;
+		min-width: 45px;
 		height: 24px;
 		line-height: 24px;
 		text-align: center;
@@ -180,7 +180,7 @@
 								.filter-amenities-tags > span, .filter-lifestyle-tags > span { border-radius:50px; font-size:11px; border:1px solid grey; background-color:transparent; margin:3px 3px; padding:1px 10px; float:left; color:grey; }
 								.filter-amenities-tags > span:hover, .filter-lifestyle-tags > span:hover { background-color:grey; color:#fff; }
 							</style>
-							<h6>Amenities</h6>
+							<!--h6>Amenities</h6>
 							<p class="filter-amenities-tags pull-left" style="list-style-type:none; width:100%;"> 
 								{% comment %} <span onclick="amenitiesfilterclick(this, 1)" id="amenityspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Amenities 1 </span>
 								<input type="checkbox" class="form-control" name="amenity[]" value="1" id="amenityinput1" placeholder=style="display:none; margin-top:10px;"/>
@@ -195,7 +195,7 @@
 										<i class="fa fa-check" style="display:none;"></i> {{amenities}} 
 									</span>
 								{% endfor %}
-							</p>
+							</p-->
 							
 							{% comment %} <h6>Lifestyle</h6>
 							<p class="filter-lifestyle-tags pull-left" style="list-style-type:none; width:100%;"> 
@@ -242,14 +242,14 @@
 											<option value="stony_brook" selected="selected">Stony Brook</option>
 										</select>
 									</div>
-									<div class="col-5 col-sm-6 col-md-6 col-lg-6 pxp-content-side-search-form-col">
+									<!--div class="col-5 col-sm-6 col-md-6 col-lg-6 pxp-content-side-search-form-col">
 										<input type="text" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="pxp-p-search-address">
 										<span class="fa fa-search"></span>
-									</div>
-									<div class="col-2 col-sm-1 col-md-2 col-lg-2 pxp-content-side-search-form-col">
+									</div-->
+									<div class="col-2 col-sm-1 col-md-4 col-lg-4 pxp-content-side-search-form-col" style="padding-left:10px;">
 										<div class="row">
 											<div class="col-md-12">
-												<span style="font-size:12px; position:absolute; font-family:Century Gothic;">&nbsp;Distance from university</span>
+												<span style="font-size:12px; position:absolute; font-family:Century Gothic;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance from university</span>
 												<div class="range-wrap">
 													<div class="range-value" id="rangeV3"></div>
 													{{filterSortForm.disPro}}
@@ -258,16 +258,23 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-2 col-sm-1 col-md-2 col-lg-2 pxp-content-side-search-form-col">
+									<div class="col-2 col-sm-1 col-md-4 col-lg-4 pxp-content-side-search-form-col" style="padding-left:10px;">
 										<div class="row">
 											<div class="col-md-12">
-												<span style="font-size:12px; position:absolute; font-family:Century Gothic;">&nbsp;Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
+												<span style="font-size:12px; position:absolute; font-family:Century Gothic;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
 												<div class="range-wrap">
 													<div class="range-value" id="rangeV4"></div>
 													{{filterSortForm.disAmen}}
 													{{filterSortForm.disAmen.errors}}
 												</div>
 											</div>
+										</div>
+									</div>
+
+									<div class="col-sm-1 col-md-2 col-lg-2">
+										<div class="form-group">
+											{{filterSortForm.sort}}
+											{{filterSortForm.sort.errors}}
 										</div>
 									</div>
 									
@@ -394,7 +401,7 @@
 								<h2 class="pxp-content-side-h2">{{total_count}} Results</h2>
 							</div>
 							<div class="col-sm-6">
-								<div class="pxp-sort-form form-inline float-right">
+								<!--div class="pxp-sort-form form-inline float-right">
 									<div class="form-group">
 										{{filterSortForm.sort}}
 										{{filterSortForm.sort.errors}}
@@ -403,7 +410,7 @@
 									<div class="form-group d-flex">
 										<a role="button" class="pxp-map-toggle"><span class="fa fa-map-o"></span></a>
 									</div>
-								</div>
+								</div-->
 							</div>
 						</div>
 

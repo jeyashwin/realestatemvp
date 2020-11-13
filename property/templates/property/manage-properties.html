@@ -11,7 +11,7 @@
 			<br><br>
                 <div class="pxp-content-side-wrapper">                   
 					<br><br>
-					<h2>
+					<h2 style="margin-bottom: 30px">
 						Manage Properties - Total {{object_list.count|safe}}
 						<a href="{% url 'property:propertyCreate' %}" class="btn pull-right" style="background-color: #044C7E; border-radius:50px; color:#fff;"><i class="fa fa-plus"></i> Add new Property</a>
 					</h2>
@@ -20,7 +20,7 @@
                     <div class="row">
 						{% if object_list %}
 							{% for object in object_list %}
-							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop{{object.pk}}">
+							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop{{object.pk}}" style="margin-bottom: 30px;">
 								<div style="padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; background-color:rgba(0, 0, 0, 0.9);">
 									<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg">
 										<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
@@ -55,27 +55,37 @@
 											<span class="fa fa-times"></span>
 										</div> {% endcomment %}
 									</a>
-									<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px;">
+									<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px; padding-bottom: 10px">
+									    <form method="POST" action="">
 										<div class="row">
-											<div class="col-md-6 form-control" style="border:none; margin-top:border-radius:0px; background-color:rgba(0, 0, 0, 0.8);">
+											<div class="col-md-6 form-control" id="leasedcheckdiv_{{object.id}}" onclick="leasedcheckclick({{object.id}})" style="border:none; border-radius:0px; background-color:#fff;">
 												<span class="pull-left" style="padding-top:7px; color:#fff;">
-													<span style="padding-top:7px; color:gray;"><i class="fa fa-check"></i></span>
-													<label for="leasedcheck"><input id="leasedcheck" type="checkbox" style="display:none;"> &nbsp; Leased</label>
+													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="leasedcheckfa_{{object.id}}" style="display:none;"></i></span>
+													<label style="color:black;" id="leasedcheckinput_{{object.id}}"><input name="leasestatus" type="radio" style="width:0px; display:non;"> &nbsp; Leased</label>
 												</span>
 											</div>
-											<div class="col-md-6 form-control" style="border:none; border-radius:0px; background-color:rgba(255, 255, 255, 0.8);">
+											<div class="col-md-6 form-control" id="vacantcheckdiv_{{object.id}}" onclick="vacantcheckclick({{object.id}})" style="border:none; border-radius:0px; background-color:#002754;">
 												<span class="pull-left" style="padding-top:7px; color:#fff;">
-													<span style="padding-top:7px; color:gray;"><i class="fa fa-check"></i></span>
-													<label for="rentcheck"><input id="rentcheck" type="checkbox" style="display:none;"> &nbsp; Rent</label>
+													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="vacantcheckfa_{{object.id}}"></i></span>
+													<label id="vacantcheckinput_{{object.id}}"><input name="leasestatus" type="radio" checked style="width:0px; display:non;"> &nbsp; Vacant</label>
 												</span>
 											</div>
-											<div class="col-md-12 form-control" style="border-top:1px solid #fff; border-left:none; border-right:none; border-bottom:none; border-radius:0px; background-color:rgba(0, 0, 0, 0.8);">
-												<span style="padding-top:7px; color:gray;"><i class="fa fa-check"></i></span>
-												<label for="leaseendscheck" style="padding-top:7px; color:#fff;"><input id="leaseendscheck" type="checkbox" style="display:none;"> &nbsp; Lease Ends</label>
-												&nbsp; 
-												<input type="date" class="form-contro" id="leaseenddate" name="leaseenddate" style="background:rgba(255, 255, 255, 0.9); border-radius:5px; padding:3px; border:none; display:non;">
+											<div class="row" id="leaseddates_{{object.id}}" style="display:none;">	
+												<div class="col-md-6" style="padding-right:0;">
+													<input type="text" onfocus="(this.type='date')" placeholder="Start Date" class="form-control" id="leasestartdate" name="leasestartdate" style="background:rgba(255, 255, 255, 1); border-radius:5px; border:none; border-radius:0px; border-top:2px solid #002754;" required>
+												</div>
+												<div class="col-md-6" style="padding-left:0;">	
+													<input type="text" onfocus="(this.type='date')" placeholder="End Date" class="form-control" id="leaseenddate" name="leaseenddate" style="background:rgba(255, 255, 255, 1); border-radius:5px; border:none; border-radius:0px; border-top:2px solid #002754;" required>
+												</div>
+						
+												<div class="col-md-12">
+													<input type="submit" name="submit" value="Submit" class="form-control" style="border:none; border-radius:0px; background-color:#002754; width:100%; color:#fff; font-weight:bold;"/>
+												</div>
 											</div>
+												
+	
 										</div>
+									    </form>
 									</div>
 								</div>
 							</div>
@@ -118,6 +128,41 @@
 				}				
 			}
 			
+		</script>
+		
+		<script>
+			function leasedcheckclick(id)
+			{
+				$("#leasedcheckinput_"+id+" > input").prop("checked", true);				
+				
+				$("#leasedcheckfa_"+id).show();
+				$("#vacantcheckfa_"+id).hide();
+
+				$("#leasedcheckinput_"+id).css({"color":"#fff"});
+				$("#vacantcheckinput_"+id).css({"color":"black"});
+
+				$("#leasedcheckdiv_"+id).css({"background-color":"#002754"});
+				$("#vacantcheckdiv_"+id).css("background-color","#fff");
+				
+				$("#leaseddates_"+id).show();
+				
+			}
+
+			function vacantcheckclick(id)
+			{
+				$("#vacantcheckinput_"+id+" > input").prop( "checked", true );
+				
+				$("#leasedcheckfa_"+id).hide();
+				$("#vacantcheckfa_"+id).show();
+
+				$("#leasedcheckinput_"+id).css({"color":"black"});
+				$("#vacantcheckinput_"+id).css({"color":"#fff"});
+
+				$("#leasedcheckdiv_"+id).css("background-color","#fff");
+				$("#vacantcheckdiv_"+id).css("background-color","#002754");	
+				
+				$("#leaseddates_"+id).hide();
+			}
 		</script>
 
 

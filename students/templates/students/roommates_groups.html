@@ -7,7 +7,6 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-		
 		<style>
 			* { font-family: Century Gothic; }
 			
@@ -208,7 +207,7 @@
 				
 				<div class="pull-right" style="margin-top:0px;">
 					<a href="/roommates" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </a>
-					<a href="/roommates_messages" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </a>
+					<a href="/roommates_groups" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
 					&nbsp;
 				</div><br>
 				
@@ -222,103 +221,189 @@
 					<div id="home" class="home-div">
 						
 						
-					  <div class="container">
-						  <div class="panel panel-default">									
-							<div class="panel-heading" style="background-color:#094A66; color:#fff;">
-								<h3>
-									&nbsp; &nbsp; <b>Test Property Name</b>
-									<!--span class="pull-right"><i class="fa fa-plus" style="font-size:20px;"></i></span-->
-								</h3>
-							</div>								
-							<div class="panel-body">
-								<div class="col-md-3" style="overflow-y:scroll; max-height:400px;">
-									<ul style="list-style-type:none;">
-										<li><h4><b> MEMBERS </b></h4></li>
-										<hr>
-										<li class="active" style="border-bottom:#e2e2e2;">
-											<h4>
-												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 1
-											</h4><br>
-										</li>
-										<li class="active" style="border-bottom:#e2e2e2;">
-											<h4>
-												<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 2
-											</h4><br>
-										</li>
-										<li class="active" style="border-bottom:#e2e2e2;">
-											<h4>
-												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 3
-											</h4><br>
-										</li>
-										<li class="active" style="border-bottom:#e2e2e2;">
-											<h4>
-												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 4
-											</h4><br>
-										</li>
-										<br><br>
-									</ul>
-								</div>
-								<div class="col-md-9" style="margin-top:-20px; max-height:400px; overflow-y:scroll;">
-									<br>
-									<div id="usermsgbody">
-									 
-										<small class="pull-left">
-										<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
-										<b style="font-size:17px;">You</b> <i>04:00 pm</i></small><br><br>
-										<div class="msg1" style="max-width:50%; padding-left:35px;">
-											Hello all
-										</div><hr>
+							<div class="row">
+								<div class="container bg-transparent">
+
+									<div class="row m-0 p-0 position-relativ">
+									  <div class="col-2 position-absolut" style="background-color:#094A66; color:#fff;border-top-left-radius:15px;">
+											<input type="text" placeholder="Search user" class="form-control" style="color:black; border-radius:30px; margin-top:10px;" />
+											<div class="row">
+											<style>
+												.messages-user-list { margin-top:10px; border-top:1px solid grey; padding:0px; width:100%; }
+												.messages-user-list > li { padding:13px 15px; color:#fff; border-bottom:2px solid #08587c; width:100%; border-radius:5px; font-weight:bold; }
+												.messages-user-list > li > img { width:40px; height:40px; border-radius:100px; }
+												.messages-user-list > li:hover { background-color:#08587c; cursor:pointer; }
+											</style>
+											
+												<ul class="messages-user-list" style="list-style-type:none;">
+													<li style="background-color:#0471A6;"><b style="font-size:20px;">My Groups</b></li>
+													<li onclick="openuserchat(1)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; Group 1 </li>
+													<li onclick="openuserchat(2)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; Test Group </li>
+													<li onclick="openuserchat(3)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; Meetup Group </li>
+													<li onclick="openuserchat(4)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; Group name 4 </li>
+												</ul>
+											</div>
+									  </div>
+									  <div class="col-10 p-0 m-0 position-absolut" id="chatmessagesdiv" style="right: 0px;">
+										<div class="card border-0 rounded" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 80vh;">
+
+										  <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0" style="color: rgba(96, 125, 139,1.0);">
+											
+											<img class="rounded float-left" style="width: 50px; height: 50px;" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" />
+											
+											<h4 style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname">
+	<b class="pull-left"> Meetup Group <i class="fa fa-check text-primary" aria-hidden="true"></i></b>
+	 <span class="pull-right" data-toggle="modal" data-target="#CreateGroupModal" style="cursor:pointer; "><i class="fa fa-plus" style="border-radius:50px; padding:6px 7px; background-color:#0471A6; color:#fff;"></i> &nbsp; &nbsp; </span></h4>
+
+<!-- Modal -->
+<div id="CreateGroupModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="margin-top:7%;">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+        <h4 class="modal-title">
+		<span style="text-align:left;">Create New Group</span>
+	</h4>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="" enctype="multipart/form-data">
+
+		<div class="row">
+		    <div class="col-md-8">
+			<label style="font-size:15px;">Group Name</label>	
+			<input type="text" name="groupname" placeholder="Name your Group" class="form-control" style="border-radius:50px; height:50px;"><br>
+		    </div>
+		    <div class="col-md-4">
+			<label style="font-size:15px;">Group Icon</label>
+			<input type="file" name="groupicon" class="form-control" style="border-radius:50px; height:50px; padding-top:10px;"><br>
+		    </div>
+		    <div class="col-md-12">
+			<label style="font-size:15px;">Users</label>
+			<select class="form-control" style="border-radius:7px !important;" multiple>	
+				<option> ~ Select  Users ~ </option>
+				<option> Bob </option>
+				<option> Charles </option>
+				<option> Randy </option>
+				<option> Citra </option>
+				<option> Michael </option>
+			</select><br>
+		    </div>
+		    
+		    <div class="col-md-2"></div>
+		    <div class="col-md-8">
+			<input type="submit" name="submit" value="Create" class="form-control" style="border-radius:50px; height:50px; color:#fff; background-color:#094a66;"><br>
+		    </div>
+		    <div class="col-md-2"></div>
+
+		</div>
+		
+		
+	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+												
+										  </div>
 										
-										<small class="pull-left">
-										<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
-										<b style="font-size:17px;">Test user 1</b> <i>04:05 pm</i></small><br><br>
-										<div class="msg2" style="max-width:50%; padding-left:35px;">
-											Hi How are you?
-										</div><hr>
-										 
-										<small class="pull-left">
-										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
-										<b style="font-size:17px;">Test user 2</b> <i>04:07 pm</i></small><br><br>
-										<div class="msg2" style="max-width:50%; padding-left:35px;">
-											Hi dude. How is it going?
-										</div><hr>
+											<div class="card bg-sohbet border-0 m-0 p-0" id="chatmessagesbody" style="height: 400px; overflow-y: scroll;">
+										  <div id="sohbet" class="card border-0 m-0 p-0 position-relative bg-transparent" style="height: 400px;">
 										
-										<small class="pull-left">
-										<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
-										<b style="font-size:17px;">You</b> <i>04:10 pm</i></small><br><br>
-										<div class="msg1" style="max-width:50%; padding-left:35px;">											
-											Yeah. I'm good
-										</div><hr>
-										
-										<small class="pull-left">
-										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
-										<b style="font-size:17px;">Test user 2</b> <i>04:07 pm</i></small><br><br>
-										<div class="msg1" style="max-width:50%; padding-left:35px;">											
-											Where are you now?
-										</div><hr>
-									</div>
-									
-									<div class="row"><hr><br>
-										<div class="col-md-11">
-											<textarea rows="2" id="group_user_message" class="form-control" placeholder="Type your message.." ></textarea>
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:20 pm">
+											
+												<a class="float-right"> Hey there! What's up? </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:22 pm">
+											
+												<a class="float-left sohbet2"> Checking out iOS7 you know.. </a>
+											  
+											</div>
+											
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:23 pm">
+											
+												<a class="float-right"> Check out this bubble! </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:26 pm">
+											
+												<a class="float-left sohbet2"> It's pretty cool! </a>
+											  
+											</div>
+											
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:28 pm">
+											
+												<a class="float-right"> Yeah it's pure CSS & HTML </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:33 pm">
+											
+												<a class="float-left sohbet2"> Wow that's impressive. But what's even more impressive is that this bubble is really high. </a>
+											  
+											</div>
+											
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:28 pm">
+											
+												<a class="float-right"> Yeah it's pure CSS & HTML </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:33 pm">
+											
+												<a class="float-left sohbet2"> Wow that's impressive. But what's even more impressive is that this bubble is really high. </a>
+											  
+											</div>
+											
+										  </div>
+										  </div>
+
+										  <div class="w-100 card-footer p-0 bg-light border border-bottom-0 border-left-0 border-right-0" style="height:100px;">
+											
+												<!--form class="m-0 p-0" action="#" method="POST" autocomplete="off"-->
+								
+												  <div class="row m-0 p-0">
+													<div class="col-11 m-0 p-1">
+													
+														<!--input id="text" class="mw-100 border rounded form-control" type="text" name="text" title="Type a message..." placeholder="Type a message..." required-->
+														
+														<textarea rows="3" class="form-control" id="user_message" placeholder="Type a message..." style="border:none;"></textarea>
+													  
+													</div>
+													<div class="col-1 m-0 p-1">
+														<br>
+														<button onclick="sendmessageclick()" class="btn btn-outline-secondary rounded border w-100" title="Send" style="float:right; border-radius:30px; background-color:#094A66; color:#fff; padding-right: 16px; margin-top:25px; padding:10px;"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+																
+													</div>
+												  </div>
+											
+											<!--/form-->
+												
+										  </div>
+
 										</div>
-										<div class="col-md-1">
-											<span class="btn btn-primary" onclick="sendgroupmessageclick()" style="padding:15px 5px;">&nbsp; <i class="fa fa-paper-plane"></i> &nbsp;</span>
-										</div>										
+									  </div>
+									  
 									</div>
-									
-								</div>
+								  </div>
+
+
+							<!-- Optional JavaScript -->
+								<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+								<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+								<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+								<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
 								
 							</div>
-							
-						</div>
-					</div>
-					  
-						
+								
+					
 					</div>
 					
 				  </div>

@@ -373,7 +373,7 @@
 								<div class="col-sm-12">
 									<ul class="lifestyle-ul" id='lifestyleUL' style="list-style-type:none;">
 										{% for nearby in object.propertynearby_set.all %}
-											<li class="lifestyle-li-unsel" onclick="lifestyleselect(this, name='{{nearby.nearByName|title}}', distance='{{nearby.distanceToProp|floatformat:1}}')">{{nearby.nearByType}}</li>
+											<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'>{{nearby.nearByType}}</li>
 										{% endfor %}
 										{% comment %} <li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Restaurant</li>
 										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Shopping Mall</li>
