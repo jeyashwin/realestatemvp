@@ -277,6 +277,7 @@ def auto_add_unique_slug_field(sender, instance, **kwargs):
     """
     Automatically add unique slug field to the Property models
     """
+    instance.title = '{}, {} {}'.format(instance.address, instance.city, instance.zipcode)
     if instance.urlSlug:
         prop = Property.objects.get(pk=instance.pk)
         if instance.title != prop.title:

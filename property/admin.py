@@ -38,7 +38,7 @@ class PropertyNearbyInline(admin.TabularInline):
 @admin.register(Property)
 class PropertyAdmin(OSMGeoAdmin):
     list_display = ['landlord', 'title', 'city']
-    readonly_fields = ['urlSlug', 'locationType', 'placeId', 'averageDistance', 'totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
+    readonly_fields = ['likes', 'dislikes', 'urlSlug', 'locationType', 'placeId', 'averageDistance', 'totalLikes', 'totalDislikes', 'updatedDate', 'createdDate']
     fieldsets = [
         (None, {'fields': ['landlord', 'title', 'urlSlug']}),
         ('Location Information', {'fields': ['city', 'zipcode', 'address', 'locationType', 
@@ -47,7 +47,7 @@ class PropertyAdmin(OSMGeoAdmin):
                 'securityDeposit', 'amount', 'rentPerPerson', 'description']}),
         ('Extra Information', {'fields': ['utilities', 'garage', 'parkingSpace', 'amenities']}),
         ('Availability Dates', {'fields': ['fromDate', 'toDate']}),
-        ('Likes & Dislikes', {'fields': ['totalLikes', 'totalDislikes']}),
+        ('Likes & Dislikes', {'fields': ['likes', 'totalLikes', 'dislikes', 'totalDislikes']}),
         ('Important Date Information', {'fields': ['updatedDate', 'createdDate']}),
     ]
     inlines = [PropertyImageInline, PropertyVideoInline, PropertyNearbyInline]

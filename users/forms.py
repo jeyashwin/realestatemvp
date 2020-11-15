@@ -143,19 +143,19 @@ class StudentSignupForm(UserCreationForm):
     interest1 = forms.CharField(max_length=100,
                     widget=forms.TextInput(attrs={
                         'class': 'interestTextbox',
-                        'placeholder': 'Eg Adventuring'
+                        'placeholder': 'Ex Adventuring'
                     }),
                 )
     interest2 = forms.CharField(max_length=100,
                     widget=forms.TextInput(attrs={
                         'class': 'interestTextbox',
-                        'placeholder': 'Eg Cycling'
+                        'placeholder': 'Ex Cycling'
                     }),
                 )
     interest3 = forms.CharField(max_length=100,
                     widget=forms.TextInput(attrs={
                         'class': 'interestTextbox',
-                        'placeholder': 'Eg Partying'
+                        'placeholder': 'Ex Partying'
                     }),
                 )
     fblink = forms.URLField(required=False, max_length=250, 
@@ -318,19 +318,19 @@ class StudentProfileUpdateForm(forms.ModelForm):
     interest1 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Adventuring'
+            'placeholder': 'Ex Adventuring'
         }),
     )
     interest2 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Cycling'
+            'placeholder': 'Ex Cycling'
         }),
     )
     interest3 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Partying'
+            'placeholder': 'Ex Partying'
         }),
     )
 

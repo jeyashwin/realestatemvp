@@ -28,7 +28,7 @@
                         <div class="col-sm-12 col-lg-8">
                             <div class="mt-3 mt-md-4" style="background-color:#fff; padding:20px; border-radius:7px;">
 							<h3>Basic Information</h3>
-                                <div class="form-group">
+                                {% comment %} <div class="form-group">
 									<div class="help-container">
 										{{form.title.label_tag}}
 										<span class="fa fa-info-circle help"></span>
@@ -36,7 +36,16 @@
 									</div>
                                     {{form.title}}
 									<small class="errorview">{{form.title.errors}}</small>
-                                </div>
+                                </div> {% endcomment %}
+								<div class="form-group">
+									<div class="help-container">
+										{{form.address.label_tag}}
+										<span class="fa fa-info-circle help"></span>
+										<small class="helptext">{{ form.address.help_text|safe }}</small>
+									</div>
+									{{form.address}}
+									<small class="errorview">{{form.address.errors}}</small>
+								</div>
 								<div class="form-group">
 									<div class="help-container">
 										<label for="pxp-submit-property-phone">Phone number</label>
@@ -375,7 +384,7 @@
 										{{form.zipcode}}
 										<small class="errorview">{{form.zipcode.errors}}</small>
                                     </div>
-									<div class="form-group">
+									{% comment %} <div class="form-group">
 										<div class="help-container">
 											{{form.address.label_tag}}
 											<span class="fa fa-info-circle help"></span>
@@ -383,7 +392,7 @@
 										</div>
 										{{form.address}}
 										<small class="errorview">{{form.address.errors}}</small>
-                                    </div>
+                                    </div> {% endcomment %}
 									
 									
                                     <!--div id="pxp-submit-property-map"></div-->

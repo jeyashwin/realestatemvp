@@ -505,10 +505,10 @@ h1.pxp-page-header {
     background: #fff;
 }
 .pxp-no-bg .pxp-nav > li:hover > a:after {
-    background: #333;
+    background: #fff;
 }
 .pxp-header.pxp-full .pxp-nav > li:hover > a:after {
-    background: #333;
+    background: #fff;
 }
 .pxp-dark-mode .pxp-is-sticky .pxp-nav > li > a,
 .pxp-dark-mode .pxp-is-sticky .pxp-nav > li > a:hover,

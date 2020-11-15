@@ -237,7 +237,7 @@
 							<div class="pxp-content-side-search-form">
 								<div class="row pxp-content-side-search-form-row">
 									
-									<div class="col-5 col-sm-5 col-md-2 col-lg-2 pxp-content-side-search-form-col">
+									<div class="col-5 col-sm-5 col-md-3 col-lg-3 pxp-content-side-search-form-col">
 										<select class="custom-select" id="pxp-p-search-status">
 											<option value="stony_brook" selected="selected">Stony Brook</option>
 										</select>
@@ -246,7 +246,7 @@
 										<input type="text" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="pxp-p-search-address">
 										<span class="fa fa-search"></span>
 									</div-->
-									<div class="col-2 col-sm-1 col-md-4 col-lg-4 pxp-content-side-search-form-col" style="padding-left:10px;">
+									<div class="col-2 col-sm-1 col-md-3 col-lg-3 pxp-content-side-search-form-col" style="padding-left:10px;">
 										<div class="row">
 											<div class="col-md-12">
 												<span style="font-size:12px; position:absolute; font-family:Century Gothic;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance from university</span>
@@ -258,7 +258,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-2 col-sm-1 col-md-4 col-lg-4 pxp-content-side-search-form-col" style="padding-left:10px;">
+									<div class="col-2 col-sm-1 col-md-3 col-lg-3 pxp-content-side-search-form-col" style="padding-left:10px;">
 										<div class="row">
 											<div class="col-md-12">
 												<span style="font-size:12px; position:absolute; font-family:Century Gothic;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
@@ -271,7 +271,7 @@
 										</div>
 									</div>
 
-									<div class="col-sm-1 col-md-2 col-lg-2">
+									<div class="col-sm-1 col-md-3 col-lg-3">
 										<div class="form-group">
 											{{filterSortForm.sort}}
 											{{filterSortForm.sort.errors}}
@@ -440,7 +440,7 @@
 											</div>
 											<div class="pxp-results-card-1-gradient"></div>
 											<div class="pxp-results-card-1-details">
-												<div class="pxp-results-card-1-details-title">{{object.title|title|truncatechars:25}}</div>
+												<div class="pxp-results-card-1-details-title">{{object.title|truncatechars:25}}</div>
 												<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
 											</div>
 											<div class="pxp-results-card-1-features">
@@ -528,6 +528,7 @@
 			</div> <!--col-md-9-->
 			</div> <!--row-->
         </div>
+		<br>
 
 	<script>
 		function toggle_filters()

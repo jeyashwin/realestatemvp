@@ -6,8 +6,8 @@ app_name = 'students'
 
 urlpatterns = [
     path('favourites/', FavouriteListView.as_view(), name="favourites"),
-    path('favourites/add/<slug:slug>/', AddFavourite, name="addFavourites"),
-    path('favourites/remove/<slug:slug>/', RemoveFavourite, name="removeFavourites"),
+    # path('favourites/add/<slug:slug>/', AddFavourite, name="addFavourites"),
+    # path('favourites/remove/<slug:slug>/', RemoveFavourite, name="removeFavourites"),
 
     path('roommates/', RoommatesListView.as_view(), name="roommates"),
     path('roommates/mypost/', RoommatesMyPostListView.as_view(), name="roommatesMypost"),

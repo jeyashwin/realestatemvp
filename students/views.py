@@ -17,8 +17,21 @@ from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
 
 # Create your views here.
 
+# class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+#     model = Favourite
+#     template_name = "students/favourites.html"
+
+#     def test_func(self):
+#         try:
+#             return self.request.user.usertype.is_student
+#         except:
+#             raise Http404
+
+#     def get_queryset(self):
+#         return Favourite.objects.filter(student__user__user=self.request.user)
+
 class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-    model = Favourite
+    model = Property
     template_name = "students/favourites.html"
 
     def test_func(self):
@@ -28,7 +41,7 @@ class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             raise Http404
 
     def get_queryset(self):
-        return Favourite.objects.filter(student__user__user=self.request.user)
+        return Property.likes.through.objects.filter(userstudent__user__user=self.request.user)
 
 
 class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):

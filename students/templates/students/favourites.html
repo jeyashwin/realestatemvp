@@ -15,7 +15,7 @@
 					<br><h2>My Favourites</h2>
                     <div class="row">
                         {% load humanize %}
-                        {% for object in object_list %}
+                        {% comment %} {% for object in object_list %}
                             {% for property in object.properties.all %}
                                 <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="remove{{property.pk}}">
                                     <a href="{% url 'property:propertyDetail' property.urlSlug %}" class="pxp-results-card-1 rounded-lg" data-prop="{{property.pk}}" style="box-shadow:3px 3px 5px grey;">
@@ -49,6 +49,39 @@
                                     </a>
                                 </div>
                             {% endfor %}
+                        {% endfor %} {% endcomment %}
+                        {% for object in object_list %}
+                            <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="remove{{object.property.pk}}">
+                                <a href="{% url 'property:propertyDetail' object.property.urlSlug %}" class="pxp-results-card-1 rounded-lg" data-prop="{{object.property.pk}}" style="box-shadow:3px 3px 5px grey;">
+                                    <div id="card-carousel-{{object.property.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+                                        <div class="carousel-inner">
+                                            {% for image in object.property.propertyimage_set.all %}
+                                                {% if forloop.first %}
+                                                    <div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+                                                {% else %}
+                                                    <div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <span class="carousel-control-prev" data-href="#card-carousel-{{object.property.pk}}" data-slide="prev">
+                                            <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                        </span>
+                                        <span class="carousel-control-next" data-href="#card-carousel-{{object.property.pk}}" data-slide="next">
+                                            <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                        </span>
+                                    </div>
+                                    <div class="pxp-results-card-1-gradient"></div>
+                                    <div class="pxp-results-card-1-details">
+                                        <div class="pxp-results-card-1-details-title">{{object.property.title|title|truncatechars:25}}</div>
+                                        <div class="pxp-results-card-1-details-price">${{object.property.rentPerPerson|intcomma}}</div>
+                                    </div>
+                                    <div class="pxp-results-card-1-features">
+                                        <span>{{object.property.rooms}} Room <span>|</span> {{object.property.bathrooms}} BA <span>|</span> {{object.property.sqft|intcomma}} SF</span>
+                                    </div>
+                                    
+                                    <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'property:propertyReaction' object.property.urlSlug %}" data-toggle="tooltip" title="Remove from favourites" onclick="return removefromfav('remove{{object.property.pk}}', this)"><span class="fa fa-times"></span></div>
+                                </a>
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
@@ -72,7 +105,7 @@
                     $.ajax({
                     url: url,
                     type: 'POST',
-                    data: {"csrfmiddlewaretoken": csrfmiddlewaretoken,},
+                    data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
                     success: function(res){
                         console.log(res);
                     },

@@ -1,0 +1,113 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
+<style>
+	#requestpills > li > a { border-radius:50px !important; }  
+    #requestpills > li.active > a { background-color: #00297a !important; }  
+    
+    .requests_table > thead > tr > th { background-color: #00297a; color:#fff; padding:20px; }
+     .addressp { padding-left:40px; }
+     .reqtableimg { border-radius:50px; width:30px; height:30px; }
+     td > .fa-eye { border-radius:100px; }
+</style>
+<br>
+<br>
+<br>
+<div class="container"><br>
+  <ul class="nav nav-pills nav-justified" id="requestpills">
+  <li class="active"><a data-toggle="pill" href="#home">Rent Requests</a></li>
+  <li><a data-toggle="pill" href="#menu1">Tour Requests</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="home" class="tab-pane fade in active">
+  <br><br>
+	<table class="table table-striped requests_table">
+    	<thead>
+        	<tr>
+            	<th style="border-top-left-radius:10px !important;">Name & Address</th>
+                <th>Date & Time</th>
+                <th style="border-top-right-radius:10px !important;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<tr>
+            	<td>
+                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
+                    <b>Ashwin Jey</b><br>
+                	<p class="addressp"> 12, Test Address Line, Coimbatore, TN</p>
+                </td>
+                <td><br>15-November-2020 06:00 PM</td>
+                <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
+            </tr>
+            <tr>
+            	<td>
+                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
+                    <b>Aravindan Sundaram</b><br>
+                	<p class="addressp">23, Test Address Line, Coimbatore, TN</p>
+                </td>
+                <td><br>14-November-2020 08:30 AM</td>
+                <td><br><i class="fa fa-eye btn btn-success btn-sm"> view</i></td>
+            </tr>
+            <tr>
+            	<td>
+                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"/> &nbsp;
+                	<b>Arun Prakash</b><br>
+                	<p class="addressp">34, Test Address Line, Coimbatore, TN</p>
+               	</td>
+                <td><br>13-November-2020 10:30 AM</td>
+                <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+  <div id="menu1" class="tab-pane fade">
+    <br><br>
+	<table class="table table-striped requests_table">
+    	<thead>
+        	<tr>
+            	<th style="border-top-left-radius:10px !important;">Name & Address</th>
+                <th>Date | Time</th>
+                <th style="border-top-right-radius:10px !important;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        	<tr>
+            	<td>
+                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
+                    <b>Ashwin Jey</b><br>
+                	<p class="addressp"> 12, Test Address Line, Coimbatore, TN</p>
+                </td>
+                <td><br>15-November-2020 06:00 PM</td>
+                <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
+            </tr>
+            <tr>
+            	<td>
+                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
+                    <b>Aravindan Sundaram</b><br>
+                	<p class="addressp">23, Test Address Line, Coimbatore, TN</p>
+                </td>
+                <td><br>14-November-2020 08:30 AM</td>
+                <td><br><i class="fa fa-eye btn btn-success btn-sm"> view</i></td>
+            </tr>
+            <tr>
+            	<td>
+                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"/> &nbsp;
+                	<b>Arun Prakash</b><br>
+                	<p class="addressp">34, Test Address Line, Coimbatore, TN</p>
+               	</td>
+                <td><br>13-November-2020 10:30 AM</td>
+                <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+
+
+{% include "layout/footer.html" %}

@@ -232,7 +232,7 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             bath = filterSortForm.cleaned_data.get('bath', None)
             minPri = filterSortForm.cleaned_data.get('minPri', None)
             maxPri = filterSortForm.cleaned_data.get('maxPri', None)
-            amenities = filterSortForm.cleaned_data.get('amenities', None)
+            # amenities = filterSortForm.cleaned_data.get('amenities', None)
             sort = filterSortForm.cleaned_data.get('sort', None)
             disPro = filterSortForm.cleaned_data.get('disPro', None)
             disAmen = filterSortForm.cleaned_data.get('disAmen', None)
@@ -280,8 +280,8 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 propObjects = propObjects.filter(rentPerPerson__gte=minPri)
             if maxPri is not None:
                 propObjects = propObjects.filter(rentPerPerson__lte=maxPri)
-            if amenities is not None and amenities:
-                propObjects = propObjects.filter(amenities__in=amenities).distinct()
+            # if amenities is not None and amenities:
+            #     propObjects = propObjects.filter(amenities__in=amenities).distinct()
             if bath is not None:
                 if sort == "p_low_hi":
                     propObjects = propObjects.order_by("rentPerPerson")

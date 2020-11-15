@@ -83,3 +83,6 @@ def RequestToRentServiceCreateView(request, pk):
         else:
             messages.add_message(request, messages.ERROR, form.errors)
     return redirect('services:servicesDetail', pk=pk)
+
+def myrequest(request):
+    return render(request, 'checkout/myrequest.html')

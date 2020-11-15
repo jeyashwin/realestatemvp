@@ -46,9 +46,13 @@
 										<h2 class="pxp-content-side-h2">Services for Rent</h2>
 									</div>
 									<div class="col-9 col-sm-9 col-md-9 col-lg-9 pxp-content-side-search-form-col">
-										<form action="" method="get">
-											<input type="text" class="form-control pxp-is-address" name="serviceName" placeholder="Search by entering name" id="pxp-p-search-address">
-											<button type="submit"><span class="fa fa-search"></span></button>
+										<form action="" method="get" class="form-group">
+											<div class="input-group input-group-md">
+												<input type="text" class="form-control pxp-is-address" name="serviceName" placeholder="Search by entering name" id="pxp-p-search-address">
+												<div class="input-group-append">
+													<button type="submit" class="btn btn-md btn-outline-primary" style="border-top-right-radius:50px; border-bottom-right-radius:50px"><span class="fa fa-search"></span></button>
+    											</div>
+											</div>
 										</form>
 									</div>
 								</div>
@@ -100,7 +104,7 @@
 
 						<ul class="pagination pxp-paginantion mt-2 mt-md-4">
 							{% for page in total_pages %}
-								<li class="page-item {% if page == page_obj.number %}active{% endif %}"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
+								<li class="page-item {% if page == page_obj.number %}active{% endif %}" style="background: none !important;"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
 							{% endfor %}
 							{% if page_obj.has_next %}
 								<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next <span class="fa fa-angle-right"></span></a></li>

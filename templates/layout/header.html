@@ -31,7 +31,8 @@
         <title>SwiftLiving</title>
 
 		{% comment %} landing page {% endcomment %}
-		<link href="{% static 'css/landing/styles.css' %}" rel="stylesheet" />
+		{% comment %} <link href="{% static 'css/landing/styles.css' %}" rel="stylesheet" /> {% endcomment %}
+		<link href="{% static 'css/landing/MasterStyle.css' %}" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.css" />
         <link rel="icon" type="image/x-icon" href="{% static 'assets/images/logo/sl_logo_mini_black.png' %}" />
@@ -322,6 +323,7 @@
 											{{user}} &nbsp; <i class="fa fa-caret-down"></i> &nbsp;
 										  </div>
 										  <div class="dropdown-content" id="header_dropdown_content" style="margin-left:25px; text-align:right;">
+										  	<a class="aclass" href="{% url 'checkout:myrequest' %}" style="color:black; text-decoration:none;"> Requests</a>
 											{% if user.usertype.is_student %}
 												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% elif user.usertype.is_landlord %}

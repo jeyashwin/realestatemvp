@@ -42,7 +42,7 @@
 										</div>
 										<div class="pxp-results-card-1-gradient"></div>
 										<div class="pxp-results-card-1-details">
-											<div class="pxp-results-card-1-details-title">{{object.title|title}}</div>
+											<div class="pxp-results-card-1-details-title">{{object.title}}</div>
 											<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
 										</div>
 										<div class="pxp-results-card-1-features">
@@ -55,7 +55,7 @@
 											<span class="fa fa-times"></span>
 										</div> {% endcomment %}
 									</a>
-									<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px; padding-bottom: 10px">
+									<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px;">
 									    <form method="POST" action="">
 										<div class="row">
 											<div class="col-md-6 form-control" id="leasedcheckdiv_{{object.id}}" onclick="leasedcheckclick({{object.id}})" style="border:none; border-radius:0px; background-color:#fff;">

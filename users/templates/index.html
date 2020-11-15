@@ -22,11 +22,11 @@
         .mailcolumn { padding-right:0; }
         .submitcolumn { padding-left:0; }
         
-        .mailcolumn > input { border-top-left-radius:50px !important; border-bottom-left-radius:50px !important; }
-        .submitcolumn > button { border-top-right-radius:50px !important; border-bottom-right-radius:50px !important; }
+        .mailcolumn > input { border-top-left-radius:50px !important; border-bottom-left-radius:50px !important; border-top-right-radius:0px !important; border-bottom-right-radius:0px !important;}
+        .submitcolumn > button { border-top-right-radius:50px !important; border-bottom-right-radius:50px !important; border-top-left-radius:0px !important; border-bottom-left-radius:0px !important;}
         
-        .sect_title { font-size:48px !important; }
-        .sect_content { font-size:24px !important; }			
+        .sect_title { font-size:48px !important; color: #323f52;}
+        .sect_content { font-size:24px !important;}			
     }
     
     @media only screen and (max-width: 600px) {
@@ -57,7 +57,7 @@
         .mailcolumn > input { border-radius:50px; }
         .submitcolumn > button { border-radius:50px; margin-top:10px; }
         
-        .sect_title { font-size:30px !important; }
+        .sect_title { font-size:30px !important;  color: #323f52;}
         .sect_content { font-size:22px !important; }			
 
     }
@@ -90,16 +90,13 @@
                                 </div>
                                 <div class="col-md-4 col-xs-4 submitcolumn">
                                     <button type="submit" id="submit" name="submit" value="SIGN UP" class="form-control btn" style="border:1px solid #0B3360; background-color:#0B3360; color:#fff; padding:5px; font-weight:bold; height:40px; font-size:13px; outline:none;">Sign Up</button>
-
-
                                 </div>
                                 <div class="col-md-12 col-xs-12" style="color:black;">
                                     <p class="betasect">Be one of the first to try it - sign up for the beta.</p>
                                 </div>
 
                             </div>
-                        </form>
-                    
+                        </form>                    
                 </div>
                 <div class="col-lg-5 mb-5">
                     <img class="img-fluid" src="{% static 'assets/images/landing-page.png' %}" style="border-radius:10px; width:100%; "/>
@@ -148,7 +145,7 @@
                 <br><br>
                 
                 <h1 class="sect_title"><b>Discover a new roommate</b></h1>
-                <p class="sect_content">Create a profile to allow others to see your interests and preferences in a roommate.</p>
+                <p class="sect_content" style='color: #687281;'>Create a profile to allow others to see your interests and preferences in a roommate.</p>
                 
                 <img class="img-fluidd img-fluidd-3" src="{% static 'assets/images/student.png' %}" style="border-radius:10px;  width:90%;"/>
             </div>
@@ -190,7 +187,7 @@
             </div>
             <div class="col-lg-5 section-content section-content-5">
             <h1 class="sect_title"><b>Furnishing your home just got easier</b></h1>
-            <p class="sect_content">A marketplace for individuals to rent furniture and appliances at an affordable price.</p>
+            <p class="sect_content" style='color: #687281;'>A marketplace for individuals to rent furniture and appliances at an affordable price.</p>
             <br><br>
             </div>
         </div>

@@ -15,53 +15,53 @@ class PropertyForm(forms.ModelForm):
     amenity1 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Pool'
+            'placeholder': 'Ex Pool'
         }),
         help_text="Add Minimum 4 Amenities."
     )
     amenity2 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Gym'
+            'placeholder': 'Ex Gym'
         }),
     )
     amenity3 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Furnished'
+            'placeholder': 'Ex Furnished'
         }),
     )
     amenity4 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Unfurnished'
+            'placeholder': 'Ex Unfurnished'
         }),
     )
     amenity5 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Wifi'
+            'placeholder': 'Ex Wifi'
         }),
         required=False,
     )
     amenity6 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Eg Air Condition'
+            'placeholder': 'Ex Air Condition'
         }),
         required=False,
     )
     
     class Meta:
         model = Property
-        exclude = ['landlord', 'likes', 'dislikes', 'amenities', 'averageDistance', 'location',
+        exclude = ['title', 'landlord', 'likes', 'dislikes', 'amenities', 'averageDistance', 'location',
                     'locationType', 'placeId']
 
         widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control', 
-                'placeholder': "Enter property title",
-            }),
+            # 'title': forms.TextInput(attrs={
+            #     'class': 'form-control', 
+            #     'placeholder': "Enter property title",
+            # }),
             'description': forms.Textarea(attrs={
                 'class': 'form-control', 
                 'placeholder': "Describe the property...",
@@ -74,9 +74,9 @@ class PropertyForm(forms.ModelForm):
                 'class': 'form-control',
                 'placeholder': "Enter Zipcode",
             }),
-            'address': forms.Textarea(attrs={
+            'address': forms.TextInput(attrs={
                 'class': 'form-control',
-                'rows': '2'
+                'placeholder': 'Ex 1380, stonybrook'
             }),
             'parkingSpace': forms.NumberInput(attrs={
                 'class': 'utiltiesExpand',
@@ -146,7 +146,7 @@ class PropertyImageForm(forms.ModelForm):
         widgets = {
             'imageDescription': forms.TextInput(attrs = {
                 'class':'form-control imageDescriptionBox',
-                'placeholder': 'Eg Bedroom Image'
+                'placeholder': 'Ex Bedroom Image'
             }),
             'imagePath':forms.ClearableFileInput(attrs = {'class':'form-control', 'style': 'display: none'}),
         }
@@ -164,7 +164,7 @@ class PropertyVideoForm(forms.ModelForm):
         widgets = {
             'videoDescription': forms.TextInput(attrs = {
                 'class':'form-control videoDescriptionBox',
-                'placeholder': 'Eg Bedroom Video'
+                'placeholder': 'Ex Bedroom Video'
             }),
             'videoPath':forms.ClearableFileInput(attrs = {
                 'class': 'form-control', 
@@ -210,10 +210,10 @@ class PropertyFilterSortForm(forms.Form):
     maxPri = forms.IntegerField(required=False)
     disPro = forms.FloatField(required=False)
     disAmen = forms.FloatField(required=False)
-    amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={
-                    'style': 'display:none; margin-top:10px;'
-                }), 
-                queryset=Amenities.objects.all(), required=False)
+    # amenities = forms.ModelMultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={
+    #                 'style': 'display:none; margin-top:10px;'
+    #             }), 
+    #             queryset=Amenities.objects.all(), required=False)
     sort = forms.ChoiceField(widget=forms.Select(attrs={'class': 'custom-select'}), 
                 choices=sortChoices, required=False)
 
