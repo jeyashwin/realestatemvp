@@ -3,10 +3,11 @@ import pymongo
 from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.gis.db.models.functions import Distance
+from django.contrib import messages
 from django.contrib.gis.measure import D
 from django.contrib.gis.geos import Point
 from django.db import transaction
@@ -203,7 +204,7 @@ class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         return super().get_queryset().filter(landlord__user__user=self.request.user)
-
+        
 
 class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
@@ -438,3 +439,35 @@ def PostQuestionDeleteView(request, pk):
         return redirect('property:propertyDetail', ques.propKey.urlSlug)
     else:
         raise Http404
+
+@login_required
+@user_passes_test(landlordAccessTest)
+def VaccantChangeView(request, slug):
+    if request.method == "POST":
+        propObject = get_object_or_404(Property, urlSlug=slug)
+        #add check point if the same owner is changing
+        # print(request.POST)
+        leaseStatus = request.POST.get('leasestatus', None)
+        leaseStart = request.POST.get('leasestartdate', None)
+        leaseEnd = request.POST.get('leaseenddate', None)
+        if leaseStatus:
+            if leaseStatus == 'lease':
+                if leaseStart == '' or leaseStart is None or leaseEnd == '' or leaseEnd is None:
+                    messages.add_message(request, messages.ERROR, 'Lease Start and End date is required')
+                else:
+                    propObject.isleased = True
+                    propObject.leaseStart = leaseStart
+                    propObject.leaseEnd = leaseEnd
+                    propObject.save()
+                    messages.add_message(request, messages.SUCCESS, 'Property status changed to Leased.')
+            elif leaseStatus == 'vaccant':
+                propObject.isleased = False
+                if propObject.leaseStart:
+                    propObject.leaseStart = None
+                if propObject.leaseEnd:
+                    propObject.leaseEnd = None
+                propObject.save()
+                messages.add_message(request, messages.SUCCESS, 'Property status changed to Vaccant.')
+            else:
+                messages.add_message(request, messages.ERROR, 'Not a valid option!')
+    return redirect('property:propertyManage')

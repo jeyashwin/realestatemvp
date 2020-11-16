@@ -5,6 +5,13 @@
 		<style>
 			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 			.pxp-results-card-1-save:hover { background-color:maroon; color:#fff; }
+			.leaseDate {
+				background:rgba(255, 255, 255, 1); 
+				border-radius:5px; 
+				border:none; 
+				border-radius:0px; 
+				border-top:2px solid #002754;
+			}
 		</style>
 		
             <div class="pxp-content-side pxp-content-leftt pxp-half">
@@ -16,6 +23,16 @@
 						<a href="{% url 'property:propertyCreate' %}" class="btn pull-right" style="background-color: #044C7E; border-radius:50px; color:#fff;"><i class="fa fa-plus"></i> Add new Property</a>
 					</h2>
 					<hr>
+					{% if messages %}
+					{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+						<strong>{{ message }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endfor %}
+					{% endif %}
 					{% load humanize %}
                     <div class="row">
 						{% if object_list %}
@@ -56,34 +73,35 @@
 										</div> {% endcomment %}
 									</a>
 									<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px;">
-									    <form method="POST" action="">
+									    <form method="POST" action="{% url 'property:vaccant' object.urlSlug %}">
+										{% csrf_token %}
 										<div class="row">
-											<div class="col-md-6 form-control" id="leasedcheckdiv_{{object.id}}" onclick="leasedcheckclick({{object.id}})" style="border:none; border-radius:0px; background-color:#fff;">
+											<div class="col-md-6 form-control" id="leasedcheckdiv_{{object.id}}" onclick="leasedcheckclick({{object.id}})" style="border:none; border-radius:0px; {% if object.isleased %}background-color:#002754; {% else %} background-color:#fff;{% endif %}">
 												<span class="pull-left" style="padding-top:7px; color:#fff;">
-													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="leasedcheckfa_{{object.id}}" style="display:none;"></i></span>
-													<label style="color:black;" id="leasedcheckinput_{{object.id}}"><input name="leasestatus" type="radio" style="width:0px; display:non;"> &nbsp; Leased</label>
+													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="leasedcheckfa_{{object.id}}" style="{% if not object.isleased %}display:none;{% endif %}"></i></span>
+													<label style="{% if not object.isleased %}color:black;{% endif %}" id="leasedcheckinput_{{object.id}}"><input name="leasestatus" value="lease" {% if object.isleased %}checked{% endif %} type="radio" style="width:0px; display:none;"> &nbsp; Leased</label>
 												</span>
 											</div>
-											<div class="col-md-6 form-control" id="vacantcheckdiv_{{object.id}}" onclick="vacantcheckclick({{object.id}})" style="border:none; border-radius:0px; background-color:#002754;">
+											<div class="col-md-6 form-control" id="vacantcheckdiv_{{object.id}}" onclick="vacantcheckclick({{object.id}})" style="border:none; border-radius:0px; {% if object.isleased %}background-color:#fff;{% else %}background-color:#002754;{% endif %}">
 												<span class="pull-left" style="padding-top:7px; color:#fff;">
 													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="vacantcheckfa_{{object.id}}"></i></span>
-													<label id="vacantcheckinput_{{object.id}}"><input name="leasestatus" type="radio" checked style="width:0px; display:non;"> &nbsp; Vacant</label>
+													<label style="{% if object.isleased %}color:black;{% endif %}" id="vacantcheckinput_{{object.id}}"><input name="leasestatus" type="radio" value="vaccant" {% if not object.isleased %}checked{% endif %} style="width:0px; display:none;"> &nbsp; Vacant</label>
 												</span>
 											</div>
-											<div class="row" id="leaseddates_{{object.id}}" style="display:none;">	
+											<div class="row" id="leaseddates_{{object.id}}" style="{% if not object.isleased %}display: none;{% endif %}">	
 												<div class="col-md-6" style="padding-right:0;">
-													<input type="text" onfocus="(this.type='date')" placeholder="Start Date" class="form-control" id="leasestartdate" name="leasestartdate" style="background:rgba(255, 255, 255, 1); border-radius:5px; border:none; border-radius:0px; border-top:2px solid #002754;" required>
+													<input type="date" placeholder="Start Date" class="form-control leaseDate" {% if object.isleased %}value={{object.leaseStart|date:'Y-m-d'}}{% endif %} id="leasestartdate" name="leasestartdate">
+													{% comment %} {{form.leaseStart}} {% endcomment %}
 												</div>
 												<div class="col-md-6" style="padding-left:0;">	
-													<input type="text" onfocus="(this.type='date')" placeholder="End Date" class="form-control" id="leaseenddate" name="leaseenddate" style="background:rgba(255, 255, 255, 1); border-radius:5px; border:none; border-radius:0px; border-top:2px solid #002754;" required>
+													{% comment %} {{form.leaseEnd}} {% endcomment %}
+													<input type="date" placeholder="End Date" class="form-control leaseDate" id="leaseenddate" {% if object.isleased %}value={{object.leaseEnd|date:'Y-m-d'}}{% endif %} name="leaseenddate">
 												</div>
-						
-												<div class="col-md-12">
-													<input type="submit" name="submit" value="Submit" class="form-control" style="border:none; border-radius:0px; background-color:#002754; width:100%; color:#fff; font-weight:bold;"/>
-												</div>
+												{% comment %} <div class="col-md-12">
+													
+												</div> {% endcomment %}
 											</div>
-												
-	
+											<input type="submit" value="Submit" class="form-control" style="border:none; border-radius:0px; background-color:#002754; width:100%; color:#fff; font-weight:bold;"/>
 										</div>
 									    </form>
 									</div>

@@ -113,6 +113,9 @@ class Property(geoModel.Model):
                 )
     likes = models.ManyToManyField(UserStudent, related_name="propLikes", blank=True)
     dislikes = models.ManyToManyField(UserStudent, related_name="propDislikes", blank=True)
+    isleased = models.BooleanField(default=False)
+    leaseStart = models.DateField(blank=True, null=True)
+    leaseEnd = models.DateField(blank=True, null=True)
     updatedDate = models.DateTimeField(auto_now=True, verbose_name="Last Updated Date")
     createdDate = models.DateTimeField(auto_now_add=True, verbose_name="Created Date")
 

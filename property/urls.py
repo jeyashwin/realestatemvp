@@ -14,4 +14,5 @@ urlpatterns = [
     path("property/answer/<int:pk>/", PostAnswerView, name="propertyAnswer"),
     path("property/question/delete/<int:pk>/", PostQuestionDeleteView, name="questionDelete"),
     path("myproperty/", LandlordManageProperty.as_view(), name="propertyManage"),
+    path("vaccant/<slug:slug>/", VaccantChangeView, name="vaccant"),
 ]

@@ -48,6 +48,7 @@ class PropertyAdmin(OSMGeoAdmin):
         ('Extra Information', {'fields': ['utilities', 'garage', 'parkingSpace', 'amenities']}),
         ('Availability Dates', {'fields': ['fromDate', 'toDate']}),
         ('Likes & Dislikes', {'fields': ['likes', 'totalLikes', 'dislikes', 'totalDislikes']}),
+        ('Vacant', {'fields': ['isleased', 'leaseStart', 'leaseEnd']}),
         ('Important Date Information', {'fields': ['updatedDate', 'createdDate']}),
     ]
     inlines = [PropertyImageInline, PropertyVideoInline, PropertyNearbyInline]

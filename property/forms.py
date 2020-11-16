@@ -279,4 +279,3 @@ class PropertyFilterSortForm(forms.Form):
         if minprice and maxprice:
             if minprice >= maxprice:
                 raise forms.ValidationError({'minPri': "minimum price must be less than max price"})
-
