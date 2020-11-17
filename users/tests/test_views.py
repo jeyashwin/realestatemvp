@@ -5,7 +5,7 @@ from http import HTTPStatus
 from PIL import Image
 import tempfile, os
 
-from users.models import UserType, UserStudent, UserLandLord, Interest
+from users.models import UserType, UserStudent, UserLandLord, Interest, InviteCode
 
 client = Client()
 
@@ -147,9 +147,9 @@ class LandlordSignUpViewTests(TestCase):
 
         self.assertEqual(errorData.get('email'), ['Enter a valid email address.'])
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
-        self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
+        self.assertEqual(errorData.get('password2'), ['The two password fields didn’t match.'])
         self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
-        self.assertEqual(errorData.get('lanprofilePicture'), ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData.get('lanprofilePicture'), ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
 
 
 class StudentSignUpViewTests(TestCase):
@@ -225,6 +225,7 @@ class StudentSignUpViewTests(TestCase):
         self.assertFalse(userStudent.emailVerified)
         self.assertFalse(userStudent.phoneVerified)
         self.assertTrue(userStudent.interests.filter(interest="Adventure").exists)
+        self.assertTrue(InviteCode.objects.filter(student=userStudent).exists())
         deleteImage(userStudent.profilePicture)
 
     def test_create_student_invalid_payload1(self):
@@ -268,7 +269,7 @@ class StudentSignUpViewTests(TestCase):
         
         self.assertEqual(errorData.get('email'), ['Enter a valid email address.'])
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
-        self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
+        self.assertEqual(errorData.get('password2'), ['The two password fields didn’t match.'])
         self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData.get('fblink'), ['Enter a valid URL.'])
         # self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
@@ -276,7 +277,7 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('classYear'), ['Minimum year 2010'])
         # self.assertEqual(errorData.get('interests'), ['Select a valid choice. 123 is not one of the available choices.'])
-        self.assertEqual(errorData.get('profilePicture'), ["File extension 'avi' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData.get('profilePicture'), ['File extension “avi” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
         self.invalidPayload2["classYear"] = 2040
         response = client.post(
             reverse('user:studentSignup'),
@@ -489,7 +490,7 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(errorData["email"],  ['Enter a valid email address.'])
         self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData["classYear"],  ['Maximum year 2030'])
-        self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData['profilePicture'], ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
         # self.assertEqual(errorData["interests"],  ['Select a valid choice. 10 is not one of the available choices.'])
         self.assertEqual(errorData.get('fbLink'), ['Enter a valid URL.'])
         # self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
@@ -600,7 +601,7 @@ class LandlordProfileUpdateViewTests(TestCase):
         self.assertNotEqual(landlordObject.user.user.last_name, self.validPayload.get('last_name'))
         self.assertEqual(errorData["email"],  ['Enter a valid email address.'])
         self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
-        self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData['profilePicture'], ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
 
 
 class UserDeleteViewTests(TestCase):

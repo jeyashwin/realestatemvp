@@ -209,7 +209,6 @@ class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
     template_name = "property/properties.html"
-    ordering = ['distance']
     paginate_by = 10
     form_class = PropertyFilterSortForm
 
@@ -225,7 +224,7 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         userlocation = Point(longitude, latitude, srid=4326)
         
         filterSortForm = PropertyFilterSortForm(data=self.request.GET)
-        propObjects = super().get_queryset().annotate(distance=Distance(userlocation, 'location'))
+        propObjects = super().get_queryset().annotate(distance=Distance(userlocation, 'location')).order_by('distance')
 
         if filterSortForm.is_valid():
             room = filterSortForm.cleaned_data.get('room', None)
@@ -283,7 +282,7 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                 propObjects = propObjects.filter(rentPerPerson__lte=maxPri)
             # if amenities is not None and amenities:
             #     propObjects = propObjects.filter(amenities__in=amenities).distinct()
-            if bath is not None:
+            if sort is not None:
                 if sort == "p_low_hi":
                     propObjects = propObjects.order_by("rentPerPerson")
                 if sort == "p_hi_low":

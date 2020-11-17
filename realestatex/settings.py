@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'services',
     'checkout',
     'notifications',
+    'channels',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -80,7 +82,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'realestatex.wsgi.application'
+# WSGI_APPLICATION = 'realestatex.wsgi.application'
+ASGI_APPLICATION = 'realestatex.routing.application'
 
 
 # Database
@@ -105,7 +108,14 @@ DATABASES = {
     # }
 }
 
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators

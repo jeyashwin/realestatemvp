@@ -36,8 +36,8 @@
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.css" />
         <link rel="icon" type="image/x-icon" href="{% static 'assets/images/logo/sl_logo_mini_black.png' %}" />
-        <script data-search-pseudo-elements defer src="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script>
-        <script src="../../cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script>
+        {% comment %} <script data-search-pseudo-elements defer src="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script> {% endcomment %}
+        {% comment %} <script src="../../cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script> {% endcomment %}
 
 		<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@800&family=Balsamiq+Sans&family=Roboto:wght@900&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300;800&family=Balsamiq+Sans&family=Roboto:wght@900&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
@@ -194,7 +194,7 @@
 <script>
 	function messagesclick()
 	{
-		window.location.href = "/roommates_messages";
+		window.location.href = "{% url 'chat:index' %}";
 	}
 </script>
 									<div id="notificationpanel" class="panel" style="position:absolute; z-index:1000; background-color:#fff; margin-left:-150px; margin-top:30px; border-radius:7px; width:400px; border:1px solid #e2e2e2; display:none;">
