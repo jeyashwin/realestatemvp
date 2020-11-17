@@ -167,3 +167,8 @@ class UsersModelTests(TestCase):
         exp_path = f'uploads/profilePicture/{uuid}.jpg'
 
         self.assertEqual(file_path, exp_path)
+
+
+#invite code model str & post save
+# contact us model str
+# userstudent new fields valid & invalid

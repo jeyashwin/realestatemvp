@@ -37,27 +37,27 @@ class PrivateAccessTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/favourites/')
 
-    def test_favourite_add_view(self):
-        """Test get & post request login required for favourite add view"""
-        prop = sampleProperty()
-        response = client.get(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/favourites/add/{}/'.format(prop.urlSlug))
+    # def test_favourite_add_view(self):
+    #     """Test get & post request login required for favourite add view"""
+    #     prop = sampleProperty()
+    #     response = client.get(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/?next=/favourites/add/{}/'.format(prop.urlSlug))
 
-        response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/favourites/add/{}/'.format(prop.urlSlug))
+    #     response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/?next=/favourites/add/{}/'.format(prop.urlSlug))
 
-    def test_favourite_remove_view(self):
-        """Test get & post request login required for favourite remove view"""
-        prop = sampleProperty()
-        response = client.get(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/favourites/remove/{}/'.format(prop.urlSlug))
+    # def test_favourite_remove_view(self):
+    #     """Test get & post request login required for favourite remove view"""
+    #     prop = sampleProperty()
+    #     response = client.get(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/?next=/favourites/remove/{}/'.format(prop.urlSlug))
 
-        response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/favourites/remove/{}/'.format(prop.urlSlug))
+    #     response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/?next=/favourites/remove/{}/'.format(prop.urlSlug))
     
     def test_heart_add_remove_view(self):
         """Test get & post request login required for heart add and remove view"""
@@ -127,23 +127,23 @@ class PrivateLandlordAccessStudentAppTests(TestCase):
         response = client.post(reverse('students:favourites'))
         self.assertEqual(response.status_code, HTTPStatus.FORBIDDEN)
     
-    def test_favourite_add_view_as_landlord(self):
-        """Test get & post request for favourite add view as landlord"""
-        prop = sampleProperty()
-        response = client.get(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    # def test_favourite_add_view_as_landlord(self):
+    #     """Test get & post request for favourite add view as landlord"""
+    #     prop = sampleProperty()
+    #     response = client.get(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-        response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-    def test_favourite_remove_view_as_landlord(self):
-        """Test get & post request for favourite remove view as landlord"""
-        prop = sampleProperty()
-        response = client.get(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    # def test_favourite_remove_view_as_landlord(self):
+    #     """Test get & post request for favourite remove view as landlord"""
+    #     prop = sampleProperty()
+    #     response = client.get(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-        response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
     
     def test_heart_add_remove_view_as_landlord(self):
         """Test get & post request for heart add and remove view as landlord"""
@@ -193,138 +193,161 @@ class PrivateStudentAccessStudentAppTests(TestCase):
         self.client = client
         self.client.force_login(user=self.user)
 
-    def test_favourite_list_view_returns_for_current_user(self):
-        """ Test get method of favourite list view that object returned is of current user"""
-        std2 = createStudent(username='otherfavouite')
-        fav1 = samplefavourite(self.student)
-        fav2 = samplefavourite(self.student)
-        fav3 = samplefavourite(self.student)
-        fav4 = samplefavourite(std2)
+    # def test_favourite_list_view_returns_for_current_user(self):
+    #     """ Test get method of favourite list view that object returned is of current user"""
+    #     std2 = createStudent(username='otherfavouite')
+    #     fav1 = samplefavourite(self.student)
+    #     fav2 = samplefavourite(self.student)
+    #     fav3 = samplefavourite(self.student)
+    #     fav4 = samplefavourite(std2)
 
-        favObj = Favourite.objects.get(student=self.student)
+    #     favObj = Favourite.objects.get(student=self.student)
+
+    #     response = client.get(reverse('students:favourites'))
+    #     resdata = list(response.context.get('object_list'))
+    #     realdata = list(resdata[0].properties.all())
+        
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     self.assertEqual(favObj.properties.count(), 3)
+    #     self.assertIn(fav1, realdata)
+    #     self.assertIn(fav2, realdata)
+    #     self.assertIn(fav3, realdata)
+    #     self.assertNotIn(fav4, realdata)
+
+    #     response = client.post(reverse('students:favourites'))
+    #     self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
+
+    def test_favourite_list_view_returns_for_current_user(self):
+        """ Test get method of favourite list view that object returned is of current user liked properties"""
+        std2 = createStudent(username='otherfavouite')
+        propObject = sampleProperty()
+        propObject1 = sampleProperty(landName='otherfavland')
+        propObject.likes.add(self.student)
+        propObject.likes.add(std2)
+        propObject1.likes.add(self.student)
+        propObject1.likes.add(std2)
+        propObject.save()
+        propObject1.save()
 
         response = client.get(reverse('students:favourites'))
-        resdata = list(response.context.get('object_list'))
-        realdata = list(resdata[0].properties.all())
+        resdata = response.context.get('object_list')
         
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(favObj.properties.count(), 3)
-        self.assertIn(fav1, realdata)
-        self.assertIn(fav2, realdata)
-        self.assertIn(fav3, realdata)
-        self.assertNotIn(fav4, realdata)
+        self.assertEqual(resdata.count(), 2)
+        self.assertEqual(resdata[0].property, propObject)
+        self.assertEqual(resdata[1].property, propObject1)
 
         response = client.post(reverse('students:favourites'))
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
 
-    def test_favourite_add_view_get(self):
-        """Test the get request of add favourites view as student user"""
-        prop = sampleProperty()
-        response = client.get(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    # def test_favourite_add_view_get(self):
+    #     """Test the get request of add favourites view as student user"""
+    #     prop = sampleProperty()
+    #     response = client.get(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/property/{}/'.format(prop.urlSlug))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/property/{}/'.format(prop.urlSlug))
 
-    def test_favourite_add_view_as_new_user(self):
-        """Test the post request of add favourites view as student new user"""
-        prop = sampleProperty()
-        self.assertFalse(Favourite.objects.filter(student=self.student).exists())
-        response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    # def test_favourite_add_view_as_new_user(self):
+    #     """Test the post request of add favourites view as student new user"""
+    #     prop = sampleProperty()
+    #     self.assertFalse(Favourite.objects.filter(student=self.student).exists())
+    #     response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTrue(Favourite.objects.filter(student=self.student).exists())
-        fav = Favourite.objects.get(student=self.student)
-        self.assertTrue(response.json().get('added'))
-        self.assertIn(prop, fav.properties.all())
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     self.assertTrue(Favourite.objects.filter(student=self.student).exists())
+    #     fav = Favourite.objects.get(student=self.student)
+    #     self.assertTrue(response.json().get('added'))
+    #     self.assertIn(prop, fav.properties.all())
 
-    def test_favourite_add_view_as_old_user(self):
-        """Test the post request of add favourites view as student old user"""
-        fav1 = samplefavourite(self.student)
-        prop = sampleProperty()
-        self.assertTrue(Favourite.objects.filter(student=self.student).exists())
-        response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
+    # def test_favourite_add_view_as_old_user(self):
+    #     """Test the post request of add favourites view as student old user"""
+    #     fav1 = samplefavourite(self.student)
+    #     prop = sampleProperty()
+    #     self.assertTrue(Favourite.objects.filter(student=self.student).exists())
+    #     response = client.post(reverse('students:addFavourites', kwargs={'slug': prop.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        fav = Favourite.objects.get(student=self.student)
-        self.assertTrue(response.json().get('added'))
-        self.assertEqual(fav.properties.count(), 2)
-        self.assertIn(prop, fav.properties.all())
-        self.assertIn(fav1, fav.properties.all())
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     fav = Favourite.objects.get(student=self.student)
+    #     self.assertTrue(response.json().get('added'))
+    #     self.assertEqual(fav.properties.count(), 2)
+    #     self.assertIn(prop, fav.properties.all())
+    #     self.assertIn(fav1, fav.properties.all())
     
-    def test_favourite_add_view_as_invalid_property(self):
-        """Test the get & post request of add favourites with invalid property"""
+    # def test_favourite_add_view_as_invalid_property(self):
+    #     """Test the get & post request of add favourites with invalid property"""
 
-        response = client.get(reverse('students:addFavourites', kwargs={'slug': 'sadas-asda'}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     response = client.get(reverse('students:addFavourites', kwargs={'slug': 'sadas-asda'}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-        response = client.post(reverse('students:addFavourites', kwargs={'slug': 'asdada-asdas'}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     response = client.post(reverse('students:addFavourites', kwargs={'slug': 'asdada-asdas'}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
     
-    def test_favourite_add_view_already_added_property(self):
-        """Test the post request of add favourites where the property already added as favourite"""
-        fav1 = samplefavourite(self.student)
-        self.assertTrue(Favourite.objects.filter(student=self.student).exists())
-        response = client.post(reverse('students:addFavourites', kwargs={'slug': fav1.urlSlug}))
+    # def test_favourite_add_view_already_added_property(self):
+    #     """Test the post request of add favourites where the property already added as favourite"""
+    #     fav1 = samplefavourite(self.student)
+    #     self.assertTrue(Favourite.objects.filter(student=self.student).exists())
+    #     response = client.post(reverse('students:addFavourites', kwargs={'slug': fav1.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        fav = Favourite.objects.get(student=self.student)
-        self.assertFalse(response.json().get('added'))
-        self.assertEqual(fav.properties.count(), 1)
-        self.assertIn(fav1, fav.properties.all())
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     fav = Favourite.objects.get(student=self.student)
+    #     self.assertFalse(response.json().get('added'))
+    #     self.assertEqual(fav.properties.count(), 1)
+    #     self.assertIn(fav1, fav.properties.all())
 
-    def test_favourite_remove_view_get(self):
-        """Test the get request of remove favourites view as student user"""
-        prop = sampleProperty()
-        response = client.get(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    # def test_favourite_remove_view_get(self):
+    #     """Test the get request of remove favourites view as student user"""
+    #     prop = sampleProperty()
+    #     response = client.get(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/property/{}/'.format(prop.urlSlug))
+    #     self.assertEqual(response.status_code, HTTPStatus.FOUND)
+    #     self.assertEqual(response.url, '/property/{}/'.format(prop.urlSlug))
     
-    def test_favourite_remove_view_as_new_user(self):
-        """Test the post request of remove favourites view as student new user"""
-        prop = sampleProperty()
-        self.assertFalse(Favourite.objects.filter(student=self.student).exists())
-        response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    # def test_favourite_remove_view_as_new_user(self):
+    #     """Test the post request of remove favourites view as student new user"""
+    #     prop = sampleProperty()
+    #     self.assertFalse(Favourite.objects.filter(student=self.student).exists())
+    #     response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-        self.assertFalse(Favourite.objects.filter(student=self.student).exists())
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     self.assertFalse(Favourite.objects.filter(student=self.student).exists())
 
-    def test_favourite_remove_view_as_old_user_valid_property(self):
-        """Test the post request of remove favourites view as student old user with valid property"""
-        fav1 = samplefavourite(self.student)
-        self.assertTrue(Favourite.objects.filter(student=self.student).exists())
-        fav = Favourite.objects.get(student=self.student)
-        self.assertIn(fav1, fav.properties.all())
-        response = client.post(reverse('students:removeFavourites', kwargs={'slug': fav1.urlSlug}))
+    # def test_favourite_remove_view_as_old_user_valid_property(self):
+    #     """Test the post request of remove favourites view as student old user with valid property"""
+    #     fav1 = samplefavourite(self.student)
+    #     self.assertTrue(Favourite.objects.filter(student=self.student).exists())
+    #     fav = Favourite.objects.get(student=self.student)
+    #     self.assertIn(fav1, fav.properties.all())
+    #     response = client.post(reverse('students:removeFavourites', kwargs={'slug': fav1.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertTrue(response.json().get('removed'))
-        fav.refresh_from_db()
-        self.assertEqual(fav.properties.count(), 0)
-        self.assertNotIn(fav1, fav.properties.all())
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     self.assertTrue(response.json().get('removed'))
+    #     fav.refresh_from_db()
+    #     self.assertEqual(fav.properties.count(), 0)
+    #     self.assertNotIn(fav1, fav.properties.all())
     
-    def test_favourite_remove_view_as_invalid_property(self):
-        """Test the get & post request of remove favourites with invalid property"""
+    # def test_favourite_remove_view_as_invalid_property(self):
+    #     """Test the get & post request of remove favourites with invalid property"""
 
-        response = client.get(reverse('students:removeFavourites', kwargs={'slug': 'sadas-asda'}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     response = client.get(reverse('students:removeFavourites', kwargs={'slug': 'sadas-asda'}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-        response = client.post(reverse('students:removeFavourites', kwargs={'slug': 'asdada-asdas'}))
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
+    #     response = client.post(reverse('students:removeFavourites', kwargs={'slug': 'asdada-asdas'}))
+    #     self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
-    def test_favourite_remove_view_property_not_marked(self):
-        """Test the post request of remove favourites where the property not added as favourite"""
-        fav1 = samplefavourite(self.student)
-        prop = sampleProperty()
-        self.assertTrue(Favourite.objects.filter(student=self.student).exists())
-        response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
+    # def test_favourite_remove_view_property_not_marked(self):
+    #     """Test the post request of remove favourites where the property not added as favourite"""
+    #     fav1 = samplefavourite(self.student)
+    #     prop = sampleProperty()
+    #     self.assertTrue(Favourite.objects.filter(student=self.student).exists())
+    #     response = client.post(reverse('students:removeFavourites', kwargs={'slug': prop.urlSlug}))
 
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-        fav = Favourite.objects.get(student=self.student)
-        self.assertFalse(response.json().get('removed'))
-        self.assertEqual(fav.properties.count(), 1)
-        self.assertIn(fav1, fav.properties.all())
-        self.assertNotIn(prop, fav.properties.all())
+    #     self.assertEqual(response.status_code, HTTPStatus.OK)
+    #     fav = Favourite.objects.get(student=self.student)
+    #     self.assertFalse(response.json().get('removed'))
+    #     self.assertEqual(fav.properties.count(), 1)
+    #     self.assertIn(fav1, fav.properties.all())
+    #     self.assertNotIn(prop, fav.properties.all())
 
     def test_heart_add_remove_view_get(self):
         """Test the get request of add remove hearts view as student user"""

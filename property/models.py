@@ -158,21 +158,24 @@ class Property(geoModel.Model):
                 errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
 
         if self.address:
-            fullAddress = '{}, {} {}'.format(self.address, self.city, self.zipcode)
-            placeId, locationType, location, status = get_lat_long_from_address(fullAddress)
-            # print(placeId, locationType, location, status)
-            if status:
-                if placeId:
-                    self.placeId = placeId
-                if locationType:
-                    self.locationType = locationType
-                if location:
-                    longitude = location.get('lng', 0)
-                    latitude = location.get('lat', 0)
-                    self.location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-            else:
-                hasError = True
-                errorMess['address'] = ValidationError(('We are unable to locate the exact location. Please enter the address correctly.'), code='error')
+            try:
+                fullAddress = '{}, {} {}'.format(self.address, self.city, self.zipcode)
+                placeId, locationType, location, status = get_lat_long_from_address(fullAddress)
+                # print(placeId, locationType, location, status)
+                if status:
+                    if placeId:
+                        self.placeId = placeId
+                    if locationType:
+                        self.locationType = locationType
+                    if location:
+                        longitude = location.get('lng', 0)
+                        latitude = location.get('lat', 0)
+                        self.location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+                else:
+                    hasError = True
+                    errorMess['address'] = ValidationError(('We are unable to locate the exact location. Please enter the address correctly.'), code='error')
+            except Exception as e:
+                print(e)
 
         if hasError:
             raise ValidationError(errorMess)

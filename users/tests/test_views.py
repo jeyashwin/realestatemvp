@@ -716,3 +716,8 @@ class PrivateAccessTests(TestCase):
         response = client.post(reverse('user:deleteProfile', kwargs={'username': "TestUser"}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/delete/profile/TestUser/')
+
+#userstudent signup with invite code valid, invalid
+#userstudent signup with extra fields valid, invalid
+#userstudent profile update with extra fields valid, invalid
+#contact form with valid, invalid

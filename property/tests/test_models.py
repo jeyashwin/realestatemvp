@@ -4,11 +4,11 @@ from django.forms import ValidationError
 from PIL import Image
 import datetime, tempfile, os
 
-from property import models
+from property import models, taskSchedulers
 from users.tests.test_views import createStudentUser, createLandlordUser
 from users.models import UserLandLord, UserStudent
 
-def sampleProperty(landName=None, zipcode=12345, amount=1000, fromD=datetime.date.today(), toD=datetime.date.today() + datetime.timedelta(days=2)):
+def sampleProperty(landName=None, zipcode=88030, amount=1000, fromD=datetime.date.today(), toD=datetime.date.today() + datetime.timedelta(days=2)):
     if landName is None:
         landlord = createLandlordUser()
     else:
@@ -20,12 +20,12 @@ def sampleProperty(landName=None, zipcode=12345, amount=1000, fromD=datetime.dat
     stud2Object = UserStudent.objects.get(user__user=stud2)
     stud3Object = UserStudent.objects.get(user__user=stud3)
     landlordObject = UserLandLord.objects.get(user__user=landlord)
-    state = models.StateList.objects.create(stateFullName="Ozark", stateShortName="OZ")
-    city = models.CityList.objects.create(state=state, cityName="Los Angeles")
+    state = models.StateList.objects.create(stateFullName="New Mexico", stateShortName="NM")
+    city = models.CityList.objects.create(state=state, cityName="Deming")
     amenity1 = models.Amenities.objects.create(amenityType="Internet")
     amenity2 = models.Amenities.objects.create(amenityType="Pool")
-    prop = models.Property.objects.create(landlord=landlordObject, title="New property near lake", 
-            city=city, zipcode=zipcode, address="10/2 North cross", sqft="1000", occupants=10, rooms=10,
+    prop = models.Property.objects.create(landlord=landlordObject, 
+            city=city, zipcode=zipcode, address="91/2 I-10,", sqft="1000", occupants=10, rooms=10,
             bathrooms=6, securityDeposit=True, amount=amount, rentPerPerson=2000, 
             description="asdas asdas", utilities=True, garage=True, parkingSpace=10, 
             fromDate=fromD, toDate=toD
@@ -34,6 +34,15 @@ def sampleProperty(landName=None, zipcode=12345, amount=1000, fromD=datetime.dat
     prop.likes.set([stud1Object, stud3Object])
     prop.dislikes.set([stud2Object])
     prop.save()
+    try:
+        prop.clean()
+    except:
+        pass
+
+    jobs = taskSchedulers.scheduler.get_jobs()
+    for job in jobs:
+        job.remove()
+
     return prop
 
 
@@ -64,7 +73,7 @@ class PropertyModelTests(TestCase):
         propObject = sampleProperty()
 
         self.assertEqual(str(propObject), "{} {}".format(propObject.pk, propObject.title))
-        self.assertEqual(propObject.urlSlug, "new-property-near-lake")
+        self.assertEqual(propObject.urlSlug, "912-i-10-deming-nm-88030")
         self.assertEqual(propObject.totalLikes(), 2)
         self.assertEqual(propObject.totalDislikes(), 1)
 
@@ -126,3 +135,12 @@ class PropertyModelTests(TestCase):
                         answer="We have 24 hrs water supply.")
 
         self.assertEqual(str(postAnswer), postAnswer.answer)
+
+#property models new fields valid, invalid
+#property address geo location check
+#property title check
+#property nearby model str, valid, invalid fields
+#property jobstore model str, valid, invalid fields
+#property presave check
+#property post save check
+#property fetch nearby check

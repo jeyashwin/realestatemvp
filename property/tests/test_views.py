@@ -806,9 +806,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/myproperty/')
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validPayload1.get('title'))
+        self.assertEqual(prop.title, '1419 Westwood Blvd, Los Angeles, OZ 12345')
         self.assertEqual(prop.zipcode, str(self.validPayload1.get('zipcode')))
-        self.assertEqual(prop.urlSlug, "new-property-near-lake")
+        self.assertEqual(prop.urlSlug, "1419-westwood-blvd-los-angeles-oz-12345")
         self.assertEqual(prop.city.pk, self.validPayload1.get('city'))
         self.assertEqual(prop.rooms, self.validPayload1.get('rooms'))
         self.assertEqual(prop.securityDeposit, self.validPayload1.get('securityDeposit'))
@@ -832,9 +832,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/myproperty/')
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validPayload2.get('title'))
+        self.assertEqual(prop.title, '1419 Westwood Blvd, Los Angeles, OZ 54353')
         self.assertEqual(prop.zipcode, str(self.validPayload2.get('zipcode')))
-        self.assertEqual(prop.urlSlug, "new-property-near-lake")
+        self.assertEqual(prop.urlSlug, "1419-westwood-blvd-los-angeles-oz-54353")
         self.assertEqual(prop.city.pk, self.validPayload2.get('city'))
         self.assertEqual(prop.rooms, self.validPayload2.get('rooms'))
         self.assertFalse(prop.securityDeposit)
@@ -860,7 +860,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(propmodel.Property.objects.filter(landlord__user__user=self.landlord).count(), 0)
-        self.assertEqual(errorForm.get("title"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("title"), ['This field is required.'])
         self.assertEqual(errorForm.get("city"), ['This field is required.'])
         self.assertEqual(errorForm.get("zipcode"), ['This field is required.'])
         self.assertEqual(errorForm.get("address"), ['This field is required.'])
@@ -975,9 +975,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         prop.refresh_from_db()
 
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validUpdatePayload1.get('title'))
+        self.assertEqual(prop.title, 'property address, Los Angeles, OZ 32534')
         self.assertEqual(prop.zipcode, str(self.validUpdatePayload1.get('zipcode')))
-        self.assertEqual(prop.urlSlug, "lake-property")
+        self.assertEqual(prop.urlSlug, "property-address-los-angeles-oz-32534")
         self.assertEqual(prop.rooms, self.validUpdatePayload1.get('rooms'))
         self.assertFalse(prop.securityDeposit)
         self.assertEqual(prop.amount, None)
@@ -1018,7 +1018,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
 
         prop.refresh_from_db()
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validUpdatePayload2.get('title'))
+        self.assertEqual(prop.title, '1419 Westwood Blvd, Los Angeles, OZ 54353')
         
         self.assertEqual(prop.propertyimage_set.count(), 4)
         self.assertEqual(prop.propertyvideo_set.count(), 1)
@@ -1057,7 +1057,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
 
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(errorForm.get("title"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("title"), ['This field is required.'])
         self.assertEqual(errorForm.get("city"), ['This field is required.'])
         self.assertEqual(errorForm.get("zipcode"), ['This field is required.'])
         self.assertEqual(errorForm.get("address"), ['This field is required.'])
