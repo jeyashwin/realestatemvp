@@ -100,6 +100,7 @@
 				cursor:pointer;
 			}
 			
+			.active { background-color: rgba(15, 73, 140, 0.5) !important; }
 		</style>
 		
 
@@ -216,8 +217,9 @@
 			<div class="container-fluid">
 				
 				<div class="pull-right" style="margin-top:0px;">
-					<a href="/roommates_groups" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
-					<a href="/roommates_messages" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </a>
+					<span data-toggle="pill" href="#home" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </span>
+					<span data-toggle="pill" href="#menu1" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </span>
+					<span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span>
 					&nbsp;
 				</div><br>
 				
@@ -241,7 +243,7 @@
 													https://www.w3schools.com/bootstrap/img_avatar1.png
 												{% endif %}"
 										style="width:70px; height:70px; border-radius:100px; border:2px solid #0471a6;" />	
-									<h4><b>{{user}}</b></h4>
+									<h4 style="color:black;"><b>{{user}}</b></h4>
 									<p style="color:grey;">{{user.usertype.userstudent.university}}</p>
 								{% endif %}
 							</center>
@@ -273,7 +275,7 @@
 								{% endcomment %}
 							</div>
 						</div>
-						<div class="col-md-6" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:600px; overflow-y:scroll; overflow-x:none;">
+						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:600px; overflow-y:scroll; overflow-x:none;">
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
 							<!-- Tab content -->
@@ -311,7 +313,7 @@
 								{% endcomment %}
 									
 									<div class="row">
-										<div class="col-md-6">
+										<div class="col-md-8">
 											<h5><b>Images</b></h5>
 											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center> </div>
 											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
@@ -442,9 +444,10 @@
 								</div>
 								<br>
 								{% for object in object_list %}
+								
 									<div class="panel panel-default postspanel catpanel1" id="postid{{ object.pk }}" onclick="viewpostdetails(this)" data-postid="{{ object.pk }}" data-url="{% url 'students:postDetail' object.pk %}" data-commenturl="{% url 'students:commentCreate' object.pk %}" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									<form action="#" method="POST" enctype="multipart/form-data">
-										<div class="panel-body">
+									<form action="{% url 'students:postUpdate' object.pk %}" method="POST" enctype="multipart/form-data" id="updatePostForm{{object.pk}}">
+										<div class="panel-body" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; padding-bottom: 0px;">
 											<div class="row" style="color:#565555">
 												<div class="col-md-1">
 													<img 
@@ -455,37 +458,50 @@
 														https://xeroneit.net/upload/profile/20.jpg
 														{% endif %}
 														" 
-														style="width:50px; height:50px; border-radius:100px; border:3px solid grey;" 
+														style="width:35px; height:35px; border-radius:100px; border:3px solid grey;" 
 													/>
 												</div>
-												<div class="col-md-7">
+												<div class="col-md-10">
 													<h5> 
-														&nbsp; 
+														&nbsp; &nbsp; 
 														<b>{{object.student.user.user.first_name|title}} {{object.student.user.user.last_name|title}}</b>
 														&nbsp;
 														{% for interest in object.student.interests.all %}
-														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
+														<span class="btn btn-default btn-xs" style="display:none; color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
 														{% endfor %}
+														
+														<span class="pull-right" style="margin-top:-10px;">
+															{% if object.student.instaLink %}
+															<a href="{{object.student.instaLink}}" style="text-decoration:none;" target="blank">
+																<img onmouseover="hoverinsta(this)" onmouseleave="leaveinsta(this)" src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:33px; height:25px;" />
+															</a>
+															&nbsp;
+															{% endif %}
+															{% if object.student.fbLink %}
+															<a href="{{object.student.fbLink}}" style="text-decoration:none;" target="blank">
+																<img onmouseover="hoverfb(this)" onmouseleave="leavefb(this)" src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:27px; height:22px;" />
+															</a>
+															{% endif %}
+															{% if object.student.twitterLink %}
+															<a href="{{object.student.twitterLink}}" style="text-decoration:none;" target="blank">
+																<img onmouseover="hovertwitter(this)" onmouseleave="leavetwitter(this)" src="https://i.pinimg.com/originals/88/69/9b/88699b2ec3b3164abaf20a23e20ed935.png" style="width:25px; height:20px;" />
+															</a>
+															{% endif %}
+														</span>
 													</h5>
 												</div>
-												<div class="col-md-4">
-													<div class="pull-right">
-														{% if object.student.instaLink %}
-														<a href="{{object.student.instaLink}}" style="text-decoration:none;" target="blank">
-															<img onmouseover="hoverinsta(this)" onmouseleave="leaveinsta(this)" src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:40px; height:28px; position:relative; z-index:9999;" />
+												<!--div class="col-md-4">
+													<div class="pull-rightt">
+														<a href="#" style="text-decoration:none;">
+															<img onmouseover="hoverinsta(this)" onmouseleave="leaveinsta(this)" src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:30px; height:25px;" />
 														</a>
 														&nbsp;
-														{% endif %}
-														{% if object.student.fbLink %}
-														<a href="{{object.student.fbLink}}" style="text-decoration:none;" target="blank">
-															<img onmouseover="hoverfb(this)" onmouseleave="leavefb(this)" src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:25px; height:25px; position:relative; z-index:9999;" />
+														<a href="#" style="text-decoration:none;">
+															<img onmouseover="hoverfb(this)" onmouseleave="leavefb(this)" src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:30px; height:25px;" />
 														</a>
-														{% endif %}
-														{% if object.student.twitterLink %}
-														<a href="{{object.student.twitterLink}}" style="text-decoration:none;" target="blank">
-															<img onmouseover="hovertwitter(this)" onmouseleave="leavetwitter(this)" src="https://i.pinimg.com/originals/88/69/9b/88699b2ec3b3164abaf20a23e20ed935.png" style="width:30px; height:25px; position:relative; z-index:9999;" />
+														<a href="#" style="text-decoration:none;">
+															<img onmouseover="hovertwitter(this)" onmouseleave="leavetwitter(this)" src="https://i.pinimg.com/originals/88/69/9b/88699b2ec3b3164abaf20a23e20ed935.png" style="width:30px; height:25px;" />
 														</a>
-														{% endif %}
 													</div>
 													<script>
 														function hoverinsta(dis)
@@ -515,43 +531,72 @@
 															$(dis).css({"width":"30px", "height":"25px"});
 														}
 													</script>
-												</div>
-												<div class="row" style="padding-bottom:10px; width:100%;">
+												</div-->
+												
+												<!--div class="row" style="padding-bottom:10px; width:100%;">
 													<div class="col-md-1"></div>
 													<div class="col-md-11">
 														&nbsp;
 														<span class="btn btn-default btn-xs" style="color:#fff;
-														background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Tobacco Usage &nbsp; | &nbsp; {{object.student.tobaccoUsage|title}} </span>
+														background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Tobacco Usage &nbsp; | &nbsp; Weekly </span>
 														&nbsp;
-														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Alcohol Usage &nbsp; | &nbsp; {{object.student.alcoholUsage|title}} </span>
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Alcohol Usage &nbsp; | &nbsp; Occasionally </span>
 														&nbsp;
-														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Cleanliness &nbsp; | &nbsp; {{object.student.cleanliness|title}} </span>
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Cleanliness &nbsp; | &nbsp; Daily </span>
 													</div>
 													<br>
-												</div>
+												</div-->
 												
-												<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
+												<!--div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
 													<div class="col-md-1"></div>
 													<div class="col-md-11">
 														&nbsp; &nbsp;
-														{% if object.student.sleepScheduleFrom and object.student.sleepScheduleTo %}
 														<span class="btn btn-default btn-xs" style="color:grey;
-														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Sleep Schedule | {{object.student.sleepScheduleFrom}} - {{object.student.sleepScheduleTo}} </span>
+														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Sleep Schedule | 10:00 pm - 06:00 am </span>
 														&nbsp;
-														{% endif %}
-														{% if object.student.studyHourFrom and object.student.studyHourTo %}
 														<span class="btn btn-default btn-xs" style="color:grey;
-														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Study Hours | {{object.student.studyHourFrom}} - {{object.student.studyHourTo}} </span>
-														{% endif %}
+														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Study Hours | 09:00 am - 03:00 pm </span>
 													</div>
-												</div>
-												<div class="col-md-12" style="max-height:180px;">
-													<h3 class="postkeyviewfields{{object.pk}}">{{object.title|title}}</h3>
-													<h3 class="postkeyeditfields{{object.pk}}" style="display:none;"><input type="text" name="title" id="edit_rmposttitle" placeholder="Enter Title"></h3>
+												</div-->
+												
+												<div class="col-md-12"><br>
+													<h4 class="postkeyviewfields{{object.pk}}"><b>{{object.title|title}}</b></h4>
+													<h4 class="postkeyeditfields{{object.pk}}" style="display:none;">
+														<input type="text" name="title" id="edit_rmposttitle_{{object.pk}}" class="form-control" value="{{object.title|title}}" placeholder="Enter Title" style="border-radius:50px; padding:5px 10px;">
+													</h4>
 													
 													<p class="postkeyviewfields{{object.pk}}">{{object.description|safe}}</p>
-													<p class="postkeyeditfields{{object.pk}}" style="display:none;"><textarea rows="7" class="form-control" name="description" placeholder="About yourself.."></textarea></p>
-
+													<p class="postkeyeditfields{{object.pk}}" style="display:none;">
+														<textarea rows="5" class="form-control" name="description" id="edit_rmpostdesc_{{object.pk}}" placeholder="About yourself.." style="border-radius:20px;">{{object.description|title}}</textarea>
+													</p>
+													
+													<div class="postkeyeditfields{{object.pk}}" style="display:none; padding-bottom:50px;">
+														<h5><b>Images</b></h5>
+														<div class="col-md-12"> 
+															<center>
+																{% if object.image != null %}
+																	<img src="/media/{{object.image}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}1)" id="rmpostpreview{{object.pk}}1" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}1" name="image" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}1)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}1)" id="rmpostpreview{{object.pk}}1" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}1" name="image" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}1)" style="display:none;" />
+																{% endif %}
+																{% if object.image1 %}
+																	<img src="/media/{{object.image1}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}2)" id="rmpostpreview{{object.pk}}2" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;"/><input type="file" id="rmpostimage{{object.pk}}2" name="image1" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}2)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}2)" id="rmpostpreview{{object.pk}}2" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}2" name="image1" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}2)" style="display:none;" />
+																{% endif %}
+																{% if object.image2 %}
+																	<img src="/media/{{object.image2}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}3)" id="rmpostpreview{{object.pk}}3" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}3" name="image2" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}3)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}3)" id="rmpostpreview{{object.pk}}3" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}3" name="image2" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}3)" style="display:none;" />
+																{% endif %}
+																{% if object.image3 %}
+																	<img src="/media/{{object.image3}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}4)" id="rmpostpreview{{object.pk}}4" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}4" name="image3" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}4)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}4)" id="rmpostpreview{{object.pk}}4" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}4" name="image3" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}4)" style="display:none;" />
+																{% endif %}
+															</center> 
+														</div>
+													</div>
 											{% comment %} <-------------------- interest selection for update post starts here --------------------> 
 													{% for interest in interests %}
 														<span onclick="cateditclick(this, {{interest.pk}})" id="catespan{{interest.pk}}" class="btn btn-default btn-xs postkeyeditfields{{object.pk}}" style="background-color:transparent; border:2px solid #383836; border-radius:50px; display:none;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
@@ -562,58 +607,93 @@
 											<-------------------- interest selection for update post starts here -------------------->  {% endcomment %}
 
 												</div>
-												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
-											<div class="pull-left">
-											<style>
-												.postlikei { color:silver; }
-												.userliked { color:red; }
-											</style>
-												<span href="#"><i class="fa fa-heart postlikei
-													{% for heart in object.heart.all  %}
-														{% if heart.user.user == user %}
-															userliked
-														{% endif %}
-													{% endfor %}" style="font-size:20px;" onclick="postlikeclick(this)" data-url="{% url 'students:addRemoveHeart' object.pk %}"></i> <b class="totalhearts" style="font-size:16px; color:black;">{{object.totalHearts}}</b></span>
-											</div>
-											<div class="pull-right">
-												<!--a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a-->
-												{% if user == object.student.user.user %}
-												<span class="pull-right">
-													<i class="fa fa-edit btn btn-primary btn-sm postkeyviewfields{{object.pk}}" onclick="edit_my_post(this)" data-editurl=""  style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer;"></i>
-													<input type="submit" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer; display:none;" />
-													&nbsp;
-													<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'students:postDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
-													<script>
-														function delete_my_post(dis)
-														{
-														
-															if(confirm('Are you sure you want to delete this post?') == true) {
-															
-																var deleteurl = dis.getAttribute('data-deleteurl');
+												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px; background-color:#0f498c; border-bottom-left-radius:7px; border-bottom-right-radius:7px; padding-bottom:5px;">
+													<div class="pull-left">
+													<style>
+														.postlikei { color:silver; }
+														.userliked { color:red; }
+													</style>
+														<span href="#"><i class="fa fa-heart postlikei
+															{% for heart in object.heart.all  %}
+																{% if heart.user.user == user %}
+																	userliked
+																{% endif %}
+															{% endfor %}" style="font-size:17px;" onclick="postlikeclick(this)" data-url="{% url 'students:addRemoveHeart' object.pk %}"></i> <b class="totalhearts" style="font-size:16px; color:silver;">{{object.totalHearts}}</b></span>
+													</div>
+													<div class="pull-right">
+														<!--a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a-->
+														{% if user == object.student.user.user %}
+														<span class="pull-right">
+															<i class="fa fa-edit btn btn-primary btn-sm postkeyviewfields{{object.pk}}" onclick="edit_my_post(this, {{object.pk}})" data-editurl=""  style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer;"></i>
+															<input type="submit" name="submit" value="Update" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;" />
+															&nbsp;
+															<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'students:postDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
+															<script>
+																function edit_my_post(dis, postid)
+																{
 																
-																const csrftok = getCookie('csrftoken');
-																	console.log(csrftok);
+																	$(".postkeyviewfields"+postid).hide();
+																	$(".postkeyeditfields"+postid).show();
+																}
+															
+																$("#updatePostForm{{object.pk}}").submit(function(event){
+																	event.preventDefault();
+																	var formValues= new FormData(this);
+																	const csrftok = getCookie('csrftoken');
+																	console.log(formValues);
 																	$.ajax({
-																		url: deleteurl,
-																		type: 'DELETE',
+																		url : $(this).attr('action'), // the endpoint
+																		type : "PUT", // http method
 																		headers: {"X-CSRFToken": csrftok},
-																		success: function(){
-																			console.log('Post deleted!');
-																			location.reload();
+																		data : formValues, // data sent with the post request
+																		enctype: 'multipart/form-data',
+																		cache:false,
+																		contentType: false,
+																		processData: false,
+																		// handle a successful response
+																		success : function(json) {
+																			console.log(json); // log the returned json to the console
+																			window.location.reload();
 																		},
-																		error: function() {
-																			console.log('Failed to delete post!');
+																		// handle a non-successful response
+																		error : function(xhr,errmsg,err) {
+																			// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+																			// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+																			console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 																		}
 																	});
-															} else {
-																return false;
-															}
-														}
-													</script>
-												</span>
-												{% endif %}
-											</div>
-										</div>
+																});
+															
+																function delete_my_post(dis)
+																{
+																
+																	if(confirm('Are you sure you want to delete this post?') == true) {
+																	
+																		var deleteurl = dis.getAttribute('data-deleteurl');
+																		
+																		const csrftok = getCookie('csrftoken');
+																			console.log(csrftok);
+																			$.ajax({
+																				url: deleteurl,
+																				type: 'DELETE',
+																				headers: {"X-CSRFToken": csrftok},
+																				success: function(){
+																					console.log('Post deleted!');
+																					location.reload();
+																				},
+																				error: function() {
+																					console.log('Failed to delete post!');
+																				}
+																			});
+																	} else {
+																		return false;
+																	}
+																}
+															</script>
+														</span>
+														{% endif %}
+													</div>
+												</div>
 											</div>
 										</div>	
 									</div>
@@ -630,8 +710,8 @@
 													<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
 												</div>
 												<div class="col-md-6">
-													<h5><b> Test User 1 </b></h5>
-													<h6>testuser1@email.com</h6>
+													<h5><b> Johnson </b></h5>
+													<h6>johnson1@email.com</h6>
 												</div>
 												<div class="col-md-4">
 													<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 1 </span>
@@ -688,7 +768,7 @@
 							</div>
 						</div>
 						
-						<div class="col-md-4" style="max-height:600px; overflow-y:scroll;">
+						<div class="col-md-6" style="max-height:600px; overflow-y:scroll;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							
@@ -696,16 +776,50 @@
 							
 								<div class="panel-body" style="min-height:500px;">
 									<div class="row panelrow" style="color:#565555">
-										<div class="col-md-2 imgcol" style="text-align:center;">
+										<div class="col-md-1 imgcol" style="text-align:center;">
 											<img src="#" class="pull-right" style="width:40px; height:40px; border-radius:100px; border:3px solid grey;" />
 										</div>
-										<div class="col-md-6 userheadcol">
+										<div class="col-md-4 userheadcol">
 											<h5><b></b></h5>
 											<h6></h6>
 										</div>
 										
-										<div class="col-md-4 usercaty" style="margin-top:5px;"></div>
-
+										<div class="col-md-7 usercaty" style="margin-top:5px;"></div>
+										
+										<div class="col-md-12 userhabits">
+											<div class="row" style="padding-bottom:10px; width:100%;">
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
+													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; Weekly </span>
+												</div>
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; Occasionally </span>
+												</div>
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; Daily </span>
+												</div>
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; Occasionally </span>
+												</div>
+												<br>
+											</div>
+										</div>
+										
+										<div class="col-md-12 userschedule" style="border-top:1px solid #e2e2e2; padding-top:10px;">	
+											<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
+													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Sleep Schedule </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; 10:00 pm - 06:00 am </span>
+												</div>
+												
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
+													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Study Hours </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; 09:00 am - 03:00 pm </span>
+												</div>
+											</div>
+												
+										</div>
+										
 										<div class="col-md-12 usercontent" style="border-top:2px solid #fff;">
 											<h4>
 												<b class="usertitle pull-left"></b>
@@ -720,7 +834,7 @@
 										
 										<div class="col-md-12" style="padding-top:10px;">
 											<hr>
-											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.."  style="border-radius:15px;"></textarea>
+											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
 											
 											<br>
 											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#044C7E;">Submit</span>
@@ -878,10 +992,11 @@
 											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span><br>';
 											
 											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
+											
 										}); {% endcomment %}
 										
 										$.each(res.student.interest, function(i, item) {
-											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span><br>';
+											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span>';
 											
 											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
 										});
@@ -1155,7 +1270,7 @@
 						  <div class="panel panel-default">									
 							<div class="panel-heading" style="background-color:#094A66; color:#fff;">
 								<h3>
-									&nbsp; &nbsp; <b>Test Property Name</b>
+									&nbsp; &nbsp; <b>Stony Prope Name</b>
 									<!--span class="pull-right"><i class="fa fa-plus" style="font-size:20px;"></i></span-->
 								</h3>
 							</div>								
@@ -1167,25 +1282,25 @@
 										<li class="active" style="border-bottom:#e2e2e2;">
 											<h4>
 												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 1
+												Jason
 											</h4><br>
 										</li>
 										<li class="active" style="border-bottom:#e2e2e2;">
 											<h4>
 												<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 2
+												Williams
 											</h4><br>
 										</li>
 										<li class="active" style="border-bottom:#e2e2e2;">
 											<h4>
 												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 3
+												Watson
 											</h4><br>
 										</li>
 										<li class="active" style="border-bottom:#e2e2e2;">
 											<h4>
 												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
-												Test User 4
+												Miller
 											</h4><br>
 										</li>
 										<br><br>
@@ -1204,14 +1319,14 @@
 										
 										<small class="pull-left">
 										<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
-										<b style="font-size:17px;">Test user 1</b> <i>04:05 pm</i></small><br><br>
+										<b style="font-size:17px;">Williams</b> <i>04:05 pm</i></small><br><br>
 										<div class="msg2" style="max-width:50%; padding-left:35px;">
 											Hi How are you?
 										</div><hr>
 										 
 										<small class="pull-left">
 										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
-										<b style="font-size:17px;">Test user 2</b> <i>04:07 pm</i></small><br><br>
+										<b style="font-size:17px;">Jason</b> <i>04:07 pm</i></small><br><br>
 										<div class="msg2" style="max-width:50%; padding-left:35px;">
 											Hi dude. How is it going?
 										</div><hr>
@@ -1225,7 +1340,7 @@
 										
 										<small class="pull-left">
 										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
-										<b style="font-size:17px;">Test user 2</b> <i>04:07 pm</i></small><br><br>
+										<b style="font-size:17px;">Miller</b> <i>04:07 pm</i></small><br><br>
 										<div class="msg1" style="max-width:50%; padding-left:35px;">											
 											Where are you now?
 										</div><hr>
@@ -1267,10 +1382,10 @@
 											
 												<ul class="messages-user-list" style="list-style-type:none;">
 													<li style="background-color:#0471A6;"><b style="font-size:20px;">Users</b></li>
-													<li onclick="openuserchat(1)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; User name 1 </li>
-													<li onclick="openuserchat(2)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; User name 2 </li>
-													<li onclick="openuserchat(3)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; User name 3 </li>
-													<li onclick="openuserchat(4)"><img src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg"> &nbsp; User name 4 </li>
+													<li onclick="openuserchat(1)"><img src="https://4.bp.blogspot.com/-7lKcs3VI8Kg/WtgJ__1RxaI/AAAAAAAAF9Q/6XFIxYxnGkspQc7-kvDMlzf-8cx0_khewCEwYBhgL/s1600/best%2Bprofile%2Bpics.png"> &nbsp; Johnson </li>
+													<li onclick="openuserchat(2)"><img src="https://www.eharmony.co.uk/dating-advice/wp-content/uploads/2014/01/profile-picture-960x640.jpg"> &nbsp; Williams </li>
+													<li onclick="openuserchat(3)"><img src="https://www.trickscity.com/wp-content/uploads/2018/06/anonymous-dp-for-boys.jpg"> &nbsp; Wilson </li>
+													<li onclick="openuserchat(4)"><img src="https://1.bp.blogspot.com/-d9OLr9Cv3rM/WtgKCNunwZI/AAAAAAAAF9o/DWsQl8XCuaUdr_XBxIyy8Y3hwffhNVfbgCEwYBhgL/s1600/cool%2Bprofile%2Bpics.png"> &nbsp; Taylor </li>
 												</ul>
 											</div>
 									  </div>
@@ -1281,7 +1396,7 @@
 											
 											<img class="rounded float-left" style="width: 50px; height: 50px;" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" />
 											
-											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b> User name 1 </b><i class="fa fa-check text-primary" aria-hidden="true"></i> </h4>
+											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b> Miller </b><i class="fa fa-check text-primary" aria-hidden="true"></i> </h4>
 												
 										  </div>
 										
@@ -1294,7 +1409,7 @@
 											  
 											</div>
 											
-											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:22 pm">
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:22 pm">
 											
 												<a class="float-left sohbet2"> Checking out iOS7 you know.. </a>
 											  
@@ -1306,7 +1421,7 @@
 											  
 											</div>
 											
-											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:26 pm">
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:26 pm">
 											
 												<a class="float-left sohbet2"> It's pretty cool! </a>
 											  
@@ -1318,7 +1433,7 @@
 											  
 											</div>
 											
-											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:33 pm">
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:33 pm">
 											
 												<a class="float-left sohbet2"> Wow that's impressive. But what's even more impressive is that this bubble is really high. </a>
 											  
@@ -1330,7 +1445,7 @@
 											  
 											</div>
 											
-											<div class="balon2 p-2 m-0 position-relative" data-is="Test - 3:33 pm">
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:33 pm">
 											
 												<a class="float-left sohbet2"> Wow that's impressive. But what's even more impressive is that this bubble is really high. </a>
 											  
@@ -1385,8 +1500,6 @@
 				  </div>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			</div>
-			<br>
-			<br>
 		</div>
 		
 		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>
@@ -1639,6 +1752,8 @@
 					reader.readAsDataURL(dis.files[0]);
 				}
 			}
+			
+			
 	   </script>
 	   
 	   <script>
@@ -1686,6 +1801,7 @@
 				$('#sideLinks a').filter(function() {
 					return this.href == url;
 				}).children().addClass('active');
+				
 			});
 	   </script>
 

@@ -17,9 +17,9 @@ urlpatterns = [
     # path('roommates/<slug:preference>/post/create/', RoommatesPostCreateView.as_view(), name="postCreate"),
 
     path('roommates/post/create/', RoommatesPostCreateView.as_view(), name="postCreate"),
-    # path('roommates/post/<int:pk>/update/', PostUpdateView.as_view(), name="postUpdate"),
+    path('roommates/post/<int:pk>/update/', RoommatesPostUpdateDeleteView.as_view(), name="postUpdate"),
     path('roommates/post/<int:pk>/', RoommatesPostDetailView.as_view(), name="postDetail"),
-    path('roommates/post/<int:pk>/delete/', RoommatesPostDeleteView.as_view(), name="postDelete"),
+    path('roommates/post/<int:pk>/delete/', RoommatesPostUpdateDeleteView.as_view(), name="postDelete"),
 
     path('roommates/post/<int:pk>/heart/', AddRemoveHeart, name="addRemoveHeart"),
 
@@ -29,6 +29,6 @@ urlpatterns = [
     path('roommates/comment/<int:pk>/reply/create/', CommentReplyCreateView.as_view(), name="replyCreate"),
     path('roommates/reply/<int:pk>/', CommentReplyUpdateDeleteView.as_view(), name="replyUpdateDelete"),
 
-    path('roommates_groups', roommatesGroup, name='group'),
-    path('roommates_messages', roommatesMessage, name='message'),
+    # path('roommates_groups', roommatesGroup, name='group'),
+    # path('roommates_messages', roommatesMessage, name='message'),
 ]

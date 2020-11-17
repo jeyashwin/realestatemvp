@@ -115,7 +115,7 @@ class RoommatesPostCreateView(generics.CreateAPIView):
         serializer.save(student=studentObject)
 
 
-class RoommatesPostDeleteView(generics.RetrieveUpdateDestroyAPIView):
+class RoommatesPostUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = RoommatePostSerializer
     permission_classes = (permissions.IsAuthenticated, IsStudentUserAccess, IsOwnerOfTheObject)
     queryset = RoommatePost.objects.all()
@@ -219,8 +219,8 @@ def RemoveFavourite(request, slug):
         return JsonResponse({'removed': removed})
     return redirect('property:propertyDetail', slug)
 
-def roommatesGroup(request):
-    return render(request, 'students/roommates_groups.html')
+# def roommatesGroup(request):
+#     return render(request, 'students/roommates_groups.html')
 
-def roommatesMessage(request):
-    return render(request, 'students/roommates_messages.html')
+# def roommatesMessage(request):
+#     return render(request, 'students/roommates_messages.html')

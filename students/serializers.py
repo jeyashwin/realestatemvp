@@ -19,7 +19,15 @@ class StudentSerializer(serializers.RelatedField):
             'email': value.user.user.email,
             'image': image,
             'interest': interests,
-            'username': value.user.user.username
+            'username': value.user.user.username,
+            'sleepScheduleFrom': value.sleepScheduleFrom,
+            'sleepScheduleTo': value.sleepScheduleTo,
+            'studyHourFrom': value.studyHourFrom,
+            'studyHourTo': value.studyHourTo,
+            'tobaccoUsage': value.tobaccoUsage,
+            'alcoholUsage': value.alcoholUsage,
+            'cleanliness': value.cleanliness,
+            'guests': value.guests,
         }
         return data
 
