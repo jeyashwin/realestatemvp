@@ -12,6 +12,11 @@ class Notification(models.Model):
         ('question', 'Asked Question'),
         ('answered', 'Question is answered'),
         ('deletedQuestion', 'Question is deleted'),
+        ('newChatLandlord', 'New chat creation landlord'),
+        ('newMessage', 'New chat Message'),
+        ('newFriendRequest', 'New Friend request'),
+        ('acceptFriendRequest', 'New Friend request Accepted'),
+        ('denyFriendRequest', 'New Friend request Denyed'),
     ]
 
     fromUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fromUser')

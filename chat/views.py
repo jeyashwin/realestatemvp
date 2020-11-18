@@ -3,8 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import UserStudent, Message, MessageRequest, Room, Favorites
-from users.models import UserType
+from .models import UserStudent, Message, MessageRequest, Room, Friend
+from users.models import UserType, UserLandLord
+from property.models import Property
+from notifications.models import Notification
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView
 from django.core.files.storage import FileSystemStorage
@@ -25,14 +27,15 @@ def get_user_contact(username):
 def index(request):
     if request.method == "GET":
         user_chats = []
-        current_user_rooms = list(Room.objects.filter(room_type=False).filter(members__user__user = request.user).values_list('pk', flat=True))
+        current_user_rooms = list(Room.objects.filter(room_type=False).filter(members__username = request.user).values_list('pk', flat=True))
         
         for room in Room.objects.filter(pk__in=current_user_rooms):
-            name = room.members.exclude(user__user__username=request.user)[0]
+            name = room.members.exclude(username=request.user)[0]
             user_chats.append({
                 'pk': room.pk,
                 'name': name,
             })
+        
         return render(request, "chat/room_index.html", {
             'user_chats':user_chats,
         })
@@ -41,7 +44,7 @@ def index(request):
 def index_group(request):
     if request.method == "GET":
         user_chats = []
-        current_user_groups = list(Room.objects.filter(room_type=True).filter(members__user__user = request.user).values_list('pk', flat=True))
+        current_user_groups = list(Room.objects.filter(room_type=True).filter(members__username = request.user).values_list('pk', flat=True))
         
         for room in Room.objects.filter(pk__in=current_user_groups):
             name = room.name
@@ -51,7 +54,7 @@ def index_group(request):
             })
         return render(request, "chat/group_index.html", {
             'user_chats':user_chats,
-            'friends_list': Favorites.objects.filter(from_friend__user__user=request.user),
+            'friends_list': Friend.objects.get(student__user__user=request.user),
         })
 
 
@@ -59,23 +62,26 @@ def index_group(request):
 @login_required
 def room(request, room_name):
     user_chats = []
-    current_user_rooms = list(Room.objects.filter(room_type=False).filter(members__user__user = request.user).values_list('pk', flat=True))
+    current_user_rooms = list(Room.objects.filter(room_type=False).filter(members__username = request.user).values_list('pk', flat=True))
         
     for room in Room.objects.filter(pk__in=current_user_rooms):
-        name = room.members.exclude(user__user__username=request.user)[0]
+        name = room.members.exclude(username=request.user)[0]
         user_chats.append({
             'pk': room.pk,
             'name': name,
         })
-    room_details = get_object_or_404(Room, pk=room_name)
-    another_member = ",".join(room_details.members.exclude(user__user__username=request.user).values_list('user__user__username', flat=True))
+
+    messages_room = Room.objects.filter(room_type=False).filter(members__username=request.user)
+    room_details = get_object_or_404(messages_room, pk=room_name)
+    another_member = ",".join(room_details.members.exclude(username=request.user).values_list('username', flat=True))
+    
     if request.method == "POST":
         uploaded_file = request.FILES['myFile']
         name = fs.save(uploaded_file.name, uploaded_file)
         url = fs.url(name)
         new_message = Message.objects.create(
             room = get_object_or_404(Room, pk=room_name),
-            author = get_user_contact(request.user),
+            author = request.user,
             content = '',
             pdf = url,
         )
@@ -97,16 +103,18 @@ def room(request, room_name):
 def group(request, room_name):
 
     user_chats = []
-    current_user_rooms = list(Room.objects.filter(room_type=True).filter(members__user__user = request.user).values_list('pk', flat=True))
-    print(current_user_rooms)    
+    current_user_rooms = list(Room.objects.filter(room_type=True).filter(members__username = request.user).values_list('pk', flat=True))
+    
     for room in Room.objects.filter(pk__in=current_user_rooms):
         # name = room.members.exclude(user__user__username=request.user)[0]
         user_chats.append({
             'pk': room.pk,
             'name': room.name,
         })
-    room_details = get_object_or_404(Room, pk=room_name)
-    another_member = ",".join(room_details.members.exclude(user__user__username=request.user).values_list('user__user__username', flat=True))
+
+    groups_room = Room.objects.filter(room_type=True).filter(members__username=request.user)
+    room_details = get_object_or_404(groups_room, pk=room_name)
+    another_member = ",".join(room_details.members.exclude(username=request.user).values_list('username', flat=True))
 
     if request.method == "POST":
         uploaded_file = request.FILES['myFile']
@@ -114,7 +122,7 @@ def group(request, room_name):
         url = fs.url(name)
         new_message = Message.objects.create(
             room = get_object_or_404(Room, pk=room_name),
-            author = get_user_contact(request.user),
+            author = request.user,
             content = '',
             pdf = url,
         )
@@ -130,7 +138,7 @@ def group(request, room_name):
         'another_member': another_member,
         'room_id': room_name,
         'username': request.user.username,
-        'friends_list': Favorites.objects.filter(from_friend__user__user=request.user),
+        'friends_list': Friend.objects.get(student__user__user=request.user),
     })
 
 @login_required
@@ -141,27 +149,83 @@ def create_room(request):
 
         if str(loggedin_user) != add_user_valid:
             try:
-                already_exists = Room.objects.filter(members__user__user = loggedin_user).filter(members__user = add_user_valid.user).get()
+                already_exists = Room.objects.filter(room_type = False).filter(members__username = loggedin_user).filter(members__username = request.POST["create_room_username"]).get()
                 return redirect("chat:room", already_exists)
             except Room.DoesNotExist:
                 current_user_valid = get_user_contact(loggedin_user)
-                new_friend = Favorites.objects.create(
-                    from_friend = current_user_valid,
-                    to_friend = add_user_valid
-                )
-                new_friend_repeat = Favorites.objects.create(
-                    from_friend = add_user_valid,
-                    to_friend = current_user_valid
-                )
+                if Friend.objects.filter(student=current_user_valid).exists():
+                    studObject = Friend.objects.get(student=current_user_valid)
+                    studObject.friends.add(add_user_valid)
+                    studObject.save()
+                else:
+                    new_friend = Friend.objects.create(
+                        student=current_user_valid
+                    )
+                    new_friend.friends.add(add_user_valid)
+                    new_friend.save()
+                if Friend.objects.filter(student=add_user_valid).exists():
+                    studObject1 = Friend.objects.get(student=add_user_valid)
+                    studObject1.friends.add(current_user_valid)
+                    studObject1.save()
+                else:
+                    new_friend_repeat = Friend.objects.create(
+                        student=add_user_valid
+                    )
+                    new_friend_repeat.friends.add(current_user_valid)
+                    new_friend_repeat.save()
                 new_room = Room.objects.create()
-                new_room.members.add(add_user_valid)
+                new_room.members.add(get_object_or_404(User, username=request.POST["create_room_username"]))
                 new_room.save()
-                print(current_user_valid)
-                new_room.members.add(current_user_valid)
+                new_room.members.add(request.user)
                 new_room.save()
+                previousNotifId = request.POST.get('notfiid', None)
+                if previousNotifId:
+                    previousNotifi = get_object_or_404(Notification, pk=previousNotifId)
+                    previousNotifi.viewed = True
+                    previousNotifi.save()
+                    messReq = get_object_or_404(MessageRequest, pk=previousNotifi.identifier)
+                    messReq.status = True
+                    messReq.save()
+                    notfi = Notification.objects.create(
+                        fromUser=request.user,
+                        toUser=add_user_valid.user.user,
+                        notificationType='acceptFriendRequest',
+                        content='New Friend Request Accepted',
+                        identifier=new_room.pk
+                    )
                 return redirect('chat:room', new_room.pk)
     return HttpResponse('<html><body> Some error in post request of create room .</body></html>') 
 
+@login_required
+def landlord_chat(request, slug):
+    property_details = get_object_or_404(Property, urlSlug=slug)
+    property_landlord_valid = get_object_or_404(User, username=property_details.landlord.user.user.username)
+    loggedin_user = request.user
+    try:
+        already_exists = Room.objects.filter(room_type = False).filter(members__username = loggedin_user).filter(members__username = property_landlord_valid).get()
+        notfi = Notification.objects.create(
+                    fromUser=request.user,
+                    toUser=property_landlord_valid,
+                    notificationType='newChatLandlord',
+                    content=property_details.title,
+                    identifier=already_exists.pk,
+                )
+        return redirect("chat:room", already_exists)
+    except Room.DoesNotExist:
+        new_room = Room.objects.create()
+        new_room.members.add(get_object_or_404(User, username=property_landlord_valid))
+        new_room.save()
+        new_room.members.add(request.user)
+        new_room.save()
+        notfi = Notification.objects.create(
+                    fromUser=request.user,
+                    toUser=property_landlord_valid,
+                    notificationType='newChatLandlord',
+                    content=property_details.title,
+                    identifier=new_room.pk,
+                )
+        return redirect('chat:room', new_room.pk)
+    
 
 @method_decorator(login_required, name='dispatch')
 class RequestView(ListView):
@@ -177,13 +241,12 @@ def message_request_update(request):
         return render(request, 'chat/message_request.html')
 
     if request.method == "POST":
-        print("YAY!!!!")
         new_request_user_name = request.POST["new_chat_request_name"]
         add_user_valid = get_user_contact(new_request_user_name)
 
         loggedin_user = request.user
-        print(loggedin_user)
-        if str(loggedin_user) != add_user_valid:
+
+        if loggedin_user.username != request.POST["new_chat_request_name"]:
             try:
                 already_exists = MessageRequest.objects.filter(request_sender__user=add_user_valid.user).get()
                 print("Message request sent to this user ==> ", already_exists)
@@ -192,6 +255,13 @@ def message_request_update(request):
                 new_message_request = MessageRequest.objects.create(
                         logged_in_user = get_user_contact(loggedin_user),
                         request_sender = get_user_contact(new_request_user_name)
+                )
+                notfi = Notification.objects.create(
+                    fromUser=loggedin_user,
+                    toUser=get_object_or_404(User, username=new_request_user_name),
+                    notificationType='newFriendRequest',
+                    content=new_message_request.logged_in_user,
+                    identifier=new_message_request.pk
                 )
                 return HttpResponse('<html><body>Request sent sucessfully.</body></html>')
 
@@ -203,23 +273,19 @@ class CreateGroupView(ListView):
     context_object_name = 'friends_list'
     template_name = "chat/roommates_groups.html"
     def get_queryset(self):
-        fav = Favorites.objects.filter(from_friend__user__user=self.request.user)
-        print(fav[0].to_friend)
-        return Favorites.objects.filter(from_friend__user__user=self.request.user)
+        fav = Friend.objects.filter(student__user__user=self.request.user)
+        # print(fav[0].to_friend)
+        return Friend.objects.filter(student__user__user=self.request.user)
     
     @staticmethod
     def post(request):
-        current_user_valid = get_user_contact(request.user)
-        # print(request.POST)
         group_members_list = request.POST.getlist('group_members_list')
         new_room = Room.objects.create(name = request.POST['groupname'], room_type=True)
         new_room.save()
         for each_member in group_members_list:
-            add_member_valid = get_user_contact(each_member)
-            print(add_member_valid)
+            add_member_valid = get_object_or_404(User, username=each_member)
             new_room.members.add(add_member_valid)
         new_room.save()
-        print(current_user_valid)
-        new_room.members.add(current_user_valid)
+        new_room.members.add(request.user)
         new_room.save()
         return redirect('chat:group', new_room.pk)

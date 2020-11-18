@@ -82,7 +82,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'realestatex.wsgi.application'
+WSGI_APPLICATION = 'realestatex.wsgi.application'
 ASGI_APPLICATION = 'realestatex.routing.application'
 
 

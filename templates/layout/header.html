@@ -249,6 +249,47 @@
 														</li>
 														</a>
 														{% endif %}
+														{% if notify.notificationType == "newChatLandlord" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has initiated chat for the property <b>{{notify.content}}</b>. Start chatting with the user<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "newMessage" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p>You have <b>{{notify.content}}</b> message from <b>{{notify.fromUser}}</b>.<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "newFriendRequest" %}
+														<li> 
+															<p>You have received friend request from <b>{{notify.fromUser}}</b>.
+															<form action="{% url 'chat:create_room' %}" method="post">
+																{% csrf_token %}
+																<input type="hidden" name="notfiid" value="{{notify.pk}}">
+																<button value="{{notify.content}}" class="btn btn-sm btn-info" name='create_room_username'>Accept</button>&nbsp;
+																<a href="{% url 'notification:notificationRedirect' notify.pk %}" class='btn btn-sm btn-outline-secondary'>Deny</a>
+															</form>
+															<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "acceptFriendRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has accepted your friend Request. Start the chat.<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "denyFriendRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has denied your friend Request.<hr>
+														</li>
+														</a>
+														{% endif %}
 													{% endfor %}
 												{% else %}
 												<li> 

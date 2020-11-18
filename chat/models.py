@@ -9,7 +9,7 @@ User = get_user_model()
 class Room(models.Model):
 
     name = models.CharField(max_length = 50, blank=True, null=True)
-    members = models.ManyToManyField(UserStudent, related_name='members')
+    members = models.ManyToManyField(User, related_name='members')
     room_type = models.BooleanField(default=False, blank=True, null=True)
 
     def __str__(self):
@@ -18,7 +18,7 @@ class Room(models.Model):
 
 class Message(models.Model):
 
-    author = models.ForeignKey(UserStudent, related_name="author_message", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, related_name="author_message", on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     room = models.ForeignKey(Room, related_name="room", on_delete=models.CASCADE, null=True)
@@ -26,10 +26,8 @@ class Message(models.Model):
     # pdf = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.author.user.user.username
-
-
-
+        return self.author.username
+        
 
 class MessageRequest(models.Model):
 
@@ -41,13 +39,11 @@ class MessageRequest(models.Model):
         return self.request_sender.user.user.username
 
 
-class Favorites(models.Model):
-    from_friend = models.ForeignKey(UserStudent, related_name='from_friends', on_delete=models.CASCADE, blank=True, null=True)
-    to_friend = models.ForeignKey(UserStudent, related_name='to_friends', on_delete=models.CASCADE, blank=True, null=True)
+class Friend(models.Model):
+    student = models.OneToOneField(UserStudent, on_delete=models.CASCADE)
+    friends = models.ManyToManyField(UserStudent, related_name='friendsList')
+    # from_friend = models.ForeignKey(UserStudent, related_name='from_friends', on_delete=models.CASCADE, blank=True, null=True)
+    # to_friend = models.ForeignKey(UserStudent, related_name='to_friends', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return '{}'.format(self.pk)
-
-
-
-

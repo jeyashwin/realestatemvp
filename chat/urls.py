@@ -12,4 +12,5 @@ urlpatterns = [
     path('groups/', index_group, name='groupindex'),
     path('group/<int:room_name>/', group, name="group"),
     path('room/<int:room_name>/', room, name='room'),
+    path('create/<slug:slug>/', landlord_chat, name='landlordchat'),
 ]

@@ -3,6 +3,7 @@ import json
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 from .models import Message, Room
+from notifications.models import Notification
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from .views import get_user_contact
@@ -12,13 +13,13 @@ class ChatConsumer(WebsocketConsumer):
     def message_to_json(self, message):
         if len(message.content) == 0:
             return {
-                'author': message.author.user.user.username,
+                'author': message.author.username,
                 'content': str(message.pdf), 
                 'timestamp': str(message.timestamp),
             }
         else:
             return {
-                'author': message.author.user.user.username,
+                'author': message.author.username,
                 'content': message.content, 
                 'timestamp': str(message.timestamp),
             }
@@ -46,18 +47,28 @@ class ChatConsumer(WebsocketConsumer):
         author = data['from']
         room_id = data['roomname']
         room_id_valid = get_object_or_404(Room, id=room_id)
-        # print(User.objects.filter(username=author))
-        author_user = get_user_contact(username=author)
-        # author_user = User.objects.filter(username=author)[0]
-        # print(data['id'], "Entered!!!!")
-        # message = Message.objects.filter(pk=int(data['id']))
-        # print(message.author)
+
         if len(data['message']) != 0:
             message = Message.objects.create(
-                author = author_user, 
+                author = get_object_or_404(User, username=author),
                 content = data['message'],
                 room = room_id_valid
             )
+            authorMember = get_object_or_404(User, username=author)
+            for member in room_id_valid.members.exclude(username=authorMember.username):
+                if Notification.objects.filter(fromUser=authorMember, toUser=member, notificationType='newMessage', viewed=False, identifier=room_id_valid.pk).exists():
+                    notfi = Notification.objects.filter(fromUser=authorMember, toUser=member, notificationType='newMessage', viewed=False, identifier=room_id_valid.pk).first()
+                    count = int(notfi.content)
+                    notfi.content = count+1
+                    notfi.save()
+                else:
+                    notfi = Notification.objects.create(
+                                fromUser=authorMember, 
+                                toUser=member,
+                                notificationType='newMessage', 
+                                content=1,
+                                identifier=room_id_valid.pk,
+                            )
             content = {
                 'command': 'new_message',
                 'message': self.message_to_json(message)

@@ -122,7 +122,7 @@
                             </div>
                             <div class="pxp-sp-top-price mt-3 mt-md-0">
 								{% if user.usertype.is_student %}
-									<a href="#" id="message_seller_btn" class="btn" style="background-color:rgba(4, 113, 166, 0.8); color:#fff; font-size:15px; font-weight:normal; border-radius:50px;"><i class="fa fa-commenting-o"></i> &nbsp; Message Seller </a> &nbsp;
+									<a href="{% url 'chat:landlordchat' object.urlSlug %}" id="message_seller_btn" class="btn" style="background-color:rgba(4, 113, 166, 0.8); color:#fff; font-size:15px; font-weight:normal; border-radius:50px;"><i class="fa fa-commenting-o"></i> &nbsp; Message Seller </a> &nbsp;
 								{% endif %}
 								<span style="font-size:15px; color:grey; font-weight:normal;">Price </span>${{object.rentPerPerson|intcomma}} &nbsp; <span style="font-size:15px; color:grey; font-weight:normal;">Security Deposit </span>
 								{% if object.securityDeposit %}

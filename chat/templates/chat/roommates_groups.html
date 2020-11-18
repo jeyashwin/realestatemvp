@@ -290,9 +290,9 @@
 			<label style="font-size:15px;">Users</label>
 			<select name="group_members_list" class="form-control" style="border-radius:7px !important;" multiple>
 			<option> ~ Select  Users ~ </option>	
-			{% for room in friends_list %}
+			{% for room in friends_list.friends.all %}
 			    
-				<option value="{{ room.to_friend }}"> {{ room.to_friend }} </option>
+				<option value="{{ room }}"> {{ room }} </option>
 			
 			{% endfor %}
 				<!--<option> ~ Select  Users ~ </option>
