@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import DetailView
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 
 from .models import RequestToRentProperty, RequestToRentService, RequestToTourProperty
 from .forms import RequestToRentPropertyForm, RequestToRentServiceForm, RequestToTourPropertyForm
-from property.utils import studentAccessTest
+from property.utils import studentAccessTest, landlordAccessTest
 from property.models import Property
 from services.models import Service
 from users.models import UserStudent
@@ -84,5 +86,36 @@ def RequestToRentServiceCreateView(request, pk):
             messages.add_message(request, messages.ERROR, form.errors)
     return redirect('services:servicesDetail', pk=pk)
 
+@login_required
+@user_passes_test(landlordAccessTest)
 def myrequest(request):
-    return render(request, 'checkout/myrequest.html')
+    rentRequest = RequestToRentProperty.objects.filter(propertyObj__landlord__user__user=request.user)
+    tourRequest = RequestToTourProperty.objects.filter(propertyObj__landlord__user__user=request.user)
+    context = {
+        'rentRequest': rentRequest,
+        'tourRequest': tourRequest
+    }
+    return render(request, 'checkout/myrequest.html', context=context)
+
+
+class RequestToRentPropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = RequestToRentProperty
+    template_name = "checkout/myrequestrentview.html"
+
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_landlord
+        except:
+            raise Http404
+
+
+class RequestToTourPropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
+    model = RequestToTourProperty
+    template_name = "checkout/myrequesttourview.html"
+
+    def test_func(self):
+        try:
+            return self.request.user.usertype.is_landlord
+        except:
+            raise Http404
+

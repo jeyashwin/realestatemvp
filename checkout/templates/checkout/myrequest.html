@@ -29,21 +29,23 @@
     	<thead>
         	<tr>
             	<th style="border-top-left-radius:10px !important;">Name & Address</th>
-                <th>Date & Time</th>
+                <th>Move In & Move Out</th>
                 <th style="border-top-right-radius:10px !important;">Action</th>
             </tr>
         </thead>
         <tbody>
-        	<tr>
-            	<td>
-                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
-                    <b>Ashwin Jey</b><br>
-                	<p class="addressp"> 12, Test Address Line, Coimbatore, TN</p>
-                </td>
-                <td><br>15-November-2020 06:00 PM</td>
-                <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
-            </tr>
+        	{% for rentReq in rentRequest %}
             <tr>
+            	<td>
+                	<img class="reqtableimg" src="{{rentReq.studentObj.profilePicture.url}}" /> &nbsp;
+                    <b>{{rentReq.studentObj.user.user.first_name|title}} {{rentReq.studentObj.user.user.last_name}}</b><br>
+                	<p class="addressp">{{rentReq.propertyObj.title}}</p>
+                </td>
+                <td><br>{{rentReq.moveIn}} & {{rentReq.moveOut}}</td>
+                <td><br><a href="{% url 'checkout:rentRequestDetail' rentReq.pk %}"><i class="fa fa-eye btn btn-success btn-sm"> View</i></a></td>
+            </tr>
+            {% endfor %}
+            {% comment %} <tr>
             	<td>
                 	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
                     <b>Aravindan Sundaram</b><br>
@@ -60,7 +62,7 @@
                	</td>
                 <td><br>13-November-2020 10:30 AM</td>
                 <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
-            </tr>
+            </tr> {% endcomment %}
         </tbody>
     </table>
   </div>
@@ -70,21 +72,23 @@
     	<thead>
         	<tr>
             	<th style="border-top-left-radius:10px !important;">Name & Address</th>
-                <th>Date | Time</th>
+                <th>Preference Date | Time</th>
                 <th style="border-top-right-radius:10px !important;">Action</th>
             </tr>
         </thead>
         <tbody>
-        	<tr>
-            	<td>
-                	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
-                    <b>Ashwin Jey</b><br>
-                	<p class="addressp"> 12, Test Address Line, Coimbatore, TN</p>
-                </td>
-                <td><br>15-November-2020 06:00 PM</td>
-                <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
-            </tr>
+        	{% for tourReq in tourRequest %}
             <tr>
+            	<td>
+                	<img class="reqtableimg" src="{{tourReq.studentObj.profilePicture.url}}" /> &nbsp;
+                    <b>{{tourReq.studentObj.user.user.first_name|title}} {{tourReq.studentObj.user.user.last_name}}</b><br>
+                	<p class="addressp">{{tourReq.propertyObj.title}}</p>
+                </td>
+                <td><br>{{tourReq.preference1Date}} {{tourReq.preference1Time}}</td>
+                <td><br><a href="{% url 'checkout:tourRequestDetail' tourReq.pk %}"><i class="fa fa-eye btn btn-success btn-sm"> View</i></a></td>
+            </tr>
+            {% endfor %}
+            {% comment %} <tr>
             	<td>
                 	<img class="reqtableimg" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" /> &nbsp;
                     <b>Aravindan Sundaram</b><br>
@@ -101,7 +105,7 @@
                	</td>
                 <td><br>13-November-2020 10:30 AM</td>
                 <td><br><i class="fa fa-eye btn btn-success btn-sm"> View</i></td>
-            </tr>
+            </tr> {% endcomment %}
         </tbody>
     </table>
   </div>

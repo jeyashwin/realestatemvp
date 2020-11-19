@@ -371,10 +371,10 @@
 											{{user}} &nbsp; <i class="fa fa-caret-down"></i> &nbsp;
 										  </div>
 										  <div class="dropdown-content" id="header_dropdown_content" style="margin-left:25px; text-align:right;">
-										  	<a class="aclass" href="{% url 'checkout:myrequest' %}" style="color:black; text-decoration:none;"> Requests</a>
 											{% if user.usertype.is_student %}
 												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% elif user.usertype.is_landlord %}
+												<a class="aclass" href="{% url 'checkout:myrequest' %}" style="color:black; text-decoration:none;"> Requests</a>
 												<a class="aprofile" href="{% url 'user:landlordProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% endif %}
 											<a class="aclass" href="{% url 'user:logout' %}" style="color:maroon; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>

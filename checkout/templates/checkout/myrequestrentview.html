@@ -1,0 +1,64 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SwiftLiving | My Requests</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+<body> {% endcomment %}
+{% include "layout/header.html" %}
+<style>
+	#requestpills > li > a { border-radius:50px !important; }  
+    #requestpills > li.active > a { background-color: #00297a !important; }  
+    
+    .requests_table > thead > tr > th { background-color: #00297a; color:#fff; padding:20px; }
+     .addressp { padding-left:40px; }
+     .reqtableimg { border-radius:50px; width:30px; height:30px; }
+     td > .fa-eye { border-radius:100px; }
+</style>
+<br>
+<br>
+<br>
+<br>
+<div class="container-fluid"><br>
+  
+  <div class="panel panel-primary">
+      <div class="panel-heading"><h3><center><b> Request to Rent</b></center></h3></div>
+      <div class="panel-body">
+      	<div class="row">
+        	<div class="col-md-2"><h4><b>Address</b></h4></div>
+            <div class="col-md-8"><h4>{{object.propertyObj.title}}</h4></div>
+            <div class="col-md-2"><a href="#" class="btn btn-primary btn-lg" style="border-radius:50px;">Message</a></div>
+        </div>
+        <div class="row">
+        	<div class="col-md-2"><h4><b>Name</b></h4></div>
+            <div class="col-md-8"><h4>{{object.studentObj.user.user.first_name|title}} {{object.studentObj.user.user.last_name}}</h4></div>
+        </div>
+        <div class="row">
+        	<div class="col-md-2"><h4><br><br><b>Request to rent Info</b></h4></div>
+            <div class="col-md-8">
+            	<h4>
+            		<br>
+                    <b>Move In & Move Out </b> &nbsp; <i class="fa fa-calendar-o"></i> {{object.moveIn}} & {{object.moveOut}} <br> <br>
+                    <b>Occupants </b> &nbsp; <i class="fa fa-users"></i> {{object.occupants}} <br> <br>
+            	</h4>
+            </div>
+        </div>
+      </div>
+        
+      </div>
+    </div>
+
+</div>
+<br>
+<br>
+{% include "layout/footer.html" %}
+{% comment %} </body>
+</html> {% endcomment %}
+
