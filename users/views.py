@@ -26,7 +26,6 @@ class CustomLoginView(LoginView):
             return reverse_lazy('user:home')
 
     def get_context_data(self, **kwargs):
-        user1 = get_object_or_404(User, username='admin')
         context = super().get_context_data(**kwargs)
         context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
         context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
@@ -208,6 +207,7 @@ class ContactUSCreateView(CreateView):
         context["form"] = AuthenticationForm
         context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
         context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
+        context["ForgotPasswordForm"] = ForgotPasswordForm(label_suffix='')
         return context
 
     def get_success_url(self, **kwargs):
