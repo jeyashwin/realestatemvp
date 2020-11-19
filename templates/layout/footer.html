@@ -109,7 +109,7 @@
 				document.getElementById('signin-close-btn').click();
 			}
 			
-			function forgot_pass()
+			{% comment %} function forgot_pass()
 			{
 				var email = document.getElementById('pxp-fp-email').value;
 				
@@ -128,7 +128,7 @@
 				*/
 				
 				return false;
-			}
+			} {% endcomment %}
 			
 			function signup()
 			{
@@ -228,6 +228,16 @@
 
 			document.getElementById('id_is_college_student').setAttribute("checked", "true");
 			$('#id_college_name').prop('readonly', false); {% endcomment %}
+
+			{% if messages %}
+				{% for message in messages %}
+					{% if message.tags == 'success' %}
+						$(".pxp-signin-trigger").click();
+					{% elif message.tags == 'forgotPassword error' %}
+						$(".pxp-forgot-pass-trigger").click();
+					{% endif %}
+				{% endfor %}
+			{% endif %}
 
 		   }
 		   

@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.contrib import messages
 from .models import UserStudent, Message, MessageRequest, Room, Friend
 from users.models import UserType, UserLandLord
 from property.models import Property
@@ -236,36 +237,36 @@ class RequestView(ListView):
 
 
 @login_required
-def message_request_update(request):  
-    if request.method == "GET":
-        return render(request, 'chat/message_request.html')
+def message_request_update(request, requestUser):
+    # if request.method == "GET":
+    #     return render(request, 'chat/message_request.html')
 
-    if request.method == "POST":
-        new_request_user_name = request.POST["new_chat_request_name"]
-        add_user_valid = get_user_contact(new_request_user_name)
+    # if request.method == "POST":
+    new_request_user_name = requestUser
+    add_user_valid = get_user_contact(new_request_user_name)
 
-        loggedin_user = request.user
+    loggedin_user = request.user
 
-        if loggedin_user.username != request.POST["new_chat_request_name"]:
-            try:
-                already_exists = MessageRequest.objects.filter(request_sender__user=add_user_valid.user).get()
-                print("Message request sent to this user ==> ", already_exists)
-                return HttpResponse('<html><body>Request sent already %s.</body></html>' % already_exists)
-            except MessageRequest.DoesNotExist:
-                new_message_request = MessageRequest.objects.create(
-                        logged_in_user = get_user_contact(loggedin_user),
-                        request_sender = get_user_contact(new_request_user_name)
-                )
-                notfi = Notification.objects.create(
-                    fromUser=loggedin_user,
-                    toUser=get_object_or_404(User, username=new_request_user_name),
-                    notificationType='newFriendRequest',
-                    content=new_message_request.logged_in_user,
-                    identifier=new_message_request.pk
-                )
-                return HttpResponse('<html><body>Request sent sucessfully.</body></html>')
+    if loggedin_user.username != requestUser:
+        try:
+            already_exists = MessageRequest.objects.filter(request_sender__user=add_user_valid.user).get()
+            print("Message request sent to this user ==> ", already_exists)
+            return HttpResponse('<html><body>Request sent already %s.</body></html>' % already_exists)
+        except MessageRequest.DoesNotExist:
+            new_message_request = MessageRequest.objects.create(
+                    logged_in_user = get_user_contact(loggedin_user),
+                    request_sender = get_user_contact(new_request_user_name)
+            )
+            notfi = Notification.objects.create(
+                fromUser=loggedin_user,
+                toUser=get_object_or_404(User, username=new_request_user_name),
+                notificationType='newFriendRequest',
+                content=new_message_request.logged_in_user,
+                identifier=new_message_request.pk
+            )
+            messages.add_message(request, messages.SUCCESS, 'Request sent sucessfully.')
 
-    return redirect('chat:index')
+    return redirect('students:roommates')
 
 
 @method_decorator(login_required, name='dispatch')

@@ -17,6 +17,7 @@ class Notification(models.Model):
         ('newFriendRequest', 'New Friend request'),
         ('acceptFriendRequest', 'New Friend request Accepted'),
         ('denyFriendRequest', 'New Friend request Denyed'),
+        ('tagFriend', 'Tag Friend'),
     ]
 
     fromUser = models.ForeignKey(User, on_delete=models.CASCADE, related_name='fromUser')

@@ -291,8 +291,8 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                     propObjects = propObjects.order_by("-rooms")
                 if sort == "bath":
                     propObjects = propObjects.order_by("-bathrooms")
-                if sort == "sqft":
-                    propObjects = propObjects.order_by("-sqft")
+                # if sort == "sqft":
+                #     propObjects = propObjects.order_by("-sqft")
         else:
             print(filterSortForm)
         return propObjects
@@ -470,3 +470,21 @@ def VaccantChangeView(request, slug):
             else:
                 messages.add_message(request, messages.ERROR, 'Not a valid option!')
     return redirect('property:propertyManage')
+
+@login_required
+@user_passes_test(studentAccessTest)
+def TagFriendsView(request, slug):
+    if request.method == "POST":
+        tagFriend = request.POST.get("tagFriend", None)
+        if tagFriend is not None and tagFriend != "":
+            prop = get_object_or_404(Property, urlSlug=slug)
+            stud = get_object_or_404(UserStudent, user__user__username=tagFriend)
+            notfy = Notification.objects.create(
+                        fromUser=request.user,
+                        toUser=stud.user.user,
+                        notificationType='tagFriend',
+                        content=prop.title,
+                        identifier=prop.urlSlug,
+                    )
+            messages.add_message(request, messages.SUCCESS, f'Tagged {tagFriend} successfully!')
+    return redirect('property:propertyList')

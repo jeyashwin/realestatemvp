@@ -195,7 +195,7 @@ class PropertyFilterSortForm(forms.Form):
         ('p_hi_low', 'Price (Hi-Lo)'),
         ('room', 'Rooms'),
         ('bath', 'Baths'),
-        ('sqft', 'SQFT')
+        # ('sqft', 'SQFT')
     ]
     commonChoices = [
         ('1', '1'),

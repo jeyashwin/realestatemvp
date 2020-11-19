@@ -213,13 +213,26 @@
 					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
 		</style>
 		
-		<div class="roww bodycontent">		
+		<div class="roww bodycontent">
+			{% if messages %}
+			{% for message in messages %}
+			<strong>{{ message }}</strong>
+			<!-- <div class="alert alert-danger alert-dismissible fade show">
+				<strong>{{ message }}</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div> -->
+			{% endfor %}
+			{% endif %}
 			<div class="container-fluid">
 				
 				<div class="pull-right" style="margin-top:0px;">
-					<span data-toggle="pill" href="#home" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </span>
-					<span data-toggle="pill" href="#menu1" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </span>
-					<span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span>
+					{% comment %} <span data-toggle="pill" href="#home" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </span> {% endcomment %}
+					{% comment %} <span data-toggle="pill" href="#menu1" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </span> {% endcomment %}
+					{% comment %} <span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span> {% endcomment %}
+					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
+					<a href="{% url 'chat:index' %}" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chats </a>
 					&nbsp;
 				</div><br>
 				
@@ -469,7 +482,17 @@
 														{% for interest in object.student.interests.all %}
 														<span class="btn btn-default btn-xs" style="display:none; color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
 														{% endfor %}
-														
+														{% if user != object.student.user.user %}
+															{% load extraTags %}
+															{% get_friend_status object.student as friendStatus %}
+																{% if friendStatus.status == "Friends" %}
+																	<a href="{% url 'chat:room' friendStatus.url %}">friends</a>
+																{% elif friendStatus.status == "FriendRequestSent" %}
+																	<a>Request Sent</a>
+																{% else %}
+																	<a href="{% url 'chat:message_request_update' object.student.user.user %}">Not friends</button>
+																{% endif %}
+														{% endif %}
 														<span class="pull-right" style="margin-top:-10px;">
 															{% if object.student.instaLink %}
 															<a href="{{object.student.instaLink}}" style="text-decoration:none;" target="blank">
@@ -1500,6 +1523,8 @@
 				  </div>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			</div>
+			<br>
+			<br>
 		</div>
 		
 		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>

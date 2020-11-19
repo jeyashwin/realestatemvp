@@ -13,4 +13,5 @@ urlpatterns = [
     path('landlord/profile/<str:username>/', LandlordProfileUpdateView.as_view(), name = "landlordProfile"),
     path('delete/profile/<str:username>/', UserDeleteView.as_view(), name = "deleteProfile"),
     path('contact/', ContactUSCreateView.as_view(), name = "contactUs"),
+    path('forgot-password/', ForgotPasswordView, name="forgotPass"),
 ]

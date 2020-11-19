@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
 from django.contrib.auth.models import User
@@ -25,9 +26,11 @@ class CustomLoginView(LoginView):
             return reverse_lazy('user:home')
 
     def get_context_data(self, **kwargs):
+        user1 = get_object_or_404(User, username='admin')
         context = super().get_context_data(**kwargs)
         context["LandlordSignupForm"] = LandlordSignupForm(label_suffix='')
         context["StudentSignupForm"] = StudentSignupForm(label_suffix='')
+        context["ForgotPasswordForm"] = ForgotPasswordForm(label_suffix='')
         return context
 
 
@@ -46,8 +49,8 @@ class LandlordSignUpView(CreateView):
                             phone=form.cleaned_data.get('phone'),
                             profilePicture=form.cleaned_data.get('lanprofilePicture'),
                         )
-        # return redirect('user:home')
-        return JsonResponse({'success_message': "Landlord Profile created"}, status=201)
+        messages.add_message(self.request, messages.SUCCESS, 'Landlord Profile created successfully. Sign in to you account.')
+        return redirect('user:home')
 
     def form_invalid(self, form):
         invalid = super().form_invalid(form)
@@ -112,9 +115,9 @@ class StudentSignUpView(CreateView):
                 newUser.save()
             except InviteCode.DoesNotExist:
                 print("Invite codes doesn't match! Ask your friend to resend.")
-
-        # return redirect('user:home')
-        return JsonResponse({'success_message': "Student Profile created"}, status=201)
+        
+        messages.add_message(self.request, messages.SUCCESS, 'Student Profile created successfully. Sign in to you account.')
+        return redirect('user:home')
 
     def form_invalid(self, form):
         invalid = super().form_invalid(form)
@@ -210,3 +213,20 @@ class ContactUSCreateView(CreateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('user:contactUs')
 
+def ForgotPasswordView(request):
+
+    if request.method == 'POST':
+        form = ForgotPasswordForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('new_password1')
+            user = User.objects.get(username=username)
+            user.set_password(password)
+            user.save()
+            messages.add_message(request, messages.SUCCESS, 'Password changed successfully')
+        else:
+            for error in form.errors:
+                messages.add_message(request, messages.ERROR, form.errors.get(error), extra_tags='forgotPassword')
+            # return JsonResponse(form.errors, status=400)
+
+    return redirect('user:home')

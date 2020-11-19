@@ -26,7 +26,9 @@
 	}
 	#filter_checks > p > input { width:13px; height:13px; }
 	#filter_checks > p { font-size:15px; }
-
+	#tagFriendid {
+		border-radius: 0px !important;
+	}
 								
 	input[type=range] {
 		-webkit-appearance: none;
@@ -283,6 +285,7 @@
 							<div class="d-flex">
 								<!--a role="button" class="pxp-adv-toggle" onclick="toggle_filters()"><span class="fa fa-sliders"></span></a-->
 							</div>
+						</form>
 						</div>
 						<div class="pxp-content-side-search-form-advv mb-3" id="filtersdiv" style="display:none;">
 								<div class="row pxp-content-side-search-form-row">
@@ -396,6 +399,16 @@
 								<input type="submit" name="submit" value="Apply Filters" class="pxp-filter-btn" />
 								<hr>
 						</div>
+						{% if messages %}
+							{% for message in messages %}
+							<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							{% endfor %}
+						{% endif %}
 						<div class="row pb-4">
 							<div class="col-sm-6">
 								<h2 class="pxp-content-side-h2">{{total_count}} Results</h2>
@@ -501,9 +514,24 @@
 											</div>
 										</div>
 										
-										<div class="col-md-12" style="border-top:1px solid silver; padding:5px 10px; font-size:12px; background-color:#044C7E; color:#fff;">
-											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
-												<div class="col-md-12"><b>Tag a friend @ </b></div>
+										<div class="col-md-12" style="border-top:1px solid silver; font-size:12px; background-color:#044C7E; color:#fff;">
+											<div class="row" style="border-bottom:0px solid #444444;">
+												<form action="{% url 'property:tagFriend' object.urlSlug %}" method="POST">
+													{% csrf_token %}
+													<div class="col-md-12">
+														<div class="input-group">
+															<select name="tagFriend" class="custom-select" id="tagFriendid" required>
+																<option value="" selected>Tag a Friend</option>
+																{% for friend in user.usertype.userstudent.friend.friends.all %}
+																	<option value="{{friend}}">{{friend}}</option>
+																{% endfor %}
+															</select>
+															<div class="input-group-append">
+																<button type="submit" class="btn btn-md btn-success">Tag</button>
+															</div>
+														</div>
+													</div>
+												</form>
 											</div>
 										</div>
 									</div>

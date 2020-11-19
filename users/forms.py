@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UsernameField
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
@@ -477,3 +477,37 @@ class ContactUSForm(forms.ModelForm):
                 'rows': "4"
             }),
         }
+
+class ForgotPasswordForm(forms.Form):
+
+    error_messages = {
+        'password_mismatch': _('The two password fields didn’t match.'),
+        'username_not_exists': _('The username not exists'),
+    }
+    username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True}))
+    new_password1 = forms.CharField(
+        label=_("New password"),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        strip=False,
+    )
+    new_password2 = forms.CharField(
+        label=_("Confirm New password"),
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+    )
+
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password1 = self.cleaned_data.get('new_password1')
+        password2 = self.cleaned_data.get('new_password2')
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError(
+                    self.error_messages['password_mismatch'],
+                    code='password_mismatch',
+                )
+        if not User.objects.filter(username=username).exists():
+            raise ValidationError(
+                self.error_messages['username_not_exists'],
+                code='username_not_exists',
+            )

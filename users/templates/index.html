@@ -84,17 +84,21 @@
                     
                         <form id="contactForm" action="#">
                             <div class="row">
-                                <div class="col-md-7 col-xs-7 mailcolumn">
+                                {% comment %} <div class="col-md-7 col-xs-7 mailcolumn">
                                     <input type="email" class="form-control" name="email" 
                                     id="email"  placeholder="Enter your Email" style="padding:15px; height:40px; " onclick="signupchange()" onkeyup="signupchange()" required>
                                 </div>
                                 <div class="col-md-4 col-xs-4 submitcolumn">
                                     <button type="submit" id="submit" name="submit" value="SIGN UP" class="form-control btn" style="border:1px solid #0B3360; background-color:#0B3360; color:#fff; padding:5px; font-weight:bold; height:40px; font-size:13px; outline:none;">Sign Up</button>
+                                </div> {% endcomment %}
+                                <div class="col-md-8 col-xs-8">
+                                    <button type="button" class="pxp-signup-trigger btn btn-success btn-lg btn-block">Get Started</button>
+                                </div>
+                                <div class="col-md-4 col-xs-4">
                                 </div>
                                 <div class="col-md-12 col-xs-12" style="color:black;">
                                     <p class="betasect">Be one of the first to try it - sign up for the beta.</p>
                                 </div>
-
                             </div>
                         </form>                    
                 </div>

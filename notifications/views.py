@@ -17,7 +17,7 @@ def notification(request, pk):
         obj.save()
         return redirect('services:servicesDetail', pk=obj.identifier)
     
-    if obj.notificationType == 'deletedQuestion':
+    if obj.notificationType == 'deletedQuestion' or obj.notificationType == 'tagFriend':
         obj.viewed = True
         obj.save()
         return redirect('property:propertyDetail', slug=obj.identifier)

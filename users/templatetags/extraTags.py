@@ -1,6 +1,7 @@
 from django import template
 from django.urls import reverse
 from notifications.models import Notification
+from chat.models import Room, MessageRequest
 import phonenumbers
 
 register = template.Library()
@@ -65,3 +66,15 @@ def get_invite_url(context):
             return url_full
         else:
             return 'Save the profile to generete invite code.'
+
+@register.simple_tag(takes_context=True)
+def get_friend_status(context, postAuthor):
+    user = context.get("user")
+    if user.is_authenticated:
+        if user.usertype.userstudent.friend.friends.filter(user=postAuthor.user).exists():
+            room = Room.objects.filter(room_type=False).filter(members=user).filter(members=postAuthor.user.user).first()
+            return {'status': 'Friends', 'url': room.pk}
+        messageRequests = MessageRequest.objects.filter(logged_in_user=user.usertype.userstudent).filter(request_sender=postAuthor).filter(status=False)
+        if messageRequests:
+            return {'status': 'FriendRequestSent'}
+        return {'status': 'NotFriends'}

@@ -290,6 +290,13 @@
 														</li>
 														</a>
 														{% endif %}
+														{% if notify.notificationType == "tagFriend" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has tagged you to see this property <b>{{notify.content}}</b><hr>
+														</li>
+														</a>
+														{% endif %}
 													{% endfor %}
 												{% else %}
 												<li> 
@@ -431,6 +438,18 @@
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
 			            <center><i id="reg-msg"></i></center>
+						{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == 'success' %}
+							<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endif %}
+						{% endfor %}
+						{% endif %}
                         <form action="{% url 'user:home' %}" method="POST" id="signinform">
                             {% load bootstrap3 %}
                             {% csrf_token %}
@@ -442,7 +461,7 @@
                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#pxp-forgot-pass-modal" class="pxp-modal-link pxp-forgot-pass-trigger" onclick="close_signin_modal()">Forgot password</a>
                             </div>
                             <div class="text-center pxp-modal-small">
-                                New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
+                                New to SwiftLiving? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
                             </div>
                         </form>
                     </div>
@@ -460,10 +479,25 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpForgotPassModal">Forgot Password</h5></center>
-                        <form class="mt-4" onsubmit="forgot_pass()" action="#">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="pxp-fp-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
+						{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == 'forgotPassword error' %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endif %}
+						{% endfor %}
+						{% endif %}
+                        <form class="mt-4" method='POST' action="{% url 'user:forgotPass' %}">
+							{% csrf_token %}
+							{% load bootstrap3 %}
+                            {% bootstrap_form ForgotPasswordForm %}
+                            {% comment %} <div class="form-group">
+                                <input type="text" class="form-control" name="forgotUsername" placeholder="Enter your username" required style="background-color:rgba(255, 255, 255, 0.5);">
+                            </div> {% endcomment %}
                             <div class="form-group">
 								<div class="row">
 									<div class="col-6">
