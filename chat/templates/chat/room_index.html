@@ -207,8 +207,10 @@
 			<div class="container-fluid">
 				
 				<div class="pull-right" style="margin-top:0px;">
+					{% if user.usertype.is_student %}
 					<a href="/roommates" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </a>
 					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
+					{% endif %}
 					&nbsp;
 				</div><br>
 				
@@ -257,10 +259,10 @@
 
 										  <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0" style="color: rgba(96, 125, 139,1.0);">
 											
-											<img class="rounded float-left" style="width: 50px; height: 50px;" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" />
+											{% comment %} <img class="rounded float-left" style="width: 50px; height: 50px;" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" />
 											
-											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b> {{ another_member }}</b><i class="fa fa-check text-primary" aria-hidden="true"></i> </h4>
-												
+											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b> {{ another_member }}</b><i class="fa fa-check text-primary" aria-hidden="true"></i> </h4> {% endcomment %}
+											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b>Chats</b></h4>
 										  </div>
 										
 											<div class="card bg-sohbet border-0 m-0 p-0" id="chatmessagesbody" style="height: 400px; overflow-y: scroll;">
