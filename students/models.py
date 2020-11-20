@@ -101,63 +101,63 @@ class CommentReply(models.Model):
 #     if not instance.preferenceSlug:
 #         instance.preferenceSlug = unique_slug_generator_preference(instance)
 
-@receiver(pre_save, sender=RoommatePost)
-def auto_delete_roommate_post_images_if_modified(sender, instance, **kwargs):
-    """
-    Deletes roommates post images file from filesystem
-    when corresponding MediaFile is modified.
-    """
-    alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
-    if alreadyExists:
-        oldFile = RoommatePost.objects.get(pk=instance.pk)
-        if instance.image:
-            if str(oldFile.image) != str(instance.image) and (str(oldFile.image) != ''):
-                if os.path.isfile(oldFile.image.path):
-                    os.remove(oldFile.image.path)
-        else:
-            if oldFile.image:
-                if os.path.isfile(oldFile.image.path):
-                    os.remove(oldFile.image.path)
-        if instance.image1:
-            if str(oldFile.image1) != str(instance.image1) and (str(oldFile.image1) != ''):
-                if os.path.isfile(oldFile.image1.path):
-                    os.remove(oldFile.image1.path)
-        else:
-            if oldFile.image1:
-                if os.path.isfile(oldFile.image1.path):
-                    os.remove(oldFile.image1.path)
-        if instance.image2:
-            if str(oldFile.image2) != str(instance.image2) and (str(oldFile.image2) != ''):
-                if os.path.isfile(oldFile.image2.path):
-                    os.remove(oldFile.image2.path)
-        else:
-            if oldFile.image2:
-                if os.path.isfile(oldFile.image2.path):
-                    os.remove(oldFile.image2.path)
-        if instance.image3:
-            if str(oldFile.image3) != str(instance.image3) and (str(oldFile.image3) != ''):
-                if os.path.isfile(oldFile.image3.path):
-                    os.remove(oldFile.image3.path)
-        else:
-            if oldFile.image3:
-                if os.path.isfile(oldFile.image3.path):
-                    os.remove(oldFile.image3.path)
+# @receiver(pre_save, sender=RoommatePost)
+# def auto_delete_roommate_post_images_if_modified(sender, instance, **kwargs):
+#     """
+#     Deletes roommates post images file from filesystem
+#     when corresponding MediaFile is modified.
+#     """
+#     alreadyExists = RoommatePost.objects.filter(pk=instance.pk).exists()
+#     if alreadyExists:
+#         oldFile = RoommatePost.objects.get(pk=instance.pk)
+#         if instance.image:
+#             if str(oldFile.image) != str(instance.image) and (str(oldFile.image) != ''):
+#                 if os.path.isfile(oldFile.image.path):
+#                     os.remove(oldFile.image.path)
+#         else:
+#             if oldFile.image:
+#                 if os.path.isfile(oldFile.image.path):
+#                     os.remove(oldFile.image.path)
+#         if instance.image1:
+#             if str(oldFile.image1) != str(instance.image1) and (str(oldFile.image1) != ''):
+#                 if os.path.isfile(oldFile.image1.path):
+#                     os.remove(oldFile.image1.path)
+#         else:
+#             if oldFile.image1:
+#                 if os.path.isfile(oldFile.image1.path):
+#                     os.remove(oldFile.image1.path)
+#         if instance.image2:
+#             if str(oldFile.image2) != str(instance.image2) and (str(oldFile.image2) != ''):
+#                 if os.path.isfile(oldFile.image2.path):
+#                     os.remove(oldFile.image2.path)
+#         else:
+#             if oldFile.image2:
+#                 if os.path.isfile(oldFile.image2.path):
+#                     os.remove(oldFile.image2.path)
+#         if instance.image3:
+#             if str(oldFile.image3) != str(instance.image3) and (str(oldFile.image3) != ''):
+#                 if os.path.isfile(oldFile.image3.path):
+#                     os.remove(oldFile.image3.path)
+#         else:
+#             if oldFile.image3:
+#                 if os.path.isfile(oldFile.image3.path):
+#                     os.remove(oldFile.image3.path)
 
-@receiver(post_delete, sender=RoommatePost)
-def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
-    """
-    Deletes roommates post images file from filesystem
-    when corresponding MediaFile is deleted.
-    """
-    if instance.image:
-        if os.path.isfile(instance.image.path):
-            os.remove(instance.image.path)
-    if instance.image1:
-        if os.path.isfile(instance.image1.path):
-            os.remove(instance.image1.path)
-    if instance.image2:
-        if os.path.isfile(instance.image2.path):
-            os.remove(instance.image2.path)
-    if instance.image3:
-        if os.path.isfile(instance.image3.path):
-            os.remove(instance.image3.path)
+# @receiver(post_delete, sender=RoommatePost)
+# def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
+#     """
+#     Deletes roommates post images file from filesystem
+#     when corresponding MediaFile is deleted.
+#     """
+#     if instance.image:
+#         if os.path.isfile(instance.image.path):
+#             os.remove(instance.image.path)
+#     if instance.image1:
+#         if os.path.isfile(instance.image1.path):
+#             os.remove(instance.image1.path)
+#     if instance.image2:
+#         if os.path.isfile(instance.image2.path):
+#             os.remove(instance.image2.path)
+#     if instance.image3:
+#         if os.path.isfile(instance.image3.path):
+#             os.remove(instance.image3.path)

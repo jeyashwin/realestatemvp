@@ -183,44 +183,44 @@ class ContactUS(models.Model):
         verbose_name_plural = 'Contact US'
 
 
-@receiver(models.signals.pre_save, sender=UserLandLord)
-def auto_delete_seller_profile_pic_on_modified(sender, instance, **kwargs):
-    """
-    Deletes Profile Picture file from filesystem
-    when corresponding MediaFile object is modified.
-    """
-    if instance.profilePicture:
-        alreadyExists = UserLandLord.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = UserLandLord.objects.get(pk=instance.pk)
-            # +41524204242
-            if str(oldFile.profilePicture) != str(instance.profilePicture) and (str(oldFile.profilePicture) != ''):
-                if os.path.isfile(oldFile.profilePicture.path):
-                    os.remove(oldFile.profilePicture.path)
+# @receiver(models.signals.pre_save, sender=UserLandLord)
+# def auto_delete_seller_profile_pic_on_modified(sender, instance, **kwargs):
+#     """
+#     Deletes Profile Picture file from filesystem
+#     when corresponding MediaFile object is modified.
+#     """
+#     if instance.profilePicture:
+#         alreadyExists = UserLandLord.objects.filter(pk=instance.pk).exists()
+#         if alreadyExists:
+#             oldFile = UserLandLord.objects.get(pk=instance.pk)
+#             # +41524204242
+#             if str(oldFile.profilePicture) != str(instance.profilePicture) and (str(oldFile.profilePicture) != ''):
+#                 if os.path.isfile(oldFile.profilePicture.path):
+#                     os.remove(oldFile.profilePicture.path)
 
-@receiver(models.signals.post_delete, sender=UserLandLord)
-def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
-    """
-    Deletes Profile Picture file from filesystem
-    when corresponding MediaFile object is deleted.
-    """
-    if instance.profilePicture:
-        if os.path.isfile(instance.profilePicture.path):
-            os.remove(instance.profilePicture.path)
+# @receiver(models.signals.post_delete, sender=UserLandLord)
+# def auto_delete_seller_profile_pic_on_delete(sender, instance, **kwargs):
+#     """
+#     Deletes Profile Picture file from filesystem
+#     when corresponding MediaFile object is deleted.
+#     """
+#     if instance.profilePicture:
+#         if os.path.isfile(instance.profilePicture.path):
+#             os.remove(instance.profilePicture.path)
 
-@receiver(models.signals.pre_save, sender=UserStudent)
-def auto_delete_student_profile_pic_on_modified(sender, instance, **kwargs):
-    """
-    Deletes Profile Picture file from filesystem
-    when corresponding MediaFile object is modified.
-    """
-    if instance.profilePicture:
-        alreadyExists = UserStudent.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = UserStudent.objects.get(pk=instance.pk)
-            if str(oldFile.profilePicture) != str(instance.profilePicture) and (str(oldFile.profilePicture) != ''):
-                if os.path.isfile(oldFile.profilePicture.path):
-                    os.remove(oldFile.profilePicture.path)
+# @receiver(models.signals.pre_save, sender=UserStudent)
+# def auto_delete_student_profile_pic_on_modified(sender, instance, **kwargs):
+#     """
+#     Deletes Profile Picture file from filesystem
+#     when corresponding MediaFile object is modified.
+#     """
+#     if instance.profilePicture:
+#         alreadyExists = UserStudent.objects.filter(pk=instance.pk).exists()
+#         if alreadyExists:
+#             oldFile = UserStudent.objects.get(pk=instance.pk)
+#             if str(oldFile.profilePicture) != str(instance.profilePicture) and (str(oldFile.profilePicture) != ''):
+#                 if os.path.isfile(oldFile.profilePicture.path):
+#                     os.remove(oldFile.profilePicture.path)
 
 @receiver(models.signals.post_save, sender=UserStudent)
 def auto_create_invite_code_on_student_user_creation(sender, instance, **kwargs):
@@ -233,13 +233,13 @@ def auto_create_invite_code_on_student_user_creation(sender, instance, **kwargs)
         newInvite.inviteCode = unique_invite_code_generator(instance=newInvite, size=20)
         newInvite.save()
 
-@receiver(models.signals.post_delete, sender=UserStudent)
-def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):
-    """
-    Deletes Profile Picture file from filesystem
-    when corresponding MediaFile object is deleted.
-    """
-    if instance.profilePicture:
-        if os.path.isfile(instance.profilePicture.path):
-            os.remove(instance.profilePicture.path)
+# @receiver(models.signals.post_delete, sender=UserStudent)
+# def auto_delete_student_profile_pic_on_delete(sender, instance, **kwargs):
+#     """
+#     Deletes Profile Picture file from filesystem
+#     when corresponding MediaFile object is deleted.
+#     """
+#     if instance.profilePicture:
+#         if os.path.isfile(instance.profilePicture.path):
+#             os.remove(instance.profilePicture.path)
      

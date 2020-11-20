@@ -369,51 +369,51 @@ def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
             PropertyJobStore.objects.create(propObject=instance, jobid=newJob, 
                 address=address)
 
-@receiver(pre_save, sender=PropertyImage)
-def auto_delete_property_image_on_modified(sender, instance, **kwargs):
-    """
-    Deletes Property image file from filesystem
-    when corresponding MediaFile object is modified.
-    """
-    if instance.imagePath:
-        alreadyExists = PropertyImage.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = PropertyImage.objects.get(pk=instance.pk)
-            if str(oldFile.imagePath) != str(instance.imagePath):
-                if os.path.isfile(oldFile.imagePath.path):
-                    os.remove(oldFile.imagePath.path)
+# @receiver(pre_save, sender=PropertyImage)
+# def auto_delete_property_image_on_modified(sender, instance, **kwargs):
+#     """
+#     Deletes Property image file from filesystem
+#     when corresponding MediaFile object is modified.
+#     """
+#     if instance.imagePath:
+#         alreadyExists = PropertyImage.objects.filter(pk=instance.pk).exists()
+#         if alreadyExists:
+#             oldFile = PropertyImage.objects.get(pk=instance.pk)
+#             if str(oldFile.imagePath) != str(instance.imagePath):
+#                 if os.path.isfile(oldFile.imagePath.path):
+#                     os.remove(oldFile.imagePath.path)
 
-@receiver(post_delete, sender=PropertyImage)
-def auto_delete_property_image_on_delete(sender, instance, **kwargs):
-    """
-    Deletes Property image file from filesystem
-    when corresponding MediaFile object is deleted.
-    """
-    if instance.imagePath:
-        if os.path.isfile(instance.imagePath.path):
-            os.remove(instance.imagePath.path)
+# @receiver(post_delete, sender=PropertyImage)
+# def auto_delete_property_image_on_delete(sender, instance, **kwargs):
+#     """
+#     Deletes Property image file from filesystem
+#     when corresponding MediaFile object is deleted.
+#     """
+#     if instance.imagePath:
+#         if os.path.isfile(instance.imagePath.path):
+#             os.remove(instance.imagePath.path)
 
-@receiver(pre_save, sender=PropertyVideo)
-def auto_delete_property_video_on_modified(sender, instance, **kwargs):
-    """
-    Deletes Property video file from filesystem
-    when corresponding MediaFile object is modified.
-    """
-    if instance.videoPath:
-        alreadyExists = PropertyVideo.objects.filter(pk=instance.pk).exists()
-        if alreadyExists:
-            oldFile = PropertyVideo.objects.get(pk=instance.pk)
-            if str(oldFile.videoPath) != str(instance.videoPath):
-                if os.path.isfile(oldFile.videoPath.path):
-                    os.remove(oldFile.videoPath.path)
+# @receiver(pre_save, sender=PropertyVideo)
+# def auto_delete_property_video_on_modified(sender, instance, **kwargs):
+#     """
+#     Deletes Property video file from filesystem
+#     when corresponding MediaFile object is modified.
+#     """
+#     if instance.videoPath:
+#         alreadyExists = PropertyVideo.objects.filter(pk=instance.pk).exists()
+#         if alreadyExists:
+#             oldFile = PropertyVideo.objects.get(pk=instance.pk)
+#             if str(oldFile.videoPath) != str(instance.videoPath):
+#                 if os.path.isfile(oldFile.videoPath.path):
+#                     os.remove(oldFile.videoPath.path)
 
-@receiver(post_delete, sender=PropertyVideo)
-def auto_delete_property_video_on_delete(sender, instance, **kwargs):
-    """
-    Deletes Property Video file from filesystem
-    when corresponding MediaFile object is deleted.
-    """
-    if instance.videoPath:
-        if os.path.isfile(instance.videoPath.path):
-            os.remove(instance.videoPath.path)
+# @receiver(post_delete, sender=PropertyVideo)
+# def auto_delete_property_video_on_delete(sender, instance, **kwargs):
+#     """
+#     Deletes Property Video file from filesystem
+#     when corresponding MediaFile object is deleted.
+#     """
+#     if instance.videoPath:
+#         if os.path.isfile(instance.videoPath.path):
+#             os.remove(instance.videoPath.path)
 

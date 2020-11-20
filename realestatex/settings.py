@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'notifications',
     'channels',
     'chat',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -173,3 +174,10 @@ LOGIN_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 
 GOOGLE_MAPS_API_KEY = "AIzaSyBZs3lC3Z72FBlv40cGOi5X6sYlZa9mHE4"
+
+AWS_ACCESS_KEY_ID = "AKIAVSAAYIGLCDPURLVB"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "swiftliving"
+
+AWS_S3_FILE_OVERWRITE = False
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
