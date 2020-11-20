@@ -13,6 +13,9 @@
 </head>
 <body> {% endcomment %}
 {% include "layout/header.html" %}
+{% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> {% endcomment %}
+{% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  {% endcomment %}
 <style>
 	#requestpills > li > a { border-radius:50px !important; }  
     #requestpills > li.active > a { background-color: #00297a !important; }  
@@ -26,11 +29,12 @@
 <br>
 <br>
 <br>
+<br>
 <div class="container-fluid"><br>
   
-  <div class="panel panel-primary">
-      <div class="panel-heading"><h3><center><b> Request to Rent</b></center></h3></div>
-      <div class="panel-body">
+  <div class="card">
+      <div class="card-header" style="background-color: #98c9ff;"><h3 style="color: #0e0e0e;"><center><b> Request to Rent</b></center></h3></div>
+      <div class="card-body">
       	<div class="row">
         	<div class="col-md-2"><h4><b>Address</b></h4></div>
             <div class="col-md-8"><h4>{{object.propertyObj.title}}</h4></div>

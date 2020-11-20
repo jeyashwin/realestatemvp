@@ -804,12 +804,17 @@
 										<div class="col-md-1 imgcol" style="text-align:center;">
 											<img src="#" class="pull-right" style="width:40px; height:40px; border-radius:100px; border:3px solid grey;" />
 										</div>
-										<div class="col-md-4 userheadcol">
+										<div class="col-md-3 userheadcol">
 											<h5><b></b></h5>
 											<h6></h6>
 										</div>
 										
-										<div class="col-md-7 usercaty" style="margin-top:5px;"></div>
+										<div class="col-md-2" style="margin-top:5px;">
+											<span class="req_open_chat"></span>
+										</div>
+										
+										<div class="col-md-6 usercaty" style="margin-top:5px;"></div>
+										
 										
 										<div class="col-md-12 userhabits">
 											<div class="row" style="padding-bottom:10px; width:100%;">
@@ -841,7 +846,6 @@
 													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
 													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Study Hours </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; <span class="studyhoursvalue">N/A</span> </span>
 												</div>
-												<div class="req_open_chat"></div>
 											</div>
 												
 										</div>
@@ -1020,25 +1024,25 @@ function tConvert (timeString) {
 	  return timeString12hr; 
 	}
 
-	if(ssfrom) {
+	if(res.student.sleepScheduleFrom) {
 		var ssfrom = tConvert (res.student.sleepScheduleFrom);
 	} else {
-		var ssfrom = tConvert ('~');
+		var ssfrom = '~';
 	}
-	if(ssto) {
+	if(res.student.sleepScheduleTo) {
 		var ssto = tConvert (res.student.sleepScheduleTo);
 	} else {
-		var ssto = tConvert ('~');
+		var ssto = '~';
 	}
-	if(shfrom) {
+	if(res.student.studyHourFrom) {
 		var shfrom = tConvert (res.student.studyHourFrom);
 	} else {
-		var shfrom = tConvert ('~');
+		var shfrom = '~';
 	}
-	if(shto) {
+	if(res.student.studyHourTo) {
 		var shto = tConvert (res.student.studyHourTo);
 	} else {
-		var shto = tConvert ('~');
+		var shto = '~';
 	}
 
 										$(".tobaccousagevalue").html(res.student.tobaccoUsage);

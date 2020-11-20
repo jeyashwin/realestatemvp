@@ -1,12 +1,14 @@
 {% include "layout/header.html" %}
 
 {% load static %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+{% comment %} <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>  
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>   {% endcomment %}
 <style>
-	#requestpills > li > a { border-radius:50px !important; }  
-    #requestpills > li.active > a { background-color: #00297a !important; }  
+	#requestpills > li { padding:5px !important; }  
+	#requestpills > li > a { border-radius:50px !important; width:100% !important; padding:5px 20px !important; color:#00297a !important; text-decoration:none; border:2px solid #00297a !important; }  
+    #requestpills > li.active > a { background-color: #00297a !important; color:#fff !important; }  
+    #requestpills > li > a.active { background-color: #00297a !important; color:#fff !important; }  
     
     .requests_table > thead > tr > th { background-color: #00297a; color:#fff; padding:20px; }
      .addressp { padding-left:40px; }
@@ -16,19 +18,22 @@
 <br>
 <br>
 <br>
-<div class="container"><br>
+<br>
+<br>
+<div class="container-fluid">
   <ul class="nav nav-pills nav-justified" id="requestpills">
-  <li class="active"><a data-toggle="pill" href="#home">Rent Requests</a></li>
-  <li><a data-toggle="pill" href="#menu1">Tour Requests</a></li>
+  <li id="rentbtn" onclick="rentclick()"  style="background-color: transparent !important;"><a class="active" data-toggle="pill" href="#home">Rent Requests</a></li>
+  <li id="tourbtn" onclick="tourclick()" style="background-color: transparent !important;"><a data-toggle="pill" href="#menu1">Tour Requests</a></li>
 </ul>
 
 <div class="tab-content">
-  <div id="home" class="tab-pane fade in active">
+  <div id="home" class="tab-pane fade in active show" style="background-color: transparent !important;">
   <br><br>
 	<table class="table table-striped requests_table">
     	<thead>
         	<tr>
-            	<th style="border-top-left-radius:10px !important;">Name & Address</th>
+                <th style="border-top-left-radius:10px !important;">Property Address</th>
+            	<th>Name</th>
                 <th>Move In & Move Out</th>
                 <th style="border-top-right-radius:10px !important;">Action</th>
             </tr>
@@ -36,13 +41,14 @@
         <tbody>
         	{% for rentReq in rentRequest %}
             <tr>
+                <td><a href="{% url 'property:propertyDetail' rentReq.propertyObj.urlSlug %}">{{rentReq.propertyObj.title}}</a></td>
             	<td>
                 	<img class="reqtableimg" src="{{rentReq.studentObj.profilePicture.url}}" /> &nbsp;
                     <b>{{rentReq.studentObj.user.user.first_name|title}} {{rentReq.studentObj.user.user.last_name}}</b><br>
-                	<p class="addressp">{{rentReq.propertyObj.title}}</p>
+                	{% comment %} <p class="addressp">{{rentReq.propertyObj.title}}</p> {% endcomment %}
                 </td>
-                <td><br>{{rentReq.moveIn}} & {{rentReq.moveOut}}</td>
-                <td><br><a href="{% url 'checkout:rentRequestDetail' rentReq.pk %}"><i class="fa fa-eye btn btn-success btn-sm"> View</i></a></td>
+                <td>{{rentReq.moveIn}} & {{rentReq.moveOut}}</td>
+                <td><a href="{% url 'checkout:rentRequestDetail' rentReq.pk %}"><i class="fa fa-eye btn btn-success btn-sm" style="border-radius: 50px;"> View</i></a></td>
             </tr>
             {% endfor %}
             {% comment %} <tr>
@@ -66,12 +72,13 @@
         </tbody>
     </table>
   </div>
-  <div id="menu1" class="tab-pane fade">
+  <div id="menu1" class="tab-pane fade" style="background-color: transparent !important;">
     <br><br>
 	<table class="table table-striped requests_table">
     	<thead>
         	<tr>
-            	<th style="border-top-left-radius:10px !important;">Name & Address</th>
+                <th style="border-top-left-radius:10px !important;">Property Address</th>
+            	<th>Name</th>
                 <th>Preference Date | Time</th>
                 <th style="border-top-right-radius:10px !important;">Action</th>
             </tr>
@@ -79,13 +86,14 @@
         <tbody>
         	{% for tourReq in tourRequest %}
             <tr>
+                <td><a href="{% url 'property:propertyDetail' tourReq.propertyObj.urlSlug %}">{{tourReq.propertyObj.title}}</a></td>
             	<td>
                 	<img class="reqtableimg" src="{{tourReq.studentObj.profilePicture.url}}" /> &nbsp;
                     <b>{{tourReq.studentObj.user.user.first_name|title}} {{tourReq.studentObj.user.user.last_name}}</b><br>
-                	<p class="addressp">{{tourReq.propertyObj.title}}</p>
+                	<!-- <p class="addressp">{{tourReq.propertyObj.title}}</p> -->
                 </td>
-                <td><br>{{tourReq.preference1Date}} {{tourReq.preference1Time}}</td>
-                <td><br><a href="{% url 'checkout:tourRequestDetail' tourReq.pk %}"><i class="fa fa-eye btn btn-success btn-sm"> View</i></a></td>
+                <td>{{tourReq.preference1Date}} {{tourReq.preference1Time}}</td>
+                <td><a href="{% url 'checkout:tourRequestDetail' tourReq.pk %}"><i class="fa fa-eye btn btn-success btn-sm" style="border-radius: 50px;"> View</i></a></td>
             </tr>
             {% endfor %}
             {% comment %} <tr>
@@ -111,7 +119,20 @@
   </div>
 </div>
 </div>
+<br>
+<br>
+<!-- <script>
+    function rentclick()
+    {
+        $("#rentbtn > a").css({"background-color":"#002974", "border":"2px solid #002974"});
+        $("#tourbtn > a").css({"background-color":"#fff", "border":"2px solid #002974"});
+    }
 
-
+    function tourclick()
+    {
+        $("#tourbtn.active > a").css({"background-color":"#002974 !important", "border":"2px solid #002974"});
+        $("#rentbtn > a").css({"background-color":"#fff", "border":"2px solid #002974"});
+    }
+</script> -->
 
 {% include "layout/footer.html" %}
