@@ -10,11 +10,11 @@ from property.models import Property
 from notifications.models import Notification
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView
-from django.core.files.storage import FileSystemStorage
+# from django.core.files.storage import FileSystemStorage
 import json
 
-fs = FileSystemStorage(location='/home/pooja/Documents/Freelancing/realestatemvp/chatapp/static/uploads/')
-fs.base_url = '/home/pooja/Documents/Freelancing/realestatemvp/chatapp/static/uploads/' 
+# fs = FileSystemStorage(location='/home/pooja/Documents/Freelancing/realestatemvp/chatapp/static/uploads/')
+# fs.base_url = '/home/pooja/Documents/Freelancing/realestatemvp/chatapp/static/uploads/' 
 
 User = get_user_model()
 
@@ -78,18 +78,16 @@ def room(request, room_name):
     
     if request.method == "POST":
         uploaded_file = request.FILES['myFile']
-        name = fs.save(uploaded_file.name, uploaded_file)
-        url = fs.url(name)
         new_message = Message.objects.create(
             room = get_object_or_404(Room, pk=room_name),
             author = request.user,
             content = '',
-            pdf = url,
+            pdf = uploaded_file,
         )
         return JsonResponse({
                 'room_id': room_name,
                 'username': request.user.username,
-                'url': url,
+                'url': new_message.pdf.url,
                 'message_id': new_message.pk,
         })
 
@@ -119,18 +117,18 @@ def group(request, room_name):
 
     if request.method == "POST":
         uploaded_file = request.FILES['myFile']
-        name = fs.save(uploaded_file.name, uploaded_file)
-        url = fs.url(name)
+        # name = fs.save(uploaded_file.name, uploaded_file)
+        # url = fs.url(name)
         new_message = Message.objects.create(
             room = get_object_or_404(Room, pk=room_name),
             author = request.user,
             content = '',
-            pdf = url,
+            pdf = uploaded_file,
         )
         return JsonResponse({
                 'room_id': room_name,
                 'username': request.user.username,
-                'url': url,
+                'url': new_message.pdf.url,
                 'message_id': new_message.pk,
         })
        
@@ -233,7 +231,7 @@ class RequestView(ListView):
     context_object_name = 'message_request_list'
     template_name = "chat/message_list.html"
     def get_queryset(self):
-        return MessageRequest.objects.filter(request_sender__user__user=self.request.user)
+        return MessageRequest.objects.filter(status=False).filter(request_sender__user__user=self.request.user)
 
 
 @login_required
@@ -246,10 +244,11 @@ def message_request_update(request, requestUser):
     add_user_valid = get_user_contact(new_request_user_name)
 
     loggedin_user = request.user
+    loggedin_user_valid  = get_user_contact(loggedin_user)
 
     if loggedin_user.username != requestUser:
         try:
-            already_exists = MessageRequest.objects.filter(request_sender__user=add_user_valid.user).get()
+            already_exists = MessageRequest.objects.filter(logged_in_user=loggedin_user_valid).filter(request_sender__user=add_user_valid.user).get()
             print("Message request sent to this user ==> ", already_exists)
             return HttpResponse('<html><body>Request sent already %s.</body></html>' % already_exists)
         except MessageRequest.DoesNotExist:
@@ -290,3 +289,18 @@ class CreateGroupView(ListView):
         new_room.members.add(request.user)
         new_room.save()
         return redirect('chat:group', new_room.pk)
+
+@login_required
+def landlord_student_chat(request, studuser):
+    studObj = get_object_or_404(UserStudent, user__user__username=studuser)
+    loggedin_user = request.user
+    try:
+        already_exists = Room.objects.filter(room_type = False).filter(members__username = loggedin_user).filter(members__username=studObj.user.user.username).get()
+        return redirect("chat:room", already_exists)
+    except Room.DoesNotExist:
+        new_room = Room.objects.create()
+        new_room.members.add(get_object_or_404(User, username=studObj.user.user.username))
+        new_room.save()
+        new_room.members.add(request.user)
+        new_room.save()
+        return redirect('chat:room', new_room.pk)

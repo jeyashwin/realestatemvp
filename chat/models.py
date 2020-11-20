@@ -3,7 +3,19 @@ from django.contrib.auth import get_user_model
 from users.models import UserStudent
 from django.dispatch import receiver
 
+import uuid, os
+
 User = get_user_model()
+
+
+def unique_file_path_generator_chat(instance, filename):
+    """Generate file path for chat attachments"""
+    ext = filename.split('.')[-1]
+    filename = f'{uuid.uuid4()}.{ext}'
+    filepath = ("uploads/chat/{roomid}/").format(
+                    roomid=instance.room.pk, 
+                )
+    return os.path.join(filepath, filename)
 
 
 class Room(models.Model):
@@ -22,7 +34,7 @@ class Message(models.Model):
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     room = models.ForeignKey(Room, related_name="room", on_delete=models.CASCADE, null=True)
-    pdf = models.FileField(null=True, blank=True)
+    pdf = models.FileField(upload_to=unique_file_path_generator_chat, null=True, blank=True)
     # pdf = models.TextField(blank=True, null=True)
 
     def __str__(self):

@@ -13,4 +13,5 @@ urlpatterns = [
     path('group/<int:room_name>/', group, name="group"),
     path('room/<int:room_name>/', room, name='room'),
     path('create/<slug:slug>/', landlord_chat, name='landlordchat'),
+    path('landlord/student/create/<str:studuser>/', landlord_student_chat, name="landlordStudentChat"),
 ]

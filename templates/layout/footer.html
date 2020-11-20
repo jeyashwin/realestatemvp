@@ -229,14 +229,16 @@
 			document.getElementById('id_is_college_student').setAttribute("checked", "true");
 			$('#id_college_name').prop('readonly', false); {% endcomment %}
 
-			{% if messages %}
-				{% for message in messages %}
-					{% if message.tags == 'success' %}
-						$(".pxp-signin-trigger").click();
-					{% elif message.tags == 'forgotPassword error' %}
-						$(".pxp-forgot-pass-trigger").click();
-					{% endif %}
-				{% endfor %}
+			{% if not user.is_authenticated %}
+				{% if messages %}
+					{% for message in messages %}
+						{% if message.tags == 'success' %}
+							$(".pxp-signin-trigger").click();
+						{% elif message.tags == 'forgotPassword error' %}
+							$(".pxp-forgot-pass-trigger").click();
+						{% endif %}
+					{% endfor %}
+				{% endif %}
 			{% endif %}
 
 		   }

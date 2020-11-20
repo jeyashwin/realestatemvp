@@ -182,25 +182,25 @@ class StudentSignupForm(UserCreationForm):
                         'placeholder': 'Enter twitter link',
                     })
                 )
-    ssFrom = forms.TimeField(required=False, 
+    ssFrom = forms.TimeField( 
+                widget=forms.TimeInput(attrs={
+                    'class': 'form-control',
+                    'type': 'time'
+                }),
+            )
+    ssTo = forms.TimeField(
                 widget=forms.TimeInput(attrs={
                     'class': 'form-control',
                     'type': 'time'
                 })
             )
-    ssTo = forms.TimeField(required=False, 
+    shFrom = forms.TimeField(
                 widget=forms.TimeInput(attrs={
                     'class': 'form-control',
                     'type': 'time'
                 })
             )
-    shFrom = forms.TimeField(required=False, 
-                widget=forms.TimeInput(attrs={
-                    'class': 'form-control',
-                    'type': 'time'
-                })
-            )
-    shTo = forms.TimeField(required=False, 
+    shTo = forms.TimeField(
                 widget=forms.TimeInput(attrs={
                     'class': 'form-control',
                     'type': 'time'

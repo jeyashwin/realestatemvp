@@ -284,7 +284,7 @@
 													<div class="col-1 m-0 p-1">
 														<form id='file_attachment_form' enctype="multipart/form-data" method='post'>
 															{% csrf_token %}
-															<input name='myFile' type='file' class='autosubmit'/> 	
+															<input name='myFile' type='file' class='autosubmit'/>
 														</form>
 														<button class="btn btn-outline-secondary rounded border w-100" id="chat-message-submit" title="Send" style="float:right; border-radius:30px; background-color:#094A66; color:#fff; padding-right: 16px; margin-top:25px; padding:10px;"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 																
@@ -418,7 +418,7 @@
 		function createMessage(message_data){
 			var message = message_data;
 			var author = message.author;
-            var time = new Date(message.timestamp).toLocaleTimeString();
+            var time = new Date(message.timestamp).toLocaleString();
             
 
 			var msgDivTag = document.createElement('div');

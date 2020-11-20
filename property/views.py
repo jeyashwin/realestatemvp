@@ -225,7 +225,7 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         
         filterSortForm = PropertyFilterSortForm(data=self.request.GET)
         propObjects = super().get_queryset().annotate(distance=Distance(userlocation, 'location')).order_by('distance')
-
+        propObjects = propObjects.filter(isleased=False)
         if filterSortForm.is_valid():
             room = filterSortForm.cleaned_data.get('room', None)
             occp = filterSortForm.cleaned_data.get('occp', None)

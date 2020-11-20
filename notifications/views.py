@@ -7,7 +7,17 @@ from chat.models import Room, MessageRequest
 def notification(request, pk):
     obj = get_object_or_404(Notification, pk=pk)
 
-    if obj.notificationType == 'rentRequest' or obj.notificationType == 'tourRequest' or obj.notificationType == 'question' or obj.notificationType == 'answered':
+    if obj.notificationType == 'rentRequest':
+        obj.viewed = True
+        obj.save()
+        return redirect('checkout:rentRequestDetail', pk=obj.identifier)
+
+    if obj.notificationType == 'tourRequest':
+        obj.viewed = True
+        obj.save()
+        return redirect('checkout:tourRequestDetail', pk=obj.identifier)
+
+    if obj.notificationType == 'question' or obj.notificationType == 'answered':
         obj.viewed = True
         obj.save()
         return redirect('property:propertyDetail', slug=obj.identifier)

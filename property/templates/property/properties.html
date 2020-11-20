@@ -220,7 +220,7 @@
 							
 							<br>
 							{% comment %} <span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span> {% endcomment %}
-							<input type="submit" value="Apply Filters" class="pxp-filter-btn" style="background-color: #044C7E; border-radius:50px;" />
+							<input type="submit" value="Apply Filters" class="pxp-filter-btn" id="apply_filter_btn_id" style="background-color: #044C7E; border-radius:50px;" />
 						</div>
 					</div>
 				  </div>
@@ -527,7 +527,7 @@
 																{% endfor %}
 															</select>
 															<div class="input-group-append">
-																<button type="submit" class="btn btn-md btn-success">Tag</button>
+																<button type="submit" class="btn btn-md btn-success" id="tag_submit_btn">Tag</button>
 															</div>
 														</div>
 													</div>
@@ -741,5 +741,26 @@
 			console.log(place.address_components);
 		});
 	</script>
+
+	<script>
+		$("#id_sort").change(function(){
+			var sortvalue = $("#id_sort option:selected").val();
+			console.log(sortvalue);
+			{% comment %} if(sortvalue != 'default') { {% endcomment %}
+			$("#apply_filter_btn_id").click();
+			{% comment %} } {% endcomment %}
+		});
+	</script>
+
+	<!--script>
+		$("#tag_friend_id").change(function(){
+			var tagvalue = $("#tag_friend_id option:selected").val();
+			if(tagvalue != '' || tagvalue != null) {
+				$("#tag_submit_btn").show(200);
+			} else {
+				$("#tag_submit_btn").hide(200);
+			}
+		});
+	</script-->
 
 {% include "layout/footer.html" %}

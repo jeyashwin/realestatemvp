@@ -29,7 +29,7 @@ def RequestToRentPropertyCreateView(request, slug):
                         toUser=form.instance.propertyObj.landlord.user.user,
                         notificationType='rentRequest',
                         content=form.instance.propertyObj.title,
-                        identifier=form.instance.propertyObj.urlSlug,
+                        identifier=form.instance.pk,
                     )
             messages.add_message(request, messages.SUCCESS, 'Rent Request Sent Successfully.')
         else:
@@ -53,7 +53,7 @@ def RequestToTourPropertyCreateView(request, slug):
                         toUser=form.instance.propertyObj.landlord.user.user,
                         notificationType='tourRequest',
                         content=form.instance.propertyObj.title,
-                        identifier=form.instance.propertyObj.urlSlug,
+                        identifier=form.instance.pk,
                     )
             messages.add_message(request, messages.SUCCESS, 'Tour Request Sent Successfully.')
         else:
@@ -89,8 +89,8 @@ def RequestToRentServiceCreateView(request, pk):
 @login_required
 @user_passes_test(landlordAccessTest)
 def myrequest(request):
-    rentRequest = RequestToRentProperty.objects.filter(propertyObj__landlord__user__user=request.user)
-    tourRequest = RequestToTourProperty.objects.filter(propertyObj__landlord__user__user=request.user)
+    rentRequest = RequestToRentProperty.objects.filter(propertyObj__landlord__user__user=request.user).order_by('-createdDate')
+    tourRequest = RequestToTourProperty.objects.filter(propertyObj__landlord__user__user=request.user).order_by('-createdDate')
     context = {
         'rentRequest': rentRequest,
         'tourRequest': tourRequest

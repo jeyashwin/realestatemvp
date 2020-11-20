@@ -34,7 +34,7 @@ class ChatConsumer(WebsocketConsumer):
 
 
     def fetch_messages(self, data):
-        messages = Message.objects.filter(room__id = data['roomname'])
+        messages = Message.objects.filter(room__id = data['roomname']).order_by('timestamp')
         content = {
             'message': self.messages_to_json(messages),
             'command': 'fetch_messages'
