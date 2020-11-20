@@ -1016,10 +1016,10 @@
 				{% if nearby.nearByType == 'Restaurant' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/restauranticon.jpg" %}' },
 				{% elif nearby.nearByType == 'Bar' %}
-					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/Baricon.jpg" %}' },
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/baricon.jpg" %}' },
 				{% elif nearby.nearByType == 'Shopping Mall' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/shoppingmallicon.jpg" %}' },
-				{% elif nearby.nearByType == 'Wallmart' %}
+				{% elif nearby.nearByType == 'Walmart' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/wallmarticon.jpg" %}' },
 				{% elif nearby.nearByType == 'Costco' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/costcoicon.jpg" %}' },

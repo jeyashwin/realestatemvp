@@ -74,7 +74,7 @@ def room(request, room_name):
 
     messages_room = Room.objects.filter(room_type=False).filter(members__username=request.user)
     room_details = get_object_or_404(messages_room, pk=room_name)
-    another_member = ",".join(room_details.members.exclude(username=request.user).values_list('username', flat=True))
+    another_member = room_details.members.exclude(username=request.user).first()
     
     if request.method == "POST":
         uploaded_file = request.FILES['myFile']

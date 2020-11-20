@@ -486,11 +486,13 @@
 															{% load extraTags %}
 															{% get_friend_status object.student as friendStatus %}
 																{% if friendStatus.status == "Friends" %}
-																	<a href="{% url 'chat:room' friendStatus.url %}">friends</a>
+																	<a href="{% url 'chat:room' friendStatus.url %}"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /></a>
 																{% elif friendStatus.status == "FriendRequestSent" %}
-																	<a>Request Sent</a>
+																	<a><img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/pending-2820831-2340793.png" style="width:25px; height:25px;" /></a>
 																{% else %}
-																	<a href="{% url 'chat:message_request_update' object.student.user.user %}">Not friends</button>
+																	<a href="{% url 'chat:message_request_update' object.student.user.user %}">
+																		<img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" />
+																	</a>
 																{% endif %}
 														{% endif %}
 														<span class="pull-right" style="margin-top:-10px;">
@@ -813,16 +815,16 @@
 											<div class="row" style="padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
-													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; Weekly </span>
+													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; <span class="tobaccousagevalue">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; Occasionally </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; <span class="alcoholusagevalue">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; Daily </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; <span class="cleanlinessvalue">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; Occasionally </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; <span class="guestsvalue">N/A</span> </span>
 												</div>
 												<br>
 											</div>
@@ -832,13 +834,14 @@
 											<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
-													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Sleep Schedule </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; 10:00 pm - 06:00 am </span>
+													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Sleep Schedule </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; <span class="sleepschedulevalue">N/A</span> </span>
 												</div>
 												
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
-													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Study Hours </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; 09:00 am - 03:00 pm </span>
+													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Study Hours </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; <span class="studyhoursvalue">N/A</span> </span>
 												</div>
+												<div class="req_open_chat"></div>
 											</div>
 												
 										</div>
@@ -1009,6 +1012,68 @@
 										$("#viewpostdetails > .panel-body > .panelrow > .imgcol > img").attr('src', res.student.image);
 										$("#viewpostdetails > .panel-body > .panelrow > .userheadcol > h5 > b").html(res.student.name);
 										$("#viewpostdetails > .panel-body > .panelrow > .userheadcol > h6").html(res.student.email);
+function tConvert (timeString) {
+	  var timeString12hr = new Date('1970-01-01T' + timeString + 'Z')
+	  .toLocaleTimeString({},
+		{timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}
+	  );
+	  return timeString12hr; 
+	}
+
+	if(ssfrom) {
+		var ssfrom = tConvert (res.student.sleepScheduleFrom);
+	} else {
+		var ssfrom = tConvert ('~');
+	}
+	if(ssto) {
+		var ssto = tConvert (res.student.sleepScheduleTo);
+	} else {
+		var ssto = tConvert ('~');
+	}
+	if(shfrom) {
+		var shfrom = tConvert (res.student.studyHourFrom);
+	} else {
+		var shfrom = tConvert ('~');
+	}
+	if(shto) {
+		var shto = tConvert (res.student.studyHourTo);
+	} else {
+		var shto = tConvert ('~');
+	}
+
+										$(".tobaccousagevalue").html(res.student.tobaccoUsage);
+										$(".alcoholusagevalue").html(res.student.alcoholUsage);
+										$(".cleanlinessvalue").html(res.student.cleanliness);
+										$(".guestsvalue").html(res.student.guests);
+										$(".sleepschedulevalue").html(ssfrom+' - '+ssto);
+										$(".studyhoursvalue").html(shfrom+' - '+shto);
+
+										
+										if(res.student.friendStatus.status == 'Friends') {
+											
+											var url = "/chat/room/"+res.student.friendStatus.url+"/";
+											var chat_req_icon = '<a href="'+url+'"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /></a>';
+											
+											$(".req_open_chat").html(chat_req_icon);
+											
+										} else if(res.student.friendStatus.status == 'NotFriends') {
+											
+											var url = "/chat/message_request/"+res.student.username;
+											var chat_req_icon = '<a href="'+url+'"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" /></a>';
+											
+											$(".req_open_chat").html(chat_req_icon);
+											
+										} else if(res.student.friendStatus.status == 'FriendRequestSent') {
+											
+											var chat_req_icon = '<a href="#"><img src="https://cdn4.iconfinder.com/data/icons/fintech-solutions-filled-outline/24/pending_time_clock_watch_timer-512.png" style="width:25px; height:25px;" /></a>';
+											
+											$(".req_open_chat").html(chat_req_icon);
+											
+										} else if(res.student.friendStatus.status == 'CurrentUser') {
+
+										} else {
+										
+										}										
 										var catyhtml = '';
 
 										{% comment %} $.each(res.interest, function(i, item) {
