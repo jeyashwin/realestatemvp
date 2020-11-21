@@ -71,9 +71,12 @@ def get_invite_url(context):
 def get_friend_status(context, postAuthor):
     user = context.get("user")
     if user.is_authenticated:
-        if user.usertype.userstudent.friend.friends.filter(user=postAuthor.user).exists():
-            room = Room.objects.filter(room_type=False).filter(members=user).filter(members=postAuthor.user.user).first()
-            return {'status': 'Friends', 'url': room.pk}
+        try:
+            if user.usertype.userstudent.friend.friends.filter(user=postAuthor.user).exists():
+                room = Room.objects.filter(room_type=False).filter(members=user).filter(members=postAuthor.user.user).first()
+                return {'status': 'Friends', 'url': room.pk}
+        except:
+            pass
         messageRequests = MessageRequest.objects.filter(logged_in_user=user.usertype.userstudent).filter(request_sender=postAuthor).filter(status=False)
         if messageRequests:
             return {'status': 'FriendRequestSent'}
