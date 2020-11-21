@@ -81,7 +81,7 @@ def room(request, room_name):
         new_message = Message.objects.create(
             room = get_object_or_404(Room, pk=room_name),
             author = request.user,
-            content = '',
+            content = uploaded_file.name,
             pdf = uploaded_file,
         )
         return JsonResponse({
@@ -122,7 +122,7 @@ def group(request, room_name):
         new_message = Message.objects.create(
             room = get_object_or_404(Room, pk=room_name),
             author = request.user,
-            content = '',
+            content = uploaded_file.name,
             pdf = uploaded_file,
         )
         return JsonResponse({

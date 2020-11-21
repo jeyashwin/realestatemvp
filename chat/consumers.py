@@ -11,10 +11,11 @@ from .views import get_user_contact
 class ChatConsumer(WebsocketConsumer):
 
     def message_to_json(self, message):
-        if len(message.content) == 0:
+        if message.pdf:
             return {
                 'author': message.author.username,
-                'content': str(message.pdf), 
+                'content': message.content,
+                'url': message.pdf.url,
                 'timestamp': str(message.timestamp),
             }
         else:

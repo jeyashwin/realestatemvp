@@ -421,16 +421,19 @@
 			var message = message_data;
 			var author = message.author;
             var time = new Date(message.timestamp).toLocaleString();
-            
 
 			var msgDivTag = document.createElement('div');
             msgDivTag.id = message.id
 			msgDivTag.className = 'balon1 p-2 m-0 position-relative'
             //msgDivTag.data = author + " - " + time
-            
 
-			var msgtextDivTag = document.createElement('a');
+            var msgtextDivTag = document.createElement('a');
 			msgtextDivTag.textContent = message.content;
+			if (message.url){
+				msgtextDivTag.setAttribute("href", message.url);
+				msgtextDivTag.setAttribute("target", "blank");
+				msgtextDivTag.setAttribute("download", message.content);
+			}
 
 
 			//var msgtimeDivTag = document.createElement('div');
@@ -452,7 +455,7 @@
 
 
         function fetchMessages(){
-            console.log("YaY!!")
+            {% comment %} console.log("YaY!!") {% endcomment %}
             chatSocket.send(JSON.stringify({
                 'command': 'fetch_messages',
                 'roomname': roomName
@@ -634,7 +637,7 @@
 				var likeurl = dis.getAttribute('data-url');
 				
 				const csrftok = getCookie('csrftoken');
-				console.log(csrftok);
+				{% comment %} console.log(csrftok); {% endcomment %}
 				
 				$.ajax({
 					url: likeurl,
