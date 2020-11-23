@@ -545,7 +545,6 @@
 								<li class="page-item {% if page == page_obj.number %}active{% endif %}" style="background: none !important;"><a class="page-link" href="?page={{ page }}">{{ page }}</a></li>
 							{% endfor %}
 							{% if page_obj.has_next %}
-								{{request.url}}
 								<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">Next <span class="fa fa-angle-right"></span></a></li>
 							{% endif %}
 						</ul>

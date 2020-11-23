@@ -1,6 +1,6 @@
-import pandas as pd
-import pymongo
-from django.views.decorators.csrf import csrf_exempt
+# import pandas as pd
+# import pymongo
+# from django.views.decorators.csrf import csrf_exempt
 
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, FormView
@@ -25,27 +25,27 @@ from notifications.models import Notification
 # data = pd.read_csv("ny_data.csv")
 # data = data.dropna(subset=["CITY"])
 
-class MONGO_CONFS:
-    myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-    mydb = myclient["property_data"]
-    mycol = mydb["comments"]
+# class MONGO_CONFS:
+#     myclient = pymongo.MongoClient("mongodb://localhost:27017/")
+#     mydb = myclient["property_data"]
+#     mycol = mydb["comments"]
 
 
-def decoder(request,name):
-    if request.method == "GET":
-        print(name,"REQUEST")
-        # print(request.name,"REQ NAME")
+# def decoder(request,name):
+#     if request.method == "GET":
+#         print(name,"REQUEST")
+#         # print(request.name,"REQ NAME")
 
-def search(request,text):
-    print(text,"TEXT")
-    wanted_columns = ["PROPERTY TYPE","ADDRESS","CITY","ZIP OR POSTAL CODE","PRICE","BEDS","BATHS","LOCATION","SQUARE FEET"]
-    if isinstance(text,int):
-        return data[data["ZIP OR POSTAL CODE"] == text][wanted_columns].to_dict()
-    if text.lower() in [i.lower() for i in data['CITY'].unique()]:
-        exact_txt = [val for val in  list(data['CITY'].unique()) if val.lower() == text]
-        return JsonResponse(data[data["CITY"] == exact_txt[0]].to_dict())
-    else:
-        return JsonResponse({"error":0})
+# def search(request,text):
+#     print(text,"TEXT")
+#     wanted_columns = ["PROPERTY TYPE","ADDRESS","CITY","ZIP OR POSTAL CODE","PRICE","BEDS","BATHS","LOCATION","SQUARE FEET"]
+#     if isinstance(text,int):
+#         return data[data["ZIP OR POSTAL CODE"] == text][wanted_columns].to_dict()
+#     if text.lower() in [i.lower() for i in data['CITY'].unique()]:
+#         exact_txt = [val for val in  list(data['CITY'].unique()) if val.lower() == text]
+#         return JsonResponse(data[data["CITY"] == exact_txt[0]].to_dict())
+#     else:
+#         return JsonResponse({"error":0})
 
 
 #Property App views starts from here
@@ -237,7 +237,7 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             disPro = filterSortForm.cleaned_data.get('disPro', None)
             disAmen = filterSortForm.cleaned_data.get('disAmen', None)
             if disPro is not None:
-                propObjects = propObjects.filter(distance__gte=D(mi=disPro).m)
+                propObjects = propObjects.filter(distance__gte=D(mi=disPro-0.05).m)
             if disAmen is not None:
                 propObjects = propObjects.filter(averageDistance__gte=disAmen)
             if room is not None and room != []:
