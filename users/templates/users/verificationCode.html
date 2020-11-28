@@ -1,0 +1,32 @@
+{% include "layout/header.html" %}
+<div class="pxp-content">
+    <div class="pxp-agents mt-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <center>
+                        <h3 style="font-weight: bold;">Verify your phone Number</h3>
+                        <p>Check your mobile phone. Enter the otp.</p>
+                        <hr>
+                    </center>
+                </div>
+                <div class="col-sm-12 col-md-5 m-auto">
+                    <center>
+                        <form class="form-group" action="" method="POST">
+                            {% csrf_token %}
+                            <input type="number" class="form-control" name="otp" maxlength="6" autofocus=True/>
+                            <br>
+                            <input type="submit" class="btn btn-success btn-block" value="Submit"/>
+                            <br>
+                            <a href="">Resend Again?</a>
+                        </form>
+                    </center>
+                </div>
+            <div>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+{% include "layout/footer.html" %}

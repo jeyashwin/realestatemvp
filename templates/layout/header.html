@@ -34,7 +34,7 @@
 		{% comment %} <link href="{% static 'css/landing/styles.css' %}" rel="stylesheet" /> {% endcomment %}
 		<link href="{% static 'css/landing/MasterStyle.css' %}" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.css" />
+        {% comment %} <link rel="stylesheet" href="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.css" /> {% endcomment %}
         <link rel="icon" type="image/x-icon" href="{% static 'assets/images/logo/sl_logo_mini_black.png' %}" />
         {% comment %} <script data-search-pseudo-elements defer src="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script> {% endcomment %}
         {% comment %} <script src="../../cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script> {% endcomment %}
@@ -426,7 +426,7 @@
 	{% endif %}
 	{% endif %}
 
- {% if not user.is_authenticated %}
+ {% if not user.is_authenticated and not failure_limit%}
         <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">

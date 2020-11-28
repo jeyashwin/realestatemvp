@@ -2,3 +2,4 @@ media/
 **/__pycache__
 **/migrations
 completeApp.log
+config.py

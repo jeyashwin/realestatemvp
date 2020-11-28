@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.contrib.auth.forms import AuthenticationForm
 from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView
+from django.contrib.auth import login as auth_login
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
@@ -15,6 +16,26 @@ from .forms import *
 
 class CustomLoginView(LoginView):
     template_name = 'index.html'
+
+    # def form_valid(self, form):
+    #     """Security check complete. Log the user in."""
+    #     user = form.get_user()
+    #     if not user.is_superuser and not user.is_staff:
+    #         if user.usertype.is_student:
+    #             if user.usertype.userstudent.phoneVerified:
+    #                 auth_login(self.request, form.get_user())
+    #                 return HttpResponseRedirect(self.get_success_url())
+    #             else:
+    #                 return JsonResponse({'failed': 'not again student'})
+    #         else:
+    #             if user.usertype.userlandlord.phoneVerified:
+    #                 auth_login(self.request, form.get_user())
+    #                 return HttpResponseRedirect(self.get_success_url())
+    #             else:
+    #                 return JsonResponse({'failed': 'not again'})
+    #     else:
+    #         auth_login(self.request, form.get_user())
+    #         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         try:
@@ -230,3 +251,12 @@ def ForgotPasswordView(request):
             # return JsonResponse(form.errors, status=400)
 
     return redirect('user:home')
+
+def otpverify(request):
+    context = {
+        "form" : AuthenticationForm(),
+        "LandlordSignupForm" : LandlordSignupForm(label_suffix=''),
+        "StudentSignupForm"  : StudentSignupForm(label_suffix=''),
+        "ForgotPasswordForm" : ForgotPasswordForm(label_suffix=''),
+    }
+    return render(request, 'users/verificationCode.html', context=context)

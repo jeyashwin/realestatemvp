@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from .config import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '&4f@vfa_oi4o4zc3qh(u@$*u5tzzt#=ct^st9+c55^to(_j_v2'
+SECRET_KEY = DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -51,6 +52,7 @@ INSTALLED_APPS = [
     'channels',
     'chat',
     'storages',
+    'defender',
 ]
 
 MIDDLEWARE = [
@@ -61,8 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware'
-
+    'defender.middleware.FailedLoginMiddleware',
 ]
 
 ROOT_URLCONF = 'realestatex.urls'
@@ -93,27 +94,20 @@ ASGI_APPLICATION = 'realestatex.routing.application'
 DATABASES = {
    'default' : {
        'ENGINE' : 'django.contrib.gis.db.backends.postgis',
-       'NAME' : "RealEstate",
-       'USER' : 'realestate',
-       'PASSWORD' : 'Realestate@123',
-       "HOST": 'localhost',
-       "PORT": '5432'
-    }
-    # 'default' : {
     #    'ENGINE' : 'django.db.backends.postgresql',
-    #    'NAME' : "RealEstate",
-    #    'USER' : 'realestate',
-    #    'PASSWORD' : 'Realestate@123',
-    #    "HOST": 'localhost',
-    #    "PORT": '5432'
-    # }
+       'NAME' : DB_NAME,
+       'USER' : DB_USER,
+       'PASSWORD' : DB_PASSWORD,
+       "HOST": DB_HOST,
+       "PORT": DB_PORT
+    }
 }
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [('127.0.0.1', 6379)],
+            "hosts": [(REDIS_HOST, REDIS_PORT)],
         },
     },
 }
@@ -150,34 +144,80 @@ USE_L10N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/2.2/howto/static-files/
-# AUTH_USER_MODEL = 'users.user'
-
 # PHONENUMBER_DB_FORMAT = 'INTERNATIONAL'
+
 # PHONENUMBER_DEFAULT_REGION = 'US'
 
 
-STATIC_URL = '/static/'
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+STATIC_URL = '/static/'
+
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
+
+#MEDIA FILES
+
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+#LOGIN AND LOGOUT GOBAL CONFIG
+
+
 LOGIN_URL = "/"
+
 # LOGIN_REDIRECT_URL = "dashboard/"
+
 LOGOUT_REDIRECT_URL = "/"
 
-GOOGLE_MAPS_API_KEY = "AIzaSyBZs3lC3Z72FBlv40cGOi5X6sYlZa9mHE4"
 
-AWS_ACCESS_KEY_ID = "AKIAVSAAYIGLCDPURLVB"
-AWS_SECRET_ACCESS_KEY = "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"
-AWS_STORAGE_BUCKET_NAME = "swiftliving"
+#SESSION RELATED SETTINGS
+
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+SESSION_COOKIE_SECURE = True
+
+
+#GOOGLE KEY FOR PLACES
+
+
+GOOGLE_MAPS_API_KEY = GOOGLE_API_KEY
+
+
+#AWS CONFIGS
+
+
+AWS_ACCESS_KEY_ID = AWS_API_KEY
+
+AWS_SECRET_ACCESS_KEY = AWS_API_SECRET_ACCESS_KEY
+
+AWS_STORAGE_BUCKET_NAME = AWS_BUCKET_NAME
 
 AWS_S3_FILE_OVERWRITE = False
+
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+#DEFENDER SETTINGS
+
+DEFENDER_LOGIN_FAILURE_LIMIT = 2
+
+# DEFENDER_LOGIN_FAILURE_LIMIT_IP = 10
+
+# DEFENDER_COOLOFF_TIME = 10*60
+
+DEFENDER_LOCKOUT_TEMPLATE = 'users/defenderLockout.html'
+
+# DEFENDER_LOCKOUT_URL = '/'
+
+# DEFENDER_REDIS_URL = default redis://localhost:6379/0 example redis://:mypassword@localhost:6379/0)

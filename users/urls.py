@@ -14,4 +14,5 @@ urlpatterns = [
     path('delete/profile/<str:username>/', UserDeleteView.as_view(), name = "deleteProfile"),
     path('contact/', ContactUSCreateView.as_view(), name = "contactUs"),
     path('forgot-password/', ForgotPasswordView, name="forgotPass"),
+    path('verify/', otpverify, name="verifyPhone"),
 ]
