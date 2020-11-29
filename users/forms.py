@@ -1,7 +1,7 @@
 from django import forms
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.forms import UserCreationForm, UsernameField
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, RegexValidator
 from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
 from django.core.exceptions import ValidationError
@@ -81,6 +81,12 @@ class LandlordSignupForm(UserCreationForm):
             'placeholder': "Re-Enter Password",
         })
         self.fields['password2'].label = "Confirm Password"
+
+    def clean(self):
+        uniqueUserName = self.cleaned_data.get('username', None)
+        if uniqueUserName:
+            self.cleaned_data['username'] = uniqueUserName.lower()
+        return super().clean()
 
 
 class StudentSignupForm(UserCreationForm):
@@ -273,6 +279,10 @@ class StudentSignupForm(UserCreationForm):
 
     def clean(self):
         errorMess = {}
+
+        uniqueUserName = self.cleaned_data.get('username', None)
+        if uniqueUserName:
+            self.cleaned_data['username'] = uniqueUserName.lower()
 
         if self.cleaned_data.get('ssFrom') is not None and self.cleaned_data.get('ssTo') is None:
             errorMess['ssTo'] = ValidationError(_('Sleep Schedule To Time is required!'), code='required')
@@ -481,33 +491,65 @@ class ContactUSForm(forms.ModelForm):
 class ForgotPasswordForm(forms.Form):
 
     error_messages = {
-        'password_mismatch': _('The two password fields didn’t match.'),
         'username_not_exists': _('The username not exists'),
+        'phone_not_verified': _("The account doesn't has verified phone" ),
+        'unknown_error': _("Unable to Proceed.")
     }
     username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True}))
-    new_password1 = forms.CharField(
-        label=_("New password"),
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-        strip=False,
-    )
-    new_password2 = forms.CharField(
-        label=_("Confirm New password"),
-        strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
-    )
 
     def clean(self):
         username = self.cleaned_data.get('username')
-        password1 = self.cleaned_data.get('new_password1')
-        password2 = self.cleaned_data.get('new_password2')
-        if password1 and password2:
-            if password1 != password2:
-                raise ValidationError(
-                    self.error_messages['password_mismatch'],
-                    code='password_mismatch',
-                )
         if not User.objects.filter(username=username).exists():
             raise ValidationError(
                 self.error_messages['username_not_exists'],
                 code='username_not_exists',
             )
+        else:
+            user = User.objects.get(username=username)
+            if not user.is_superuser and not user.is_staff:
+                if user.usertype.is_student:
+                    if not user.usertype.userstudent.phoneVerified:
+                        raise ValidationError(
+                            self.error_messages['phone_not_verified'],
+                            code='phone_not_verified',
+                        )
+                else:
+                    if not user.usertype.userlandlord.phoneVerified:
+                        raise ValidationError(
+                            self.error_messages['phone_not_verified'],
+                            code='phone_not_verified',
+                        )
+            else:
+                raise ValidationError(
+                    self.error_messages['unknown_error'],
+                    code='unknown_error',
+                )
+
+
+class PhoneNumberForm(forms.Form):
+
+    verifyPhone = PhoneNumberField(
+                widget=forms.TextInput(attrs={
+                    'class': 'form-control',
+                    'type': 'tel',
+                    'placeholder': 'Enter your phone number'
+                }),
+                help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
+                validators=[validatePhone],
+                region='US'
+            )
+
+class VerificationCodeForm(forms.Form):
+
+    verificationCode = forms.CharField(
+        widget=forms.TextInput(attrs={
+                'class': 'form-control text-center',
+                'placeholder': '__ __ __ __ __ __',
+                'maxlength': '6',
+            }
+        ),
+        validators=[
+            RegexValidator(regex=r'^\d{6}$', message='Only numbers allowed.'),
+            MinLengthValidator(6, '6 digit code'),
+        ]
+    )

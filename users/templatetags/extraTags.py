@@ -10,6 +10,18 @@ register = template.Library()
 def phonenumberFormat(value):
     return "+1 {}".format(phonenumbers.format_number(value, phonenumbers.PhoneNumberFormat.NATIONAL))
 
+@register.filter(name="phonenumberHide")
+def phonenumberHideFormat(value):
+    num = phonenumbers.format_number(value, phonenumbers.PhoneNumberFormat.NATIONAL)
+    last4 = num[-4:]
+    final = ""
+    for i in num[:-4]:
+        if i != ' ':
+            final = final + 'X'
+        else:
+            final = final + i
+    return "+1 {}{}".format(final, last4)
+
 # Need to enable when we use interest as filters in roommate post
 
 # @register.filter(name="filterurl")

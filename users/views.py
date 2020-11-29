@@ -1,41 +1,57 @@
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, SetPasswordForm
 from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView
-from django.contrib.auth import login as auth_login
+from django.contrib.auth import login as auth_login, settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse, Http404
 from django.contrib.auth.models import User
+from twilio.rest import Client
 
-from .models import UserStudent, UserLandLord, UserType, InviteCode, ContactUS
+from .models import UserStudent, UserLandLord, UserType, InviteCode, ContactUS, PhoneVerification
 from .forms import *
 
 # Create your views here.
 
+twilioClient = Client(settings.TWILIO_ACCOUNT_SID, settings.TWILIO_AUTH_TOKEN)
+
 class CustomLoginView(LoginView):
     template_name = 'index.html'
 
-    # def form_valid(self, form):
-    #     """Security check complete. Log the user in."""
-    #     user = form.get_user()
-    #     if not user.is_superuser and not user.is_staff:
-    #         if user.usertype.is_student:
-    #             if user.usertype.userstudent.phoneVerified:
-    #                 auth_login(self.request, form.get_user())
-    #                 return HttpResponseRedirect(self.get_success_url())
-    #             else:
-    #                 return JsonResponse({'failed': 'not again student'})
-    #         else:
-    #             if user.usertype.userlandlord.phoneVerified:
-    #                 auth_login(self.request, form.get_user())
-    #                 return HttpResponseRedirect(self.get_success_url())
-    #             else:
-    #                 return JsonResponse({'failed': 'not again'})
-    #     else:
-    #         auth_login(self.request, form.get_user())
-    #         return HttpResponseRedirect(self.get_success_url())
+    def form_valid(self, form):
+        """Security check complete. Log the user in."""
+        user = form.get_user()
+        if not user.is_superuser and not user.is_staff:
+            phone_verify = self.request.session.get('phone_verify', None)
+            update_phone_verify = self.request.session.get('update_phone_verify', None)
+            forgot_phone_verify = self.request.session.get('forgot_phone_verify', None)
+            if phone_verify:
+                del self.request.session['phone_verify']
+            if update_phone_verify:
+                del self.request.session['update_phone_verify']
+            if forgot_phone_verify:
+                del self.request.session['forgot_phone_verify']
+            if user.usertype.is_student:
+                if user.usertype.userstudent.phoneVerified:
+                    auth_login(self.request, form.get_user())
+                    return HttpResponseRedirect(self.get_success_url())
+                else:
+                    self.request.session['phone_verify'] = user.username
+                    code = send_verfication_code(to=user.usertype.userstudent.phone)
+                    return redirect('user:verifyPhone')
+            else:
+                if user.usertype.userlandlord.phoneVerified:
+                    auth_login(self.request, form.get_user())
+                    return HttpResponseRedirect(self.get_success_url())
+                else:
+                    self.request.session['phone_verify'] = user.username
+                    code = send_verfication_code(to=user.usertype.userlandlord.phone)
+                    return redirect('user:verifyPhone')
+        else:
+            auth_login(self.request, form.get_user())
+            return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
         try:
@@ -234,17 +250,53 @@ class ContactUSCreateView(CreateView):
     def get_success_url(self, **kwargs):
         return reverse_lazy('user:contactUs')
 
+
+def send_verfication_code(to, channel='sms'):
+    verification = twilioClient.verify \
+        .services(settings.TWILIO_VERIFICATION_SID) \
+        .verifications \
+        .create(to=phonenumbers.format_number(to, phonenumbers.PhoneNumberFormat.E164), channel=channel)
+    # print(verification.sid)
+    return verification.sid
+
+def check_verification_code(phone, code):
+    try:
+        verification_check = twilioClient.verify \
+            .services(settings.TWILIO_VERIFICATION_SID) \
+            .verification_checks \
+            .create(to=phonenumbers.format_number(phone, phonenumbers.PhoneNumberFormat.E164), code=code)
+        # print(verification_check.status)
+        if verification_check.status == "approved":
+            return True
+        else:
+            return False
+    except Exception as e:
+        print("Error validating code: {}".format(e))
+        return False
+
 def ForgotPasswordView(request):
+
+    phone_verify = request.session.get('phone_verify', None)
+    update_phone_verify = request.session.get('update_phone_verify', None)
+    forgot_phone_verify = request.session.get('forgot_phone_verify', None)
+    if phone_verify:
+        del request.session['phone_verify']
+    if update_phone_verify:
+        del request.session['update_phone_verify']
+    if forgot_phone_verify:
+        del request.session['forgot_phone_verify']
 
     if request.method == 'POST':
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('new_password1')
-            user = User.objects.get(username=username)
-            user.set_password(password)
-            user.save()
-            messages.add_message(request, messages.SUCCESS, 'Password changed successfully')
+            request.session['forgot_phone_verify'] = username
+            userObj = User.objects.get(username=username)
+            if userObj.usertype.is_student:
+                code = send_verfication_code(to=userObj.usertype.userstudent.phone)
+            else:
+                code = send_verfication_code(to=userObj.usertype.userstudent.phone)
+            return redirect('user:verifyPhone')
         else:
             for error in form.errors:
                 messages.add_message(request, messages.ERROR, form.errors.get(error), extra_tags='forgotPassword')
@@ -259,4 +311,190 @@ def otpverify(request):
         "StudentSignupForm"  : StudentSignupForm(label_suffix=''),
         "ForgotPasswordForm" : ForgotPasswordForm(label_suffix=''),
     }
-    return render(request, 'users/verificationCode.html', context=context)
+    phone_verify = request.session.get('phone_verify', None)
+    update_phone_verify = request.session.get('update_phone_verify', None)
+    forgot_phone_verify = request.session.get('forgot_phone_verify', None)
+
+    if phone_verify:
+        userObj = get_object_or_404(User, username=phone_verify)
+        phoneVerifyObj = PhoneVerification.objects.get_or_create(userObj=userObj)
+        if not phoneVerifyObj[0].is_blocked:
+            if phoneVerifyObj[1]:
+                if userObj.usertype.is_student:
+                    phoneVerifyObj[0].phone = userObj.usertype.userstudent.phone
+                else:
+                    phoneVerifyObj[0].phone = userObj.usertype.userlandlord.phone
+                phoneVerifyObj[0].save()
+                phoneVerifyObj[0].refresh_from_db()
+
+            if request.method == "POST":
+                form = VerificationCodeForm(request.POST)
+                is_verified = False
+                if form.is_valid():
+                    is_verified = check_verification_code(phone=phoneVerifyObj[0].phone, code=form.cleaned_data.get('verificationCode'))
+                if not is_verified:
+                    if phoneVerifyObj[0].wrongAttemptCount > 1:
+                        phoneVerifyObj[0].wrongAttemptCount -= 1
+                        phoneVerifyObj[0].save()
+                        messages.add_message(request, messages.WARNING, 'Wrong OTP')
+                    else:
+                        phoneVerifyObj[0].is_blocked = True
+                        phoneVerifyObj[0].save()
+                        context['blocked']= True
+                        del request.session['phone_verify']
+                else:
+                    del request.session['phone_verify']
+                    phoneVerifyObj[0].delete()
+                    if userObj.usertype.is_student:
+                        studentObj = get_object_or_404(UserStudent, user=userObj.usertype)
+                        studentObj.phoneVerified = True
+                        studentObj.save()
+                    else:
+                        landlordObj = get_object_or_404(UserLandLord, user=userObj.usertype)
+                        landlordObj.phoneVerified = True
+                        landlordObj.save()
+                    messages.add_message(request, messages.SUCCESS, 'Mobile verification completed. Sign in to you account.')
+                    return redirect('user:home')
+
+            context['PhoneNumberForm'] = PhoneNumberForm(initial={'verifyPhone':phoneVerifyObj[0].phone})
+            context['VerificationForm'] = VerificationCodeForm()
+            context['forgotpass']= False
+            context['verifyUser']= phoneVerifyObj[0]
+        else:
+            context['blocked']= True
+            del request.session['phone_verify']
+        return render(request, 'users/verificationCode.html', context=context)
+
+    if update_phone_verify:
+        context['forgotpass']= False
+        return render(request, 'users/verificationCode.html', context=context)
+
+    if forgot_phone_verify:
+        userObj = get_object_or_404(User, username=forgot_phone_verify)
+        phoneVerifyObj = PhoneVerification.objects.get_or_create(userObj=userObj)
+        if userObj.usertype.is_student:
+            userPhone = userObj.usertype.userstudent.phone
+        else:
+            userPhone = userObj.usertype.userstudent.phone
+        if phoneVerifyObj[1] or phoneVerifyObj[0].phone != userPhone:
+            phoneVerifyObj[0].is_blocked = False
+            phoneVerifyObj[0].phone = userPhone
+            phoneVerifyObj[0].wrongAttemptCount = 3
+            phoneVerifyObj[0].save()
+
+        if not phoneVerifyObj[0].is_blocked:
+            if request.method == "POST":
+                form = VerificationCodeForm(request.POST)
+                is_verified = False
+                if form.is_valid():
+                    is_verified = check_verification_code(phone=phoneVerifyObj[0].phone, code=form.cleaned_data.get('verificationCode'))
+                if not is_verified:
+                    if phoneVerifyObj[0].wrongAttemptCount > 1:
+                        phoneVerifyObj[0].wrongAttemptCount -= 1
+                        phoneVerifyObj[0].save()
+                        messages.add_message(request, messages.WARNING, 'Wrong OTP')
+                    else:
+                        phoneVerifyObj[0].is_blocked = True
+                        phoneVerifyObj[0].save()
+                        context['blocked']= True
+                        del request.session['forgot_phone_verify']
+                else:
+                    del request.session['forgot_phone_verify']
+                    request.session['forgot_phone_verified'] = userObj.username
+                    phoneVerifyObj[0].delete()
+                    return redirect('user:setPass')
+        else:
+            context['blocked']= True
+            del request.session['forgot_phone_verify']
+        context['forgotpass']= True
+        context['VerificationForm'] = VerificationCodeForm()
+        context['verifyUser']= phoneVerifyObj[0]
+        return render(request, 'users/verificationCode.html', context=context)
+
+    return redirect('user:home')
+
+def PhoneNumberUpdate(request):
+    phone_verify = request.session.get('phone_verify', None)
+    update_phone_verify = request.session.get('update_phone_verify', None)
+    forgot_phone_verify = request.session.get('forgot_phone_verify', None)
+    if request.method == "POST":
+        if phone_verify:
+            form = PhoneNumberForm(data=request.POST)
+            if form.is_valid():
+                userObj = get_object_or_404(User, username=phone_verify)
+                phoneVeriObj = get_object_or_404(PhoneVerification, userObj=userObj)
+                if userObj.usertype.is_student:
+                    if userObj.usertype.userstudent.phone != form.cleaned_data.get('verifyPhone'):
+                        userstudentObj = get_object_or_404(UserStudent, user=userObj.usertype)
+                        userstudentObj.phone = form.cleaned_data.get('verifyPhone')
+                        userstudentObj.save()
+                        phoneVeriObj.phone = form.cleaned_data.get('verifyPhone')
+                        phoneVeriObj.save()
+                        phoneVeriObj.refresh_from_db()
+                        code = send_verfication_code(to=phoneVeriObj.phone)
+                else:
+                    if userObj.usertype.userlandlord.phone != form.cleaned_data.get('verifyPhone'):
+                        userlandlordObj = get_object_or_404(UserLandLord, user=userObj.usertype)
+                        userlandlordObj.phone = form.cleaned_data.get('verifyPhone')
+                        userlandlordObj.save()
+                        phoneVeriObj.phone = form.cleaned_data.get('verifyPhone')
+                        phoneVeriObj.save()
+                        code = send_verfication_code(to=phoneVeriObj.phone)
+            else:
+                for error in form.errors:
+                    messages.add_message(request, messages.ERROR, form.errors.get(error))
+            return redirect('user:verifyPhone')
+    if forgot_phone_verify:
+        del self.request.session['forgot_phone_verify']
+    return redirect('user:home')
+
+def ResendVerificationCode(request, pk):
+    phone_verify = request.session.get('phone_verify', None)
+    update_phone_verify = request.session.get('update_phone_verify', None)
+    forgot_phone_verify = request.session.get('forgot_phone_verify', None)
+
+    if phone_verify:
+        userObj = get_object_or_404(User, username=phone_verify)
+        phoneverify = get_object_or_404(PhoneVerification, pk=pk)
+        if userObj == phoneverify.userObj:
+            if not phoneverify.is_blocked and phoneverify.resendCodeCount >= 1:
+                code = send_verfication_code(to=phoneverify.phone)
+                phoneverify.resendCodeCount -= 1
+                phoneverify.save()
+            return redirect('user:verifyPhone')
+
+    if forgot_phone_verify:
+        userObj = get_object_or_404(User, username=forgot_phone_verify)
+        phoneverify = get_object_or_404(PhoneVerification, pk=pk)
+        if userObj == phoneverify.userObj:
+            if not phoneverify.is_blocked and phoneverify.resendCodeCount >= 1:
+                code = send_verfication_code(to=phoneverify.phone)
+                phoneverify.resendCodeCount -= 1
+                phoneverify.save()
+            return redirect('user:verifyPhone')
+
+    return redirect('user:home')
+
+def ForgotSetPassword(request):
+    forgot_phone_verified = request.session.get('forgot_phone_verified', None)
+
+    if forgot_phone_verified:
+        context = {
+            "form" : AuthenticationForm(),
+            "LandlordSignupForm" : LandlordSignupForm(label_suffix=''),
+            "StudentSignupForm"  : StudentSignupForm(label_suffix=''),
+            "ForgotPasswordForm" : ForgotPasswordForm(label_suffix=''),
+        }
+        userObj = get_object_or_404(User, username=forgot_phone_verified)
+        form = SetPasswordForm(user=userObj)
+        if request.method == "POST":
+            form = SetPasswordForm(data=request.POST, user=userObj)
+            if form.is_valid():
+                del request.session['forgot_phone_verified']
+                messages.add_message(request, messages.SUCCESS, 'Password changed successfully')
+                return redirect('user:home')
+
+        context['passChangeForm'] = form
+        return render(request, 'users/passwordChange.html', context=context)
+
+    return redirect('user:home')

@@ -168,6 +168,21 @@ class InviteCode(models.Model):
         return self.inviteCode
 
 
+class PhoneVerification(models.Model):
+    """Stores user phone verification data"""
+
+    userObj = models.OneToOneField(User, on_delete=models.CASCADE)
+    phone = PhoneNumberField(region='US', blank=True, null=True)
+    wrongAttemptCount = models.IntegerField(default=5)
+    resendCodeCount = models.IntegerField(default=3)
+    is_blocked = models.BooleanField(default=False)
+    createdDate = models.DateTimeField(auto_now_add=True)
+    updatedDate = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return '{}'.format(self.pk)
+
+
 class ContactUS(models.Model):
     """Stores Contact US information"""
 

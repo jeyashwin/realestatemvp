@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserStudent, UserLandLord, UserType, Interest, InviteCode, ContactUS
+from .models import UserStudent, UserLandLord, UserType, Interest, InviteCode, ContactUS, PhoneVerification
 
 # Register your models here.
 
@@ -29,3 +29,5 @@ class InviteCodeAdmin(admin.ModelAdmin):
 class UserLandLordAdmin(admin.ModelAdmin):
     list_display = ('id', 'contactEmail', 'subject')
     readonly_fields = ['createdDate']
+
+admin.site.register(PhoneVerification)
