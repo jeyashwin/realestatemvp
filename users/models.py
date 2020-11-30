@@ -108,14 +108,14 @@ class UserStudent(models.Model):
         if self.studyHourFrom is None and self.studyHourTo is not None:
             errorMess['studyHourFrom'] = ValidationError(('Study Hour From Time is required!'), code='required')
         
-        try:
-            phone = phonenumbers.parse(str(self.phone), None)
-            if phone.country_code != 1:
-                # print(phone.country_code)
-                # print(type(phone.country_code))
-                errorMess['phone'] = ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')
-        except phonenumbers.NumberParseException:
-            pass
+        # try:
+        #     phone = phonenumbers.parse(str(self.phone), None)
+        #     if phone.country_code != 1:
+        #         # print(phone.country_code)
+        #         # print(type(phone.country_code))
+        #         errorMess['phone'] = ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')
+        # except phonenumbers.NumberParseException:
+        #     pass
 
         if errorMess is not None:
             raise ValidationError(errorMess)

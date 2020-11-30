@@ -23,6 +23,18 @@
         <div class="pxp-content">
             <div class="pxp-agents" style="margin-top:3%;">
                 <div class="container">
+					{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == 'success' %}
+							<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endif %}
+						{% endfor %}
+					{% endif %}
                     <div class="row">
                         <div class="col-sm-12 col-lg-8" style="background-color:#fff; border-radius:10px;">
 							<br>
@@ -34,6 +46,7 @@
 							
 							<form action="" method="post" enctype="multipart/form-data" id="studentprofileform">
                             	{% csrf_token %}
+								<small style="color: red;">{{form.studentProfilecaptcha.errors.as_ul}}</small>
 								<div class="row">
 								{% for field in form %}
 									{% if field == form.bio %}
@@ -61,14 +74,17 @@
 										{{field.label_tag}}
 										{{field}}
 										{{field.errors.as_ul}}
-									</div> 
+									</div>
+									{% elif field == form.studentProfilecaptcha %}
+									{{form.studentProfilecaptcha}}
+									
 									{% elif field != form.profilePicture %}
 									<div class="col-sm-12 col-md-6" style="margin-bottom: 10px;">
 										{{field.label_tag}}
 										{{field}}
 										{{field.errors.as_ul}}
 									</div>
-									{% endif %}
+									{% endif %} 
 								{% endfor %}
 								</div>
 								<span>

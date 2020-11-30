@@ -1,9 +1,12 @@
 from django import forms
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox, ReCaptchaV3
 
 from .models import RequestToRentProperty, RequestToTourProperty, RequestToRentService
 
 
 class RequestToRentPropertyForm(forms.ModelForm):
+    rentcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = RequestToRentProperty
@@ -25,6 +28,8 @@ class RequestToRentPropertyForm(forms.ModelForm):
 
 
 class RequestToTourPropertyForm(forms.ModelForm):
+
+    tourcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = RequestToTourProperty
@@ -60,6 +65,8 @@ class RequestToTourPropertyForm(forms.ModelForm):
 
 
 class RequestToRentServiceForm(forms.ModelForm):
+
+    servicecaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = RequestToRentService

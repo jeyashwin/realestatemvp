@@ -614,7 +614,13 @@
 							</div>
 							
 						</div>
-						
+					</div>
+					<div class="row">
+						<div class="col-md-4" style="text-align:left;">
+						</div>
+						<div class="col-md-4" style="text-align:left;">
+							{{tourForm.tourcaptcha}}
+						</div>
 					</div>
 					
 					<br>
@@ -659,9 +665,12 @@
 						<label> &nbsp; Move Out</label>
 						{{form.moveOut}}
 					</div>
-				</div>				
+					<div class="col-md-4 m-auto">
+						<br>
+						{{form.rentcaptcha}}
+					</div>
+				</div>
 			</div>
-			<br>
 			<input type="submit" value="Send Request" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
 			<!--span class="pxp-agent-contact-modal-btn" onclick="submitsigninclick()" style="background-color:#003a8c; border-radius:30px; cursor:pointer;">SIGN IN</span-->
 
@@ -866,7 +875,7 @@
 			var url = dis.getAttribute('postquesurl');
 			var csrfmiddlewaretoken = dis.getAttribute('key');
 			var question = $("#prop-question").val();
-			console.log(url, csrfmiddlewaretoken, question)
+			{% comment %} console.log(url, csrfmiddlewaretoken, question) {% endcomment %}
 
 			if(question != '') {
 				$.ajax({

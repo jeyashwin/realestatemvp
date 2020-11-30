@@ -3,6 +3,9 @@ from django.db.models import Max, Min
 from datetime import date
 from django.contrib.gis.db.models.functions import Distance
 from django.contrib.gis.geos import Point
+from django.contrib.auth import settings
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV3
 
 from .models import Property, PropertyImage, PropertyVideo, Amenities
 
@@ -51,6 +54,12 @@ class PropertyForm(forms.ModelForm):
         }),
         required=False,
     )
+
+    propertycaptcha = ReCaptchaField(
+            public_key=settings.RECAPTCHA_V3_PUBLIC_KEY,
+            private_key=settings.RECAPTCHA_V3_PRIVATE_KEY,
+            widget=ReCaptchaV3()
+        )
     
     class Meta:
         model = Property

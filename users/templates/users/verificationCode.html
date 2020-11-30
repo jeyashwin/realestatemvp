@@ -9,6 +9,8 @@
                         <div class="card-header" style="background-color: #2f7fe9; color: #fff;">
                             {% if forgotpass %}
                             <h3>Forgot Password Verification</h3>
+                            {% elif updateVerify%}
+                            <h3>Update Phone Verification</h3>
                             {% else %}
                             <h3>Sign up Verification</h3>
                             {% endif %}
@@ -18,6 +20,8 @@
                             {% if forgotpass %}
                             {% load extraTags %}
                             <p>{{verifyUser.phone|phonenumberHide}}</p>
+                            {% elif updateVerify%}
+                            <p>{{verifyUser.phone}}</p>
                             {% else %}
                             <div class="col-sm-12 m-auto">
                                 <form class="form-group" action="{% url 'user:updatePhone' %}" method="POST">
@@ -29,8 +33,14 @@
                                                 <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </button>
                                         </div>
-                                        &nbsp;
-                                        <button class="btn btn-primary btn-sm" id="phone_number_submit_button" style="display: none;" type="submit">Change</button>
+                                    </div>
+                                    <div class="row" id="phone_number_submit_button" style="display: none;">
+                                        <div class="col-sm-12 col-md-7">
+                                            {{PhoneNumberForm.changePhonecaptcha}}
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 m-3">
+                                            <button class="btn btn-primary"  type="submit">Change</button>
+                                        </div>
                                     </div>
                                     {% if messages %}
                                     {% for message in messages %}
@@ -84,12 +94,12 @@
         </div>
     </div>
 </div>
-{% if not forgotpass and not blocked%}
+{% if not forgotpass and not blocked and not updateVerify%}
 <script>
     document.getElementById('id_verifyPhone').setAttribute('disabled', true)
     function visible(){
         document.getElementById('id_verifyPhone').removeAttribute('disabled')
-        document.getElementById('phone_number_submit_button').style = 'display: block;'
+        document.getElementById('phone_number_submit_button').style = 'display: flex;'
     }
 </script>
 {% endif %}

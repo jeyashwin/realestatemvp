@@ -494,7 +494,9 @@
                         <form class="mt-4" method='POST' action="{% url 'user:forgotPass' %}">
 							{% csrf_token %}
 							{% load bootstrap3 %}
-                            {% bootstrap_form ForgotPasswordForm %}
+							{% for field in ForgotPasswordForm %}
+                                {% bootstrap_field field show_label=False %}
+                            {% endfor %}
                             {% comment %} <div class="form-group">
                                 <input type="text" class="form-control" name="forgotUsername" placeholder="Enter your username" required style="background-color:rgba(255, 255, 255, 0.5);">
                             </div> {% endcomment %}
@@ -861,6 +863,13 @@
 											</div>
 										</div>
 									</div>
+									<div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-12">
+												{{StudentSignupForm.studentcaptcha}}
+											</div>
+										</div>
+									</div>
 									
 									<textarea class="form-control" name="switchinput5" id="switchinput5" placeholder="Enter here" style="display:none;"></textarea>
 									<br>
@@ -1001,6 +1010,13 @@
 										{{LandlordSignupForm.password2.label_tag}}
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
                                     	{{LandlordSignupForm.password2}}
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group">
+                                    	{{LandlordSignupForm.landlordcaptcha}}
 									</div>
 								</div>
 							</div>

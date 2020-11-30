@@ -1,11 +1,14 @@
 from django import forms
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, UsernameField, SetPasswordForm
 from django.core.validators import MinValueValidator, MaxValueValidator, MinLengthValidator, RegexValidator
 from django.contrib.auth.models import User
+from django.contrib.auth import settings
 from phonenumber_field.formfields import PhoneNumberField
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from captcha.fields import ReCaptchaField
+from captcha.widgets import ReCaptchaV2Checkbox, ReCaptchaV3
 
 from .models import UserStudent, UserLandLord, Interest, ContactUS
 import phonenumbers
@@ -40,11 +43,13 @@ class LandlordSignupForm(UserCreationForm):
                             }),
                             label="Profile picture"
                         )
+    
+    landlordcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
-                    'password2', 'phone', 'lanprofilePicture')
+                    'password2', 'phone', 'lanprofilePicture', 'landlordcaptcha')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control formInput',
@@ -232,6 +237,8 @@ class StudentSignupForm(UserCreationForm):
                     'class': 'form-control select2'
                 })
             )
+    
+    studentcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = User
@@ -239,7 +246,7 @@ class StudentSignupForm(UserCreationForm):
                     'password2', 'university', 'classYear', 'bio', 'interest1', 'interest2', 
                     'interest3', 'phone', 'profilePicture', 'fblink', 'snapLink', 'instaLink', 
                     'twitterLink', 'ssFrom', 'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 
-                    'cleanliness', 'guests')
+                    'cleanliness', 'guests', 'studentcaptcha')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control formInput',
@@ -343,14 +350,30 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'placeholder': 'Ex Partying'
         }),
     )
+    Updatephone = PhoneNumberField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'tel',
+            'placeholder': 'Enter your phone number'
+        }),
+        help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
+        # validators=[validatePhone],
+        region='US',
+        label='Phone'
+    )
+    studentProfilecaptcha = ReCaptchaField(
+        public_key=settings.RECAPTCHA_V3_PUBLIC_KEY,
+        private_key=settings.RECAPTCHA_V3_PRIVATE_KEY,
+        widget=ReCaptchaV3()
+    )
 
     class Meta:
         model = UserStudent
-        fields = ('first_name', 'last_name', 'email', 'phone', 'university', 'classYear', 'bio', 
+        fields = ('first_name', 'last_name', 'email', 'Updatephone', 'university', 'classYear', 'bio', 
                     'interest1', 'interest2', 'interest3', 'profilePicture', 'fbLink', 
                     'instaLink', 'twitterLink', 'sleepScheduleFrom', 'sleepScheduleTo', 
                     'studyHourFrom', 'studyHourTo', 'tobaccoUsage', 'alcoholUsage', 'cleanliness',
-                    'guests')
+                    'guests', 'studentProfilecaptcha')
 
         widgets = {
             'bio': forms.Textarea(attrs={
@@ -413,6 +436,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
         self.fields['first_name'].initial = studentInfo.user.user.first_name
         self.fields['last_name'].initial = studentInfo.user.user.last_name
         self.fields['email'].initial = studentInfo.user.user.email
+        self.fields['Updatephone'].initial = studentInfo.phone
 
         self.label_suffix = ''
 
@@ -442,19 +466,31 @@ class LandlordProfileUpdateForm(forms.ModelForm):
         }),
         required=True,
     )
+    Updatephone = PhoneNumberField(
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'type': 'tel',
+            'placeholder': 'Enter your phone number'
+        }),
+        help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
+        validators=[validatePhone],
+        region='US',
+        label='Phone'
+    )
+    landlordProfilecaptcha = ReCaptchaField(
+        public_key=settings.RECAPTCHA_V3_PUBLIC_KEY,
+        private_key=settings.RECAPTCHA_V3_PRIVATE_KEY,
+        widget=ReCaptchaV3()
+    )
 
     class Meta:
         model = UserLandLord
-        fields = ('first_name', 'last_name', 'email', 'phone', 'profilePicture')
+        fields = ('first_name', 'last_name', 'email', 'Updatephone', 'profilePicture', 'landlordProfilecaptcha')
 
         widgets = {
             'profilePicture': forms.ClearableFileInput(attrs={
                     'class': 'form-control',
                     'onchange': "loadPhoto(event)",
-                }),
-            'phone': forms.TextInput(attrs={
-                    'class': 'form-control',
-                    'type': 'tel'
                 }),
         }
 
@@ -464,9 +500,12 @@ class LandlordProfileUpdateForm(forms.ModelForm):
         self.fields['first_name'].initial = landlordInfo.user.user.first_name
         self.fields['last_name'].initial = landlordInfo.user.user.last_name
         self.fields['email'].initial = landlordInfo.user.user.email
+        self.fields['Updatephone'].initial = landlordInfo.phone
 
 
 class ContactUSForm(forms.ModelForm):
+
+    captchaVerification = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = ContactUS
@@ -496,9 +535,10 @@ class ForgotPasswordForm(forms.Form):
         'unknown_error': _("Unable to Proceed.")
     }
     username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True}))
+    forgotcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     def clean(self):
-        username = self.cleaned_data.get('username')
+        username = self.cleaned_data.get('username').lower()
         if not User.objects.filter(username=username).exists():
             raise ValidationError(
                 self.error_messages['username_not_exists'],
@@ -528,6 +568,7 @@ class ForgotPasswordForm(forms.Form):
 
 class PhoneNumberForm(forms.Form):
 
+    changePhonecaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
     verifyPhone = PhoneNumberField(
                 widget=forms.TextInput(attrs={
                     'class': 'form-control',
@@ -535,7 +576,7 @@ class PhoneNumberForm(forms.Form):
                     'placeholder': 'Enter your phone number'
                 }),
                 help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
-                validators=[validatePhone],
+                # validators=[validatePhone],
                 region='US'
             )
 
@@ -553,3 +594,7 @@ class VerificationCodeForm(forms.Form):
             MinLengthValidator(6, '6 digit code'),
         ]
     )
+
+class ForgotSetPasswordForm(SetPasswordForm):
+    
+    setPasscaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
