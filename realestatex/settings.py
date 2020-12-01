@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'notifications',
     'channels',
     'chat',
+    'discussion',
     'storages',
     'defender',
     'captcha',
@@ -187,7 +188,6 @@ LOGOUT_REDIRECT_URL = "/"
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 if not DEBUG:
-    print("hello")
     SESSION_COOKIE_SECURE = True
 
 

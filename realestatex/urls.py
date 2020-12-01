@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include("services.urls", namespace='servicesApp')),
     path('', include("checkout.urls", namespace='checkoutApp')),
     path('', include("notifications.urls", namespace='notificationApp')),
+    path('', include("discussion.urls", namespace='discussionApp')),
     path('chat/', include("chat.urls", namespace='chatApp')),
 ]
 
