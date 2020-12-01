@@ -522,7 +522,7 @@ class ContactUSForm(forms.ModelForm):
             }),
             'message': forms.Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Enter your queries here..',
+                'placeholder': 'Enter your messages here..',
                 'rows': "4"
             }),
         }

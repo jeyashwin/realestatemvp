@@ -62,6 +62,9 @@
 
     }
 </style>
+{% comment %} {% if user.is_authenticated %}
+    <meta http-equiv="REFRESH" content="0;url={% url 'property:propertyList' %}">
+{% endif %} {% endcomment %}
 <header class="page-header page-header-dark" style="background-color:#fff;">
     <div class="page-header-content">
         <div class="container-fluid">

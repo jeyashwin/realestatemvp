@@ -89,6 +89,17 @@ class CustomLoginView(LoginView):
         context["ForgotPasswordForm"] = ForgotPasswordForm(label_suffix='')
         return context
 
+    def get(self, request):
+        if request.user.is_authenticated:
+            try:
+                if request.user.usertype.is_student:
+                    return redirect('property:propertyList')
+                else:
+                    return redirect('property:propertyManage')
+            except:
+                pass
+        return super().get(self, request)
+
 
 class LandlordSignUpView(CreateView):
     form_class = LandlordSignupForm
@@ -105,7 +116,7 @@ class LandlordSignUpView(CreateView):
                             phone=form.cleaned_data.get('phone'),
                             profilePicture=form.cleaned_data.get('lanprofilePicture'),
                         )
-        messages.add_message(self.request, messages.SUCCESS, 'Landlord Profile created successfully. Sign in to you account.')
+        messages.add_message(self.request, messages.SUCCESS, 'Landlord/Sublease Profile created successfully. Sign in to you account.')
         return redirect('user:home')
 
     def form_invalid(self, form):

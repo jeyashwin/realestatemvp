@@ -26,7 +26,7 @@ SECRET_KEY = DJANGO_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -186,7 +186,9 @@ LOGOUT_REDIRECT_URL = "/"
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
-SESSION_COOKIE_SECURE = True
+if not DEBUG:
+    print("hello")
+    SESSION_COOKIE_SECURE = True
 
 
 #GOOGLE KEY FOR PLACES
