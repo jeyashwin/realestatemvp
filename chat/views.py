@@ -235,7 +235,7 @@ class RequestView(ListView):
 
 
 @login_required
-def message_request_update(request, requestUser):
+def message_request_update(request, requestUser, fromPage):
     # if request.method == "GET":
     #     return render(request, 'chat/message_request.html')
 
@@ -265,6 +265,8 @@ def message_request_update(request, requestUser):
             )
             messages.add_message(request, messages.SUCCESS, 'Request sent sucessfully.')
 
+    if fromPage == "discussion":
+        return redirect('discussion:discussionList')
     return redirect('students:roommates')
 
 

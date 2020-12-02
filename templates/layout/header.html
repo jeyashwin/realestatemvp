@@ -147,6 +147,9 @@
                                         <a href="{% url 'students:roommates' %}">Roommates</a>
                                     </li>
 									<li class="list-inline-item" style="padding:0px 12px;">
+                                        <a href="{% url 'discussion:discussionList' %}">Discussion</a>
+                                    </li>
+									<li class="list-inline-item" style="padding:0px 12px;">
                                 		<a href="{% url 'services:servicesList' %}">Services</a>
                             		</li>
                                 {% elif user.usertype.is_landlord %}

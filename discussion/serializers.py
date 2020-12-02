@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from chat.models import Room, MessageRequest
-from .models import RoommatePost, PostComment, CommentReply
+from .models import DiscussionPost, DiscussionPostComment, DiscussionCommentReply
 
 
 class StudentSerializer(serializers.RelatedField):
@@ -45,44 +45,41 @@ class StudentSerializer(serializers.RelatedField):
         return data
 
 
-class CommentReplySerializer(serializers.ModelSerializer):
-    """Serializer for CommentReply"""
+class DiscussionCommentReplySerializer(serializers.ModelSerializer):
+    """Serializer for DiscussionCommentReply"""
     student = StudentSerializer(read_only=True)
 
     class Meta:
-        model = CommentReply
+        model = DiscussionCommentReply
         fields = ['id', 'comment', 'student', 'reply', 'updateDate', 'createdDate']
         read_only_fields = ['id', 'comment', 'student', 'updateDate', 'createdDate']
 
 
-class PostCommentSerializer(serializers.ModelSerializer):
-    """Serializer for PostComment"""
-    commentreply = CommentReplySerializer(many=True, read_only=True)
+class DiscussionPostCommentSerializer(serializers.ModelSerializer):
+    """Serializer for DiscussionPostComment"""
+    commentreply = DiscussionCommentReplySerializer(many=True, read_only=True)
     student = StudentSerializer(read_only=True)
 
     class Meta:
-        model = PostComment
-        fields = ['id', 'roomatePost', 'student', 'comment', 'updateDate', 'createdDate', 'commentreply']
-        read_only_fields = ['id', 'roomatePost', 'student', 'commentreply', 'updateDate', 'createdDate']
+        model = DiscussionPostComment
+        fields = ['id', 'discussionPost', 'student', 'comment', 'updateDate', 'createdDate', 'commentreply']
+        read_only_fields = ['id', 'discussionPost', 'student', 'commentreply', 'updateDate', 'createdDate']
 
 
-class RoommatePostSerializer(serializers.ModelSerializer):
-    """Serializer for RoommatePost create & update"""
+class DiscussionPostSerializer(serializers.ModelSerializer):
+    """Serializer for DiscussionPost create & update"""
     class Meta:
-        model = RoommatePost
-        # fields = ['id', 'title', 'description', 'interest', 'image', 'image1', 'image2', 'image3']
-        fields = ['id', 'title', 'description', 'image', 'image1', 'image2', 'image3']
+        model = DiscussionPost
+        fields = ['id', 'title', 'description', 'tags', 'image']
 
 
-class RoommatePostDetailSerializer(serializers.ModelSerializer):
-    """Serializer for RoommatePost Detail"""
+class DiscussionPostDetailSerializer(serializers.ModelSerializer):
+    """Serializer for DiscussionPost Detail"""
     student = StudentSerializer(read_only=True)
-    # interest = serializers.StringRelatedField(many=True)
-    comments = PostCommentSerializer(many=True, read_only=True)
+    tags = serializers.StringRelatedField(many=True)
+    comments = DiscussionPostCommentSerializer(many=True, read_only=True)
 
     class Meta:
-        model = RoommatePost
-        # fields = ['id', 'student', 'preference', 'title', 'description', 'interest', 'image', 'image1', 'image2', 'image3', 'totalHearts', 'comments', 'updateDate', 'createdDate']
-        # read_only_fields = ['id', 'student', 'preference', 'interest', 'comments', 'updateDate', 'createdDate']
-        fields = ['id', 'student', 'title', 'description', 'image', 'image1', 'image2', 'image3', 'totalHearts', 'comments', 'updateDate', 'createdDate']
+        model = DiscussionPost
+        fields = ['id', 'student', 'title', 'description', 'tags', 'image', 'totalHearts', 'comments', 'updateDate', 'createdDate']
         read_only_fields = ['id', 'student', 'comments', 'updateDate', 'createdDate']

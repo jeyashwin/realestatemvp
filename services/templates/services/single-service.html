@@ -64,7 +64,7 @@
 							<div style="background-color:rgba(255, 255, 255, 1); padding:20px; border-radius:7px;">
 								<h4>{{object.serviceName}}</h4>
 								<hr style="border-top:2px solid #f2f2f2;">
-								<p style="font-family:Book Antiqua; text-align:justify;">{{object.description|safe}}</p>
+								<p style="font-family:Book Antiqua; text-align:justify;">{{object.description|striptags}}</p>
 								<br>
 								<hr style="border-top:2px solid #f2f2f2;">
 								{% load humanize %}
