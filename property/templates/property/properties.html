@@ -100,9 +100,41 @@
 
 
         <div class="pxp-content pxp-full-height"><br>
-            
+            <style>
+		/*#colmd2sec {
+		  position: fixed; 
+		  z-index: 1; 
+		  top: 10; 
+		  left: 1;
+		  overflow-x: hidden; 
+		}
+		#colmd10sec {
+		  margin-left: 17%;
+		}*/
+
+		
+		#sticky {
+		    border-radius: 0.5ex;
+		    float:left;
+		}
+		#sticky.stick {
+		    position: fixed;
+		    top: 0;
+		    z-index: 10;
+		}
+		
+		#layoutDefault_footer {
+		  z-index:999999
+		 }
+		.rightcontent {
+		  margin-left:17%;
+		}
+		
+	</style>
+
             <div class="row" style="width:100%;">
-			<div class="col-md-2">
+			<div id="sticky-anchor"></div>
+			<div class="col-md-2" id="sticky">
 				<div class="container-fluid" style="margin-left: 10px; padding:10px;  background-color:#fff; border-radius:7px;">
 				  <div class="panel panel-default">
 					<div class="panel-heading" style="background-color:#f7f7f7; padding:7px; border-top-left-radius:7px; border-top-right-radius:7px; margin-left:-10px; margin-right:-10px; margin-top:-12px;">
@@ -227,7 +259,7 @@
 				</div>
 			
 			</div>
-			<div class="col-md-10" style="background-color:#fff; border-radius:7px;">
+			<div class="col-md-10 rightcontent" id="colmd10sec" style="background-color:#fff; border-radius:7px; min-height:500px;">
 				<div class="pxp-map-side pxp-map-right pxp-half" style="display:none;">
 					<div id="results-map"></div>
 					<a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>
@@ -251,7 +283,7 @@
 									<div class="col-2 col-sm-1 col-md-3 col-lg-3 pxp-content-side-search-form-col" style="padding-left:10px;">
 										<div class="row">
 											<div class="col-md-12">
-												<span style="font-size:12px; position:absolute; font-family:Century Gothic;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance from university</span>
+												<span style="font-size:14px; position:absolute; font-family:Century Gothic; margin-top:27px; margin-left:-23px;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance from university</span>
 												<div class="range-wrap">
 													<div class="range-value" id="rangeV3"></div>
 													{{filterSortForm.disPro}}
@@ -263,7 +295,7 @@
 									<div class="col-2 col-sm-1 col-md-3 col-lg-3 pxp-content-side-search-form-col" style="padding-left:10px;">
 										<div class="row">
 											<div class="col-md-12">
-												<span style="font-size:12px; position:absolute; font-family:Century Gothic;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
+												<span style="font-size:14px; position:absolute; font-family:Century Gothic; margin-top:27px; margin-left:-23px;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
 												<div class="range-wrap">
 													<div class="range-value" id="rangeV4"></div>
 													{{filterSortForm.disAmen}}
@@ -429,6 +461,7 @@
 
 
 						<div class="row">
+
 							{% load humanize %}
 							{% for object in object_list %}
 								<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
@@ -762,5 +795,35 @@
 			}
 		});
 	</script-->
+
+
+	<script>
+		
+		function sticky_relocate() {
+		    var window_top = $(window).scrollTop();
+		    var footer_top = $("#layoutDefault_footer").offset().top;
+		    var div_top = $('#sticky-anchor').offset().top;
+		    var div_height = $("#sticky").height();
+		    
+		    var padding = 20;  // tweak here or get from margins etc
+		    
+		    if (window_top + div_height > footer_top - padding)
+			$('#sticky').css({top: (window_top + div_height - footer_top + padding) * -1})
+		    else if (window_top > div_top) {
+			$('#sticky').addClass('stick');
+			$('#colmd10sec').addClass('rightcontent');
+			$('#sticky').css({top: 5})
+		    } else {
+			$('#sticky').removeClass('stick');
+			$('#colmd10sec').removeClass('rightcontent');
+		    }
+		}
+
+		$(function () {
+		    $(window).scroll(sticky_relocate);
+		    sticky_relocate();
+		});
+	</script>
+
 
 {% include "layout/footer.html" %}

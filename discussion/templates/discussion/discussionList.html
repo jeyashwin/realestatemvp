@@ -388,7 +388,7 @@
 							</div>
 							<br>
 							{% comment %} {% endif %} {% endcomment %}
-							<div style="min-height:600px;">
+							<div style="min-height:519px;">
 								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
 								<h3><b>All Posts</b></h3>
 								{% comment %} 								
@@ -422,6 +422,7 @@
 								</div>
 								<br>
 								{% for object in object_list %}
+
 								
 									<div class="panel panel-default postspanel catpanel1" id="postid{{ object.pk }}" onclick="viewpostdetails(this)" data-postid="{{ object.pk }}" data-url="{% url 'discussion:discussionDetail' object.pk %}" data-commenturl="{% url 'discussion:discussionCommentCreate' object.pk %}" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 									<form action="{% url 'discussion:discussionUpdate' object.pk %}" method="POST" enctype="multipart/form-data" id="updatePostForm{{object.pk}}">
@@ -780,7 +781,7 @@
 										<div class="col-md-6 usercaty" style="margin-top:5px;"></div>
 										
 										
-										<div class="col-md-12 userhabits">
+										<div class="col-md-12 userhabits" style="display:none;">
 											<div class="row" style="padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
@@ -799,7 +800,7 @@
 											</div>
 										</div>
 										
-										<div class="col-md-12 userschedule" style="border-top:1px solid #e2e2e2; padding-top:10px;">	
+										<div class="col-md-12 userschedule" style="display:none; border-top:1px solid #e2e2e2; padding-top:10px;">	
 											<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
@@ -813,8 +814,8 @@
 											</div>
 												
 										</div>
-										
-										<div class="col-md-12 usercontent" style="border-top:2px solid #fff;">
+
+										<div class="col-md-12 usercontent" style="border-top:2px solid #fff; margin-top:7px;">
 											<h4>
 												<b class="usertitle pull-left"></b>
 												<b class="userlikes pull-right"></b>
@@ -1562,8 +1563,6 @@ function tConvert (timeString) {
 				  </div>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			</div>
-			<br>
-			<br>
 		</div>
 		
 		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>
