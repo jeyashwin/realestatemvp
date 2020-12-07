@@ -373,19 +373,53 @@
 									<ul class="lifestyle-ul" id='lifestyleUL' style="list-style-type:none;">
 										{% for nearby in object.propertynearby_set.all %}
 											{% if nearby.nearByType == 'Restaurant' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/restauranticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/restauranticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+												{% for single in object.propertynearby_set.all %}
+													{% if single.nearByType in 'Restaurant, Restaurant1, Restaurant2, Restaurant3, Restaurant4' %}
+														<li>{{single.nearByName|title}} is {{single.distanceToProp|floatformat:1}} miles from the property.</li>
+													{% endif %}
+													{% if forloop.last %}
+													</div>
+													{% endif %}
+												{% endfor %}
 											{% elif nearby.nearByType == 'Bar' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/baricon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/baricon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+												{% for single in object.propertynearby_set.all %}
+													{% if single.nearByType in 'Bar, Bar1, Bar2, Bar3, Bar4' %}
+														<li>{{single.nearByName|title}} is {{single.distanceToProp|floatformat:1}} miles from the property.</li>
+													{% endif %}
+													{% if forloop.last %}
+													</div>
+													{% endif %}
+												{% endfor %}
 											{% elif nearby.nearByType == 'Shopping Mall' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/shoppingmallicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/shoppingmallicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+													<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{% for single in object.propertynearby_set.all %}
+														{% if single.nearByType in 'Shopping Mall, Shopping Mall1, Shopping Mall2, Shopping Mall3, Shopping Mall4' %}
+															<li>{{single.nearByName|title}} is {{single.distanceToProp|floatformat:1}} miles from the property.</li>
+														{% endif %}
+														{% if forloop.last %}
+													</div>
+														{% endif %}
+													{% endfor %}
 											{% elif nearby.nearByType == 'Walmart' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/wallmarticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/wallmarticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
+												</div>
 											{% elif nearby.nearByType == 'Costco' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/costcoicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/costcoicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
+												</div>
 											{% elif nearby.nearByType == 'Target' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/targeticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
-											{% else %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, name="{{nearby.nearByName|title}}", distance="{{nearby.distanceToProp|floatformat:1}}")'><img src='{% static "/images/map/nullicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/targeticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
+												</div>
 											{% endif %}
 										{% endfor %}
 										{% comment %} <li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Restaurant</li>
@@ -396,8 +430,9 @@
 										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Walmart</li> {% endcomment %}
 									</ul>
 								</div>
-								<div class="col-sm-12">
-									<div id="lifestyleDisplay" style="font-size:18px; text-align:center; margin-top: 10px"></div>
+								<div class="col-sm-12" style="margin-left: 75px;">
+									<div id="lifestyleDisplay" style="font-size:18px; text-align:left; margin-top: 10px">
+									</div>
 								</div>
 							</div>
 							{% else %}
@@ -737,14 +772,14 @@
 	</script>
 	
 	<script>
-		function lifestyleselect(dis, name, distance)
+		function lifestyleselect(dis, targetID)
 		{
 			var classname = $(dis).attr('class');
 			$('#lifestyleUL li.lifestyle-li-sel').removeClass('lifestyle-li-sel');
 			if(classname == 'lifestyle-li-unsel') { 
 				$(dis).addClass('lifestyle-li-sel');
 				$('#lifestyleDisplay').show()
-				$('#lifestyleDisplay').text(name + ' is ' + distance + ' miles from the property.')
+				$('#lifestyleDisplay').html(document.getElementById(targetID).innerHTML)
 			} else {
 				$(dis).attr('class', 'lifestyle-li-unsel');
 				$('#lifestyleDisplay').hide()
@@ -1036,11 +1071,11 @@
 		}
 		const locations = [
 			{% for nearby in object.propertynearby_set.all %}
-				{% if nearby.nearByType == 'Restaurant' %}
+				{% if nearby.nearByType in 'Restaurant, Restaurant1, Restaurant2, Restaurant3, Restaurant4' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/restauranticon.jpg" %}' },
-				{% elif nearby.nearByType == 'Bar' %}
+				{% elif nearby.nearByType in 'Bar, Bar1, Bar2, Bar3, Bar4' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/baricon.jpg" %}' },
-				{% elif nearby.nearByType == 'Shopping Mall' %}
+				{% elif nearby.nearByType in 'Shopping Mall, Shopping Mall1, Shopping Mall2, Shopping Mall3, Shopping Mall4' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/shoppingmallicon.jpg" %}' },
 				{% elif nearby.nearByType == 'Walmart' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/wallmarticon.jpg" %}' },

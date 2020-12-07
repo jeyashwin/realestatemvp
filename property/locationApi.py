@@ -37,9 +37,7 @@ def get_lat_long_from_address(address):
 def get_near_by_types(instance=None, types=None, count=1):
     """ function to get nearest location of types around the property"""
     success = True
-    nearByName = ""
-    locationDict = {}
-    placeId = ""
+    nearPlaces = []
     try:
         nearbyResult = gmapsClient.places_nearby(
             location=(instance.location.y, instance.location.x),
@@ -49,14 +47,19 @@ def get_near_by_types(instance=None, types=None, count=1):
         requestStatus = nearbyResult.get('status', None)
         if requestStatus == 'OK':
             requestResult = nearbyResult.get('results', None)
+            countPlaces = 0
             for result in requestResult:
                 businessStatus = result.get('business_status', None)
-                if businessStatus == 'OPERATIONAL':
-                    geometry = result.get('geometry', None)
-                    locationDict = geometry.get('location', None)
-                    nearByName = result.get('name', None)
-                    placeId = result.get('place_id', None)
-                    return success, nearByName, locationDict, placeId
+                if countPlaces < 5:
+                    nearbyDict = {}
+                    if businessStatus == 'OPERATIONAL':
+                        geometry = result.get('geometry', None)
+                        nearbyDict['nearByName'] = result.get('name', None)
+                        nearbyDict['placeId'] = result.get('place_id', None)
+                        nearbyDict['locationDict'] = geometry.get('location', None)
+                        nearPlaces.append(nearbyDict)
+                        countPlaces += 1
+            return success, nearPlaces
         elif requestStatus == 'ZERO_RESULTS':
             logging.warning('Near by api returened empty for Property - {}, '
                         'address - {}, type - {}. So retried {} times.'.format(instance.title, instance.address, types, count))
@@ -71,7 +74,7 @@ def get_near_by_types(instance=None, types=None, count=1):
                         'address is - {} and error is - {}'.format(instance.title, instance.address, e))
         success = False
 
-    return success, nearByName, locationDict, placeId
+    return success, nearPlaces
 
 def get_near_by_text_places(instance=None, place=None, count=1):
     """ function to get nearest location of places text search around the property"""

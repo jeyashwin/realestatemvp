@@ -240,6 +240,9 @@ class PropertyNearby(geoModel.Model):
 
     def __str__(self):
         return self.nearByType
+    
+    class Meta:
+        ordering = ['distanceToProp']
 
 
 class PropertyJobStore(models.Model):
@@ -299,16 +302,21 @@ def fetch_near_by_places(instance):
     nearByTypes = {'restaurant': 'Restaurant', 'shopping_mall': 'Shopping Mall', 'bar': 'Bar', }
     nearByText = {'Costco in': 'Costco', 'Target in': 'Target', 'Walmart in': 'Walmart', }
     for types in nearByTypes:
-        success, nearByName, locationDict, placeId = get_near_by_types(instance=instance, types=types)
+        success, nearPlaces = get_near_by_types(instance=instance, types=types)
         if success:
-            longitude = locationDict.get('lng', 0)
-            latitude = locationDict.get('lat', 0)
-            location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
-            obj = get_or_create_near_by(instance, nearByTypes[types])
-            obj[0].nearByName = nearByName
-            obj[0].location = location
-            obj[0].placeId = placeId
-            obj[0].save()
+            for i, place in enumerate(nearPlaces):
+                tempLoc = place.get('locationDict', None)
+                longitude = tempLoc.get('lng', 0)
+                latitude = tempLoc.get('lat', 0)
+                location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
+                if i == 0:
+                    obj = get_or_create_near_by(instance, nearByTypes[types])
+                else:
+                    obj = get_or_create_near_by(instance, '{}{}'.format(nearByTypes[types], i))
+                obj[0].nearByName = place.get('nearByName', None)
+                obj[0].location = location
+                obj[0].placeId = place.get('placeId', None)
+                obj[0].save()
     for place in nearByText:
         success, nearByName, locationDict, placeId = get_near_by_text_places(instance=instance, place=place)
         if success:
@@ -322,11 +330,15 @@ def fetch_near_by_places(instance):
             obj[0].save()
     nearbys = PropertyNearby.objects.filter(propObject=instance).annotate(distance=Distance(instance.location, 'location'))
     totalmiles = 0
-    count = nearbys.count()
+    allplaces = nearByTypes
+    allplaces.update(nearByText)
+    allplaces = list(allplaces.values())
+    count = len(allplaces)
     for nearby in nearbys:
         nearby.distanceToProp = nearby.distance.mi
         nearby.save()
-        totalmiles = totalmiles + nearby.distance.mi
+        if nearby.nearByType in allplaces:
+            totalmiles = totalmiles + nearby.distance.mi
     # if not instance.averageDistance or instance.averageDistance != round(totalmiles/count):
     instance.averageDistance = round(totalmiles/count, 1)
     instance.save()
