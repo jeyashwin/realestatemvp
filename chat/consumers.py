@@ -109,7 +109,7 @@ class ChatConsumer(WebsocketConsumer):
     # Receive message from WebSocket
     def receive(self, text_data):
         data = json.loads(text_data)
-        print(data, "!!!!!!!!!!!!!!!!!!!!!!!!!")
+        # print(data, "!!!!!!!!!!!!!!!!!!!!!!!!!")
         self.command[data["command"]](self, data)
 
     def send_chat_messages(self, message):

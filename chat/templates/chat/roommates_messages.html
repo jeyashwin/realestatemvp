@@ -284,17 +284,12 @@
 													  
 													</div>
 													<div class="col-1 m-0 p-1">
-														<form id='file_attachment_form' enctype="multipart/form-data" method='post'>
-															{% csrf_token %}
-															<input name='myFile' type='file' class='autosubmit'/>
-														</form>
-														<button class="btn btn-outline-secondary rounded border w-100" id="chat-message-submit" title="Send" style="float:right; border-radius:30px; background-color:#094A66; color:#fff; padding-right: 16px; margin-top:25px; padding:10px;"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
-																
+														<span class="btn btn-success" data-toggle="modal" data-target="#sendFile" style="width: 100%; font-size: 20px; background-color:#094A66; color:#fff; cursor:pointer; "><i class="fa fa-paperclip"  aria-hidden="true"></i></span>
+														<button class="btn btn-outline-secondary rounded border w-100" id="chat-message-submit" title="Send" style="float:right; border-radius:30px; background-color:#094A66; color:#fff; padding-right: 16px; margin-top:5px; padding:10px;"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 													</div>
 												  </div>
 											
 											<!--/form-->
-												
 										  </div>
 
 										</div>
@@ -302,7 +297,46 @@
 									  
 									</div>
 								  </div>
+<div id="sendFile" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="margin-top:7%;">
 
+    <!-- Modal content-->
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+        <h4 class="modal-title">
+		<span style="text-align:left;">Send Attachment</span>
+	</h4>
+      </div>
+      <div class="modal-body">
+        <form id='file_attachment_form' method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<small id="file_attach_loader" style="display:none;"><i class="fa fa-spinner fa-spin"></i></small>
+				<small style="color: red;" id="errorFileInput"></small>
+			</div>
+			<div class="col-md-12" style="margin-bottom: 10px;">
+				<div class="input-group">
+					<input type="file" id="fileinput" name='myFile' class="form-control" style="border-radius:50px; height:50px;" required><br>
+				</div>
+			{% comment %} <input name='myFile' type='file' class='autosubmit'/> {% endcomment %}
+		    </div>
+		    <div class="col-md-2">
+			</div>
+		    <div class="col-md-8">
+				<input type="submit" name="submit" value="Attach" class="form-control" style="border-radius:50px; height:50px; color:#fff; background-color:#094a66;"><br>
+		    </div>
+		    <div class="col-md-2">
+			</div>
+		</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 							<!-- Optional JavaScript -->
 								<!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -314,7 +348,12 @@
 			{{ room_id|json_script:"room-name" }}
 	    {{ username|json_script:"user-name" }}
 		<script>
-		$('form .autosubmit').on('change', function(e) {
+		// $('form .autosubmit').on('change', function(e) {
+   		// 	//this.form.submit();
+		// 	   ajaxPost(e);
+			
+		// });
+		$('#file_attachment_form').on('submit', function(e) {
    			//this.form.submit();
 			   ajaxPost(e);
 			
@@ -326,6 +365,7 @@
         	const userName = JSON.parse(document.getElementById('user-name').textContent);
 			function ajaxPost(e){
 				e.preventDefault();
+				$("#file_attach_loader").show()
 				d = new FormData(fileAttachmentForm);
     			
 				$.ajax({
@@ -335,8 +375,23 @@
 					contentType: false,
 					processData: false,
 					success: function(data) {
-						sendUrl(data)
-					}   
+						if (data.success){
+							$("#file_attach_loader").hide()
+							sendUrl(data)
+							document.getElementById("errorFileInput").textContent = "Attachment sent successfully!";
+							document.getElementById("errorFileInput").style = "color:green;"
+							document.getElementById("fileinput").value = "";
+						}
+						else{
+							$("#file_attach_loader").hide()
+							document.getElementById("errorFileInput").textContent = data.error;
+							document.getElementById("errorFileInput").style = "color:red;"
+						}
+					},
+				  	error: function(res){
+						console.log(res)
+						$("#file_attach_loader").hide();
+				  	}
 				});  
 			}
 		</script>

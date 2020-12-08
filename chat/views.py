@@ -1,7 +1,7 @@
 # chat/views.py
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
 from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from .models import UserStudent, Message, MessageRequest, Room, Friend
@@ -12,6 +12,8 @@ from django.contrib.auth import get_user_model
 from django.views.generic import ListView
 # from django.core.files.storage import FileSystemStorage
 import json
+
+from property.utils import studentAccessTest
 
 # fs = FileSystemStorage(location='/home/pooja/Documents/Freelancing/realestatemvp/chatapp/static/uploads/')
 # fs.base_url = '/home/pooja/Documents/Freelancing/realestatemvp/chatapp/static/uploads/' 
@@ -42,24 +44,25 @@ def index(request):
         })
 
 @login_required
+@user_passes_test(studentAccessTest)
 def index_group(request):
     if request.method == "GET":
         user_chats = []
         current_user_groups = list(Room.objects.filter(room_type=True).filter(members__username = request.user).values_list('pk', flat=True))
-        
         for room in Room.objects.filter(pk__in=current_user_groups):
             name = room.name
             user_chats.append({
                 'pk': room.pk,
                 'name': name,
             })
+        friendList = None
+        if current_user_groups:
+            friendList = Friend.objects.get(student__user__user=request.user)
         return render(request, "chat/group_index.html", {
             'user_chats':user_chats,
-            'friends_list': Friend.objects.get(student__user__user=request.user),
+            'friends_list': friendList,
         })
 
-
-    
 @login_required
 def room(request, room_name):
     user_chats = []
@@ -77,19 +80,27 @@ def room(request, room_name):
     another_member = room_details.members.exclude(username=request.user).first()
     
     if request.method == "POST":
-        uploaded_file = request.FILES['myFile']
-        new_message = Message.objects.create(
-            room = get_object_or_404(Room, pk=room_name),
-            author = request.user,
-            content = uploaded_file.name,
-            pdf = uploaded_file,
-        )
-        return JsonResponse({
-                'room_id': room_name,
-                'username': request.user.username,
-                'url': new_message.pdf.url,
-                'message_id': new_message.pk,
-        })
+        uploaded_file = request.FILES.get('myFile', None)
+        # print(uploaded_file)
+        if uploaded_file:
+            new_message = Message.objects.create(
+                room = get_object_or_404(Room, pk=room_name),
+                author = request.user,
+                content = uploaded_file.name,
+                pdf = uploaded_file,
+            )
+            return JsonResponse({
+                    'success': True,
+                    'room_id': room_name,
+                    'username': request.user.username,
+                    'url': new_message.pdf.url,
+                    'message_id': new_message.pk,
+            })
+        else:
+            return JsonResponse({
+                    'success': False,
+                    'error': "File field is required",
+            })
 
     return render(request, 'chat/roommates_messages.html', {
         'user_chats': user_chats, 
@@ -116,21 +127,28 @@ def group(request, room_name):
     another_member = ",".join(room_details.members.exclude(username=request.user).values_list('username', flat=True))
 
     if request.method == "POST":
-        uploaded_file = request.FILES['myFile']
+        uploaded_file = request.FILES.get('myFile', None)
         # name = fs.save(uploaded_file.name, uploaded_file)
         # url = fs.url(name)
-        new_message = Message.objects.create(
-            room = get_object_or_404(Room, pk=room_name),
-            author = request.user,
-            content = uploaded_file.name,
-            pdf = uploaded_file,
-        )
-        return JsonResponse({
-                'room_id': room_name,
-                'username': request.user.username,
-                'url': new_message.pdf.url,
-                'message_id': new_message.pk,
-        })
+        if uploaded_file:
+            new_message = Message.objects.create(
+                room = get_object_or_404(Room, pk=room_name),
+                author = request.user,
+                content = uploaded_file.name,
+                pdf = uploaded_file,
+            )
+            return JsonResponse({
+                    'success': True,
+                    'room_id': room_name,
+                    'username': request.user.username,
+                    'url': new_message.pdf.url,
+                    'message_id': new_message.pk,
+            })
+        else:
+            return JsonResponse({
+                    'success': False,
+                    'error': "File field is required",
+                })
        
     return render(request, 'chat/roommates_groups.html', {
         'user_chats': user_chats, 
@@ -282,15 +300,38 @@ class CreateGroupView(ListView):
     @staticmethod
     def post(request):
         group_members_list = request.POST.getlist('group_members_list')
-        new_room = Room.objects.create(name = request.POST['groupname'], room_type=True)
-        new_room.save()
-        for each_member in group_members_list:
-            add_member_valid = get_object_or_404(User, username=each_member)
-            new_room.members.add(add_member_valid)
-        new_room.save()
-        new_room.members.add(request.user)
-        new_room.save()
-        return redirect('chat:group', new_room.pk)
+        group_name = request.POST.get('groupname', None)
+        valid = False
+        if group_name:
+            if group_name.strip() != "":
+                valid = True
+            else:
+                messages.add_message(request, messages.ERROR, 'Group Name Field is required')
+        else:
+            messages.add_message(request, messages.ERROR, 'Group Name Field is required')
+        if len(group_members_list) >= 2:
+            for member in group_members_list:
+                if member.strip() == '' or member == "~ Select Users ~":
+                    valid = False
+                    messages.add_message(request, messages.ERROR, 'Select valid users from the list')
+        else:
+            valid = False
+            messages.add_message(request, messages.ERROR, 'Minimum two friends need to create group.')
+        if valid:
+            new_room = Room.objects.create(name = group_name, room_type=True)
+            new_room.save()
+            for each_member in group_members_list:
+                add_member_valid = get_object_or_404(User, username=each_member)
+                new_room.members.add(add_member_valid)
+            new_room.save()
+            new_room.members.add(request.user)
+            new_room.save()
+            return redirect('chat:group', new_room.pk)
+        else:
+            return redirect('chat:groupindex')
+    @staticmethod
+    def get(request):
+        return redirect('chat:groupindex')
 
 @login_required
 def landlord_student_chat(request, studuser):
