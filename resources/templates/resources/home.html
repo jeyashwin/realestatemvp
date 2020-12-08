@@ -22,7 +22,7 @@ tbody {text-align: center;}
 </style>
 </head>
 <body>
-
+{% load static %}
 <h3>Why live off campus?</h3>
 <div class="list-block">
     <div><b>1. Live Near the Goods, Services, and Amenities you want:</b> <span>By choosing to live off campus, you can choose to live near grocery stores, supermarkets, or the night life in your area. </span></div>
@@ -53,10 +53,30 @@ tbody {text-align: center;}
     </tbody>
 </table>
 <p>The rents above are rough averages based on location and amenity preferences of previous student renters like yourself.</p>
-<h3>Lease Signing</h3><p>After agreeing a price with a landlord for a particular home or apartment, the next step after approval is signing your lease. Generally there are 2 ways to sign the lease:</p><div class="list-block"><div><b>1. In-Person:</b> <span>Paper copy signed by tenants and notarized</span></div><div><b>2. Online: </b><span>Signed by tenants and landlord through an online platform (we allow files to be sent through our messaging platform)</span></div></div>
+<h3>Lease Signing</h3>
+<p>After agreeing a price with a landlord for a particular home or apartment, the next step after approval is signing your lease. Generally there are 2 ways to sign the lease:</p>
+<div class="list-block">
+    <div>
+        <b>1. In-Person:</b> <span>Paper copy signed by tenants and notarized</span>
+    </div>
+    <div><b>2. Online: </b><span>Signed by tenants and landlord through an online platform (we allow files to be sent through our messaging platform)</span>
+    </div>
+</div>
+<div class="row m-2">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-12 col-md-3 mb-1">
+        <a class="btn btn-success" download href="https://swiftliving.s3.amazonaws.com/resources/roommate-agreement-with-lease.docx">Agreement Between Roommates</a>
+    </div>
+    <div class="col-sm-12 col-md-3 mb-1">
+        <a class="btn btn-success" download target="_blank" href="https://swiftliving.s3.amazonaws.com/resources/From-Tenant-Fixed-No-Notice_New-York.pdf">Vacancy Agreement</a>
+    </div>
+    <div class="col-sm-12 col-md-3">
+        <a class="btn btn-success" download target="_blank" href="https://swiftliving.s3.amazonaws.com/resources/Standard-New-York-Residential-Lease-Agreement-Template+(1).pdf">Lease Agreement</a>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
 <h3>Renters Insurance</h3><p>Renters insurance protects your personal belongings in the case of a fire, theft, or damage.</p><div class="list-block"><div>Yearly Rate<span> $140 - $240</span></div><div>Monthly Rate<span> $12 - $20</span></div></div><p>If you are interested in obtaining renters insurance, we are happy to make some recommendations for you.</p>
-
-
+<br><br><br>
 </body>
 
 {% endblock content %}
