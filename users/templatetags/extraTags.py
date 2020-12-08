@@ -93,3 +93,13 @@ def get_friend_status(context, postAuthor):
         if messageRequests:
             return {'status': 'FriendRequestSent'}
         return {'status': 'NotFriends'}
+
+@register.filter(name="combineGetvalues")
+def combineGetRequestValues(value):
+    if value:
+        combined = ""
+        for key, item in value.items():
+            if key != "page":
+                combined = combined + '{}={}&'.format(key, item)
+        return combined
+    return ''

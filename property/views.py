@@ -209,7 +209,7 @@ class LandlordManageProperty(LoginRequiredMixin, UserPassesTestMixin, ListView):
 class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
     template_name = "property/properties.html"
-    paginate_by = 10
+    paginate_by = 25
     form_class = PropertyFilterSortForm
 
     def test_func(self):

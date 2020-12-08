@@ -10,7 +10,7 @@ from checkout.forms import RequestToRentServiceForm
 class ServiceListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Service
     template_name = "services/services.html"
-    paginate_by = 10
+    paginate_by = 25
     ordering = ['-createdDate']
 
     def test_func(self):
