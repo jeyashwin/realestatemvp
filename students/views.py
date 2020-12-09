@@ -10,16 +10,16 @@ from property.utils import studentAccessTest
 from property.models import Property
 # from users.models import UserStudent, Interest
 from users.models import UserStudent
-from .models import Favourite, RoommatePost, PostComment, CommentReply
+from .models import RoommatePost, PostComment, CommentReply
 from .serializers import RoommatePostDetailSerializer, PostCommentSerializer, \
                             CommentReplySerializer, RoommatePostSerializer
 from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
 
 # Create your views here.
 
-# class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
-#     model = Favourite
-#     template_name = "students/favourites.html"
+# class FavoriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+#     model = Favorite
+#     template_name = "students/favorites.html"
 
 #     def test_func(self):
 #         try:
@@ -28,11 +28,11 @@ from .permissions import IsStudentUserAccess, IsOwnerOfTheObject
 #             raise Http404
 
 #     def get_queryset(self):
-#         return Favourite.objects.filter(student__user__user=self.request.user)
+#         return Favorite.objects.filter(student__user__user=self.request.user)
 
-class FavouriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class FavoriteListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Property
-    template_name = "students/favourites.html"
+    template_name = "students/favorites.html"
 
     def test_func(self):
         try:
@@ -176,48 +176,48 @@ def AddRemoveHeart(request, pk):
         return JsonResponse({'hearted': hearted, 'total': postObject.totalHearts()})
     return redirect('students:roommates')
 
-@login_required
-@user_passes_test(studentAccessTest)
-def AddFavourite(request, slug):
-    added = True
-    propObject = get_object_or_404(Property, urlSlug=slug)
-    if request.method == "POST":
-        student = Favourite.objects.filter(student__user__user=request.user).exists()
-        if student:
-            favouriteObject = Favourite.objects.get(student__user__user=request.user)
-            propExists = favouriteObject.properties.filter(pk=propObject.pk).exists()
-            if not propExists:
-                favouriteObject.properties.add(propObject)
-                favouriteObject.save()
-            else:
-                added = False
-        else:
-            studObject = get_object_or_404(UserStudent, user__user=request.user)
-            favouriteObject = Favourite.objects.create(student=studObject)
-            favouriteObject.properties.add(propObject)
-            favouriteObject.save()
-        return JsonResponse({'added': added})
-    return redirect('property:propertyDetail', slug)
+# @login_required
+# @user_passes_test(studentAccessTest)
+# def AddFavorite(request, slug):
+#     added = True
+#     propObject = get_object_or_404(Property, urlSlug=slug)
+#     if request.method == "POST":
+#         student = Favorite.objects.filter(student__user__user=request.user).exists()
+#         if student:
+#             favoriteObject = Favorite.objects.get(student__user__user=request.user)
+#             propExists = favoriteObject.properties.filter(pk=propObject.pk).exists()
+#             if not propExists:
+#                 favoriteObject.properties.add(propObject)
+#                 favoriteObject.save()
+#             else:
+#                 added = False
+#         else:
+#             studObject = get_object_or_404(UserStudent, user__user=request.user)
+#             favoriteObject = Favorite.objects.create(student=studObject)
+#             favoriteObject.properties.add(propObject)
+#             favoriteObject.save()
+#         return JsonResponse({'added': added})
+#     return redirect('property:propertyDetail', slug)
 
-@login_required
-@user_passes_test(studentAccessTest)
-def RemoveFavourite(request, slug):
-    removed = True
-    propObject = get_object_or_404(Property, urlSlug=slug)
-    if request.method == "POST":
-        student = Favourite.objects.filter(student__user__user=request.user).exists()
-        if student:
-            favouriteObject = Favourite.objects.get(student__user__user=request.user)
-            propExists = favouriteObject.properties.filter(pk=propObject.pk).exists()
-            if propExists:
-                favouriteObject.properties.remove(propObject)
-                favouriteObject.save()
-            else:
-                removed = False
-        else:
-            raise Http404
-        return JsonResponse({'removed': removed})
-    return redirect('property:propertyDetail', slug)
+# @login_required
+# @user_passes_test(studentAccessTest)
+# def RemoveFavorite(request, slug):
+#     removed = True
+#     propObject = get_object_or_404(Property, urlSlug=slug)
+#     if request.method == "POST":
+#         student = Favorite.objects.filter(student__user__user=request.user).exists()
+#         if student:
+#             favoriteObject = Favorite.objects.get(student__user__user=request.user)
+#             propExists = favoriteObject.properties.filter(pk=propObject.pk).exists()
+#             if propExists:
+#                 favoriteObject.properties.remove(propObject)
+#                 favoriteObject.save()
+#             else:
+#                 removed = False
+#         else:
+#             raise Http404
+#         return JsonResponse({'removed': removed})
+#     return redirect('property:propertyDetail', slug)
 
 # def roommatesGroup(request):
 #     return render(request, 'students/roommates_groups.html')

@@ -130,12 +130,12 @@
 		
 			function removefromfav(id)
 			{
-				if(confirm("Are you sure to remove this property from favourites?") == true) {
+				if(confirm("Are you sure to remove this property from favorites?") == true) {
 					//document.getElementById('fprop'+id).remove();
 					$("#fprop"+id).hide(500);
 					
 					setTimeout(function() {
-						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favourite deleted!</span> &nbsp; <br>");					
+						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favorite deleted!</span> &nbsp; <br>");					
 					}, 700);
 					setTimeout(function() {
 						$("#lastmsg").fadeOut(2000);

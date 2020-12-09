@@ -12,7 +12,7 @@
 			<br><div style="position:relative; margin-top:100px;" id="resmsg"></div>
 				
                 <div class="pxp-content-side-wrapper">                   
-					<br><h2>My Favourites</h2>
+					<br><h2>My Favorites</h2>
                     <div class="row">
                         {% load humanize %}
                         {% comment %} {% for object in object_list %}
@@ -45,7 +45,7 @@
                                             <span>{{property.rooms}} Room <span>|</span> {{property.bathrooms}} BA <span>|</span> {{property.sqft|intcomma}} SF</span>
                                         </div>
                                         
-                                        <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'students:removeFavourites' property.urlSlug %}" data-toggle="tooltip" title="Remove from favourites" onclick="return removefromfav('remove{{property.pk}}', this)"><span class="fa fa-times"></span></div>
+                                        <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'students:removeFavorites' property.urlSlug %}" data-toggle="tooltip" title="Remove from favorites" onclick="return removefromfav('remove{{property.pk}}', this)"><span class="fa fa-times"></span></div>
                                     </a>
                                 </div>
                             {% endfor %}
@@ -79,7 +79,7 @@
                                         <span>{{object.property.rooms}} Room <span>|</span> {{object.property.bathrooms}} BA <span>|</span> {{object.property.sqft|intcomma}} SF</span>
                                     </div>
                                     
-                                    <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'property:propertyReaction' object.property.urlSlug %}" data-toggle="tooltip" title="Remove from favourites" onclick="return removefromfav('remove{{object.property.pk}}', this)"><span class="fa fa-times"></span></div>
+                                    <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'property:propertyReaction' object.property.urlSlug %}" data-toggle="tooltip" title="Remove from favorites" onclick="return removefromfav('remove{{object.property.pk}}', this)"><span class="fa fa-times"></span></div>
                                 </a>
                             </div>
                         {% endfor %}
@@ -98,7 +98,7 @@
 		
 			function removefromfav(id, dis)
 			{
-				if(confirm("Are you sure to remove this property from favourites?") == true) {
+				if(confirm("Are you sure to remove this property from favorites?") == true) {
 					$("#"+id).hide(500);
                     var url = dis.getAttribute('removeurl');
                     var csrfmiddlewaretoken = dis.getAttribute('key');
@@ -114,7 +114,7 @@
                     }
                     });
 					setTimeout(function() {
-						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favourite deleted!</span> &nbsp; <br>");
+						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favorite deleted!</span> &nbsp; <br>");
 					}, 700);
 					setTimeout(function() {
 						$("#lastmsg").fadeOut(2000);

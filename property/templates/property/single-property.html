@@ -75,18 +75,18 @@
 											<span class="dislikescount">{{object.totalDislikes|intcomma}}</span>
 											<i class="fa fa-spinner fa-spin" style="display:none; color:grey;"></i>
 									</a>
-									{% comment %} <a href="#" id="favourite{{object.pk}}" class="pxp-sp-top-btn"  
-										onclick="return favouritesclick('{{object.pk}}', this)" 
-										{% if alreadyFavourite %}
-										favouriteurl="{% url 'students:removeFavourites' object.urlSlug %}"
+									{% comment %} <a href="#" id="favorite{{object.pk}}" class="pxp-sp-top-btn"  
+										onclick="return favoritesclick('{{object.pk}}', this)" 
+										{% if alreadyFavorite %}
+										favoriteurl="{% url 'students:removeFavorites' object.urlSlug %}"
 										{% else %}
-										favouriteurl="{% url 'students:addFavourites' object.urlSlug %}"
+										favoriteurl="{% url 'students:addFavorites' object.urlSlug %}"
 										{% endif %}
 										key="{{csrf_token}}"
 									>
-										<span id="favouritefaicon{{object.pk}}"
+										<span id="favoritefaicon{{object.pk}}"
 											class="fa 
-												{% if alreadyFavourite %}
+												{% if alreadyFavorite %}
 													fa-star
 												{% else %}
 													fa-star-o
@@ -868,12 +868,12 @@
 			});
 			
 		}
-		{% comment %} function favouritesclick(id, dis)
+		{% comment %} function favoritesclick(id, dis)
 		{
 			var disid = dis.getAttribute('id');
 			$("#" + disid + " > i").show();
 
-			var url = dis.getAttribute('favouriteurl');
+			var url = dis.getAttribute('favoriteurl');
 			var csrfmiddlewaretoken = dis.getAttribute('key');
 			$.ajax({
 			  url: url,
@@ -885,15 +885,15 @@
 				$("#" + disid + " > i").hide();
 				
 				if (res.added){
-					$("#" + disid + " > #favouritefaicon"+id).removeClass('fa-star-o');
-					$("#" + disid + " > #favouritefaicon"+id).addClass('fa-star');
-					$("#" + disid).attr('favouriteurl', "{% url 'students:removeFavourites' object.urlSlug %}");
+					$("#" + disid + " > #favoritefaicon"+id).removeClass('fa-star-o');
+					$("#" + disid + " > #favoritefaicon"+id).addClass('fa-star');
+					$("#" + disid).attr('favoriteurl', "{% url 'students:removeFavorites' object.urlSlug %}");
 					$("#" + disid).css({"border":"2px solid #ffb300", "background-color":"#ffc6c6;"});
 				}
 				if (res.removed){
-					$("#" + disid + " > #favouritefaicon"+id).removeClass('fa-star');
-					$("#" + disid + " > #favouritefaicon"+id).addClass('fa-star-o');
-					$("#" + disid).attr('favouriteurl', "{% url 'students:addFavourites' object.urlSlug %}");
+					$("#" + disid + " > #favoritefaicon"+id).removeClass('fa-star');
+					$("#" + disid + " > #favoritefaicon"+id).addClass('fa-star-o');
+					$("#" + disid).attr('favoriteurl', "{% url 'students:addFavorites' object.urlSlug %}");
 					$("#" + disid).css({"border":"none", "background-color":"#fff;"});
 				}
 			  },

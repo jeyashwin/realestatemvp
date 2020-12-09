@@ -5,9 +5,9 @@ from .views import *
 app_name = 'students'
 
 urlpatterns = [
-    path('favourites/', FavouriteListView.as_view(), name="favourites"),
-    # path('favourites/add/<slug:slug>/', AddFavourite, name="addFavourites"),
-    # path('favourites/remove/<slug:slug>/', RemoveFavourite, name="removeFavourites"),
+    path('favorites/', FavoriteListView.as_view(), name="favorites"),
+    # path('favorites/add/<slug:slug>/', AddFavorite, name="addFavorites"),
+    # path('favorites/remove/<slug:slug>/', RemoveFavorite, name="removeFavorites"),
 
     path('roommates/', RoommatesListView.as_view(), name="roommates"),
     path('roommates/mypost/', RoommatesMyPostListView.as_view(), name="roommatesMypost"),

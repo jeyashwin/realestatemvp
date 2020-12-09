@@ -1,11 +1,11 @@
 from django.contrib import admin
-# from .models import Favourite, RoommatePost, PostComment, CommentReply, Preference
-from .models import Favourite, RoommatePost, PostComment, CommentReply
+# from .models import Favorite, RoommatePost, PostComment, CommentReply, Preference
+from .models import RoommatePost, PostComment, CommentReply
 
 # Register your models here.
-@admin.register(Favourite)
-class FavouriteAdmin(admin.ModelAdmin):
-    list_display = ["id", "student"]
+# @admin.register(Favorite)
+# class FavoriteAdmin(admin.ModelAdmin):
+#     list_display = ["id", "student"]
 
 
 # @admin.register(Preference)

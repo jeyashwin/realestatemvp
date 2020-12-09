@@ -328,7 +328,7 @@ class PropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["alreadyLiked"] = self.object.likes.filter(user__user=self.request.user).exists()
         context["alreadyDisLiked"] = self.object.dislikes.filter(user__user=self.request.user).exists()
-        context["alreadyFavourite"] = self.object.favourite_set.filter(student__user__user=self.request.user).exists()
+        # context["alreadyFavorite"] = self.object.favorite_set.filter(student__user__user=self.request.user).exists()
         if self.request.user.usertype.is_student:
             context["form"] = RequestToRentPropertyForm()
             context["tourForm"] = RequestToTourPropertyForm()

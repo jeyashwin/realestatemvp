@@ -19,13 +19,13 @@ def roompost_image_file_path(instance, filename):
     return os.path.join('uploads/post/', filename)
 
 
-class Favourite(models.Model):
+# class Favorite(models.Model):
 
-    student = models.OneToOneField(UserStudent, related_name="favourites", on_delete=models.CASCADE)
-    properties = models.ManyToManyField(Property, blank=True)
+#     student = models.OneToOneField(UserStudent, related_name="favorites", on_delete=models.CASCADE)
+#     properties = models.ManyToManyField(Property, blank=True)
 
-    def __str__(self):
-        return "{}".format(self.pk)
+#     def __str__(self):
+#         return "{}".format(self.pk)
 
 
 # class Preference(models.Model):
