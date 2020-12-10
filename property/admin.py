@@ -45,7 +45,7 @@ class PropertyAdmin(OSMGeoAdmin):
         'placeId', 'location', 'averageDistance']}),
         ('Specfic Details', {'fields': ['sqft', 'occupants', 'rooms', 'bathrooms', 
                 'securityDeposit', 'amount', 'rentPerPerson', 'description']}),
-        ('Extra Information', {'fields': ['utilities', 'garage', 'parkingSpace', 'amenities']}),
+        ('Extra Information', {'fields': ['garage', 'parkingSpace', 'amenities']}),
         ('Availability Dates', {'fields': ['fromDate', 'toDate']}),
         ('Likes & Dislikes', {'fields': ['likes', 'totalLikes', 'dislikes', 'totalDislikes']}),
         ('Vacant', {'fields': ['isleased', 'leaseStart', 'leaseEnd']}),

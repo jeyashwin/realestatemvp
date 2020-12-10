@@ -95,14 +95,15 @@ class Property(geoModel.Model):
                             validators=[MinValueValidator(0, 'Minimum Price cannot be lower than 0')]
                         )
     description = models.TextField(help_text="Describe about your property", max_length=500)
-    utilities = models.BooleanField(default=False, help_text="Select if you have Utilities")
+    # utilities = models.BooleanField(default=False, help_text="Select if you have Utilities")
     garage = models.BooleanField(default=False, help_text="Select if you have Garage")
-    parkingSpace = models.IntegerField(blank=True, null=True, verbose_name="Parking Space", 
+    parkingSpace = models.IntegerField(verbose_name="Parking Space", 
                             help_text="Available Parking Space. Eg 1 or 2",
                             validators=[
                                 MinValueValidator(0, 'Minimum 0'),
                                 MaxValueValidator(20, 'Maximum 20')
-                            ]
+                            ],
+                            default=0
                         )
     amenities = models.ManyToManyField(Amenities, help_text="Select 1 or more Amenities.")
     fromDate = models.DateField(verbose_name="From Date", 

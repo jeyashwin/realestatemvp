@@ -77,6 +77,8 @@
 									</div>
 									{% elif field == form.studentProfilecaptcha %}
 									{{form.studentProfilecaptcha}}
+									{{form.studentProfilecaptcha.id_for_label|json_script:"recaptchaV3Id"}}
+									<script src="{% static 'js/recaptchaReset.js' %}"></script>
 									
 									{% elif field != form.profilePicture %}
 									<div class="col-sm-12 col-md-6" style="margin-bottom: 10px;">

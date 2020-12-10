@@ -42,6 +42,8 @@
 									{% endif %}
 								{% endfor %}
 								{{form.landlordProfilecaptcha}}
+								{{form.landlordProfilecaptcha.id_for_label|json_script:"recaptchaV3Id"}}
+								<script src="{% static 'js/recaptchaReset.js' %}"></script>
 								<span>
 									<input type="submit" value="Save" class="btn submitbtn" style="background-color:rgba(0, 0, 0, 0.8); color:#fff;">
 									<a class="btn btn-danger pull-right" onclick="return confirm('Are you sure to delete your account?');" href="{% url 'user:deleteProfile' user.username %}"><i class="fa fa-trash"></i> Delete my account</a>

@@ -65,23 +65,7 @@
 									<small class="errorview">{{form.description.errors}}</small>
                                 </div>
                             </div>
-
                             <div class="row mt-3 mt-md-4">
-                                <div class="col-sm-12 col-md-3">
-                                    <div class="form-group">
-										<label for="{{form.utilities.id_for_label}}" style="cursor:pointer;">
-											<h6>
-												{{form.utilities.label}}
-											</h6>
-										</label>
-											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.utilities.help_text|safe }}"></span>
-											{{form.utilities}}
-										{% if form.parkingSpace.errors %}
-											<small class="errorview">Parking Space: {{form.parkingSpace.errors}}</small>
-										{% endif %} 
-                                    </div>
-                                </div>
-								
 								<div class="col-sm-12 col-md-4 utilities-list">
                                     <div class="form-group">
 										<label for="{{form.garage.id_for_label}}" style="cursor:pointer;">
@@ -91,7 +75,6 @@
 										{{form.garage}}
                                     </div>
                                 </div>
-								
 								<div class="col-sm-12 col-md-4 utilities-list">
 									<div class="form-group">
 										<label for="{{form.parkingSpace.id_for_label}}">
@@ -102,7 +85,6 @@
 										<small class="errorview">{{form.parkingSpace.errors}}</small>
 									</div>
                                 </div>
-								
                             </div>
  
 							
@@ -403,6 +385,8 @@
 					<div class="form-group">
 						{{form.propertycaptcha}}
 						<small class="errorview">{{form.propertycaptcha.errors}}</small>
+						{{form.propertycaptcha.id_for_label|json_script:"recaptchaV3Id"}}
+						<script src="{% static 'js/recaptchaReset.js' %}"></script>
 					</div>
                     <div class="mt-4 mt-md-5">
                         <input type="submit" name="submit" 
@@ -502,7 +486,6 @@
 		<script>
 			onspload();
 			function onspload() {
-				$(".utilities-list").hide();
 				$("#property-deposit-input").hide();
 				
 				$("#{{form.securityDeposit.id_for_label}}").click(function() {
@@ -510,14 +493,6 @@
 						$("#property-deposit-input").show(300);
 					} else {
 						$("#property-deposit-input").hide(300);
-					}
-				});
-				
-				$("#{{form.utilities.id_for_label}}").click(function(){
-					if($("#{{form.utilities.id_for_label}}").prop("checked") == true){
-						$(".utilities-list").show(300);
-					} else {
-						$(".utilities-list").hide(300);
 					}
 				});
 			}
