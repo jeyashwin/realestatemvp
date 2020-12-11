@@ -35,7 +35,7 @@
 		<link href="{% static 'css/landing/MasterStyle.css' %}" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         {% comment %} <link rel="stylesheet" href="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.css" /> {% endcomment %}
-        <link rel="icon" type="image/x-icon" href="{% static 'assets/images/logo/sl_logo_mini_black.png' %}" />
+        <link rel="icon" type="image/x-icon" href="{% static '/assets/images/logo/Symbol.svg' %}" />
         {% comment %} <script data-search-pseudo-elements defer src="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script> {% endcomment %}
         {% comment %} <script src="../../cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script> {% endcomment %}
 
@@ -549,13 +549,16 @@
 						</div>
 						
 						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}" method="POST" enctype="multipart/form-data" >
+<style>
+	.reqred { color:red; }
+</style>
 							{% csrf_token %} 
 							{% comment %} {% bootstrap_form StudentSignupForm %} {% endcomment %}
 							<div id="step1div">	
 								<div class="row">
 									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.first_name.label_tag}}
+											{{StudentSignupForm.first_name.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.first_name}}
 											{% comment %} This will give unique id {% endcomment %}
 											<small id="studentForm-{{StudentSignupForm.first_name.id_for_label}}" class='error'></small>
@@ -565,7 +568,7 @@
 									</div>
 									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.last_name.label_tag}}
+											{{StudentSignupForm.last_name.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.last_name}}
 										</div>
 									</div>
@@ -573,13 +576,13 @@
 								<div class="row">
 									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.email.label_tag}}
+											{{StudentSignupForm.email.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.email}}
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.phone.label_tag}}
+											{{StudentSignupForm.phone.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.phone}}
 										</div>
 									</div>
@@ -601,26 +604,26 @@
 									<div class="row">
 										<div class="col-8">
 											<div class="form-group">
-												{{StudentSignupForm.university.label_tag}}
+												{{StudentSignupForm.university.label_tag}} <small class="reqred">*</small>
 												{{StudentSignupForm.university}}
 											</div>
 										</div>
 										<div class="col-4">	
 											<div class="form-group">
-												{{StudentSignupForm.classYear.label_tag}}
+												{{StudentSignupForm.classYear.label_tag}} <small class="reqred">*</small>
 												{{StudentSignupForm.classYear}}
 											</div>
 										</div>
 									</div>
 									
 									<div class="form-group">
-										{{StudentSignupForm.bio.label_tag}}
+										{{StudentSignupForm.bio.label_tag}} <small class="reqred">*</small>
 										{{StudentSignupForm.bio}}
 									</div>
 									
 									<div class="row form-group">
 										<div class="col-md-12">
-											<h6><b>Interests: </b></h6>
+											<h6><b>Interests: <small class="reqred">*</small></b></h6>
 											<div class="row">
 												<ul class="signup-interests-ul">
 													<li>{{StudentSignupForm.interest1}}</li>
@@ -661,7 +664,7 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
-											{{StudentSignupForm.username.label_tag}}
+											{{StudentSignupForm.username.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.username.help_text}}"></span>
 											{{StudentSignupForm.username}}
 										</div>
@@ -670,14 +673,14 @@
 								<div class="row">
 									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.password1.label_tag}}
+											{{StudentSignupForm.password1.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
 											{{StudentSignupForm.password1}}
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.password2.label_tag}}
+											{{StudentSignupForm.password2.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password2.help_text}}"></span> 
 											{{StudentSignupForm.password2}}
 										</div>
@@ -906,7 +909,7 @@
 							</div>
 
 							<div class="form-group">
-								<div class="col-md-12" id="signupcontinuebtn">
+								<div class="col-md-12" id="signupcontinuebtn" style="display:none;">
 									<span class="pxp-agent-contact-modal-btn" id="signup_continue_btn" onclick="continue_registration()" style="background-color:#003a8c; cursor:pointer; border:none; border-radius:30px;"> Continue &nbsp; <i class="fa fa-forward"></i></span>
 								</div>
 								<div class="row">
@@ -915,9 +918,9 @@
 											<span class="pxp-agent-contact-modal-btn" id="signup_previous_btn" onclick="prev_registration()" style="border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"><i class="fa fa-backward"></i> &nbsp; Previous</span>
 										</div>
 									</div>
-									<div class="col-md-6" id="signupsubmitbtn" style="display:none;">
+									<div class="col-md-12" id="signupsubmitbtn">
 										<div class="row">
-											<input class="pxp-agent-contact-modal-btn" id="signup_submit_btn" type="submit" name="submit" value="Sign Up" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver; outline:none;">
+											<input class="pxp-agent-contact-modal-btn" id="signup_submit_btn" type="submit" name="submit" value="Sign Up" style="border-radius:100px; background-color:#003a8c; border-left:1px solid silver; outline:none;">
 											{% comment %} <span class="pxp-agent-contact-modal-btn" id="signup_submit_btn" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver;">Sign Up</span> {% endcomment %}
 										</div>
 									</div>
@@ -959,7 +962,7 @@
 							<div class="row">
 								<div class="col-6">
 									<div class="form-group">
-										{{LandlordSignupForm.first_name.label_tag}}
+										{{LandlordSignupForm.first_name.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.first_name}}
 										{% comment %} This will give unique id {% endcomment %}
 										<small id="landlordForm-{{LandlordSignupForm.first_name.id_for_label}}" class='error'></small>
@@ -969,7 +972,7 @@
 								</div>
 								<div class="col-6">
 									<div class="form-group">
-										{{LandlordSignupForm.last_name.label_tag}}
+										{{LandlordSignupForm.last_name.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.last_name}}
 									</div>
 								</div>
@@ -977,13 +980,13 @@
 							<div class="row">
 								<div class="col-6">
 									<div class="form-group">
-										{{LandlordSignupForm.email.label_tag}}
+										{{LandlordSignupForm.email.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.email}}
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group">
-										{{LandlordSignupForm.phone.label_tag}}
+										{{LandlordSignupForm.phone.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.phone}}
 									</div>
 								</div>
@@ -1003,7 +1006,7 @@
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-										{{LandlordSignupForm.username.label_tag}}
+										{{LandlordSignupForm.username.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.username.help_text}}"></span> 
                                     	{{LandlordSignupForm.username}}
 									</div>
@@ -1012,14 +1015,14 @@
 							<div class="row">
 								<div class="col-6">
 									<div class="form-group">
-										{{LandlordSignupForm.password1.label_tag}}
+										{{LandlordSignupForm.password1.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password1.help_text|striptags}}"></span> 
                                     	{{LandlordSignupForm.password1}}
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group">
-										{{LandlordSignupForm.password2.label_tag}}
+										{{LandlordSignupForm.password2.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
                                     	{{LandlordSignupForm.password2}}
 									</div>
