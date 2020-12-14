@@ -9,6 +9,8 @@
 		<style>
 			{% comment %} * { font-family: Century Gothic; } {% endcomment %}
 			
+			#layoutDefault_footer { display:none !important; }
+
 			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 			
 			.list-inline-item > a { font-size:12px !important; }
@@ -233,7 +235,7 @@
 				  <div class="tab-content">
 					<div id="home" class="home-div">
 						
-						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:600px;">
+						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
 							<br>
 							<center>
 								{% if user.is_authenticated%}
@@ -276,7 +278,8 @@
 								{% endcomment %}
 							</div>
 						</div>
-						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:600px; overflow-y:scroll; overflow-x:none;">
+						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
+
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
 							<!-- Tab content -->
@@ -411,7 +414,7 @@
 							</div>
 							<br>
 							{% comment %} {% endif %} {% endcomment %}
-							<div style="min-height:519px;">
+							<div style="min-height:615px;">
 								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
 								<h3><b>All Posts</b></h3>
 								{% comment %} 								
@@ -469,18 +472,21 @@
 														&nbsp;
 														{% for interest in object.student.interests.all %}
 														<span class="btn btn-default btn-xs" style="display:none; color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
-														{% endfor %}
+		<style>
+	.chatnowbtn:hover { background-color:rgba(15, 73, 140, 0.1); }
+</style>												{% endfor %}
+
 														{% if user != object.student.user.user %}
 															{% load extraTags %}
 															{% get_friend_status object.student as friendStatus %}
 																{% if friendStatus.status == "Friends" %}
-																	<a href="{% url 'chat:room' friendStatus.url %}"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /></a>
+																	
+<a href="{% url 'chat:room' friendStatus.url %}" class="chatnowbtn" style="border:1px solid #0f498c; border-radius:10px; padding:7px; text-decoration:none; color:grey; font-weight:bold;"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /> Chat now</a>
 																{% elif friendStatus.status == "FriendRequestSent" %}
 																	<a><img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/pending-2820831-2340793.png" style="width:25px; height:25px;" /></a>
 																{% else %}
-																	<a href="{% url 'chat:message_request_update' object.student.user.user 'roommates' %}">
-																		<img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" />
-																	</a>
+											
+<a href="{% url 'chat:message_request_update' object.student.user.user 'roommates' %}" class="chatnowbtn" style="border:1px solid #0f498c; border-radius:10px; padding:7px; text-decoration:none; color:grey; font-weight:bold;"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" /> Request Chat</a>
 																{% endif %}
 														{% endif %}
 														<span class="pull-right" style="margin-top:-10px;">
@@ -781,13 +787,13 @@
 							</div>
 						</div>
 						
-						<div class="col-md-6" style="max-height:600px; overflow-y:scroll;">
+						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							
 								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>
 							
-								<div class="panel-body" style="min-height:500px;">
+								<div class="panel-body" style="min-height:630px;">
 									<div class="row panelrow" style="color:#565555">
 										<div class="col-md-1 imgcol" style="text-align:center;">
 											<img src="#" class="pull-right" style="width:40px; height:40px; border-radius:100px; border:3px solid grey;" />
@@ -852,7 +858,6 @@
 										
 										<div class="col-md-12" style="padding-top:10px;">
 											<hr>
-											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
 											
 											<br>
 											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#044C7E;">Submit</span>
@@ -861,6 +866,8 @@
 											<input type="hidden" id="thisusername" value="{{user}}" />
 											<div class="col-md-12" id="prevcomments" ><span style="color:silver; text-align:center;">No comments yet</span></div>
 										
+
+<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
 										</div>
 										
 									</div>
@@ -1044,14 +1051,14 @@ function tConvert (timeString) {
 										if(res.student.friendStatus.status == 'Friends') {
 											
 											var url = "/chat/room/"+res.student.friendStatus.url+"/";
-											var chat_req_icon = '<a href="'+url+'"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /></a>';
+											var chat_req_icon = '<a href="'+url+'" style="color:grey;"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /> Chat now</a>';
 											
 											$(".req_open_chat").html(chat_req_icon);
 											
 										} else if(res.student.friendStatus.status == 'NotFriends') {
 											
 											var url = "/chat/message_request/"+res.student.username+"/roommates/";
-											var chat_req_icon = '<a href="'+url+'"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" /></a>';
+											var chat_req_icon = '<a href="'+url+'" style="color:grey;"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" />Request Chat</a>';
 											
 											$(".req_open_chat").html(chat_req_icon);
 											
@@ -1602,6 +1609,130 @@ function tConvert (timeString) {
 			  </div>
 			</div>
 		
+
+<button id="habitsmodalbtn" type="button" data-toggle="modal" data-target="#habitsmodal" style="display:none;"></button>
+
+   <!-- Modal -->
+   <div id="habitsmodal" class="modal fade" role="dialog">
+     <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="min-width:576px; background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+     <center><h4><b>Living Habits</b></h4></center>
+     <button type="button" class="close" data-dismiss="modal" style="color:red;">&times;</button>
+      </div>
+      <div class="modal-body">
+     <form method="POST" action="#">
+     <style>
+      .lhrows { margin-top:15px; }
+      .form-control { border-radius:50px !important; background-color:rgba(255, 255, 255, 0.2); }
+     </style>
+      <div class="col-md-12">
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b><br>Sleep Schedule</b></p>
+        </div>
+        <div class="col-md-4">
+         <small>From</small>
+         <input type="time" name="sleepschedulefrom" class="form-control" />
+        </div>
+        <div class="col-md-4">
+         <small>To</small>
+         <input type="time" name="sleepscheduleto" class="form-control" />
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b><br>Study Hours</b></p> 
+        </div>
+        <div class="col-md-4">
+         <small>From</small>
+         <input type="time" name="studyhoursfrom" class="form-control" />
+        </div>
+        <div class="col-md-4">
+         <small>To</small>
+         <input type="time" name="studyhoursto" class="form-control" />
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Tobacco Usage</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="tobaccousage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Alcohol Usage</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="alcoholusage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Cleanliness</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="cleanliness" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Guests</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="guests" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      </div>
+      
+      <div class="row lhrows">
+       <div class="col-md-12">
+        <br><br>
+        <center>
+         <input type="submit" name="submit" value="Submit" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"/>
+        </center>
+        <br>
+       </div>
+      </div>
+     </form>
+      </div>
+    </div>
+
+     </div>
+   </div>
+  
+  <script>
+   function openhabitsmodal()
+   {
+    document.getElementById('habitsmodalbtn').click();
+   }
+   openhabitsmodal();
+  </script>
+
+
 		<script src="{% static '/js/common.js' %}"></script>
 <!-- suneditor -->
 <script src="{% static '/plugins/wysiwyg/dist/suneditor.min.js' %}"></script>

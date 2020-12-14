@@ -686,6 +686,14 @@
 										</div>
 									</div>
 								</div>
+								
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+		                            						{{LandlordSignupForm.landlordcaptcha}}
+										</div>
+									</div>
+								</div>
 							</div>
 
 							<br>
@@ -777,12 +785,16 @@
 												<p class="step2label"><b>Sleep Schedule</b></p>
 											</div>
 											<div class="col-md-4">
+												{% comment %}
 												<small>From</small>
 												{{StudentSignupForm.ssFrom}}
+												{% endcomment %}
 											</div>
 											<div class="col-md-4">
+												{% comment %}
 												<small>To</small>
 												{{StudentSignupForm.ssTo}}
+												{% endcomment %}
 											</div>
 										</div>
 										<!--label class="switch pull-right" id="switch1" onclick="switchclick(this, 1)">
@@ -799,12 +811,16 @@
 												<p class="step2label"><b>Study Hours</b></p> 
 											</div>
 											<div class="col-md-4">
+												{% comment %}
 												<small>From</small>
 												{{StudentSignupForm.shFrom}}
+												{% endcomment %}
 											</div>
 											<div class="col-md-4">
+												{% comment %}
 												<small>To</small>
 												{{StudentSignupForm.shTo}}
+												{% endcomment %}
 											</div>
 										</div>
 										<!--label class="switch pull-right" id="switch2" onclick="switchclick(this, 2)">
@@ -821,7 +837,9 @@
 												<p class="step2label"><b>Tobacco Usage</b></p>
 											</div>
 											<div class="col-md-8">
+												{% comment %}
 												{{StudentSignupForm.tbUsage}}
+												{% endcomment %}
 												<!--label class="switch pull-right" id="switch3" onclick="switchclick(this, 3)">
 												  <input type="checkbox">
 												  <span class="slider round"></span>
@@ -836,7 +854,9 @@
 												<p class="step2label"><b>Alcohol Usage</b></p>
 											</div>
 											<div class="col-md-8">
+												{% comment %}
 												{{StudentSignupForm.alUsage}}
+												{% endcomment %}
 												<!--label class="switch pull-right" id="switch3" onclick="switchclick(this, 3)">
 												  <input type="checkbox">
 												  <span class="slider round"></span>
@@ -853,7 +873,9 @@
 												<p class="step2label"><b>Cleanliness</b></p>
 											</div>
 											<div class="col-md-8">
+												{% comment %}
 												{{StudentSignupForm.cleanliness}}
+												{% endcomment %}
 												<!--label class="switch pull-right" id="switch4" onclick="switchclick(this, 4)">
 												  <input type="checkbox">
 												  <span class="slider round"></span>
@@ -870,7 +892,9 @@
 												<p class="step2label"><b>Guests</b></p>
 											</div>
 											<div class="col-md-8">
+												{% comment %}
 												{{StudentSignupForm.guests}}
+												{% endcomment %}
 												<!--label class="switch pull-right" id="switch5" onclick="switchclick(this, 5)">
 												  <input type="checkbox">
 												  <span class="slider round"></span>
@@ -1031,7 +1055,9 @@
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
+{% comment %}
                                     	{{LandlordSignupForm.landlordcaptcha}}
+{% endcomment %}
 									</div>
 								</div>
 							</div>
