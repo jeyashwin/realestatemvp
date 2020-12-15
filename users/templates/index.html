@@ -31,15 +31,21 @@
     
     @media only screen and (max-width: 600px) {
         
-        .img-fluidd-1, .img-fluidd-2, .img-fluidd-3, .img-fluidd-5, .img-fluidd-6 {
+	        
+	.img-fluidd-1, .img-fluidd-2, .img-fluidd-3, .img-fluidd-5, .img-fluidd-6 {
         width:120% !important;
         margin-left:-15% !important;
         }
+	.img-fluidd-2 {
+	width:125% !important;
+        margin-left:-22% !important;
+	}
         .img-fluidd-4 {
-        width:135% !important;
+        width:123% !important;
         margin-left:-18% !important;
         }
         
+
         .section-content-1 {
         margin-top:-20%	 !important;
         }
@@ -60,14 +66,15 @@
         .sect_title { font-size:30px !important;  color: #323f52;}
         .sect_content { font-size:22px !important; }			
 
+	#firstcontainerdiv { margin-top:100px; }
     }
 </style>
 {% comment %} {% if user.is_authenticated %}
     <meta http-equiv="REFRESH" content="0;url={% url 'property:propertyList' %}">
 {% endif %} {% endcomment %}
-<header class="page-header page-header-dark" style="background-color:#fff;">
+<header class="page-header page-header-dark" id="page-header-page-header-dark-id" style="background-color:#fff;">
     <div class="page-header-content">
-        <div class="container-fluid">
+        <div class="container-fluid" id="firstcontainerdiv">
             <div class="row justify-content-center">
                 <div class="col-lg-6 mb-5 section-content section-content-1" style="color:black;">
                     
@@ -143,7 +150,7 @@
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-6 mb-5">
-                <img class="img-fluidd img-fluidd-2" src="{% static 'assets/images/roommate.svg' %}" style="border-radius:10px; width:90%;"/>
+                <img class="img-fluidd img-fluidd-2" src="{% static 'assets/images/roommate.svg' %}" style="margin-left:-100px; margin-top:-100px; border-radius:10px; width:140%;"/>
             </div>
             <!--div class="col-lg-0 mb-5 section-content" style="text-align:right;">
                 <center><b>We handle finding Roommates</b></center>

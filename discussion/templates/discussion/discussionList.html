@@ -9,6 +9,8 @@
 		<style>
 			{% comment %} * { font-family: Century Gothic; } {% endcomment %}
 			
+			#layoutDefault_footer { display:none !important; }
+
 			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 			
 			.list-inline-item > a { font-size:12px !important; }
@@ -233,7 +235,7 @@
 				  <div class="tab-content">
 					<div id="home" class="home-div">
 						
-						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:600px;">
+						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
 							<br>
 							<center>
 								{% if user.is_authenticated%}
@@ -272,7 +274,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:600px; overflow-y:scroll; overflow-x:none;">
+						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
 							<!-- Tab content -->
@@ -758,13 +760,13 @@
 							</div>
 						</div>
 						
-						<div class="col-md-6" style="max-height:600px; overflow-y:scroll;">
+						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							
-								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>
+								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>	
 							
-								<div class="panel-body" style="min-height:500px;">
+								<div class="panel-body" style="min-height:615px;">
 									<div class="row panelrow" style="color:#565555">
 										<div class="col-md-1 imgcol" style="text-align:center;">
 											<img src="#" class="pull-right" style="width:40px; height:40px; border-radius:100px; border:3px solid grey;" />
@@ -829,15 +831,15 @@
 										
 										<div class="col-md-12" style="padding-top:10px;">
 											<hr>
-											<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
 											
 											<br>
 											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#044C7E;">Submit</span>
 											
 											<h4>Comments</h4><hr>
+
 											<input type="hidden" id="thisusername" value="{{user}}" />
 											<div class="col-md-12" id="prevcomments" ><span style="color:silver; text-align:center;">No comments yet</span></div>
-										
+										<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
 										</div>
 										
 									</div>

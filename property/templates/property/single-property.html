@@ -414,7 +414,7 @@
 													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
 												</div>
 											{% elif nearby.nearByType == 'Target' %}
-												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/targeticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/targeticon.png" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
 												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
 													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
 												</div>
@@ -1080,7 +1080,7 @@
 				{% elif nearby.nearByType == 'Costco' %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/costcoicon.jpg" %}' },
 				{% elif nearby.nearByType == 'Target' %}
-					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/targeticon.jpg" %}' },
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/targeticon.png" %}' },
 				{% else %}
 					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/nullicon.jpg" %}' },
 				{% endif %}

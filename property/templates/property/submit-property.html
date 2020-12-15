@@ -6,6 +6,9 @@
 		body { background:none !important; }
 		.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 		.errorview { color:maroon; font-style:italic; font-size:12px; font-family:consolas; }
+		.reqred { color:red; }
+		#property-image-div-id_propertyimage_set-0-imagePath > .reqred, #property-image-div-id_propertyimage_set-1-imagePath > .reqred, #property-image-div-id_propertyimage_set-2-imagePath > .reqred, #property-image-div-id_propertyimage_set-3-imagePath > .reqred { display:inline !important; }
+		#property-video-div-id_propertyvideo_set-0-videoPath > .reqred { display:inline !important; }
 	</style>
 
         <div class="pxp-content">
@@ -30,7 +33,7 @@
 							<h3>Basic Information</h3>
                                 {% comment %} <div class="form-group">
 									<div class="help-container">
-										{{form.title.label_tag}}
+										{{form.title.label_tag}} <small class="reqred" style="">*</small>
 										<span class="fa fa-info-circle help"></span>
 										<small class="helptext">{{ form.title.help_text|safe }}</small>
 									</div>
@@ -39,16 +42,41 @@
                                 </div> {% endcomment %}
 								<div class="form-group">
 									<div class="help-container">
-										{{form.address.label_tag}}
+										{{form.address.label_tag}} <small class="reqred">&nbsp;*</small>
 										<span class="fa fa-info-circle help"></span>
 										<small class="helptext">{{ form.address.help_text|safe }}</small>
 									</div>
 									{{form.address}}
 									<small class="errorview">{{form.address.errors}}</small>
 								</div>
+							<div class="row">
+							    <div class="col-md-6">
+								<div class="form-group">
+										<small class="errorview"></small>
+										<div class="help-container">
+											{{form.city.label_tag}} <small class="reqred">&nbsp;*</small>
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.city.help_text|safe }}</small>
+										</div>
+										{{form.city}}
+										<small class="errorview">{{form.city.errors}}</small>
+                                    				</div>
+							    </div>
+							    <div class="col-md-6">
+									<div class="form-group">
+										<div class="help-container">
+											{{form.zipcode.label_tag}} <small class="reqred">&nbsp;*</small>
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.zipcode.help_text|safe }}</small>
+										</div>
+										{{form.zipcode}}
+										<small class="errorview">{{form.zipcode.errors}}</small>
+                                    				</div>
+							    </div>
+							</div>
 								<div class="form-group">
 									<div class="help-container">
-										<label for="pxp-submit-property-phone">Phone number</label>
+										<label for="pxp-submit-property-phone">Phone number <small class="reqred">*</small></label>
 										<span class="fa fa-info-circle help"></span>
 										<small class="helptext">Your default Phone Number</small>
 									</div>
@@ -57,7 +85,7 @@
                                 </div>
                                 <div class="form-group">
 									<div class="help-container">
-										{{form.description.label_tag}}
+										{{form.description.label_tag}} <small class="reqred">&nbsp;*</small>
 										<span class="fa fa-info-circle help"></span>
 										<small class="helptext">{{ form.description.help_text|safe }}</small>
 									</div>
@@ -179,9 +207,9 @@
 													https://via.placeholder.com/150
 												 {% endif %}"
 											id="property-image-preview-{{form.imagePath.id_for_label}}"
-											style="border-radius: 2px; width: 150px; height: 150px"
+											style="border-radius: 30px; width: 150px; height: 150px"
 											onclick="chooseimgclick('{{form.imagePath.id_for_label}}')"
-										/>
+										/> <small class="reqred" style="display:none;">*</small>
 										<p style="display:none;">
 										{{form.imagePath}}
 										</p>
@@ -216,9 +244,10 @@
 									<span id="property-video-div-{{form.videoPath.id_for_label}}">
 										<img src="https://via.placeholder.com/300x200"
 											id="property-video-preview-{{form.videoPath.id_for_label}}"
-											style="border-radius: 5px; width: 300px; height: 200px"
+											style="border-radius: 50px; width: 300px; height: 200px"
 											onclick="choosevidclick('{{form.videoPath.id_for_label}}')"
 										/>
+										<small class="reqred" style="display:none;">*</small>											
 										<p style="display:none;">
 										{{form.videoPath}}
 										</p>
@@ -240,7 +269,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
 										<div class="help-container">
-											{{form.fromDate.label_tag}}
+											{{form.fromDate.label_tag}} <small class="reqred">&nbsp;*</small>
 											<span class="fa fa-info-circle help"></span>
 											<small class="helptext">{{ form.fromDate.help_text|safe }}</small>
 										</div>
@@ -251,7 +280,7 @@
                                 <div class="col-sm-12 col-md-6">
                                     <div class="form-group">
 										<div class="help-container">
-											{{form.toDate.label_tag}}
+											{{form.toDate.label_tag}} <small class="reqred">&nbsp;*</small>
 											<span class="fa fa-info-circle help"></span>
 											<small class="helptext">{{ form.toDate.help_text|safe }}</small>
 										</div>
@@ -272,7 +301,7 @@
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
 											<div class="help-container">
-												{{form.rentPerPerson.label_tag}}
+												{{form.rentPerPerson.label_tag}} <small class="reqred">&nbsp;*</small>
 												<span class="fa fa-info-circle help"></span>
 												<small class="helptext">{{ form.rentPerPerson.help_text|safe }}</small>
 											</div>
@@ -303,7 +332,7 @@
 									<div class="col-sm-12 col-md-12">
                                         <div class="form-group">
 											<div class="help-container">
-												{{form.occupants.label_tag}}
+												{{form.occupants.label_tag}} <small class="reqred">&nbsp;*</small>
 												<span class="fa fa-info-circle help"></span>
 												<small class="helptext">{{ form.occupants.help_text|safe }}</small>
 											</div>
@@ -314,7 +343,7 @@
 									<div class="col-sm-12 col-md-12">
                                         <div class="form-group">
 											<div class="help-container">
-												{{form.sqft.label_tag}}
+												{{form.sqft.label_tag}} <small class="reqred">&nbsp;*</small>
 												<span class="fa fa-info-circle help"></span>
 												<small class="helptext">{{ form.sqft.help_text|safe }}</small>
 											</div>
@@ -326,7 +355,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 col-md-6">
                                         <div class="form-group">
-											{{form.rooms.label_tag}}
+											{{form.rooms.label_tag}} <small class="reqred">&nbsp;*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.rooms.help_text|safe }}"></span>
 											{{form.rooms}}
 											<small class="errorview">{{form.rooms.errors}}</small>
@@ -334,7 +363,7 @@
                                     </div>
                                     <div class="col-sm-12 col-md-6">
                                         <div class="form-group">
-											{{form.bathrooms.label_tag}}
+											{{form.bathrooms.label_tag}} <small class="reqred">&nbsp;*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" data-placement="top" title="{{ form.bathrooms.help_text|safe }}"></span>
 											{{form.bathrooms}}
 											<small class="errorview">{{form.bathrooms.errors}}</small>
@@ -343,29 +372,11 @@
                                 </div>
                             </div>
 							
-                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-3">						
+                            <!--div class="pxp-submit-property-side rounded-lg mt-4 mt-md-3">						
                                 <h3>Location</h3>
                                 <div class="mt-4">                                    
 									
-									<div class="form-group">
-										<small class="errorview"></small>
-										<div class="help-container">
-											{{form.city.label_tag}}
-											<span class="fa fa-info-circle help"></span>
-											<small class="helptext">{{ form.city.help_text|safe }}</small>
-										</div>
-										{{form.city}}
-										<small class="errorview">{{form.city.errors}}</small>
-                                    </div>
-									<div class="form-group">
-										<div class="help-container">
-											{{form.zipcode.label_tag}}
-											<span class="fa fa-info-circle help"></span>
-											<small class="helptext">{{ form.zipcode.help_text|safe }}</small>
-										</div>
-										{{form.zipcode}}
-										<small class="errorview">{{form.zipcode.errors}}</small>
-                                    </div>
+									
 									{% comment %} <div class="form-group">
 										<div class="help-container">
 											{{form.address.label_tag}}
@@ -377,9 +388,9 @@
                                     </div> {% endcomment %}
 									
 									
-                                    <!--div id="pxp-submit-property-map"></div-->
+                                    <div id="pxp-submit-property-map"></div>
                                 </div>
-                            </div> 
+                            </div--> 
                         </div>
                     </div>
 					<div class="form-group">
