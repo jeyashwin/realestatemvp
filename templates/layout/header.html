@@ -126,7 +126,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-2">
                         <a class="text-white" href="/">
-							<img src="{% static 'assets/images/logo/sl_logo_white.svg' %}" style="color:#fff; width:80%; height:auto;"/>
+							<img src="{% static 'assets/images/logo/sl_logo_white.svg' %}" id="header_sl_logo" style="color:#fff; height:auto;"/>
 						</a>
 						{% comment %} <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button> {% endcomment %}
                     </div>
@@ -590,9 +590,10 @@
 								<div class="form-group">
 									{{StudentSignupForm.profilePicture.label_tag}}
 									<div class="row">
-										<div class="col-md-10">
+										<div class="col-md-10" id="studentpicdiv">
 											<center id="stdsignupprofilepicsel" onclick="studentsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
 											{{StudentSignupForm.profilePicture}}
+											<small class="picerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 										</div>
 										<div class="col-md-2">
 											<img src="{% static '/images/user-default.png' %}" id="reg_stu_img_preview" style="border-radius:50px; border:2px solid #003a8c; width:50px; height:50px; margin-top:-7px;" />
@@ -663,7 +664,7 @@
 								</div>
 								<div class="row">
 									<div class="col-12">
-										<div class="form-group">
+										<div class="form-group" id="studentuname1div">
 											{{StudentSignupForm.username.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.username.help_text}}"></span>
 											{{StudentSignupForm.username}}
@@ -672,17 +673,20 @@
 								</div>						
 								<div class="row">
 									<div class="col-6">
-										<div class="form-group">
+										<div class="form-group" id="studentpass1div">
 											{{StudentSignupForm.password1.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
 											{{StudentSignupForm.password1}}
+											<small class="passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+
 										</div>
 									</div>
 									<div class="col-6">
-										<div class="form-group">
+										<div class="form-group" id="studentpass2div">
 											{{StudentSignupForm.password2.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password2.help_text}}"></span> 
 											{{StudentSignupForm.password2}}
+											<small class="cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 										</div>
 									</div>
 								</div>
@@ -985,7 +989,7 @@
 							{% comment %} {% bootstrap_form LandlordSignupForm %} {% endcomment %}
 							<div class="row">
 								<div class="col-6">
-									<div class="form-group">
+									<div class="form-group" id="ll_fname">
 										{{LandlordSignupForm.first_name.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.first_name}}
 										{% comment %} This will give unique id {% endcomment %}
@@ -995,7 +999,7 @@
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="form-group">
+									<div class="form-group" id="ll_lname">
 										{{LandlordSignupForm.last_name.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.last_name}}
 									</div>
@@ -1003,13 +1007,13 @@
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<div class="form-group">
+									<div class="form-group" id="ll_email">
 										{{LandlordSignupForm.email.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.email}}
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="form-group">
+									<div class="form-group" id="ll_phone">
 										{{LandlordSignupForm.phone.label_tag}} <small class="reqred">*</small>
                                     	{{LandlordSignupForm.phone}}
 									</div>
@@ -1029,7 +1033,7 @@
 							</div>
 							<div class="row">
 								<div class="col-12">
-									<div class="form-group">
+									<div class="form-group" id="ll_uname">
 										{{LandlordSignupForm.username.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.username.help_text}}"></span> 
                                     	{{LandlordSignupForm.username}}
@@ -1038,17 +1042,19 @@
 							</div>						
 							<div class="row">
 								<div class="col-6">
-									<div class="form-group">
+									<div class="form-group" id="ll_pass1">
 										{{LandlordSignupForm.password1.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password1.help_text|striptags}}"></span> 
                                     	{{LandlordSignupForm.password1}}
+					<small class="ll_passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="form-group">
+									<div class="form-group" id="ll_pass2">
 										{{LandlordSignupForm.password2.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
                                     	{{LandlordSignupForm.password2}}
+					<small class="ll_cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 									</div>
 								</div>
 							</div>
@@ -1147,4 +1153,184 @@
 			$('.select2').select2({ width: '100%' });
 			$("#tobaccousage").css("border-radius","30px !important");
 		</script>
+
+		<script>
+			function removereqpic()
+			{
+				$("#studentpicdiv > input").prop('required',false);
+				$("#id_lanprofilePicture").prop('required',false);
+
+			}
+			removereqpic();
+
+			$("#id_password1").keyup(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 var fname = $("#id_first_name").val();
+			 var lname = $("#id_last_name").val();
+			 var email = $("#id_email").val();
+			 var phone = $("#id_phone").val();
+			 var uname = $("#studentuname1div > input").val();
+			 
+			 var re = new RegExp(pass, 'g');
+
+			 if(pass.length < 8) {
+			  $(".passerror").html('Minimum 8 characters');
+			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+			  $(".passerror").html('Must be unique');
+			 } else {
+			  $(".passerror").html('');
+			 }
+			});
+			
+			$("#id_password1").blur(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 var fname = $("#id_first_name").val();
+			 var lname = $("#id_last_name").val();
+			 var email = $("#id_email").val();
+			 var phone = $("#id_phone").val();
+			 var uname = $("#studentuname1div > input").val();
+			 
+			 var re = new RegExp(pass, 'g');
+
+			 if(pass.length < 8) {
+			  $(".passerror").html('Minimum 8 characters');
+			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+			  $(".passerror").html('Must be unique');
+			 } else {
+			  $(".passerror").html('');
+			 }
+			});
+			
+			$("#id_password2").keyup(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 if(pass !== cpass) {
+			  $(".cpasserror").html('Not matching');
+			 } else {
+			  $(".cpasserror").html('');
+			 }
+			});
+			
+			$("#student_signup_form2").submit(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 var fname = $("#id_first_name").val();
+			 var lname = $("#id_last_name").val();
+			 var email = $("#id_email").val();
+			 var phone = $("#id_phone").val();
+			 var uname = $("#studentuname1div > input").val();
+			 			 
+
+			 var re = new RegExp(pass, 'g');
+			 
+			 if(pass.length < 8) {
+			  $(".passerror").html('Minimum 8 characters');
+			  return false;
+			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+			  $(".passerror").html('Must be unique');
+			  return false;
+			 } else if(pass !== cpass) {
+			  $(".cpasserror").html('Not matching!');
+			  return false;
+			 } else {
+			  $(".passerror").html('');
+			  return true;
+			 }
+			});
+			
+		       </script>
+
+			<script>
+				
+				$("#ll_pass1 > input").keyup(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 var fname = $("#ll_fname > input").val();
+				 var lname = $("#ll_lname > input").val();
+				 var email = $("#ll_email > input").val();
+				 var phone = $("#ll_phone > input").val();
+				 var uname = $("#ll_uname > input").val();
+				 
+				 var re = new RegExp(pass, 'g');
+
+				 if(pass.length < 8) {
+				  $(".ll_passerror").html('Minimum 8 characters');
+				 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+				  $(".ll_passerror").html('Must be unique');
+				 } else {
+				  $(".ll_passerror").html('');
+				 }
+				});
+				
+				$("#ll_pass1 > input").blur(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 var fname = $("#ll_fname > input").val();
+				 var lname = $("#ll_lname > input").val();
+				 var email = $("#ll_email > input").val();
+				 var phone = $("#ll_phone > input").val();
+				 var uname = $("#ll_uname > input").val();
+				 
+				 var re = new RegExp(pass, 'g');
+
+				 if(pass.length < 8) {
+				  $(".ll_passerror").html('Minimum 8 characters');
+				 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+				  $(".ll_passerror").html('Must be unique');
+				 } else {
+				  $(".ll_passerror").html('');
+				 }
+				});
+				
+				$("#ll_pass2 > input").keyup(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 if(pass !== cpass) {
+				  $(".ll_cpasserror").html('Not matching');
+				 } else {
+				  $(".ll_cpasserror").html('');
+				 }
+				});
+				
+				
+				$("#landlord_signup_form2").submit(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 var fname = $("#ll_fname > input").val();
+				 var lname = $("#ll_lname > input").val();
+				 var email = $("#ll_email > input").val();
+				 var phone = $("#ll_phone > input").val();
+				 var uname = $("#ll_uname > input").val();
+				 
+				 var re = new RegExp(pass, 'g');
+				 
+				 if(pass.length < 8) {
+				  $(".ll_passerror").html('Minimum 8 characters');
+				  return false;
+				 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+				  $(".ll_passerror").html('Must be unique');
+				  return false;
+				 } else if(pass !== cpass) {
+				  $(".ll_cpasserror").html('Not matching!');
+				  return false;
+				 } else {
+				  $(".ll_passerror").html('');
+				  return true;
+				 }
+				});
+				
+
+			</script>
+
+
 {% endif %}

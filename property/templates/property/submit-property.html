@@ -49,6 +49,31 @@
 									{{form.address}}
 									<small class="errorview">{{form.address.errors}}</small>
 								</div>
+							<div class="row">
+							    <div class="col-md-6">
+								<div class="form-group">
+										<small class="errorview"></small>
+										<div class="help-container">
+											{{form.city.label_tag}} <small class="reqred">&nbsp;*</small>
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.city.help_text|safe }}</small>
+										</div>
+										{{form.city}}
+										<small class="errorview">{{form.city.errors}}</small>
+                                    				</div>
+							    </div>
+							    <div class="col-md-6">
+									<div class="form-group">
+										<div class="help-container">
+											{{form.zipcode.label_tag}} <small class="reqred">&nbsp;*</small>
+											<span class="fa fa-info-circle help"></span>
+											<small class="helptext">{{ form.zipcode.help_text|safe }}</small>
+										</div>
+										{{form.zipcode}}
+										<small class="errorview">{{form.zipcode.errors}}</small>
+                                    				</div>
+							    </div>
+							</div>
 								<div class="form-group">
 									<div class="help-container">
 										<label for="pxp-submit-property-phone">Phone number <small class="reqred">*</small></label>
@@ -347,29 +372,11 @@
                                 </div>
                             </div>
 							
-                            <div class="pxp-submit-property-side rounded-lg mt-4 mt-md-3">						
+                            <!--div class="pxp-submit-property-side rounded-lg mt-4 mt-md-3">						
                                 <h3>Location</h3>
                                 <div class="mt-4">                                    
 									
-									<div class="form-group">
-										<small class="errorview"></small>
-										<div class="help-container">
-											{{form.city.label_tag}} <small class="reqred">&nbsp;*</small>
-											<span class="fa fa-info-circle help"></span>
-											<small class="helptext">{{ form.city.help_text|safe }}</small>
-										</div>
-										{{form.city}}
-										<small class="errorview">{{form.city.errors}}</small>
-                                    </div>
-									<div class="form-group">
-										<div class="help-container">
-											{{form.zipcode.label_tag}} <small class="reqred">&nbsp;*</small>
-											<span class="fa fa-info-circle help"></span>
-											<small class="helptext">{{ form.zipcode.help_text|safe }}</small>
-										</div>
-										{{form.zipcode}}
-										<small class="errorview">{{form.zipcode.errors}}</small>
-                                    </div>
+									
 									{% comment %} <div class="form-group">
 										<div class="help-container">
 											{{form.address.label_tag}}
@@ -381,9 +388,9 @@
                                     </div> {% endcomment %}
 									
 									
-                                    <!--div id="pxp-submit-property-map"></div-->
+                                    <div id="pxp-submit-property-map"></div>
                                 </div>
-                            </div> 
+                            </div--> 
                         </div>
                     </div>
 					<div class="form-group">
