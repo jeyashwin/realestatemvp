@@ -1,6 +1,6 @@
 var timerID = setInterval(function() {
     recaptchaReset();
-}, 2.1 * 60000);
+}, 1 * 60000);
 
 function recaptchaReset(){
     var recaptchaV3Id = JSON.parse(document.getElementById('recaptchaV3Id').textContent);
