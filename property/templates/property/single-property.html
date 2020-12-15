@@ -262,14 +262,14 @@
                                         <div class="pxp-sp-kd-item-value">{{object.address}}, {{object.city}} {{object.zipcode}}</div>
                                     </div>
                                 </div>
-								<div class="col-sm-6">
+								{% comment %} <div class="col-sm-6">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Phone</div>
 										{% load extraTags %}
                                         <div class="pxp-sp-kd-item-value">{{object.landlord.phone|phonenumber}}</div>
                                     </div>
-                                </div>
-								<div class="col-sm-6">
+                                </div> {% endcomment %}
+								<div class="col-sm-12">
                                     <div class="pxp-sp-key-details-item">
                                         <div class="pxp-sp-kd-item-label text-uppercase">Occupants</div>
                                         <div class="pxp-sp-kd-item-value">{{object.occupants}}</div>

@@ -41,7 +41,8 @@ class LandlordSignupForm(UserCreationForm):
                                 'style': 'display:none;',
                                 'onchange': "landlordsignupprofilepicchanged(this)"
                             }),
-                            label="Profile picture"
+                            label="Profile picture",
+                            required=False,
                         )
     
     landlordcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
@@ -146,7 +147,8 @@ class StudentSignupForm(UserCreationForm):
                             'style': 'display:none;',
                             'onchange': "studentsignupprofilepicchanged(this)",
                         }),
-                        label="Profile picture"
+                        label="Profile picture",
+                        required=False
                     )
     # interests = forms.ModelMultipleChoiceField(queryset=Interest.objects.all(), 
     #                 widget=forms.CheckboxSelectMultiple()
@@ -175,78 +177,78 @@ class StudentSignupForm(UserCreationForm):
                     'placeholder': 'Enter facebook link',
                 })
             )
-    snapLink = forms.URLField(required=False, max_length=250,
-                    widget=forms.URLInput(attrs={
-                        'class': 'socialmediainput',
-                        'placeholder': 'Enter snap chat link',
-                    })
-                )
+    # snapLink = forms.URLField(required=False, max_length=250,
+    #                 widget=forms.URLInput(attrs={
+    #                     'class': 'socialmediainput',
+    #                     'placeholder': 'Enter snap chat link',
+    #                 })
+    #             )
     instaLink = forms.URLField(required=False, max_length=250, 
                     widget=forms.URLInput(attrs={
                         'class': 'socialmediainput',
                         'placeholder': 'Enter instagram link',
                     })
                 )
-    twitterLink = forms.URLField(required=False, max_length=250,
-                    widget=forms.URLInput(attrs={
-                        'class': 'socialmediainput',
-                        'placeholder': 'Enter twitter link',
-                    })
-                )
-    ssFrom = forms.TimeField( 
-                widget=forms.TimeInput(attrs={
-                    'class': 'form-control',
-                    'type': 'time'
-                }),
-            )
-    ssTo = forms.TimeField(
-                widget=forms.TimeInput(attrs={
-                    'class': 'form-control',
-                    'type': 'time'
-                })
-            )
-    shFrom = forms.TimeField(
-                widget=forms.TimeInput(attrs={
-                    'class': 'form-control',
-                    'type': 'time'
-                })
-            )
-    shTo = forms.TimeField(
-                widget=forms.TimeInput(attrs={
-                    'class': 'form-control',
-                    'type': 'time'
-                })
-            )
-    tbUsage = forms.ChoiceField(choices=usageChoices, required=False, 
-                widget=forms.Select(attrs={
-                    'class': 'form-control select2'
-                })
-            )
-    alUsage = forms.ChoiceField(choices=usageChoices, required=False, 
-                widget=forms.Select(attrs={
-                    'class': 'form-control select2'
-                })
-            )
-    cleanliness = forms.ChoiceField(choices=normalChoices, required=False, 
-                widget=forms.Select(attrs={
-                    'class': 'form-control select2'
-                })
-            )
-    guests = forms.ChoiceField(choices=normalChoices, required=False, 
-                widget=forms.Select(attrs={
-                    'class': 'form-control select2'
-                })
-            )
-    
+    # twitterLink = forms.URLField(required=False, max_length=250,
+    #                 widget=forms.URLInput(attrs={
+    #                     'class': 'socialmediainput',
+    #                     'placeholder': 'Enter twitter link',
+    #                 })
+    #             )
+    # ssFrom = forms.TimeField( 
+    #             widget=forms.TimeInput(attrs={
+    #                 'class': 'form-control',
+    #                 'type': 'time'
+    #             }),
+    #         )
+    # ssTo = forms.TimeField(
+    #             widget=forms.TimeInput(attrs={
+    #                 'class': 'form-control',
+    #                 'type': 'time'
+    #             })
+    #         )
+    # shFrom = forms.TimeField(
+    #             widget=forms.TimeInput(attrs={
+    #                 'class': 'form-control',
+    #                 'type': 'time'
+    #             })
+    #         )
+    # shTo = forms.TimeField(
+    #             widget=forms.TimeInput(attrs={
+    #                 'class': 'form-control',
+    #                 'type': 'time'
+    #             })
+    #         )
+    # tbUsage = forms.ChoiceField(choices=usageChoices, required=False, 
+    #             widget=forms.Select(attrs={
+    #                 'class': 'form-control select2'
+    #             })
+    #         )
+    # alUsage = forms.ChoiceField(choices=usageChoices, required=False, 
+    #             widget=forms.Select(attrs={
+    #                 'class': 'form-control select2'
+    #             })
+    #         )
+    # cleanliness = forms.ChoiceField(choices=normalChoices, required=False, 
+    #             widget=forms.Select(attrs={
+    #                 'class': 'form-control select2'
+    #             })
+    #         )
+    # guests = forms.ChoiceField(choices=normalChoices, required=False, 
+    #             widget=forms.Select(attrs={
+    #                 'class': 'form-control select2'
+    #             })
+    #         )
+    # 'twitterLink', 'ssFrom', 'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 
+    #                 'cleanliness', 'guests', 'snapLink', 
     studentcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
                     'password2', 'university', 'classYear', 'bio', 'interest1', 'interest2', 
-                    'interest3', 'phone', 'profilePicture', 'fblink', 'snapLink', 'instaLink', 
-                    'twitterLink', 'ssFrom', 'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 
-                    'cleanliness', 'guests', 'studentcaptcha')
+                    'interest3', 'phone', 'profilePicture', 'fblink', 'instaLink', 
+                    'studentcaptcha')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control formInput',
@@ -291,15 +293,15 @@ class StudentSignupForm(UserCreationForm):
         if uniqueUserName:
             self.cleaned_data['username'] = uniqueUserName.lower()
 
-        if self.cleaned_data.get('ssFrom') is not None and self.cleaned_data.get('ssTo') is None:
-            errorMess['ssTo'] = ValidationError(_('Sleep Schedule To Time is required!'), code='required')
-        if self.cleaned_data.get('ssFrom') is None and self.cleaned_data.get('ssTo') is not None:
-            errorMess['ssFrom'] = ValidationError(_('Sleep Schedule From Time is required!'), code='required')
+        # if self.cleaned_data.get('ssFrom') is not None and self.cleaned_data.get('ssTo') is None:
+        #     errorMess['ssTo'] = ValidationError(_('Sleep Schedule To Time is required!'), code='required')
+        # if self.cleaned_data.get('ssFrom') is None and self.cleaned_data.get('ssTo') is not None:
+        #     errorMess['ssFrom'] = ValidationError(_('Sleep Schedule From Time is required!'), code='required')
 
-        if self.cleaned_data.get('shFrom') is not None and self.cleaned_data.get('shTo') is None:
-            errorMess['shTo'] = ValidationError(_('Study Hour To Time is required!'), code='required')
-        if self.cleaned_data.get('shFrom') is None and self.cleaned_data.get('shTo') is not None:
-            errorMess['shFrom'] = ValidationError(_('Study Hour From Time is required!'), code='required')
+        # if self.cleaned_data.get('shFrom') is not None and self.cleaned_data.get('shTo') is None:
+        #     errorMess['shTo'] = ValidationError(_('Study Hour To Time is required!'), code='required')
+        # if self.cleaned_data.get('shFrom') is None and self.cleaned_data.get('shTo') is not None:
+        #     errorMess['shFrom'] = ValidationError(_('Study Hour From Time is required!'), code='required')
 
         if errorMess != {}:
             raise ValidationError(errorMess)

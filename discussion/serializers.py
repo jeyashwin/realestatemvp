@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from chat.models import Room, MessageRequest
+from chat.models import Room, MessageRequest, Friend
 from .models import DiscussionPost, DiscussionPostComment, DiscussionCommentReply
 
 
@@ -9,7 +9,7 @@ class StudentSerializer(serializers.RelatedField):
         friendStatus = {'status': 'CurrentUser'} 
         loggedUser = self.context['request'].user
         if value.user.user != loggedUser:
-            if loggedUser.usertype.userstudent.friend.friends.filter(user=value.user).exists():
+            if Friend.objects.filter(student__user=loggedUser.usertype).exists() and loggedUser.usertype.userstudent.friend.friends.filter(user=value.user).exists():
                 room = Room.objects.filter(room_type=False).filter(members=loggedUser).filter(members=value.user.user).first()
                 friendStatus['status'] = 'Friends'
                 friendStatus['url'] = room.pk

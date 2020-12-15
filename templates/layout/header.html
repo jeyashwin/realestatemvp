@@ -694,7 +694,7 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
-		                            						{{LandlordSignupForm.landlordcaptcha}}
+		                            		{{StudentSignupForm.studentcaptcha}}
 										</div>
 									</div>
 								</div>
@@ -906,13 +906,13 @@
 											</div>
 										</div>
 									</div>
-									<div style="padding:15px 7px 7px 7px;">
+									{% comment %} <div style="padding:15px 7px 7px 7px;">
 										<div class="row">
 											<div class="col-md-12">
 												{{StudentSignupForm.studentcaptcha}}
 											</div>
 										</div>
-									</div>
+									</div> {% endcomment %}
 									
 									<textarea class="form-control" name="switchinput5" id="switchinput5" placeholder="Enter here" style="display:none;"></textarea>
 									<br>
@@ -1061,9 +1061,7 @@
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-{% comment %}
                                     	{{LandlordSignupForm.landlordcaptcha}}
-{% endcomment %}
 									</div>
 								</div>
 							</div>

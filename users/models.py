@@ -75,7 +75,7 @@ class UserStudent(models.Model):
                     MaxValueValidator(2030, "Maximum year 2030")
                 ])
     bio = models.CharField(max_length=200)
-    profilePicture = models.ImageField(upload_to=profile_image_file_path)
+    profilePicture = models.ImageField(upload_to=profile_image_file_path, default='uploads/avatar/profile_avatar.png')
     interests = models.ManyToManyField(Interest)
     fbLink = models.URLField(max_length=250, null=True, blank=True)
     snapLink = models.URLField(max_length=250, null=True, blank=True)
@@ -131,7 +131,7 @@ class UserLandLord(models.Model):
     phone = PhoneNumberField(region='US')
     emailVerified = models.BooleanField(default=False)
     phoneVerified = models.BooleanField(default=False)
-    profilePicture = models.ImageField(upload_to=profile_image_file_path)
+    profilePicture = models.ImageField(upload_to=profile_image_file_path, default='uploads/avatar/profile_avatar.png')
     createdDate = models.DateTimeField(auto_now_add=True)
 
     def clean(self):

@@ -112,9 +112,12 @@ class LandlordSignUpView(CreateView):
         valid = super().form_valid(form)
         userObject = UserType.objects.create(user=form.instance,
                         userType="seller")
+        profileImage = form.cleaned_data.get('lanprofilePicture', None)
+        if not profileImage:
+            profileImage = 'uploads/avatar/profile_avatar.png'
         landlordObject = UserLandLord.objects.create(user=userObject, 
                             phone=form.cleaned_data.get('phone'),
-                            profilePicture=form.cleaned_data.get('lanprofilePicture'),
+                            profilePicture=profileImage,
                         )
         messages.add_message(self.request, messages.SUCCESS, 'Landlord/Sublease Profile created successfully. Sign in to you account.')
         return redirect('user:home')
@@ -150,25 +153,27 @@ class StudentSignUpView(CreateView):
 
         userObject = UserType.objects.create(user=form.instance,
                         userType="student")
-        
+        profileImage = form.cleaned_data.get('profilePicture', None)
+        if not profileImage:
+            profileImage = 'uploads/avatar/profile_avatar.png'
         studentObject = UserStudent.objects.create(user=userObject, 
                             phone=form.cleaned_data.get('phone'),
                             university=form.cleaned_data.get('university'), 
                             classYear=form.cleaned_data.get('classYear'), 
                             bio=form.cleaned_data.get('bio'), 
-                            profilePicture=form.cleaned_data.get('profilePicture'),
+                            profilePicture=profileImage,
                             fbLink=form.cleaned_data.get('fblink'),
-                            snapLink=form.cleaned_data.get('snapLink'),
+                            # snapLink=form.cleaned_data.get('snapLink'),
                             instaLink=form.cleaned_data.get('instaLink'),
-                            twitterLink=form.cleaned_data.get('twitterLink'),
-                            sleepScheduleFrom=form.cleaned_data.get('ssFrom'),
-                            sleepScheduleTo=form.cleaned_data.get('ssTo'),
-                            studyHourFrom=form.cleaned_data.get('shFrom'),
-                            studyHourTo=form.cleaned_data.get('shTo'),
-                            tobaccoUsage=form.cleaned_data.get('tbUsage'),
-                            alcoholUsage=form.cleaned_data.get('alUsage'),
-                            cleanliness=form.cleaned_data.get('cleanliness'),
-                            guests=form.cleaned_data.get('guests'),
+                            # twitterLink=form.cleaned_data.get('twitterLink'),
+                            # sleepScheduleFrom=form.cleaned_data.get('ssFrom'),
+                            # sleepScheduleTo=form.cleaned_data.get('ssTo'),
+                            # studyHourFrom=form.cleaned_data.get('shFrom'),
+                            # studyHourTo=form.cleaned_data.get('shTo'),
+                            # tobaccoUsage=form.cleaned_data.get('tbUsage'),
+                            # alcoholUsage=form.cleaned_data.get('alUsage'),
+                            # cleanliness=form.cleaned_data.get('cleanliness'),
+                            # guests=form.cleaned_data.get('guests'),
                         )
         # studentObject.interests.set(interests)
         studentObject.interests.set([interest1[0].pk, interest2[0].pk, interest3[0].pk])
