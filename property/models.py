@@ -51,6 +51,11 @@ class Amenities(models.Model):
     def __str__(self):
         return self.amenityType
 
+    def clean(self):
+        self.amenityType = self.amenityType.capitalize()
+        if Amenities.objects.filter(amenityType=self.amenityType):
+            raise ValidationError({'amenityType': ValidationError(('Amenity already exists'), code='error')})
+
 
 class Property(geoModel.Model):
     

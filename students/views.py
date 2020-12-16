@@ -10,6 +10,7 @@ from property.utils import studentAccessTest
 from property.models import Property
 # from users.models import UserStudent, Interest
 from users.models import UserStudent
+from users.forms import StudentLivingHabitsForm
 from .models import RoommatePost, PostComment, CommentReply
 from .serializers import RoommatePostDetailSerializer, PostCommentSerializer, \
                             CommentReplySerializer, RoommatePostSerializer
@@ -78,6 +79,8 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        student = get_object_or_404(UserStudent, user__user=self.request.user)
+        context['StudentLivingHabitsForm'] = StudentLivingHabitsForm(label_suffix='', instance=student)
         # uncomment the below if we need preferences and interest and interest filter
         # context["preferences"] = Preference.objects.all()
         # context["interests"] = Interest.objects.all()
@@ -86,7 +89,7 @@ class RoommatesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         # pre = self.kwargs.get('preference', None)
         # if pre is not None:
         #     context["currentpreferences"] = get_object_or_404(Preference, preferenceSlug=pre)
-        return context 
+        return context
 
 
 class RoommatesMyPostListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -102,6 +105,12 @@ class RoommatesMyPostListView(LoginRequiredMixin, UserPassesTestMixin, ListView)
 
     def get_queryset(self):
         return super().get_queryset().filter(student__user__user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = get_object_or_404(UserStudent, user__user=self.request.user)
+        context['StudentLivingHabitsForm'] = StudentLivingHabitsForm(label_suffix='', instance=student)
+        return context
 
 
 class RoommatesPostCreateView(generics.CreateAPIView):

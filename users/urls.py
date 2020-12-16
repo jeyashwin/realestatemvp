@@ -10,6 +10,7 @@ urlpatterns = [
     path('student/register/', StudentSignUpView.as_view(), name="studentSignup"),
     path('logout/', LogoutView.as_view(), name = "logout"),
     path('student/profile/<str:username>/', StudentProfileUpdateView.as_view(), name = "studentProfile"),
+    path('student/livingHabits/', StudentLivingHabitsUpdateView, name = "studentLiving"),
     path('landlord/profile/<str:username>/', LandlordProfileUpdateView.as_view(), name = "landlordProfile"),
     path('delete/profile/<str:username>/', UserDeleteView.as_view(), name = "deleteProfile"),
     path('contact/', ContactUSCreateView.as_view(), name = "contactUs"),

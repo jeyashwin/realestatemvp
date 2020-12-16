@@ -814,16 +814,16 @@
 											<div class="row" style="padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
-													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; <span class="tobaccousagevalue">N/A</span> </span>
+													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; <span class="tobaccousagevalue text-uppercase">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; <span class="alcoholusagevalue">N/A</span> </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; <span class="alcoholusagevalue text-uppercase">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; <span class="cleanlinessvalue">N/A</span> </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; <span class="cleanlinessvalue text-uppercase">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; <span class="guestsvalue">N/A</span> </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; <span class="guestsvalue text-uppercase">N/A</span> </span>
 												</div>
 												<br>
 											</div>
@@ -1039,11 +1039,30 @@ function tConvert (timeString) {
 	} else {
 		var shto = '~';
 	}
-
-										$(".tobaccousagevalue").html(res.student.tobaccoUsage);
-										$(".alcoholusagevalue").html(res.student.alcoholUsage);
-										$(".cleanlinessvalue").html(res.student.cleanliness);
-										$(".guestsvalue").html(res.student.guests);
+										if(res.student.tobaccoUsage != ""){
+											$(".tobaccousagevalue").html(res.student.tobaccoUsage);
+										}
+										else{
+											$(".tobaccousagevalue").html("n/a");
+										}
+										if(res.student.alcoholUsage != ""){
+											$(".alcoholusagevalue").html(res.student.alcoholUsage);
+										}
+										else{
+											$(".alcoholusagevalue").html("n/a");
+										}
+										if(res.student.cleanliness != ""){
+											$(".cleanlinessvalue").html(res.student.cleanliness);
+										}
+										else{
+											$(".cleanlinessvalue").html("n/a");
+										}
+										if(res.student.guests != ""){
+											$(".guestsvalue").html(res.student.guests);
+										}
+										else{
+											$(".guestsvalue").html("n/a");
+										}
 										$(".sleepschedulevalue").html(ssfrom+' - '+ssto);
 										$(".studyhoursvalue").html(shfrom+' - '+shto);
 
@@ -1625,11 +1644,12 @@ function tConvert (timeString) {
      <button type="button" class="close" data-dismiss="modal" style="color:red;">&times;</button>
       </div>
       <div class="modal-body">
-     <form method="POST" action="#">
+     <form method="POST" action="{% url 'user:studentLiving' %}">
      <style>
       .lhrows { margin-top:15px; }
       .form-control { border-radius:50px !important; background-color:rgba(255, 255, 255, 0.2); }
      </style>
+	 {% csrf_token %}
       <div class="col-md-12">
        <div class="row lhrows">
         <div class="col-md-4">
@@ -1637,11 +1657,11 @@ function tConvert (timeString) {
         </div>
         <div class="col-md-4">
          <small>From</small>
-         <input type="time" name="sleepschedulefrom" class="form-control" />
+		 {{StudentLivingHabitsForm.sleepScheduleFrom}}
         </div>
         <div class="col-md-4">
          <small>To</small>
-         <input type="time" name="sleepscheduleto" class="form-control" />
+		 {{StudentLivingHabitsForm.sleepScheduleTo}}
         </div>
        </div>
       
@@ -1651,11 +1671,11 @@ function tConvert (timeString) {
         </div>
         <div class="col-md-4">
          <small>From</small>
-         <input type="time" name="studyhoursfrom" class="form-control" />
+		 {{StudentLivingHabitsForm.studyHourFrom}}
         </div>
         <div class="col-md-4">
          <small>To</small>
-         <input type="time" name="studyhoursto" class="form-control" />
+		 {{StudentLivingHabitsForm.studyHourTo}}
         </div>
        </div>
       
@@ -1664,11 +1684,7 @@ function tConvert (timeString) {
          <p class="step2label"><b>Tobacco Usage</b></p>
         </div>
         <div class="col-md-8">
-         <select name="tobaccousage" class="form-control" >
-          <option>Never</option>
-          <option>Weekly</option>
-          <option>Occasionally</option>
-         </select>
+		 {{StudentLivingHabitsForm.tobaccoUsage}}
         </div>
        </div>
       
@@ -1677,11 +1693,7 @@ function tConvert (timeString) {
          <p class="step2label"><b>Alcohol Usage</b></p>
         </div>
         <div class="col-md-8">
-         <select name="alcoholusage" class="form-control" >
-          <option>Never</option>
-          <option>Weekly</option>
-          <option>Occasionally</option>
-         </select>
+		 {{StudentLivingHabitsForm.alcoholUsage}}
         </div>
        </div>
       
@@ -1690,10 +1702,7 @@ function tConvert (timeString) {
          <p class="step2label"><b>Cleanliness</b></p>
         </div>
         <div class="col-md-8">
-         <select name="cleanliness" class="form-control" >
-          <option>Daily</option>
-          <option>Occasionally</option>
-         </select>
+		 {{StudentLivingHabitsForm.cleanliness}}
         </div>
        </div>
       
@@ -1702,19 +1711,21 @@ function tConvert (timeString) {
          <p class="step2label"><b>Guests</b></p>
         </div>
         <div class="col-md-8">
-         <select name="guests" class="form-control" >
-          <option>Daily</option>
-          <option>Occasionally</option>
-         </select>
+		 {{StudentLivingHabitsForm.guests}}
         </div>
        </div>
-      </div>
-      
       <div class="row lhrows">
-       <div class="col-md-12">
+       <div class="col-md-6">
         <br><br>
         <center>
          <input type="submit" name="submit" value="Submit" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"/>
+        </center>
+        <br>
+       </div>
+	   <div class="col-md-6">
+        <br><br>
+        <center>
+        <input type="submit" name='laterbutton' value="Set Later" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#c9302c; cursor:pointer; border:none; border-right:1px solid silver;"/>
         </center>
         <br>
        </div>
@@ -1731,7 +1742,9 @@ function tConvert (timeString) {
    {
     document.getElementById('habitsmodalbtn').click();
    }
-   openhabitsmodal();
+   {% if not user.usertype.userstudent.livingHabitsLater %}
+	openhabitsmodal();
+   {% endif %}
   </script>
 
 
