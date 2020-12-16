@@ -52,6 +52,11 @@ class Interest(models.Model):
     def __str__(self):
         return self.interest
 
+    def clean(self):
+        self.interest = self.interest.capitalize()
+        if Interest.objects.filter(interest=self.interest):
+            raise ValidationError({'interest': ValidationError(('Interest already exists'), code='error')})
+
 
 class UserStudent(models.Model):
     """Custom userStudent model that stores Student information"""
@@ -74,7 +79,7 @@ class UserStudent(models.Model):
                     MinValueValidator(2010, "Minimum year 2010"), 
                     MaxValueValidator(2030, "Maximum year 2030")
                 ])
-    bio = models.CharField(max_length=200)
+    # bio = models.CharField(max_length=200)
     profilePicture = models.ImageField(upload_to=profile_image_file_path, default='uploads/avatar/profile_avatar.png')
     interests = models.ManyToManyField(Interest)
     fbLink = models.URLField(max_length=250, null=True, blank=True)
@@ -85,12 +90,13 @@ class UserStudent(models.Model):
     sleepScheduleTo = models.TimeField(blank=True, null=True)
     studyHourFrom = models.TimeField(blank=True, null=True)
     studyHourTo = models.TimeField(blank=True, null=True)
-    tobaccoUsage = models.CharField(max_length=100, choices=usageChoices, default='never')
-    alcoholUsage = models.CharField(max_length=100, choices=usageChoices, default='never')
-    cleanliness = models.CharField(max_length=100, choices=normalChoices, default='daily')
-    guests = models.CharField(max_length=100, choices=normalChoices, default='daily')
+    tobaccoUsage = models.CharField(max_length=100, choices=usageChoices, blank=True)
+    alcoholUsage = models.CharField(max_length=100, choices=usageChoices, blank=True)
+    cleanliness = models.CharField(max_length=100, choices=normalChoices, blank=True)
+    guests = models.CharField(max_length=100, choices=normalChoices, blank=True)
     emailVerified = models.BooleanField(default=False)
     phoneVerified = models.BooleanField(default=False)
+    livingHabitsLater = models.BooleanField(default=False)
     createdDate = models.DateTimeField(auto_now_add=True)
 
     def clean(self):
@@ -108,14 +114,14 @@ class UserStudent(models.Model):
         if self.studyHourFrom is None and self.studyHourTo is not None:
             errorMess['studyHourFrom'] = ValidationError(('Study Hour From Time is required!'), code='required')
         
-        # try:
-        #     phone = phonenumbers.parse(str(self.phone), None)
-        #     if phone.country_code != 1:
-        #         # print(phone.country_code)
-        #         # print(type(phone.country_code))
-        #         errorMess['phone'] = ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')
-        # except phonenumbers.NumberParseException:
-        #     pass
+        try:
+            phone = phonenumbers.parse(str(self.phone), None)
+            if phone.country_code != 1:
+                # print(phone.country_code)
+                # print(type(phone.country_code))
+                errorMess['phone'] = ValidationError(('Currently we accept only USA Numbers!'), code='invalid phone')
+        except phonenumbers.NumberParseException:
+            pass
 
         if errorMess is not None:
             raise ValidationError(errorMess)
@@ -151,6 +157,7 @@ class UserLandLord(models.Model):
 
         if errorMess is not None:
             raise ValidationError(errorMess)
+
 
     def __str__(self):
         return self.user.user.username

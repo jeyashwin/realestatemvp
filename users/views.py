@@ -7,12 +7,14 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import login as auth_login, settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import JsonResponse, Http404
 from django.contrib.auth.models import User
 from twilio.rest import Client
 
 from .models import UserStudent, UserLandLord, UserType, InviteCode, ContactUS, PhoneVerification
 from .forms import *
+from property.utils import studentAccessTest
 import datetime
 
 # Create your views here.
@@ -160,7 +162,7 @@ class StudentSignUpView(CreateView):
                             phone=form.cleaned_data.get('phone'),
                             university=form.cleaned_data.get('university'), 
                             classYear=form.cleaned_data.get('classYear'), 
-                            bio=form.cleaned_data.get('bio'), 
+                            # bio=form.cleaned_data.get('bio'),
                             profilePicture=profileImage,
                             fbLink=form.cleaned_data.get('fblink'),
                             # snapLink=form.cleaned_data.get('snapLink'),
@@ -444,7 +446,8 @@ def otpverify(request):
                         landlordObj = get_object_or_404(UserLandLord, user=userObj.usertype)
                         landlordObj.phoneVerified = True
                         landlordObj.save()
-                    messages.add_message(request, messages.SUCCESS, 'Mobile verification completed. Sign in to you account.')
+                    # messages.add_message(request, messages.SUCCESS, 'Mobile verification completed. Sign in to you account.')
+                    auth_login(request, userObj)
                     return redirect('user:home')
 
             context['PhoneNumberForm'] = PhoneNumberForm(initial={'verifyPhone':phoneVerifyObj[0].phone})
@@ -636,3 +639,14 @@ def ForgotSetPassword(request):
         return render(request, 'users/passwordChange.html', context=context)
 
     return redirect('user:home')
+
+@login_required
+@user_passes_test(studentAccessTest)
+def StudentLivingHabitsUpdateView(request):
+    if request.method == 'POST':
+        student = get_object_or_404(UserStudent, user__user=request.user)
+        form = StudentLivingHabitsForm(label_suffix='', data=request.POST, instance=student)
+        if form.is_valid():
+            form.instance.livingHabitsLater = True
+            form.save()
+    return redirect('students:roommates')

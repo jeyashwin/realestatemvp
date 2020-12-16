@@ -53,7 +53,7 @@
 									<div class="col-sm-12 col-md-12" style="margin-bottom: 10px;">
 										{{field.label_tag}}
 										{{field}}
-										{{field.errors.as_ul}}
+										<small style="color: red;">{{field.errors}}</small>
 									</div>
 									{% comment %}
 									{% if field == form.interests %}
@@ -73,7 +73,7 @@
 									<div class="col-md-4" style="margin-bottom: 10px;">
 										{{field.label_tag}}
 										{{field}}
-										{{field.errors.as_ul}}
+										<small style="color: red;">{{field.errors}}</small>
 									</div>
 									{% elif field == form.studentProfilecaptcha %}
 									{{form.studentProfilecaptcha}}
@@ -84,7 +84,7 @@
 									<div class="col-sm-12 col-md-6" style="margin-bottom: 10px;">
 										{{field.label_tag}}
 										{{field}}
-										{{field.errors.as_ul}}
+										<small style="color: red;">{{field.errors}}</small>
 									</div>
 									{% endif %} 
 								{% endfor %}
@@ -114,7 +114,7 @@
 							<br><br>
 							<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span>
                             <p id="pictureContainer">{{form.profilePicture}}</p>
-							<p>{{form.profilePicture.errors}}</p>
+							<small style="color: red;">{{form.profilePicture.errors}}</small>
 							</form>
 							<br><br><br>
 							

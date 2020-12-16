@@ -68,7 +68,7 @@
 							<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span>
 							<input type="file" accept="image/*" id="photoinput" onchange="loadPhoto(event)" style="display:none;">
 							<p id="pictureContainer">{{form.profilePicture}}</p>
-							<p>{{form.profilePicture.errors}}</p>
+							<small style="color: red;">{{form.profilePicture.errors}}</small>
 							</center>
 							<br><br><br>
 							</form>

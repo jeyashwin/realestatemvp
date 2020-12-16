@@ -134,13 +134,13 @@ class StudentSignupForm(UserCreationForm):
                         'placeholder': 'Enter class year'
                     })
                 )
-    bio = forms.CharField(max_length=200, 
-            widget=forms.Textarea(attrs={
-                'class': 'form-control formInput',
-                'placeholder': 'Enter bio..',
-                'rows': 2,
-            })
-        )
+    # bio = forms.CharField(max_length=200, 
+    #         widget=forms.Textarea(attrs={
+    #             'class': 'form-control formInput',
+    #             'placeholder': 'Enter bio..',
+    #             'rows': 2,
+    #         })
+    #     )
     profilePicture = forms.ImageField(
                         widget= forms.ClearableFileInput(attrs={
                             'class': 'form-control',
@@ -240,13 +240,13 @@ class StudentSignupForm(UserCreationForm):
     #             })
     #         )
     # 'twitterLink', 'ssFrom', 'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 
-    #                 'cleanliness', 'guests', 'snapLink', 
+    #                 'cleanliness', 'guests', 'snapLink', 'bio', 
     studentcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
-                    'password2', 'university', 'classYear', 'bio', 'interest1', 'interest2', 
+                    'password2', 'university', 'classYear', 'interest1', 'interest2', 
                     'interest3', 'phone', 'profilePicture', 'fblink', 'instaLink', 
                     'studentcaptcha')
         widgets = {
@@ -368,21 +368,21 @@ class StudentProfileUpdateForm(forms.ModelForm):
         private_key=settings.RECAPTCHA_V3_PRIVATE_KEY,
         widget=ReCaptchaV3()
     )
-
+    # 'bio',
     class Meta:
         model = UserStudent
-        fields = ('first_name', 'last_name', 'email', 'Updatephone', 'university', 'classYear', 'bio', 
+        fields = ('first_name', 'last_name', 'email', 'Updatephone', 'university', 'classYear',  
                     'interest1', 'interest2', 'interest3', 'profilePicture', 'fbLink', 
                     'instaLink', 'twitterLink', 'sleepScheduleFrom', 'sleepScheduleTo', 
                     'studyHourFrom', 'studyHourTo', 'tobaccoUsage', 'alcoholUsage', 'cleanliness',
                     'guests', 'studentProfilecaptcha')
 
         widgets = {
-            'bio': forms.Textarea(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter bio..',
-                'rows': 2,
-            }),
+            # 'bio': forms.Textarea(attrs={
+            #     'class': 'form-control',
+            #     'placeholder': 'Enter bio..',
+            #     'rows': 2,
+            # }),
             'profilePicture': forms.ClearableFileInput(attrs={
                 'class': 'form-control',
                 'onchange': "loadPhoto(event)",
@@ -441,6 +441,53 @@ class StudentProfileUpdateForm(forms.ModelForm):
         self.fields['Updatephone'].initial = studentInfo.phone
 
         self.label_suffix = ''
+
+
+class StudentLivingHabitsForm(forms.ModelForm):
+
+    class Meta:
+        model = UserStudent
+        fields = ('sleepScheduleFrom', 'sleepScheduleTo', 'studyHourFrom', 'studyHourTo', 
+                    'tobaccoUsage', 'alcoholUsage', 'cleanliness', 'guests')
+
+        widgets = {
+            'tobaccoUsage': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'alcoholUsage': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'cleanliness': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'guests': forms.Select(attrs={
+                'class': 'form-control',
+            }),
+            'sleepScheduleFrom': forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'), 
+            'sleepScheduleTo':  forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'),
+            'studyHourFrom':  forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'),
+            'studyHourTo':  forms.TimeInput(attrs={
+                'class': 'form-control',
+                'type': 'time'
+            }, format='%H:%M'),
+        }
+        labels = {
+            'sleepScheduleFrom': 'Sleep Schedule From', 
+            'sleepScheduleTo': 'Sleep Schedule To', 
+            'studyHourFrom': 'Study Hour From', 
+            'studyHourTo': 'Study Hour To', 
+            'tobaccoUsage': 'Tobacco Usage',
+            'alcoholUsage': 'Alcohol Usage',
+        }
 
 
 class LandlordProfileUpdateForm(forms.ModelForm):
@@ -600,3 +647,4 @@ class VerificationCodeForm(forms.Form):
 class ForgotSetPasswordForm(SetPasswordForm):
     
     setPasscaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+
