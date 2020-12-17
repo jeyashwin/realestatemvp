@@ -121,8 +121,9 @@ class LandlordSignUpView(CreateView):
                             phone=form.cleaned_data.get('phone'),
                             profilePicture=profileImage,
                         )
-        messages.add_message(self.request, messages.SUCCESS, 'Landlord/Sublease Profile created successfully. Sign in to you account.')
-        return redirect('user:home')
+        # messages.add_message(self.request, messages.SUCCESS, 'Landlord/Sublease Profile created successfully. Sign in to you account.')
+        # return redirect('user:home')
+        return JsonResponse({'success':'Landlord/Sublease Profile created successfully. Sign in to you account.'}, status=201)
 
     def form_invalid(self, form):
         invalid = super().form_invalid(form)
@@ -190,8 +191,9 @@ class StudentSignUpView(CreateView):
             except InviteCode.DoesNotExist:
                 print("Invite codes doesn't match! Ask your friend to resend.")
         
-        messages.add_message(self.request, messages.SUCCESS, 'Student Profile created successfully. Sign in to you account.')
-        return redirect('user:home')
+        # messages.add_message(self.request, messages.SUCCESS, 'Student Profile created successfully. Sign in to you account.')
+        # return redirect('user:home')
+        return JsonResponse({'success':'Student Profile created successfully. Sign in to you account.'}, status=201)
 
     def form_invalid(self, form):
         invalid = super().form_invalid(form)

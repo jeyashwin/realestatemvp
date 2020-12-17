@@ -7,7 +7,7 @@
 		.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 		.errorview { color:maroon; font-style:italic; font-size:12px; font-family:consolas; }
 		.reqred { color:red; }
-		#property-image-div-id_propertyimage_set-0-imagePath > .reqred, #property-image-div-id_propertyimage_set-1-imagePath > .reqred, #property-image-div-id_propertyimage_set-2-imagePath > .reqred, #property-image-div-id_propertyimage_set-3-imagePath > .reqred { display:inline !important; }
+		#property-image-div-id_propertyimage_set-0-imagePath > .reqred, #property-image-div-id_propertyimage_set-1-imagePath > .reqred, #property-image-div-id_propertyimage_set-2-imagePath > .reqred { display:inline !important; }
 		#property-video-div-id_propertyvideo_set-0-videoPath > .reqred { display:inline !important; }
 	</style>
 
@@ -247,7 +247,6 @@
 											style="border-radius: 50px; width: 300px; height: 200px"
 											onclick="choosevidclick('{{form.videoPath.id_for_label}}')"
 										/>
-										<small class="reqred" style="display:none;">*</small>											
 										<p style="display:none;">
 										{{form.videoPath}}
 										</p>
@@ -320,7 +319,7 @@
 											<small class="errorview">{{form.amount.errors}}</small>
 											<span id="property-deposit-input">
 												<div class="help-container">
-													{{form.amount.label_tag}}
+													{{form.amount.label_tag}} <small class="reqred">&nbsp;*</small>
 													<span class="fa fa-info-circle help"></span>
 													<small class="helptext">{{ form.amount.help_text|safe }}</small>
 												</div>
@@ -497,8 +496,12 @@
 		<script>
 			onspload();
 			function onspload() {
-				$("#property-deposit-input").hide();
-				
+				{% comment %} $("#property-deposit-input").hide(); {% endcomment %}
+				if($("#{{form.securityDeposit.id_for_label}}").prop("checked") == true){
+						$("#property-deposit-input").show(300);
+				} else {
+					$("#property-deposit-input").hide(300);
+				}
 				$("#{{form.securityDeposit.id_for_label}}").click(function() {
 					if($("#{{form.securityDeposit.id_for_label}}").prop("checked") == true){
 						$("#property-deposit-input").show(300);

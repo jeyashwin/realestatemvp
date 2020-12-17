@@ -191,10 +191,9 @@
                 <a href="#" class="pxp-sp-gallery-btn">View Photos</a>
                 <div class="clearfix"></div>
             </div>
-
             <div class="container-fluid mt-50" style="padding:0px 50px;">
+			{% if object.propertyvideo_set.all %}
 				<br><br>
-			
 				<h3>Property Videos<br></h3>
 				<div class="col-xs-12" style="padding-top:20px;">
 					{% for video in object.propertyvideo_set.all %}
@@ -250,7 +249,9 @@
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 						<span style="padding:10px;"><small>Stairs</small></span> {% endcomment %}
 				</div>
-				<br><hr><br>
+				<br><hr>
+				{% endif %}
+				<br>
                 <div class="row">
                     <div class="col-lg-4 col-md-4" style="background-color:#fff; border-radius:7px; padding:20px;">
                         <div class="pxp-single-property-section">

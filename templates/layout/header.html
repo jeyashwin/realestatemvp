@@ -81,6 +81,10 @@
 	.formInput{
 		background-color:rgba(255, 255, 255, 0.5);
 	}
+	.errorSignupFields {
+		color: red;
+		padding-left: 15px;
+	}
 	.socialmediainput {
 		display:none; 
 		border:none; 
@@ -462,6 +466,14 @@
 						{% endif %}
 						{% endfor %}
 						{% endif %}
+						<div id='signupSuccess' style="display: none;">
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong id="successMessages"></strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
                         <form action="{% url 'user:home' %}" method="POST" id="signinform">
                             {% load bootstrap3 %}
                             {% csrf_token %}
@@ -991,17 +1003,15 @@
 								<div class="col-6">
 									<div class="form-group" id="ll_fname">
 										{{LandlordSignupForm.first_name.label_tag}} <small class="reqred">*</small>
-                                    	{{LandlordSignupForm.first_name}}
-										{% comment %} This will give unique id {% endcomment %}
-										<small id="landlordForm-{{LandlordSignupForm.first_name.id_for_label}}" class='error'></small>
-										{% comment %} {{LandlordSignupForm.first_name.id_for_label}} - to get id of a field
-										{{LandlordSignupForm.first_name}} - first_name - key name in error {% endcomment %}
+										{{LandlordSignupForm.first_name}}
+										<small id="landlordFormError-{{LandlordSignupForm.first_name.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group" id="ll_lname">
 										{{LandlordSignupForm.last_name.label_tag}} <small class="reqred">*</small>
-                                    	{{LandlordSignupForm.last_name}}
+										{{LandlordSignupForm.last_name}}
+										<small id="landlordFormError-{{LandlordSignupForm.last_name.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 							</div>
@@ -1009,13 +1019,15 @@
 								<div class="col-6">
 									<div class="form-group" id="ll_email">
 										{{LandlordSignupForm.email.label_tag}} <small class="reqred">*</small>
-                                    	{{LandlordSignupForm.email}}
+										{{LandlordSignupForm.email}}
+										<small id="landlordFormError-{{LandlordSignupForm.email.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group" id="ll_phone">
 										{{LandlordSignupForm.phone.label_tag}} <small class="reqred">*</small>
-                                    	{{LandlordSignupForm.phone}}
+										{{LandlordSignupForm.phone}}
+										<p id="landlordFormError-{{LandlordSignupForm.phone.name}}" class='errorSignupFields' style="font-size: 80%;"></p>
 									</div>
 								</div>
 							</div>
@@ -1030,13 +1042,15 @@
 										<img src="{% static '/images/user-default.png' %}" id="reg_land_img_preview" style="border-radius:50px; border:2px solid #e2e2e2; width:50px; height:50px; margin-top:-7px;" />
 									</div>
 								</div>
+								<small id="landlordFormError-{{LandlordSignupForm.lanprofilePicture.name}}" class='errorSignupFields'></small>
 							</div>
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group" id="ll_uname">
 										{{LandlordSignupForm.username.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.username.help_text}}"></span> 
-                                    	{{LandlordSignupForm.username}}
+										{{LandlordSignupForm.username}}
+										<small id="landlordFormError-{{LandlordSignupForm.username.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 							</div>						
@@ -1045,29 +1059,34 @@
 									<div class="form-group" id="ll_pass1">
 										{{LandlordSignupForm.password1.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password1.help_text|striptags}}"></span> 
-                                    	{{LandlordSignupForm.password1}}
-					<small class="ll_passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+										{{LandlordSignupForm.password1}}
+										<small id="landlordFormError-{{LandlordSignupForm.password1.name}}" class='errorSignupFields'></small>
+										<small class="ll_passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 									</div>
 								</div>
 								<div class="col-6">
 									<div class="form-group" id="ll_pass2">
 										{{LandlordSignupForm.password2.label_tag}} <small class="reqred">*</small>
 										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
-                                    	{{LandlordSignupForm.password2}}
-					<small class="ll_cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+										{{LandlordSignupForm.password2}}
+										<small id="landlordFormError-{{LandlordSignupForm.password2.name}}" class='errorSignupFields'></small>
+										<small class="ll_cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-                                    	{{LandlordSignupForm.landlordcaptcha}}
+										{{LandlordSignupForm.landlordcaptcha}}
+										<small id="landlordFormError-{{LandlordSignupForm.landlordcaptcha.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 							</div>
 							<br>
 							<div class="form-group">
-								<input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up" style="background-color:#003a8c;">
+								<button id="landlordSignupButton" class="pxp-agent-contact-modal-btn" type="submit" style="background-color:#003a8c;">
+									Sign Up
+								</button>
 							</div>
 							<div class="text-center mt-4 pxp-modal-small">
 								Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
@@ -1326,8 +1345,48 @@
 				  return true;
 				 }
 				});
-				
-
+				$(document).ready(function(){
+					$("#landlord_signup_form2").submit(function(event){
+						event.preventDefault();
+						var subButton = document.getElementById('landlordSignupButton');
+						subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+						var q = document.querySelectorAll('.errorSignupFields');
+						[].forEach.call(q, (e)=>{
+							e.textContent = "";
+						});
+						var formValues= new FormData(this);
+						// console.log(formValues);
+						$.ajax({
+							url : $(this).attr('action'), // the endpoint
+							type : "POST", // http method
+							data : formValues, // data sent with the post request
+							enctype: 'multipart/form-data',
+							cache:false,
+							contentType: false,
+							processData: false,
+							success : function(json) {
+								// console.log(json); // log the returned json to the console
+								subButton.innerHTML = 'Sign Up'
+								document.getElementById('landlord_signup_form2').reset();
+								// grecaptcha.reset(2);
+								$("#signupSuccess").show();
+								$("#successMessages").text(json.success);
+								$(".pxp-signin-trigger").click();
+							},
+							error : function(xhr,errmsg,err) {
+								subButton.innerHTML = 'Sign Up'
+								if (xhr.status == 400){
+									reso = JSON.parse(xhr.responseText)
+									for(i in reso) {
+										document.getElementById('landlordFormError-'+i).textContent = reso[i]
+									}
+								}
+								console.log(xhr.status + ":" + xhr.responseText)
+								// grecaptcha.reset(2);
+							}
+						});
+					});
+				});
 			</script>
 
 
