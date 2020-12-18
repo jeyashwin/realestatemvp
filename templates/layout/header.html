@@ -572,16 +572,14 @@
 										<div class="form-group">
 											{{StudentSignupForm.first_name.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.first_name}}
-											{% comment %} This will give unique id {% endcomment %}
-											<small id="studentForm-{{StudentSignupForm.first_name.id_for_label}}" class='error'></small>
-											{% comment %} {{StudentSignupForm.first_name.id_for_label}} - to get id of a field
-											{{StudentSignupForm.first_name}} - first_name - key name in error {% endcomment %}
+											<small id="studentFormError-{{StudentSignupForm.first_name.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="form-group">
 											{{StudentSignupForm.last_name.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.last_name}}
+											<small id="studentFormError-{{StudentSignupForm.last_name.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 								</div>
@@ -590,12 +588,14 @@
 										<div class="form-group">
 											{{StudentSignupForm.email.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.email}}
+											<small id="studentFormError-{{StudentSignupForm.email.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="form-group">
 											{{StudentSignupForm.phone.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.phone}}
+											<small id="studentFormError-{{StudentSignupForm.phone.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 								</div>
@@ -611,6 +611,7 @@
 											<img src="{% static '/images/user-default.png' %}" id="reg_stu_img_preview" style="border-radius:50px; border:2px solid #003a8c; width:50px; height:50px; margin-top:-7px;" />
 										</div>
 									</div>
+									<small id="studentFormError-{{StudentSignupForm.profilePicture.name}}" class='errorSignupFields'></small>
 								</div>
 								
 								<div id="studentdiv">
@@ -619,12 +620,14 @@
 											<div class="form-group">
 												{{StudentSignupForm.university.label_tag}} <small class="reqred">*</small>
 												{{StudentSignupForm.university}}
+												<small id="studentFormError-{{StudentSignupForm.university.name}}" class='errorSignupFields'></small>
 											</div>
 										</div>
 										<div class="col-4">	
 											<div class="form-group">
 												{{StudentSignupForm.classYear.label_tag}} <small class="reqred">*</small>
 												{{StudentSignupForm.classYear}}
+												<small id="studentFormError-{{StudentSignupForm.classYear.name}}" class='errorSignupFields'></small>
 											</div>
 										</div>
 									</div>
@@ -651,6 +654,9 @@
 													{% endfor %}
 													{% endcomment %}
 												</ul>
+												<small id="studentFormError-{{StudentSignupForm.interest1.name}}" class='errorSignupFields' style="margin-left: 50px;"></small>
+												<small id="studentFormError-{{StudentSignupForm.interest2.name}}" class='errorSignupFields' style="margin-left: 100px;"></small>
+												<small id="studentFormError-{{StudentSignupForm.interest3.name}}" class='errorSignupFields' style="margin-left: 100px;"></small>
 											</div>
 										</div>
 									</div>
@@ -660,8 +666,10 @@
 											<h6><b>Social media accounts: </b></h6>
 											<div class="col-md-12">
 												<i class="fa fa-instagramm" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;"><img src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:32px; height:25px; position:relative; z-index:9999;" />{{StudentSignupForm.instaLink}}</i>
+												<small id="studentFormError-{{StudentSignupForm.instaLink.name}}" class='errorSignupFields'>Enter a valid URL.</small>
 												&nbsp;
 												<i class="fa fa-facebookk" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;"><img src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:30px; height:25px; position:relative; z-index:9999;" />{{StudentSignupForm.fblink}}</i>
+												<small id="studentFormError-{{StudentSignupForm.fblink.name}}" class='errorSignupFields'>Enter a valid URL.</small>
 												&nbsp;
 												{% comment %} <i class="fa fa-facebook" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;">{{StudentSignupForm.fblink}}</i>
 												&nbsp;
@@ -680,6 +688,7 @@
 											{{StudentSignupForm.username.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.username.help_text}}"></span>
 											{{StudentSignupForm.username}}
+											<small id="studentFormError-{{StudentSignupForm.username.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 								</div>						
@@ -689,6 +698,7 @@
 											{{StudentSignupForm.password1.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
 											{{StudentSignupForm.password1}}
+											<small id="studentFormError-{{StudentSignupForm.password1.name}}" class='errorSignupFields'></small>
 											<small class="passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 
 										</div>
@@ -698,6 +708,7 @@
 											{{StudentSignupForm.password2.label_tag}} <small class="reqred">*</small>
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password2.help_text}}"></span> 
 											{{StudentSignupForm.password2}}
+											<small id="studentFormError-{{StudentSignupForm.password2.name}}" class='errorSignupFields'></small>
 											<small class="cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 										</div>
 									</div>
@@ -706,7 +717,8 @@
 								<div class="row">
 									<div class="col-12">
 										<div class="form-group">
-		                            		{{StudentSignupForm.studentcaptcha}}
+											{{StudentSignupForm.studentcaptcha}}
+											<small id="studentFormError-{{StudentSignupForm.studentcaptcha.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 								</div>
@@ -960,7 +972,9 @@
 									</div>
 									<div class="col-md-12" id="signupsubmitbtn">
 										<div class="row">
-											<input class="pxp-agent-contact-modal-btn" id="signup_submit_btn" type="submit" name="submit" value="Sign Up" style="border-radius:100px; background-color:#003a8c; border-left:1px solid silver; outline:none;">
+											<button class="pxp-agent-contact-modal-btn" id="studentSignupButton" type="submit" style="border-radius:100px; background-color:#003a8c; border-left:1px solid silver; outline:none;">
+												Sign Up
+											</button>
 											{% comment %} <span class="pxp-agent-contact-modal-btn" id="signup_submit_btn" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver;">Sign Up</span> {% endcomment %}
 										</div>
 									</div>
@@ -1345,6 +1359,13 @@
 				  return true;
 				 }
 				});
+				var LandlordWidget;
+				var StudentWidget;
+				function onloadRecaptcha(){
+					LandlordWidget = grecaptcha.render('{{LandlordSignupForm.landlordcaptcha.id_for_label}}')
+					StudentWidget = grecaptcha.render('{{StudentSignupForm.studentcaptcha.id_for_label}}')
+					grecaptcha.render('{{ForgotPasswordForm.forgotcaptcha.id_for_label}}')
+				}
 				$(document).ready(function(){
 					$("#landlord_signup_form2").submit(function(event){
 						event.preventDefault();
@@ -1368,7 +1389,9 @@
 								// console.log(json); // log the returned json to the console
 								subButton.innerHTML = 'Sign Up'
 								document.getElementById('landlord_signup_form2').reset();
-								// grecaptcha.reset(2);
+								document.getElementById('reg_land_img_preview').setAttribute('src', "{% static '/images/user-default.png' %}");
+								document.getElementById('lansignupprofilepicsel').textContent = 'Pick Image';
+								grecaptcha.reset(LandlordWidget);
 								$("#signupSuccess").show();
 								$("#successMessages").text(json.success);
 								$(".pxp-signin-trigger").click();
@@ -1381,8 +1404,52 @@
 										document.getElementById('landlordFormError-'+i).textContent = reso[i]
 									}
 								}
-								console.log(xhr.status + ":" + xhr.responseText)
-								// grecaptcha.reset(2);
+								// console.log(xhr.status + ":" + xhr.responseText)
+								grecaptcha.reset(LandlordWidget);
+							}
+						});
+					});
+				});
+				$(document).ready(function(){
+					$("#student_signup_form2").submit(function(event){
+						event.preventDefault();
+						var subButton = document.getElementById('studentSignupButton');
+						subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+						var q = document.querySelectorAll('.errorSignupFields');
+						[].forEach.call(q, (e)=>{
+							e.textContent = "";
+						});
+						var formValues= new FormData(this);
+						// console.log(formValues);
+						$.ajax({
+							url : $(this).attr('action'), // the endpoint
+							type : "POST", // http method
+							data : formValues, // data sent with the post request
+							enctype: 'multipart/form-data',
+							cache:false,
+							contentType: false,
+							processData: false,
+							success : function(json) {
+								// console.log(json); // log the returned json to the console
+								subButton.innerHTML = 'Sign Up'
+								document.getElementById('student_signup_form2').reset();
+								document.getElementById('reg_stu_img_preview').setAttribute('src', "{% static '/images/user-default.png' %}");
+								document.getElementById('stdsignupprofilepicsel').textContent = 'Pick Image';
+								grecaptcha.reset(StudentWidget);
+								$("#signupSuccess").show();
+								$("#successMessages").text(json.success);
+								$(".pxp-signin-trigger").click();
+							},
+							error : function(xhr,errmsg,err) {
+								subButton.innerHTML = 'Sign Up'
+								if (xhr.status == 400){
+									reso = JSON.parse(xhr.responseText)
+									for(i in reso) {
+										document.getElementById('studentFormError-'+i).textContent = reso[i]
+									}
+								}
+								// console.log(xhr.status + ":" + xhr.responseText)
+								grecaptcha.reset(StudentWidget);
 							}
 						});
 					});

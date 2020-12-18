@@ -405,6 +405,9 @@ var hsVars = {
 		}, 1000);
 		
 	}
+  function onloadRecaptchaContact(){
+    grecaptcha.render('{{contactusform.captchaVerification.id_for_label}}')
+  }
 </script>
 
 {% include "layout/footer.html" %}

@@ -101,6 +101,9 @@
         document.getElementById('id_verifyPhone').removeAttribute('disabled')
         document.getElementById('phone_number_submit_button').style = 'display: flex;'
     }
+    function onloadRecaptchaVerify(){
+        grecaptcha.render('{{PhoneNumberForm.changePhonecaptcha.id_for_label}}')
+    }
 </script>
 {% endif %}
 <br>

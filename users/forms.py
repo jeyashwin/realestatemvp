@@ -45,7 +45,11 @@ class LandlordSignupForm(UserCreationForm):
                             required=False,
                         )
     
-    landlordcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    landlordcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
+        api_params={
+            'render': 'explicit'
+        }
+    ))
 
     class Meta:
         model = User
@@ -241,7 +245,11 @@ class StudentSignupForm(UserCreationForm):
     #         )
     # 'twitterLink', 'ssFrom', 'ssTo', 'shFrom', 'shTo', 'tbUsage', 'alUsage', 
     #                 'cleanliness', 'guests', 'snapLink', 'bio', 
-    studentcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    studentcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
+        api_params={
+            'render': 'explicit'
+        }
+    ))
 
     class Meta:
         model = User
@@ -554,7 +562,12 @@ class LandlordProfileUpdateForm(forms.ModelForm):
 
 class ContactUSForm(forms.ModelForm):
 
-    captchaVerification = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    captchaVerification = ReCaptchaField(widget=ReCaptchaV2Checkbox(
+        api_params={
+            'onload': 'onloadRecaptchaContact',
+            'render': 'explicit'
+        }
+    ))
 
     class Meta:
         model = ContactUS
@@ -584,7 +597,12 @@ class ForgotPasswordForm(forms.Form):
         'unknown_error': _("Unable to Proceed.")
     }
     username = UsernameField(widget=forms.TextInput(attrs={'autofocus': True}))
-    forgotcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    forgotcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
+        api_params={
+            'onload': 'onloadRecaptcha',
+            'render': 'explicit',
+        }
+    ))
 
     def clean(self):
         username = self.cleaned_data.get('username').lower()
@@ -617,7 +635,12 @@ class ForgotPasswordForm(forms.Form):
 
 class PhoneNumberForm(forms.Form):
 
-    changePhonecaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox())
+    changePhonecaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
+        api_params={
+            'onload': 'onloadRecaptchaVerify',
+            'render': 'explicit'
+        }
+    ))
     verifyPhone = PhoneNumberField(
                 widget=forms.TextInput(attrs={
                     'class': 'form-control',

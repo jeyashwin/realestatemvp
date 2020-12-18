@@ -382,7 +382,7 @@ def ForgotPasswordView(request):
     if request.method == 'POST' and not request.user.is_authenticated:
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
+            username = form.cleaned_data.get('username').lower()
             request.session['forgot_phone_verify'] = username
             userObj = User.objects.get(username=username)
             if userObj.usertype.is_student:
