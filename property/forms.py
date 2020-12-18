@@ -265,7 +265,7 @@ class PropertyFilterSortForm(forms.Form):
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Property Distance', 
                                         'type': 'range', 'step': '0.1',
-                                        'value': minDistanceInMile
+                                        'value': maxDistanceInMile
                                     }),
                                     min_value=minDistanceInMile,
                                     max_value=maxDistanceInMile,
@@ -275,7 +275,7 @@ class PropertyFilterSortForm(forms.Form):
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Property Amenity', 
                                         'type': 'range', 'step': '0.1',
-                                        'value': minDisA.get('averageDistance__min', 0)
+                                        'value': maxDisA.get('averageDistance__max', 0)
                                     }),
                                     min_value=minDisA.get('averageDistance__min', 0),
                                     max_value=maxDisA.get('averageDistance__max', 0),
