@@ -517,6 +517,7 @@
 											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
 												<div class="col-md-6"><b><i class="fa fa-street-view"></i>&nbsp;&nbsp; Distance </b></div>
 												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												{% comment %} {{object.distance.mi}} {% endcomment %}
 												<div class="col-md-4">{% if object.distance %}{{object.distance.mi|floatformat:1}} miles{% else %}None{% endif %}</div>
 											</div>
 											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">

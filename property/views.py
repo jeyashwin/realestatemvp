@@ -237,9 +237,9 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
             disPro = filterSortForm.cleaned_data.get('disPro', None)
             disAmen = filterSortForm.cleaned_data.get('disAmen', None)
             if disPro is not None:
-                propObjects = propObjects.filter(distance__gte=D(mi=disPro-0.05).m)
+                propObjects = propObjects.filter(distance__lte=D(mi=disPro+0.05).m)
             if disAmen is not None:
-                propObjects = propObjects.filter(averageDistance__gte=disAmen)
+                propObjects = propObjects.filter(averageDistance__lte=disAmen)
             if room is not None and room != []:
                 room = [ int(i) for i in room ]
                 if 4 not in room:

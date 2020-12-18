@@ -160,7 +160,7 @@ class PropertyImageForm(forms.ModelForm):
             'imagePath':forms.ClearableFileInput(attrs = {'class':'form-control', 'style': 'display: none'}),
         }
         help_texts = {
-            'imageDescription': "Minimum 4. Select the box to upload the image and describe that image in "
+            'imageDescription': "Minimum 3. Select the box to upload the image and describe that image in "
                                     "the below-given box."
         }
 
@@ -182,17 +182,17 @@ class PropertyVideoForm(forms.ModelForm):
             }),
         }
         help_texts = {
-            'videoDescription': "Minimum 1. Select the box to upload the video and describe that video in "
+            'videoDescription': "Select the box to upload the video and describe that video in "
                                     "the below-given box. Allowed extensions are: mov, mp4, avi, mkv"
         }
 
 
 PropertyImageFormset = forms.inlineformset_factory(Property, PropertyImage, form=PropertyImageForm, 
-                            extra=1, max_num=10, can_delete=True, min_num=4
+                            extra=1, max_num=10, can_delete=True, min_num=3
                         )
 
 PropertyVideoFormset = forms.inlineformset_factory(Property, PropertyVideo, form=PropertyVideoForm,
-                            extra=1, max_num=4, can_delete=True, min_num=1
+                            extra=1, max_num=4, can_delete=True
                         )
 
 
@@ -265,7 +265,7 @@ class PropertyFilterSortForm(forms.Form):
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Property Distance', 
                                         'type': 'range', 'step': '0.1',
-                                        'value': minDistanceInMile
+                                        'value': maxDistanceInMile
                                     }),
                                     min_value=minDistanceInMile,
                                     max_value=maxDistanceInMile,
@@ -275,7 +275,7 @@ class PropertyFilterSortForm(forms.Form):
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Property Amenity', 
                                         'type': 'range', 'step': '0.1',
-                                        'value': minDisA.get('averageDistance__min', 0)
+                                        'value': maxDisA.get('averageDistance__max', 0)
                                     }),
                                     min_value=minDisA.get('averageDistance__min', 0),
                                     max_value=maxDisA.get('averageDistance__max', 0),

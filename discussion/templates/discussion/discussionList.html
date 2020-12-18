@@ -289,8 +289,10 @@
 									<textarea rows="7" id="editor_classiccc" style="display:none;"></textarea>
 									
 									<input type="text" class="form-control" name="title" id="rmposttitle" placeholder="Enter Title">
+									<small id="createPostErrortitle" style="color: red;"></small>
 									<br>
-									<textarea rows="7" class="form-control" name="description" placeholder="Description"></textarea>
+									<textarea rows="7" class="form-control" id="rmpostdescription" name="description" placeholder="Description"></textarea>
+									<small id="createPostErrordescription" style="color: red;"></small>
 									<br>
 									<div class="row">
 										<div class="col-md-12">
@@ -299,6 +301,7 @@
 											<span onclick="cataddclick(this, {{tag.pk}})" id="catyspan{{tag.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{tag}} </span> &nbsp;
 											{% endfor %}
 										</div>
+										<small id="createPostErrortags" style="padding-left: 20px; color: red;"></small>
 									</div>
 									<br>
 									{% for tag in tags %}
@@ -313,8 +316,11 @@
 											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div> {% endcomment %}
 										</div>
 										<div class="col-md-6">
+											<small id="createPostErrorimage" style="padding-left: 10px; color: red;"></small>
 											<div class="pull-right"><br><br>
-												<input type="submit" name="submit" value="Post" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost" />
+												<button type="submit" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost">
+													Post
+												</button>
 											</div>
 										</div>
 									</div>
@@ -330,8 +336,10 @@
 										$(document).ready(function(){
 											$("#createPostForm").submit(function(event){
 												event.preventDefault();
+												var subButton = document.getElementById('submitpost')
+												subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'
 												var formValues= new FormData(this);
-												console.log(formValues);
+												// console.log(formValues);
 												$.ajax({
 													url : $(this).attr('action'), // the endpoint
 													type : "POST", // http method
@@ -343,13 +351,25 @@
 													// handle a successful response
 													success : function(json) {
 														console.log(json); // log the returned json to the console
+														var fields = ['rmposttitle', 'rmpostdescription', 'rmpostimage1']
+														for(id of fields) {
+															document.getElementById(id).value = "";
+														}
+														{% for tag in tags %}
+															document.getElementById("catyinput{{tag.pk}}").checked = false;
+														{% endfor %}
 														window.location.reload();
 													},
 													// handle a non-successful response
 													error : function(xhr,errmsg,err) {
-														// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-														// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-														console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+														subButton.innerHTML = 'Post'
+														if (xhr.status == 400){
+															reso = JSON.parse(xhr.responseText)
+															for(i in reso) {
+																document.getElementById('createPostError'+i).textContent = reso[i]
+															}
+														}
+														console.log(xhr.status + ": " + xhr.responseText);
 													}
 												});
 											});
@@ -556,11 +576,13 @@
 													<h4 class="postkeyviewfields{{object.pk}}"><b>{{object.title|title}}</b></h4>
 													<h4 class="postkeyeditfields{{object.pk}}" style="display:none;">
 														<input type="text" name="title" id="edit_rmposttitle_{{object.pk}}" class="form-control" value="{{object.title|title}}" placeholder="Enter Title" style="border-radius:50px; padding:5px 10px;">
+														<small id="updatePostErrortitle_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</h4>
 													
 													<p class="postkeyviewfields{{object.pk}}">{{object.description|striptags}}</p>
 													<p class="postkeyeditfields{{object.pk}}" style="display:none;">
 														<textarea rows="5" class="form-control" name="description" id="edit_rmpostdesc_{{object.pk}}" placeholder="About yourself.." style="border-radius:20px;">{{object.description|title}}</textarea>
+														<small id="updatePostErrordescription_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</p>
 													
 													<div class="postkeyeditfields{{object.pk}}" style="display:none; padding-bottom:50px;">
@@ -589,6 +611,7 @@
 																{% endif %} {% endcomment %}
 															{% comment %} </center>  {% endcomment %}
 														</div>
+														<small id="updatePostErrorimage_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</div>
 													<div class="col-md-12 mb-2">
 													{% for tag in tags %}
@@ -598,6 +621,7 @@
 														<input type="checkbox" class="form-control" {% for objTag in object.tags.all %}{% if objTag == tag %}checked{% endif %}{% endfor %} name="tags" value="{{tag.pk}}" id="cateinput{{object.pk}}{{tag.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
 													{% endfor %}
 													</div>
+													<small id="updatePostErrortags_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 												</div>
 												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px; background-color:#0f498c; border-bottom-left-radius:7px; border-bottom-right-radius:7px; padding-bottom:5px;">
 													<div class="pull-left">
@@ -617,7 +641,9 @@
 														{% if user == object.student.user.user %}
 														<span class="pull-right">
 															<i class="fa fa-edit btn btn-primary btn-sm postkeyviewfields{{object.pk}}" onclick="edit_my_post(this, {{object.pk}})" data-editurl=""  style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer;"></i>
-															<input type="submit" name="submit" value="Update" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;" />
+															<button type="submit" id="updatebutton{{object.pk}}" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;">
+																Update
+															</button>
 															&nbsp;
 															<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'discussion:discussionDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
 															<script>
@@ -630,6 +656,8 @@
 															
 																$("#updatePostForm{{object.pk}}").submit(function(event){
 																	event.preventDefault();
+																	var subButton = document.getElementById('updatebutton{{object.pk}}')
+																	subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'
 																	var formValues= new FormData(this);
 																	const csrftok = getCookie('csrftoken');
 																	console.log(formValues);
@@ -649,9 +677,14 @@
 																		},
 																		// handle a non-successful response
 																		error : function(xhr,errmsg,err) {
-																			// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
-																			// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-																			console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+																			subButton.innerHTML = 'Update'
+																			if (xhr.status == 400){
+																				reso = JSON.parse(xhr.responseText)
+																				for(i in reso) {
+																					document.getElementById('updatePostError'+ i + '_{{object.pk}}').textContent = reso[i]
+																				}
+																			}
+																			console.log(xhr.status + ": " + xhr.responseText);
 																		}
 																	});
 																});
