@@ -123,18 +123,53 @@
 	<!--https://img.freepik.com/free-photo/white-paper-canvas-texture-background-design-backdrop-overlay-design_1962-68.jpg?size=626&ext=jpg-->	
         <div class="pxp-header fixed-top pxp-animate" style="background-color:#2F7FE9 !important;">
             <div class="container-fluid" style="padding:0.5% 3%;">
+			
+				
+			
                 <div class="row align-items-center">
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-xs-2">
                         <a class="text-white" href="/">
 							<img src="{% static 'assets/images/logo/sl_logo_white.svg' %}" id="header_sl_logo" style="color:#fff; height:auto;"/>
 						</a>
 						{% comment %} <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button> {% endcomment %}
+						<a href="javascript:void(0);" class="pxp-header-nav-trigger pull-right" onclick="openmobilemenu()"><span id="navtogglebtn" class="fa fa-bars"></span></a>
+						<script>
+							function openmobilemenu()
+							{
+								var navelem = document.querySelector("#resnavlist");
+								
+								if(navelem.classList.contains("pxp-nav")) {
+								
+									//$("#resnavlist").css("overflow-y","scroll");
+								
+									$("#resnavlist").removeClass("pxp-nav");	
+									$("#resnavlist").css({"display":"block", "border-top":"2px solid #fff", "margin-top":"10px", "padding-top":"15px"});	
+									
+									$(".list-inline-item").css({"width":"100%", "float":"left", "padding":"10px"});
+									$(".list-inline-item > a").css({"font-size":"20px", "color":"#fff"});
+									$("#mobilesignbtns").css({"display":"block"});
+									
+									$("#navtogglebtn").removeClass("fa-bars");
+									$("#navtogglebtn").addClass("fa-times");
+								} else {
+									$("#resnavlist").addClass("pxp-nav");	
+									$("#resnavlist").css("display", "none");	
+									
+									$(".list-inline-item > a").css({"color":"#fff"});
+									
+									$("#navtogglebtn").removeClass("fa-times");
+									$("#navtogglebtn").addClass("fa-bars");
+								}
+								
+							}
+						</script>
                     </div>
-                    <div class="col-md-10 text-center">
+					
+                    <div class="col-md-10 col-xs-10 text-center">
 <style>
 	.pxp-nav.list-inline > .list-inline-item > a { font-size:14px !important; }
 </style>
-                        <ul class="pxp-nav list-inline">
+                        <ul class="pxp-nav list-inline" id="resnavlist">
 							{% if user.is_authenticated%}
                                 {% if user.usertype.is_student %}
                                     <li class="list-inline-item" style="padding:0px 5px; color:orange;">
@@ -358,7 +393,7 @@
 								
 								
 								
-									<a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
+									<!--a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a-->
 									{% if user.is_authenticated%}
 										<div class="dropdown" id="header_dropdown">
 										  <div class="dropbtnn" style="border:none; padding:0px 0px; color:#fff;">
@@ -394,6 +429,15 @@
 										</div>
 									{% else %}
 										<a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger" id="user-action-btn"><span class="fa fa-user-o"></span></a>
+										<b id="mobilesignbtns" style="display:none;">
+											<center>
+												<a href="#" class="pxp-signup-trigger" id="" style="color:#fff;">Sign Up</a>
+												&nbsp; &nbsp; &nbsp;
+												<a href="#" class="pxp-signin-trigger" id="mobilesigninbtn" style="color:#f2f2f2	;">Sign In</a>
+												&nbsp; &nbsp;
+											</center>
+										</b>
+										
 									{% endif %}
 								
 							</li>
@@ -401,8 +445,7 @@
                         </ul>
 						
                     </div>
-                    <div class="col-5 col-md-3 text-right">  
-                    </div>
+                    <div class="col-5 col-md-3"> </div>	
                 </div>
             </div>
         </div>
@@ -581,9 +624,10 @@
 										</div>
 									</div>
 									<div class="col-6">
-										<div class="form-group">
+										<div class="form-group" id="studentphone">
 											{{StudentSignupForm.phone.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.phone}}
+											<small class="sphoneerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 										</div>
 									</div>
 								</div>
@@ -678,6 +722,7 @@
 											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
 											{{StudentSignupForm.password1}}
 											<small class="passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+
 
 										</div>
 									</div>
@@ -1160,6 +1205,20 @@
 
 			}
 			removereqpic();
+			
+			$("#studentphone > input").keyup(function(){
+
+			 var sphone = $("#studentphone > input").val();
+
+			 //if(sphone.includes("+") == false) {
+
+			if(sphone.charAt(0) != '+') {
+				$(".sphoneerror").html('Country code required');
+			 } else {
+				$(".sphoneerror").html('');
+			 }
+			});
+
 
 			$("#id_password1").keyup(function(){
 			 var pass = $("#id_password1").val();
@@ -1223,11 +1282,16 @@
 			 var email = $("#id_email").val();
 			 var phone = $("#id_phone").val();
 			 var uname = $("#studentuname1div > input").val();
-			 			 
+			 
+			 var sphone = $("#studentphone > input").val();
 
+			 
 			 var re = new RegExp(pass, 'g');
 			 
-			 if(pass.length < 8) {
+			 if(sphone.charAt(0) != '+') {
+			  $(".sphoneerror").html('Country code required');
+			  return false;
+			 } else if(pass.length < 8) {
 			  $(".passerror").html('Minimum 8 characters');
 			  return false;
 			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
@@ -1235,6 +1299,17 @@
 			  return false;
 			 } else if(pass !== cpass) {
 			  $(".cpasserror").html('Not matching!');
+			  return false;
+			 } else if(1 == 1) {
+			  var submiturl = "{% url 'user:studentSignup' %}";
+				$.ajax({
+					method: 'POST',
+					url: submiturl,
+					success:function(res){
+						console.log(res);
+					}
+				});
+
 			  return false;
 			 } else {
 			  $(".passerror").html('');
