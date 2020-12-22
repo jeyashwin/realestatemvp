@@ -35,26 +35,26 @@ class LandlordSignupForm(UserCreationForm):
                 validators=[validatePhone],
                 region='US'
             )
-    lanprofilePicture = forms.ImageField(
-                            widget= forms.ClearableFileInput(attrs={
-                                'class': 'form-control',
-                                'style': 'display:none;',
-                                'onchange': "landlordsignupprofilepicchanged(this)"
-                            }),
-                            label="Profile picture",
-                            required=False,
-                        )
+    # lanprofilePicture = forms.ImageField(
+    #                         widget= forms.ClearableFileInput(attrs={
+    #                             'class': 'form-control',
+    #                             'style': 'display:none;',
+    #                             'onchange': "landlordsignupprofilepicchanged(this)"
+    #                         }),
+    #                         label="Profile picture",
+    #                         required=False,
+    #                     )
     
     landlordcaptcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
         api_params={
             'render': 'explicit'
         }
     ))
-
+    # 'lanprofilePicture',
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email', 'username', 'password1', 
-                    'password2', 'phone', 'lanprofilePicture', 'landlordcaptcha')
+                    'password2', 'phone', 'landlordcaptcha')
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control formInput',
@@ -92,11 +92,11 @@ class LandlordSignupForm(UserCreationForm):
         })
         self.fields['password2'].label = "Confirm Password"
 
-    def clean(self):
-        uniqueUserName = self.cleaned_data.get('username', None)
-        if uniqueUserName:
-            self.cleaned_data['username'] = uniqueUserName.lower()
-        return super().clean()
+    # def clean(self):
+    #     uniqueUserName = self.cleaned_data.get('username', None)
+    #     if uniqueUserName:
+    #         self.cleaned_data['username'] = uniqueUserName.lower()
+    #     return super().clean()
 
 
 class StudentSignupForm(UserCreationForm):
@@ -294,12 +294,12 @@ class StudentSignupForm(UserCreationForm):
         })
         self.fields['password2'].label = "Confirm Password"
 
-    def clean(self):
-        errorMess = {}
+    # def clean(self):
+        # errorMess = {}
 
-        uniqueUserName = self.cleaned_data.get('username', None)
-        if uniqueUserName:
-            self.cleaned_data['username'] = uniqueUserName.lower()
+        # uniqueUserName = self.cleaned_data.get('username', None)
+        # if uniqueUserName:
+        #     self.cleaned_data['username'] = uniqueUserName.lower()
 
         # if self.cleaned_data.get('ssFrom') is not None and self.cleaned_data.get('ssTo') is None:
         #     errorMess['ssTo'] = ValidationError(_('Sleep Schedule To Time is required!'), code='required')
@@ -311,9 +311,9 @@ class StudentSignupForm(UserCreationForm):
         # if self.cleaned_data.get('shFrom') is None and self.cleaned_data.get('shTo') is not None:
         #     errorMess['shFrom'] = ValidationError(_('Study Hour From Time is required!'), code='required')
 
-        if errorMess != {}:
-            raise ValidationError(errorMess)
-        return super().clean()
+        # if errorMess != {}:
+        #     raise ValidationError(errorMess)
+        # return super().clean()
 
 
 class StudentProfileUpdateForm(forms.ModelForm):
@@ -367,7 +367,7 @@ class StudentProfileUpdateForm(forms.ModelForm):
             'placeholder': 'Enter your phone number'
         }),
         help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
-        # validators=[validatePhone],
+        validators=[validatePhone],
         region='US',
         label='Phone'
     )
@@ -539,17 +539,17 @@ class LandlordProfileUpdateForm(forms.ModelForm):
         private_key=settings.RECAPTCHA_V3_PRIVATE_KEY,
         widget=ReCaptchaV3()
     )
-
+    # 'profilePicture', 
     class Meta:
         model = UserLandLord
-        fields = ('first_name', 'last_name', 'email', 'Updatephone', 'profilePicture', 'landlordProfilecaptcha')
+        fields = ('first_name', 'last_name', 'email', 'Updatephone', 'landlordProfilecaptcha')
 
-        widgets = {
-            'profilePicture': forms.ClearableFileInput(attrs={
-                    'class': 'form-control',
-                    'onchange': "loadPhoto(event)",
-                }),
-        }
+        # widgets = {
+        #     'profilePicture': forms.ClearableFileInput(attrs={
+        #             'class': 'form-control',
+        #             'onchange': "loadPhoto(event)",
+        #         }),
+        # }
 
     def __init__(self, request=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -605,7 +605,8 @@ class ForgotPasswordForm(forms.Form):
     ))
 
     def clean(self):
-        username = self.cleaned_data.get('username').lower()
+        # username = self.cleaned_data.get('username').lower()
+        username = self.cleaned_data.get('username')
         if not User.objects.filter(username=username).exists():
             raise ValidationError(
                 self.error_messages['username_not_exists'],
@@ -648,7 +649,7 @@ class PhoneNumberForm(forms.Form):
                     'placeholder': 'Enter your phone number'
                 }),
                 help_text="Enter a valid USA phone number (e.g. (201) 555-0123)",
-                # validators=[validatePhone],
+                validators=[validatePhone],
                 region='US'
             )
 

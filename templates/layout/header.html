@@ -409,14 +409,14 @@
 																https://www.w3schools.com/bootstrap/img_avatar1.png
 														  {% endif %}"
 													style="width:30px; height:30px; border-radius:50px; border:1px solid #286090;" />
-											{% else %}
-												<img 
+											{% comment %} {% else %} {% endcomment %}
+												{% comment %} <img 
 													src="{% if user.usertype.userlandlord.profilePicture %}
 																{{user.usertype.userlandlord.profilePicture.url}}
 														  {% else %} 
 																https://www.w3schools.com/bootstrap/img_avatar1.png
 														  {% endif %}" 
-												style="width:40px; height:40px; border-radius:50px; border:1px solid #ed8200;" />
+												style="width:40px; height:40px; border-radius:50px; border:1px solid #ed8200;" /> {% endcomment %}
 											{% endif %}
 											&nbsp;
 											{{user}} &nbsp; <i class="fa fa-caret-down"></i> &nbsp;
@@ -638,11 +638,8 @@
 										<div class="form-group" id="studentphone">
 											{{StudentSignupForm.phone.label_tag}} <small class="reqred">*</small>
 											{{StudentSignupForm.phone}}
-<<<<<<< HEAD
 											<small id="studentFormError-{{StudentSignupForm.phone.name}}" class='errorSignupFields'></small>
-=======
 											<small class="sphoneerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
->>>>>>> 79d4ad1e876652092b77b5f329f4def305df3f3a
 										</div>
 									</div>
 								</div>
@@ -1091,7 +1088,7 @@
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							{% comment %} <div class="form-group">
 								{{LandlordSignupForm.lanprofilePicture.label_tag}}
 								<div class="row">
 									<div class="col-md-10">
@@ -1103,7 +1100,7 @@
 									</div>
 								</div>
 								<small id="landlordFormError-{{LandlordSignupForm.lanprofilePicture.name}}" class='errorSignupFields'></small>
-							</div>
+							</div> {% endcomment %}
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group" id="ll_uname">
@@ -1195,10 +1192,10 @@
 			{
 				document.getElementById('{{StudentSignupForm.profilePicture.id_for_label}}').click();
 			}
-			function landlordsignupprofilepicsel()
+			{% comment %} function landlordsignupprofilepicsel()
 			{
 				document.getElementById('{{LandlordSignupForm.lanprofilePicture.id_for_label}}').click();
-			}
+			} {% endcomment %}
 			function studentsignupprofilepicchanged(dis)
 			{
 				if(dis.files && dis.files[0]) {
@@ -1334,7 +1331,12 @@
 			 } else if(pass !== cpass) {
 			  $(".cpasserror").html('Not matching!');
 			  return false;
-			 } else if(1 == 1) {
+			 }else {
+			  $(".passerror").html('');
+			  return true;
+			 }
+			});
+			 {% comment %} else if(1 == 1) {
 			  var submiturl = "{% url 'user:studentSignup' %}";
 				$.ajax({
 					method: 'POST',
@@ -1345,12 +1347,7 @@
 				});
 
 			  return false;
-			 } else {
-			  $(".passerror").html('');
-			  return true;
-			 }
-			});
-			
+			 }  {% endcomment %}
 		       </script>
 
 			<script>
@@ -1465,8 +1462,8 @@
 								// console.log(json); // log the returned json to the console
 								subButton.innerHTML = 'Sign Up'
 								document.getElementById('landlord_signup_form2').reset();
-								document.getElementById('reg_land_img_preview').setAttribute('src', "{% static '/images/user-default.png' %}");
-								document.getElementById('lansignupprofilepicsel').textContent = 'Pick Image';
+								{% comment %} document.getElementById('reg_land_img_preview').setAttribute('src', "{% static '/images/user-default.png' %}"); {% endcomment %}
+								{% comment %} document.getElementById('lansignupprofilepicsel').textContent = 'Pick Image'; {% endcomment %}
 								grecaptcha.reset(LandlordWidget);
 								$("#signupSuccess").show();
 								$("#successMessages").text(json.success);

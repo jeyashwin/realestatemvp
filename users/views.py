@@ -114,12 +114,12 @@ class LandlordSignUpView(CreateView):
         valid = super().form_valid(form)
         userObject = UserType.objects.create(user=form.instance,
                         userType="seller")
-        profileImage = form.cleaned_data.get('lanprofilePicture', None)
-        if not profileImage:
-            profileImage = 'uploads/avatar/profile_avatar.png'
+        # profileImage = form.cleaned_data.get('lanprofilePicture', None)
+        # if not profileImage:
+        #     profileImage = 'uploads/avatar/profile_avatar.png'
         landlordObject = UserLandLord.objects.create(user=userObject, 
                             phone=form.cleaned_data.get('phone'),
-                            profilePicture=profileImage,
+                            # profilePicture=profileImage,
                         )
         # messages.add_message(self.request, messages.SUCCESS, 'Landlord/Sublease Profile created successfully. Sign in to you account.')
         # return redirect('user:home')
@@ -382,7 +382,8 @@ def ForgotPasswordView(request):
     if request.method == 'POST' and not request.user.is_authenticated:
         form = ForgotPasswordForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username').lower()
+            # username = form.cleaned_data.get('username').lower()
+            username = form.cleaned_data.get('username')
             request.session['forgot_phone_verify'] = username
             userObj = User.objects.get(username=username)
             if userObj.usertype.is_student:

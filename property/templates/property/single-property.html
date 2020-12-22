@@ -215,13 +215,10 @@
                 <a href="#" class="pxp-sp-gallery-btn">View Photos</a>
                 <div class="clearfix"></div>
             </div>
-<<<<<<< HEAD
-            <div class="container-fluid mt-50" style="padding:0px 50px;">
-			{% if object.propertyvideo_set.all %}
-=======
-
             <div class="container-fluid mt-50" style="padding:0px 30px;">
->>>>>>> 79d4ad1e876652092b77b5f329f4def305df3f3a
+			{% if object.propertyvideo_set.all %}
+
+            {% comment %} <div class="container-fluid mt-50" style="padding:0px 30px;"> {% endcomment %}
 				<br><br>
 				<h3>Property Videos<br></h3>
 				<div class="col-xs-12" style="padding-top:20px;">
@@ -345,11 +342,11 @@
                                 <br><br>
                                 Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month. </span></p>
                                 <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1" onclick="readmore()">Show More <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2" onclick="readless()">Show Less <span class="fa fa-angle-up"></span></span></a> {% endcomment %}
-								<hr>
                             </div>
                         </div>
 
-
+						{% if object.amenities.all %}
+						<hr>
                         <div class="pxp-single-property-section mt-4 mt-md-4">
                             <h3>Amenities</h3>
                             <div class="row mt-3 mt-md-4">
@@ -384,6 +381,7 @@
                                 </div> {% endcomment %}
                             </div>
                         </div>
+						{% endif %}
 
                     </div>
                     <div class="col-lg-5 col-md-5">
