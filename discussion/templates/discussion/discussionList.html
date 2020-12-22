@@ -2,7 +2,7 @@
 
 {% load static %}
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -11,9 +11,8 @@
 			
 			#layoutDefault_footer { display:none !important; }
 
-			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; } 
 			
-			.list-inline-item > a { font-size:12px !important; }
 			
 			::-webkit-scrollbar {
 			  width: 7px;
@@ -202,6 +201,18 @@
 
 					}
 					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
+					
+					@media only screen and (min-width: 600px) {
+						
+					}
+					
+					@media only screen and (max-width: 600px) {
+						#colsection1 { padding-top:20px; }
+						#colsection2 { padding-top:80px; }
+						#colsection3 { padding-top:20px; }
+						
+					}
+
 		</style>
 		
 		<div class="roww bodycontent">
@@ -223,7 +234,7 @@
 					{% comment %} <span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span> {% endcomment %}
 					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
 					<a href="{% url 'chat:index' %}" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chats </a>
-					&nbsp;
+					&nbsp;<br><br><br><br>	
 				</div><br>
 				
 				  <!--ul class="nav nav-pills nav-justified">
@@ -235,7 +246,7 @@
 				  <div class="tab-content">
 					<div id="home" class="home-div">
 						
-						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
+						<div class="col-md-2" id="colsection1" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px; float:left;">
 							<br>
 							<center>
 								{% if user.is_authenticated%}
@@ -274,7 +285,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
+						<div class="col-md-4" id="colsection2" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none; float:left;">
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
 							<!-- Tab content -->
@@ -793,7 +804,7 @@
 							</div>
 						</div>
 						
-						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
+						<div class="col-md-6" id="colsection3" style="max-height:700px; overflow-y:scroll;  float:left;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							

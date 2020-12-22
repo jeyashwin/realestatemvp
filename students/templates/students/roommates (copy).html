@@ -2,7 +2,7 @@
 
 {% load static %}
 
-        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -12,6 +12,8 @@
 			#layoutDefault_footer { display:none !important; }
 
 			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			
+			.list-inline-item > a { font-size:12px !important; }
 			
 			::-webkit-scrollbar {
 			  width: 7px;
@@ -25,6 +27,44 @@
 			}
 			::-webkit-scrollbar-thumb:hover {
 			  background: #555;
+			}
+			
+			.bodycontent {
+				padding-top:100px;
+			}
+			.navbar.navbar-default {
+				background-color:rgba(0, 0, 0, 0.8) !important; 
+				padding:10px !important;
+			}
+		
+			.navbar-brand {
+				color: #fff !important;
+				font-size:20px;
+			}
+			
+			.nav.navbar-nav {
+				padding-left: 27% !important;
+			}
+			
+			.nav.navbar-nav > li {
+				padding: 0px 17px !important;				
+			}
+			
+			.nav.navbar-nav > li > a {
+				color:#fff !important;
+				font-weight:bold !important;
+			}
+			
+			.nav.nav-pills > li > a {
+				border-radius:100px !important;
+				border:2px solid #F5F5F5;
+				background-color:#F5F5F5 !important;
+				color:black;
+			}
+			
+			.nav.nav-pills > li.active > a {
+				color:#fff;
+				background-color:#383836 !important;
 			}
 			
 			.panelatag {
@@ -63,7 +103,6 @@
 					box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 0px rgba(120, 144, 156,0.8);
 				}
 
-				.bodycontent { padding-top:100px; }
 
 				textarea:focus,
 						input[type="text"]:focus,
@@ -89,28 +128,80 @@
 				.card::-webkit-scrollbar {
 					width: 1px;
 				}
+				 
 				::-webkit-scrollbar-thumb {
 					border-radius: 9px;
 					background: rgba(96, 125, 139,0.99);
 				}
 
-				
-				.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
-				
-				@media only screen and (min-width: 600px) {
-					
-				}
-				
-				@media only screen and (max-width: 600px) {
-					
-					#colsection1 { padding-top:20px; }
-					#colsection2 { padding-top:80px; }
-					#colsection3 { padding-top:20px; }
-					
-				}
+				.balon1, .balon2 {
 
-				
-				
+					margin-top: 5px !important;
+					margin-bottom: 5px !important;
+
+					}
+
+
+				.balon1 a {
+
+					background: #42a5f5;
+					color: #fff !important;
+					border-radius: 20px 20px 3px 20px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+
+					}
+
+				.balon1:before {
+
+					content: attr(data-is);
+					position: absolute;
+					right: 15px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+					
+					}
+
+				.balon2 a {
+
+					background: #f1f1f1;
+					color: #000 !important;
+					border-radius: 20px 20px 20px 3px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+					
+					}
+					
+				.balon2:before {
+
+					content: attr(data-is);
+					position: absolute;
+					left: 13px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+				  
+					}
+					
+				.bg-sohbet:before {
+
+					content: "";
+					background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
+					opacity: 0.06;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					height:100%;
+					position: absolute;   
+
+					}
+					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
 		</style>
 		
 		<div class="roww bodycontent">
@@ -132,7 +223,7 @@
 					{% comment %} <span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span> {% endcomment %}
 					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
 					<a href="{% url 'chat:index' %}" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chats </a>
-					&nbsp;<br><br><br><br>
+					&nbsp;
 				</div><br>
 				
 				  <!--ul class="nav nav-pills nav-justified">
@@ -144,7 +235,7 @@
 				  <div class="tab-content">
 					<div id="home" class="home-div">
 						
-						<div class="col-md-2" id="colsection1" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px; float:left;">
+						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
 							<br>
 							<center>
 								{% if user.is_authenticated%}
@@ -187,7 +278,7 @@
 								{% endcomment %}
 							</div>
 						</div>
-						<div class="col-md-4" id="colsection2" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none; float:left;">
+						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
 
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
@@ -204,10 +295,8 @@
 									<textarea rows="7" id="editor_classiccc" style="display:none;"></textarea>
 									
 									<input type="text" class="form-control" name="title" id="rmposttitle" placeholder="Enter Title">
-									<small id="createPostErrortitle" style="color: red;"></small>
 									<br>
-									<textarea rows="7" class="form-control" id="rmpostdescription" name="description" placeholder="About yourself.."></textarea>
-									<small id="createPostErrordescription" style="color: red;"></small>
+									<textarea rows="7" class="form-control" name="description" placeholder="About yourself.."></textarea>
 									<br>
 									{% comment %} 
 							<------------------interest section for creation of post starts here------------------->
@@ -230,27 +319,14 @@
 									<div class="row">
 										<div class="col-md-8">
 											<h5><b>Images</b></h5>
-<<<<<<< HEAD
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center></div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center></div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center></div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center></div>
-=======
-											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center> </div>
-											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
-											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center> </div>
-											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div>
->>>>>>> 79d4ad1e876652092b77b5f329f4def305df3f3a
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div>
 										</div>
-										<small id="createPostErrorimage" style="padding-left: 10px; color: red;"></small>
-										<small id="createPostErrorimage1" style="padding-left: 10px; color: red;"></small>
-										<small id="createPostErrorimage2" style="padding-left: 10px; color: red;"></small>
-										<small id="createPostErrorimage3" style="padding-left: 10px; color: red;"></small>
 										<div class="col-md-6">
 											<div class="pull-right"><br><br>
-												<button type="submit" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost">
-													Post
-												</button>
+												<input type="submit" name="submit" value="Post" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost" />
 											</div>
 										</div>
 									</div>
@@ -266,10 +342,8 @@
 										$(document).ready(function(){
 											$("#createPostForm").submit(function(event){
 												event.preventDefault();
-												var subButton = document.getElementById('submitpost')
-												subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'
 												var formValues= new FormData(this);
-												// console.log(formValues);
+												console.log(formValues);
 												$.ajax({
 													url : $(this).attr('action'), // the endpoint
 													type : "POST", // http method
@@ -281,22 +355,13 @@
 													// handle a successful response
 													success : function(json) {
 														console.log(json); // log the returned json to the console
-														var fields = ['rmposttitle', 'rmpostdescription', 'rmpostimage1', 'rmpostimage2', 'rmpostimage3', 'rmpostimage4']
-														for(id of fields) {
-															document.getElementById(id).value = "";
-														}
 														window.location.reload();
 													},
 													// handle a non-successful response
 													error : function(xhr,errmsg,err) {
-														subButton.innerHTML = 'Post'
-														if (xhr.status == 400){
-															reso = JSON.parse(xhr.responseText)
-															for(i in reso) {
-																document.getElementById('createPostError'+i).textContent = reso[i]
-															}
-														}
-														console.log(xhr.status + ":" + xhr.responseText)
+														// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+														// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+														console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 													}
 												});
 											});
@@ -517,13 +582,11 @@
 													<h4 class="postkeyviewfields{{object.pk}}"><b>{{object.title|title}}</b></h4>
 													<h4 class="postkeyeditfields{{object.pk}}" style="display:none;">
 														<input type="text" name="title" id="edit_rmposttitle_{{object.pk}}" class="form-control" value="{{object.title|title}}" placeholder="Enter Title" style="border-radius:50px; padding:5px 10px;">
-														<small id="updatePostErrortitle_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</h4>
 													
 													<p class="postkeyviewfields{{object.pk}}">{{object.description|striptags}}</p>
 													<p class="postkeyeditfields{{object.pk}}" style="display:none;">
 														<textarea rows="5" class="form-control" name="description" id="edit_rmpostdesc_{{object.pk}}" placeholder="About yourself.." style="border-radius:20px;">{{object.description|title}}</textarea>
-														<small id="updatePostErrordescription_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</p>
 													
 													<div class="postkeyeditfields{{object.pk}}" style="display:none; padding-bottom:50px;">
@@ -553,10 +616,6 @@
 															</center> 
 														</div>
 													</div>
-													<small id="updatePostErrorimage_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
-													<small id="updatePostErrorimage1_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
-													<small id="updatePostErrorimage2_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
-													<small id="updatePostErrorimage3_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 											{% comment %} <-------------------- interest selection for update post starts here --------------------> 
 													{% for interest in interests %}
 														<span onclick="cateditclick(this, {{interest.pk}})" id="catespan{{interest.pk}}" class="btn btn-default btn-xs postkeyeditfields{{object.pk}}" style="background-color:transparent; border:2px solid #383836; border-radius:50px; display:none;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
@@ -585,9 +644,7 @@
 														{% if user == object.student.user.user %}
 														<span class="pull-right">
 															<i class="fa fa-edit btn btn-primary btn-sm postkeyviewfields{{object.pk}}" onclick="edit_my_post(this, {{object.pk}})" data-editurl=""  style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer;"></i>
-															<button id="updatebutton{{object.pk}}" type="submit" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;">
-																Update
-															</button>
+															<input type="submit" name="submit" value="Update" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;" />
 															&nbsp;
 															<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'students:postDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
 															<script>
@@ -600,8 +657,6 @@
 															
 																$("#updatePostForm{{object.pk}}").submit(function(event){
 																	event.preventDefault();
-																	var subButton = document.getElementById('updatebutton{{object.pk}}')
-																	subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'
 																	var formValues= new FormData(this);
 																	const csrftok = getCookie('csrftoken');
 																	console.log(formValues);
@@ -621,14 +676,9 @@
 																		},
 																		// handle a non-successful response
 																		error : function(xhr,errmsg,err) {
-																			subButton.innerHTML = 'Update'
-																			if (xhr.status == 400){
-																				reso = JSON.parse(xhr.responseText)
-																				for(i in reso) {
-																					document.getElementById('updatePostError'+ i + '_{{object.pk}}').textContent = reso[i]
-																				}
-																			}
-																			console.log(xhr.status + ": " + xhr.responseText);
+																			// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+																			// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+																			console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 																		}
 																	});
 																});
@@ -737,7 +787,7 @@
 							</div>
 						</div>
 						
-						<div class="col-md-6" id="colsection3" style="max-height:700px; overflow-y:scroll; float:left;">
+						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							
@@ -764,16 +814,16 @@
 											<div class="row" style="padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
-													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; <span class="tobaccousagevalue text-uppercase">N/A</span> </span>
+													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; <span class="tobaccousagevalue">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; <span class="alcoholusagevalue text-uppercase">N/A</span> </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; <span class="alcoholusagevalue">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; <span class="cleanlinessvalue text-uppercase">N/A</span> </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; <span class="cleanlinessvalue">N/A</span> </span>
 												</div>
 												<div class="col-md-6">
-													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; <span class="guestsvalue text-uppercase">N/A</span> </span>
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; <span class="guestsvalue">N/A</span> </span>
 												</div>
 												<br>
 											</div>
@@ -802,7 +852,7 @@
 											<br><br>
 											<p class="userdesc"></p>
 											<hr>
-											<h4 id="photosvisible"><b>Photos</b></h4>
+											<h4><b>Photos</b></h4>
 											<div class="userimgs"></div>
 										</div>
 										
@@ -989,30 +1039,11 @@ function tConvert (timeString) {
 	} else {
 		var shto = '~';
 	}
-										if(res.student.tobaccoUsage != ""){
-											$(".tobaccousagevalue").html(res.student.tobaccoUsage);
-										}
-										else{
-											$(".tobaccousagevalue").html("n/a");
-										}
-										if(res.student.alcoholUsage != ""){
-											$(".alcoholusagevalue").html(res.student.alcoholUsage);
-										}
-										else{
-											$(".alcoholusagevalue").html("n/a");
-										}
-										if(res.student.cleanliness != ""){
-											$(".cleanlinessvalue").html(res.student.cleanliness);
-										}
-										else{
-											$(".cleanlinessvalue").html("n/a");
-										}
-										if(res.student.guests != ""){
-											$(".guestsvalue").html(res.student.guests);
-										}
-										else{
-											$(".guestsvalue").html("n/a");
-										}
+
+										$(".tobaccousagevalue").html(res.student.tobaccoUsage);
+										$(".alcoholusagevalue").html(res.student.alcoholUsage);
+										$(".cleanlinessvalue").html(res.student.cleanliness);
+										$(".guestsvalue").html(res.student.guests);
 										$(".sleepschedulevalue").html(ssfrom+' - '+ssto);
 										$(".studyhoursvalue").html(shfrom+' - '+shto);
 
@@ -1079,12 +1110,6 @@ function tConvert (timeString) {
 										}
 										
 										$("#viewpostdetails > .panel-body > .panelrow > .usercontent > .userimgs").html(imgs);
-
-										if (imgs === '') {
-											document.getElementById('photosvisible').style = 'display: none;'
-										} else {
-											document.getElementById('photosvisible').style = 'display: block;'
-										}
 										
 										$("#commentsubmit").attr('data-url', cmnturl);
 										$("#commentsubmit").attr('data-postid', postid);
@@ -1600,12 +1625,11 @@ function tConvert (timeString) {
      <button type="button" class="close" data-dismiss="modal" style="color:red;">&times;</button>
       </div>
       <div class="modal-body">
-     <form method="POST" action="{% url 'user:studentLiving' %}">
+     <form method="POST" action="#">
      <style>
       .lhrows { margin-top:15px; }
       .form-control { border-radius:50px !important; background-color:rgba(255, 255, 255, 0.2); }
      </style>
-	 {% csrf_token %}
       <div class="col-md-12">
        <div class="row lhrows">
         <div class="col-md-4">
@@ -1613,11 +1637,11 @@ function tConvert (timeString) {
         </div>
         <div class="col-md-4">
          <small>From</small>
-		 {{StudentLivingHabitsForm.sleepScheduleFrom}}
+         <input type="time" name="sleepschedulefrom" class="form-control" />
         </div>
         <div class="col-md-4">
          <small>To</small>
-		 {{StudentLivingHabitsForm.sleepScheduleTo}}
+         <input type="time" name="sleepscheduleto" class="form-control" />
         </div>
        </div>
       
@@ -1627,11 +1651,11 @@ function tConvert (timeString) {
         </div>
         <div class="col-md-4">
          <small>From</small>
-		 {{StudentLivingHabitsForm.studyHourFrom}}
+         <input type="time" name="studyhoursfrom" class="form-control" />
         </div>
         <div class="col-md-4">
          <small>To</small>
-		 {{StudentLivingHabitsForm.studyHourTo}}
+         <input type="time" name="studyhoursto" class="form-control" />
         </div>
        </div>
       
@@ -1640,7 +1664,11 @@ function tConvert (timeString) {
          <p class="step2label"><b>Tobacco Usage</b></p>
         </div>
         <div class="col-md-8">
-		 {{StudentLivingHabitsForm.tobaccoUsage}}
+         <select name="tobaccousage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
         </div>
        </div>
       
@@ -1649,7 +1677,11 @@ function tConvert (timeString) {
          <p class="step2label"><b>Alcohol Usage</b></p>
         </div>
         <div class="col-md-8">
-		 {{StudentLivingHabitsForm.alcoholUsage}}
+         <select name="alcoholusage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
         </div>
        </div>
       
@@ -1658,7 +1690,10 @@ function tConvert (timeString) {
          <p class="step2label"><b>Cleanliness</b></p>
         </div>
         <div class="col-md-8">
-		 {{StudentLivingHabitsForm.cleanliness}}
+         <select name="cleanliness" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
         </div>
        </div>
       
@@ -1667,21 +1702,19 @@ function tConvert (timeString) {
          <p class="step2label"><b>Guests</b></p>
         </div>
         <div class="col-md-8">
-		 {{StudentLivingHabitsForm.guests}}
+         <select name="guests" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
         </div>
        </div>
+      </div>
+      
       <div class="row lhrows">
-       <div class="col-md-6">
+       <div class="col-md-12">
         <br><br>
         <center>
          <input type="submit" name="submit" value="Submit" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"/>
-        </center>
-        <br>
-       </div>
-	   <div class="col-md-6">
-        <br><br>
-        <center>
-        <input type="submit" name='laterbutton' value="Set Later" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#c9302c; cursor:pointer; border:none; border-right:1px solid silver;"/>
         </center>
         <br>
        </div>
@@ -1698,9 +1731,7 @@ function tConvert (timeString) {
    {
     document.getElementById('habitsmodalbtn').click();
    }
-   {% if not user.usertype.userstudent.livingHabitsLater %}
-	openhabitsmodal();
-   {% endif %}
+   openhabitsmodal();
   </script>
 
 

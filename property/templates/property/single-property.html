@@ -27,10 +27,28 @@
 			.pxp-header.fixed-top.pxp-animate { background-color: rgba(4, 113, 166, 1) !important; }
 			
 			#message_seller_btn:hover { background-color:rgba(4, 113, 166, 1) !important; }
+			.callcustomerbtn:hover { border:4px solid #003a8c; }	
+			
+			@media only screen and (min-width: 600px) {
+				.callcustomerbtn {
+					width:80%; height:80%;
+					}
+					
+					.lifestylediv { margin-left:10px; margin-top:15px; }
+				}
+				
+				@media only screen and (max-width: 600px) {
+					.callcustomerbtn {
+						width:10%; height:10%;
+					}
+					#maplocator { margin-top:15px; }
+					.lifestylediv { margin-top:15px; }
+					.card { margin-top:10px; }
+				}
 		</style>
         <div class="pxp-content">
             <div class="pxp-single-property-top pxp-content-wrapper mt-100">
-                <div class="container">
+                <div class="container-fluid">
 					{% if messages %}
 					{% for message in messages %}
 					<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
@@ -43,11 +61,11 @@
 					{% endif %}
 					{% load humanize %}
                     <div class="row">
-                        <div class="col-sm-12 {% if user.usertype.is_student %}col-md-4 {% else %}col-md-5{% endif %}">
-                            <h2 class="pxp-sp-top-title">{{object.title}}</h2>
+                        <div class="col-sm-12 {% if user.usertype.is_student %} col-md-4 {% else %} col-md-5 {% endif %}">
+                            <h3 class="pxp-sp-top-address" style="padding-left:15px;"><b> {{object.title}} </b></h3>
                             {% comment %} <p class="pxp-sp-top-address pxp-text-light">{{object.address}}, {{object.city}} {{object.zipcode}} </p> {% endcomment %}
                         </div>
-                        <div class="col-sm-12 {% if user.usertype.is_student %}col-md-6 {% else %}col-md-7 {% endif %}">
+                        <div class="col-xs-12 col-sm-12 {% if user.usertype.is_student %} col-md-5 {% else %} col-md-6 {% endif %}">
                             <div class="pxp-sp-top-btns mt-2 mt-md-0">
 								{% if user.usertype.is_student %}
 									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
@@ -120,11 +138,11 @@
                                 <div>{{object.bathrooms}} <span>BA</span></div>
                                 <div>{{object.sqft|intcomma}} <span>SF</span></div>
                             </div>
-                            <div class="pxp-sp-top-price mt-3 mt-md-0">
+                            <div class="pxp-sp-top-pric mt-3 mt-md-0">
 								{% if user.usertype.is_student %}
 									<a href="{% url 'chat:landlordchat' object.urlSlug %}" id="message_seller_btn" class="btn" style="background-color:rgba(4, 113, 166, 0.8); color:#fff; font-size:15px; font-weight:normal; border-radius:50px;"><i class="fa fa-commenting-o"></i> &nbsp; Message Seller </a> &nbsp;
 								{% endif %}
-								<span style="font-size:15px; color:grey; font-weight:normal;">Price </span>${{object.rentPerPerson|intcomma}} &nbsp; <span style="font-size:15px; color:grey; font-weight:normal;">Security Deposit </span>
+								<br><br><span style="font-size:15px; color:grey; font-weight:normal;">Price </span>${{object.rentPerPerson|intcomma}} &nbsp; <span style="font-size:15px; color:grey; font-weight:normal;">Security Deposit </span>
 								{% if object.securityDeposit %}
 									${{object.amount|intcomma}}
 								{% else %}
@@ -142,11 +160,17 @@
 								</style>
 									
 									<center>
-										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-signin-trigger" style="background-color:#fff; padding:7px 8.5px; color:#003a8c; border:1.5px solid #003a8c; cursor:pointer;" id="property_req_a_tour"> &nbsp; REQUEST A TOUR &nbsp; </b> 
+										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-signin-trigger" style="background-color:#fff; padding:7px 8.5px; color:#003a8c; border:2px solid #003a8c; cursor:pointer;" id="property_req_a_tour"> &nbsp; REQUEST A TOUR &nbsp; </b> 
 										
-										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-forgot-password-trigger" style="background-color:#fff; padding:7px 5px; color:#003a8c; border:1.5px solid #003a8c; cursor:pointer; margin-top:-1px;" id="property_req_to_rent" onclick="open_req_to_rent()"> &nbsp; REQUEST TO RENT &nbsp; </b> 
+										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-forgot-password-trigger" style="background-color:#fff; padding:7px 5px; color:#003a8c; border:2px solid #003a8c; cursor:pointer; margin-top:-1px;" id="property_req_to_rent" onclick="open_req_to_rent()"> &nbsp; REQUEST TO RENT &nbsp; </b> 
+										
 									</center>
 							</div>
+
+							<div class="col-md-1">
+								<center><a href="tel:704-918-8215"><img class="callcustomerbtn" title="Call customer service" src="https://thumbs.dreamstime.com/b/man-call-head-phone-hours-support-custom-care-business-customer-support-service-black-icon-icon-support-customer-service-call-140920515.jpg" style="border-radius:50px;"/></a></center>
+							</div>
+
 						{% endif %}
                     </div>
                 </div>
@@ -191,8 +215,13 @@
                 <a href="#" class="pxp-sp-gallery-btn">View Photos</a>
                 <div class="clearfix"></div>
             </div>
+<<<<<<< HEAD
             <div class="container-fluid mt-50" style="padding:0px 50px;">
 			{% if object.propertyvideo_set.all %}
+=======
+
+            <div class="container-fluid mt-50" style="padding:0px 30px;">
+>>>>>>> 79d4ad1e876652092b77b5f329f4def305df3f3a
 				<br><br>
 				<h3>Property Videos<br></h3>
 				<div class="col-xs-12" style="padding-top:20px;">
@@ -253,7 +282,7 @@
 				{% endif %}
 				<br>
                 <div class="row">
-                    <div class="col-lg-4 col-md-4" style="background-color:#fff; border-radius:7px; padding:20px;">
+                    <div class="col-lg-4 col-md-4" style="background-color:#fff; border-radius:7px; padding:10px;">
                         <div class="pxp-single-property-section">
                             <h3>Key Details</h3>
                             <div class="row mt-3 mt-md-4">
@@ -358,12 +387,12 @@
 
                     </div>
                     <div class="col-lg-5 col-md-5">
-                        
+                        <div class="row">
 						<div id="maplocator" style="background-color:#fff; width:100%; height:350px; border:4px solid rgba(0, 0, 0, 0.1); border-radius:7px;"> <span id="mapspin" style="margin-left:47%; color:#239fed; font-size:40px;"><i class="fa fa-spinner fa-spin" style="margin-top:150px;"></i></span> </div>
 						
 						<br>
 						
-						<div>
+						<div class="lifestylediv" style="width:100%;">
 							{% if object.propertynearby_set.all %}
 							<b>Lifestyle nearby:</b>
 							<br><br>
@@ -438,7 +467,7 @@
 							<div>No Nearby Lifestyle Styles fetched.</div>
 							{% endif %}
 						</div>
-						
+						</div>
                     </div>
 					
 					<div class="col-lg-3 col-md-3">
@@ -734,7 +763,7 @@
         <script src="{% static '/js/infobox.js' %}"></script>
         <script src="{% static '/js/single-map.js' %}"></script>
         <script src="{% static '/js/Chart.min.js' %}"></script>
-        <script src="{% static '/js/main5732.js' %}"></script>
+        <!--script src="{% static '/js/main5732.js' %}"></script-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
