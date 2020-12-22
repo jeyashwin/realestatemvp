@@ -164,7 +164,7 @@ class PropertyImageForm(forms.ModelForm):
             'imagePath':forms.ClearableFileInput(attrs = {'class':'form-control', 'style': 'display: none'}),
         }
         help_texts = {
-            'imageDescription': "Minimum 3. Select the box to upload the image and describe that image in "
+            'imageDescription': "Minimum 2. Select the box to upload the image and describe that image in "
                                     "the below-given box."
         }
 
