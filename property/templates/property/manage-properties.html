@@ -20,7 +20,12 @@
 					<br><br>
 					<h2 style="margin-bottom: 30px">
 						Manage Properties - Total {{object_list.count}}
+						{% if object_list.all %}
+
+						test
+							{% else %}
 						<a href="{% url 'property:propertyCreate' %}" class="btn pull-right" style="background-color: #044C7E; border-radius:50px; color:#fff;"><i class="fa fa-plus"></i> Add new Property</a>
+						{% endif %}
 					</h2>
 					<hr>
 					{% if messages %}
@@ -109,10 +114,26 @@
 							</div>
 							{% endfor %}
 						{% else %}
+						{% comment %}
+						<h1 style="margin-left: 45%; ">
+							<br>
+							<br>
+							<br>
+							<br>
+							<a href="{% url 'property:propertyCreate' %}" class="btn pull-right" 
+							style="background-color: #044C7E; border-radius:50px; color:#fff;"><i 
+							class="fa fa-plus"></i> Add new Property</a>
+
+						</h1>
+						{% endcomment %}
 							<center>
-								<div class="container-fluid" style="min-height:350px; min-width:100%;">
-										<div class="alert alert-warning" style="width:100%; border-radius:10px;">
-											<h5 style="color:maroon;"><i> No property added yet! </i></h5>
+								<div class="container-fluid" style="min-height:550px; min-width:100%;">
+										<div  style="width:100%; border-radius:10px;">
+											<br>
+											<br>
+											<br>
+											<br>
+											<br>
 										</div>
 								</div>
 							</center>

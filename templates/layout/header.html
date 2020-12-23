@@ -141,9 +141,7 @@
                         <ul class="pxp-nav list-inline">
 							{% if user.is_authenticated%}
                                 {% if user.usertype.is_student %}
-                                    <li class="list-inline-item" style="padding:0px 5px; color:orange;">
-                                        <a href="/">Home</a>
-                                    </li>
+                 
                                     <li class="list-inline-item" style="padding:0px 5px;">
                                         <a href="{% url 'property:propertyList' %}">Properties</a>
                                     </li>
@@ -182,7 +180,7 @@
 									<a href="#" class="pxp-signin-trigger">Services</a>
 								</li>
 							{% endif %}
-                            {% comment %} <li class="list-inline-item" style="padding:0px 20px;">
+                            {% comment %} <li class="list-inline-item" style="padding:50px 50px;">
                                 <a href="blog.html">Blog </a>                                
                             </li>  {% endcomment %}
 							<li class="list-inline-item" style="padding:0px 12px;">
@@ -191,6 +189,18 @@
                             <li class="list-inline-item pxp-is-last">
                                 <a href="{% url 'user:contactUs' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}">Contact Us</a>
                             </li>
+                            {% if user.is_authenticated%}
+                                {% if user.usertype.is_landlord %} 
+                                  
+                             	{% elif user.usertype.is_student %}
+                             	
+                            	{% endif %}
+      						{% else %}
+      							<li class="list-inline-item pxp-is-last" style="border-radius: 12px;padding:0px 25px; right:-270px; ">
+                            	<a href="javascript:void(0);" style ="border: 2px solid #ffff; border-radius: 50px; padding:7px;   "class="pxp-header-user pxp-signup-trigger"id="user-action-btn" 
+                            	onclick="triggerlandlordsignup()">List Your Property</a>
+                            	</li>
+                            {% endif %}
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
                                     <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
@@ -1452,6 +1462,9 @@
 						});
 					});
 				});
+				function triggerlandlordsignup() {
+					$("#regusertype2label").click(); 
+				}
 			</script>
 
 
