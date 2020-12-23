@@ -2,7 +2,7 @@
 
 {% load static %}
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -12,8 +12,6 @@
 			#layoutDefault_footer { display:none !important; }
 
 			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
-			
-			.list-inline-item > a { font-size:12px !important; }
 			
 			::-webkit-scrollbar {
 			  width: 7px;
@@ -27,44 +25,6 @@
 			}
 			::-webkit-scrollbar-thumb:hover {
 			  background: #555;
-			}
-			
-			.bodycontent {
-				padding-top:100px;
-			}
-			.navbar.navbar-default {
-				background-color:rgba(0, 0, 0, 0.8) !important; 
-				padding:10px !important;
-			}
-		
-			.navbar-brand {
-				color: #fff !important;
-				font-size:20px;
-			}
-			
-			.nav.navbar-nav {
-				padding-left: 27% !important;
-			}
-			
-			.nav.navbar-nav > li {
-				padding: 0px 17px !important;				
-			}
-			
-			.nav.navbar-nav > li > a {
-				color:#fff !important;
-				font-weight:bold !important;
-			}
-			
-			.nav.nav-pills > li > a {
-				border-radius:100px !important;
-				border:2px solid #F5F5F5;
-				background-color:#F5F5F5 !important;
-				color:black;
-			}
-			
-			.nav.nav-pills > li.active > a {
-				color:#fff;
-				background-color:#383836 !important;
 			}
 			
 			.panelatag {
@@ -103,6 +63,7 @@
 					box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 0px rgba(120, 144, 156,0.8);
 				}
 
+				.bodycontent { padding-top:100px; }
 
 				textarea:focus,
 						input[type="text"]:focus,
@@ -128,80 +89,28 @@
 				.card::-webkit-scrollbar {
 					width: 1px;
 				}
-				 
 				::-webkit-scrollbar-thumb {
 					border-radius: 9px;
 					background: rgba(96, 125, 139,0.99);
 				}
 
-				.balon1, .balon2 {
-
-					margin-top: 5px !important;
-					margin-bottom: 5px !important;
-
-					}
-
-
-				.balon1 a {
-
-					background: #42a5f5;
-					color: #fff !important;
-					border-radius: 20px 20px 3px 20px;
-					display: block;
-					max-width: 75%;
-					padding: 10px 13px 7px 13px;
-
-					}
-
-				.balon1:before {
-
-					content: attr(data-is);
-					position: absolute;
-					right: 15px;
-					bottom: -0.8em;
-					display: block;
-					font-size: 1rem;
-					color: rgba(84, 110, 122,1.0);
+				
+				.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
+				
+				@media only screen and (min-width: 600px) {
 					
-					}
-
-				.balon2 a {
-
-					background: #f1f1f1;
-					color: #000 !important;
-					border-radius: 20px 20px 20px 3px;
-					display: block;
-					max-width: 75%;
-					padding: 10px 13px 7px 13px;
+				}
+				
+				@media only screen and (max-width: 600px) {
 					
-					}
+					#colsection1 { padding-top:20px; }
+					#colsection2 { padding-top:80px; }
+					#colsection3 { padding-top:20px; }
 					
-				.balon2:before {
+				}
 
-					content: attr(data-is);
-					position: absolute;
-					left: 13px;
-					bottom: -0.8em;
-					display: block;
-					font-size: 1rem;
-					color: rgba(84, 110, 122,1.0);
-				  
-					}
-					
-				.bg-sohbet:before {
-
-					content: "";
-					background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
-					opacity: 0.06;
-					top: 0;
-					left: 0;
-					bottom: 0;
-					right: 0;
-					height:100%;
-					position: absolute;   
-
-					}
-					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
+				
+				
 		</style>
 		
 		<div class="roww bodycontent">
@@ -223,7 +132,7 @@
 					{% comment %} <span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span> {% endcomment %}
 					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
 					<a href="{% url 'chat:index' %}" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chats </a>
-					&nbsp;
+					&nbsp;<br><br><br><br>
 				</div><br>
 				
 				  <!--ul class="nav nav-pills nav-justified">
@@ -235,7 +144,7 @@
 				  <div class="tab-content">
 					<div id="home" class="home-div">
 						
-						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
+						<div class="col-md-2" id="colsection1" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px; float:left;">
 							<br>
 							<center>
 								{% if user.is_authenticated%}
@@ -278,7 +187,7 @@
 								{% endcomment %}
 							</div>
 						</div>
-						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
+						<div class="col-md-4" id="colsection2" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none; float:left;">
 
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
@@ -321,10 +230,10 @@
 									<div class="row">
 										<div class="col-md-8">
 											<h5><b>Images</b></h5>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center></div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center></div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center></div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center></div>
+											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center> </div>
+											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
+											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center> </div>
+											<div class="col-md-3" style="float:left;"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div>
 										</div>
 										<small id="createPostErrorimage" style="padding-left: 10px; color: red;"></small>
 										<small id="createPostErrorimage1" style="padding-left: 10px; color: red;"></small>
@@ -821,7 +730,7 @@
 							</div>
 						</div>
 						
-						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
+						<div class="col-md-6" id="colsection3" style="max-height:700px; overflow-y:scroll; float:left;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							
@@ -1678,7 +1587,7 @@ function tConvert (timeString) {
      <div class="modal-dialog modal-dialog-centered">
 
     <!-- Modal content-->
-    <div class="modal-content" style="min-width:576px; background-image:url({% static '/images/bg-pattern1.png' %});">
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
       <div class="modal-header">
      <center><h4><b>Living Habits</b></h4></center>
      <button type="button" class="close" data-dismiss="modal" style="color:red;">&times;</button>

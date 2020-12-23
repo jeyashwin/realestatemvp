@@ -33,7 +33,7 @@
 								{% csrf_token %}
 								<small style="color: red;">{{form.landlordProfilecaptcha.errors.as_ul}}</small>
 								{% for field in form %}
-									{% if field != form.profilePicture and field != form.landlordProfilecaptcha %}
+									{% if field != form.profilePicture and field != form.landlordProfilecaptcha and field != form.phone %}
 									<p>
 										{{field.label_tag}}
 										{{field}}
@@ -41,6 +41,7 @@
 									</p>
 									{% endif %}
 								{% endfor %}
+								<small style="color: red;">{{form.phone.errors}}</small>
 								{{form.landlordProfilecaptcha}}
 								{{form.landlordProfilecaptcha.id_for_label|json_script:"recaptchaV3Id"}}
 								<script src="{% static 'js/recaptchaReset.js' %}"></script>
@@ -59,16 +60,16 @@
                         <div class="col-sm-12 offset-lg-1 col-md-4 col-lg-3" style="padding:10px;">
 							<center>
                             <!--div class="pxp-agent-photo pxp-cover rounded-lg mt-4 mt-md-5 mt-lg-0" id="profileimg" style="background-image: url(images/agent-4.jpg); background-position: 50% 0%;"></div-->
-							{% if object.profilePicture %}
+							{% comment %} {% if object.profilePicture %}
 								<img id="output" src="{{object.profilePicture.url}}" style="width:255px; height:300px; border-radius:7px;">
 							{% else %}
 								<img id="output" src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:255px; height:300px; border-radius:7px;">
-							{% endif %}
+							{% endif %} {% endcomment %}
 							<br><br>
-							<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span>
+							{% comment %} <span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span> {% endcomment %}
 							<input type="file" accept="image/*" id="photoinput" onchange="loadPhoto(event)" style="display:none;">
-							<p id="pictureContainer">{{form.profilePicture}}</p>
-							<small style="color: red;">{{form.profilePicture.errors}}</small>
+							{% comment %} <p id="pictureContainer">{{form.profilePicture}}</p> {% endcomment %}
+							{% comment %} <small style="color: red;">{{form.profilePicture.errors}}</small> {% endcomment %}
 							</center>
 							<br><br><br>
 							</form>

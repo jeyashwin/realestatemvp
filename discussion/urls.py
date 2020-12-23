@@ -4,7 +4,7 @@ from .views import *
 app_name = "discussion"
 
 urlpatterns = [
-    path('discussion/', DiscussionListView.as_view(), name="discussionList"),
+    path('social/', DiscussionListView.as_view(), name="discussionList"),
     
     path('discussion/post/create/', DiscussionPostCreateView.as_view(), name="discussionCreate"),
     path('discussion/post/<int:pk>/update/', DiscussionPostUpdateDeleteView.as_view(), name="discussionUpdate"),

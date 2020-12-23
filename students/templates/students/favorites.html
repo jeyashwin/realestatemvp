@@ -3,13 +3,14 @@
 {% load static %}
 
 		<style>
+			#layoutDefault_footer { display:none; }
 			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 			.pxp-results-card-1-save:hover { background-color:maroon; color:#fff; }
 		</style>
 
 		
             <div class="pxp-content-side pxp-content-leftt pxp-half">
-			<br><div style="position:relative; margin-top:100px;" id="resmsg"></div>
+			<div style="position:relative; margin-top:100px;" id="resmsg"></div>
 				
                 <div class="pxp-content-side-wrapper">                   
 					<br><h2>My Favorites</h2>
@@ -50,6 +51,7 @@
                                 </div>
                             {% endfor %}
                         {% endfor %} {% endcomment %}
+			{% if object_list %}
                         {% for object in object_list %}
                             <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="remove{{object.property.pk}}">
                                 <a href="{% url 'property:propertyDetail' object.property.urlSlug %}" class="pxp-results-card-1 rounded-lg" data-prop="{{object.property.pk}}" style="box-shadow:3px 3px 5px grey;">
@@ -83,6 +85,15 @@
                                 </a>
                             </div>
                         {% endfor %}
+			{% else %}
+				<center>
+					<div class="container-fluid" style="min-height:350px; min-width:100%;">
+							<div class="alert alert-warning" style="width:100%; border-radius:10px;">
+								<h5 style="color:maroon;"><i> No favorite added yet! </i></h5>
+							</div>
+					</div>
+				</center>
+			{% endif %}
                     </div>
                 </div>
 		

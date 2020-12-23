@@ -20,25 +20,29 @@ class PropertyForm(forms.ModelForm):
             'class': 'form-control',
             'placeholder': 'Ex Pool'
         }),
-        help_text="Add Minimum 4 Amenities."
+        # help_text="Add Minimum 4 Amenities.",
+        required=False,
     )
     amenity2 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Ex Gym'
         }),
+        required=False,
     )
     amenity3 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Ex Furnished'
         }),
+        required=False,
     )
     amenity4 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
             'placeholder': 'Ex Unfurnished'
         }),
+        required=False,
     )
     amenity5 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
@@ -64,7 +68,7 @@ class PropertyForm(forms.ModelForm):
     class Meta:
         model = Property
         exclude = ['title', 'landlord', 'likes', 'dislikes', 'amenities', 'averageDistance', 'location',
-                    'locationType', 'placeId']
+                    'locationType', 'placeId', 'isleased', 'leaseStart', 'leaseEnd', ]
 
         widgets = {
             # 'title': forms.TextInput(attrs={
@@ -160,7 +164,7 @@ class PropertyImageForm(forms.ModelForm):
             'imagePath':forms.ClearableFileInput(attrs = {'class':'form-control', 'style': 'display: none'}),
         }
         help_texts = {
-            'imageDescription': "Minimum 3. Select the box to upload the image and describe that image in "
+            'imageDescription': "Minimum 2. Select the box to upload the image and describe that image in "
                                     "the below-given box."
         }
 
@@ -188,7 +192,7 @@ class PropertyVideoForm(forms.ModelForm):
 
 
 PropertyImageFormset = forms.inlineformset_factory(Property, PropertyImage, form=PropertyImageForm, 
-                            extra=1, max_num=10, can_delete=True, min_num=3
+                            extra=1, max_num=10, can_delete=True, min_num=2
                         )
 
 PropertyVideoFormset = forms.inlineformset_factory(Property, PropertyVideo, form=PropertyVideoForm,
