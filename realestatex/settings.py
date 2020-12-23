@@ -26,7 +26,7 @@ SECRET_KEY = DJANGO_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['www.swiftliving.us']
+ALLOWED_HOSTS = ['www.swiftliving.us','swiftliving.us']
 
 
 # Application definition
