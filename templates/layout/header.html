@@ -164,6 +164,9 @@
                                     <li class="list-inline-item" style="padding:0px 12px;">
                                         <a href="{% url 'property:propertyCreate' %}">Add Property</a>
                                     </li>
+                                    <li class="list-inline-item" style="padding:0px 12px;">
+                                        <a href="{% url 'checkout:myrequest' %}">Requests</a>
+                                    </li>
                                 {% endif %}
 								
 							{% else %}	
@@ -196,7 +199,7 @@
                              	
                             	{% endif %}
       						{% else %}
-      							<li class="list-inline-item pxp-is-last" style="border-radius: 12px;padding:0px 25px; right:-270px; ">
+      							<li class="list-inline-item pxp-is-last" style="border-radius: 12px;padding:0px 25px; right:-5%; ">
                             	<a href="javascript:void(0);" style ="border: 2px solid #ffff; border-radius: 50px; padding:7px;   "class="pxp-header-user pxp-signup-trigger"id="user-action-btn" 
                             	onclick="triggerlandlordsignup()">List Your Property</a>
                             	</li>

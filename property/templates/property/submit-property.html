@@ -122,52 +122,31 @@
 									<div class="help-container">
 										<h3>Amenities</h3>
 										<span class="fa fa-info-circle help" style="margin-top: 6px;"></span>
+										<br>
 										<small class="helptext" style="margin-top: 6px;">{{ form.amenity1.help_text|safe }}</small>
 									</div>
 								</div>
 								
 								<div class="col-sm-6 col-md-4">
                                     <div class="form-group">
-										{{form.amenity1}}
+										{{form.amenity1}} <small class="reqred">&nbsp;*</small>
 										<small class="errorview" style="margin-top: 6px;"> {{form.amenity1.errors}}</small>
                                     </div>
                                 </div>
 								
 								<div class="col-sm-6 col-md-4">
                                     <div class="form-group">
-										{{form.amenity2}}
+										{{form.amenity2}} <small class="reqred">&nbsp;*</small>
 										<small class="errorview" style="margin-top: 6px;"> {{form.amenity2.errors}}</small>                         
                                     </div>
                                 </div>
 								
 								<div class="col-sm-6 col-md-4">
                                     <div class="form-group">
-										{{form.amenity3}}
+										{{form.amenity3}} <small class="reqred">&nbsp;*</small>
 										<small class="errorview" style="margin-top: 6px;"> {{form.amenity3.errors}}</small>                         
                                     </div>
-                                </div>
-								
-								<div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-										{{form.amenity4}}
-										<small class="errorview" style="margin-top: 6px;"> {{form.amenity4.errors}}</small>                         
-                                    </div>
-                                </div>
-								
-								<div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-										{{form.amenity5}}
-										<small class="errorview" style="margin-top: 6px;"> {{form.amenity5.errors}}</small>
-                                    </div>
-                                </div>
-								
-								<div class="col-sm-6 col-md-4">
-                                    <div class="form-group">
-										{{form.amenity6}}
-										<small class="errorview" style="margin-top: 6px;"> {{form.amenity6.errors}}</small>                
-                                    </div>
-                                </div>
-								
+                                </div>	
 								{% comment %}
 									{% for amenity in form.amenities %}
 									<div class="col-sm-6 col-md-4">
@@ -216,8 +195,7 @@
 										<small class="errorview">{{form.imagePath.errors}}</small>
 									</span>
 									<div>
-										{{form.imageDescription}}
-										<small class="errorview">{{form.imageDescription.errors}}</small>
+										
 										{{form.DELETE}}
 										<small class="errorview">{{form.DELETE.errors}}</small>
 									</div>

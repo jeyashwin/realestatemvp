@@ -34,19 +34,6 @@ class PropertyForm(forms.ModelForm):
             'placeholder': 'Ex Furnished'
         }),
     )
-    amenity4 = forms.CharField(max_length=100,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Ex Unfurnished'
-        }),
-    )
-    amenity5 = forms.CharField(max_length=100,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Ex Wifi'
-        }),
-        required=False,
-    )
     amenity6 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
@@ -151,12 +138,8 @@ class PropertyImageForm(forms.ModelForm):
     
     class Meta:
         model = PropertyImage
-        fields = ("imageDescription", "imagePath")
+        fields = ('imagePath',)
         widgets = {
-            'imageDescription': forms.TextInput(attrs = {
-                'class':'form-control imageDescriptionBox',
-                'placeholder': 'Ex Bedroom Image'
-            }),
             'imagePath':forms.ClearableFileInput(attrs = {'class':'form-control', 'style': 'display: none'}),
         }
         help_texts = {
