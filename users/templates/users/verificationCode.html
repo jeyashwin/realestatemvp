@@ -71,7 +71,7 @@
                         </div>
                         {% if verifyUser.resendCodeCount > 0 %}
                         <div class="card-footer">
-                            <a href="{% url 'user:resendCallCode' verifyUser.pk %}"> Call instead for verification code?</a>
+                            <a href="{% url 'user:resendCallCode' verifyUser.pk %}"> <b>Call instead for verification code?</b></a>
                         </div>
                         {% endif %}
                         {% if verifyUser.resendCodeCount > 0 %}
