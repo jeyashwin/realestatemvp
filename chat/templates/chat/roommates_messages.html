@@ -259,8 +259,10 @@
 
 										  <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0" style="color: rgba(96, 125, 139,1.0);">
 											
-											<img class="rounded float-left" style="width: 50px; height: 50px;" src="{% if another_member.usertype.is_student %}{{another_member.usertype.userstudent.profilePicture.url}}{% else %}{{another_member.usertype.userlandlord.profilePicture.url}}{% endif %}" />
-											
+											{% comment %} <img class="rounded float-left" style="width: 50px; height: 50px;" src="{% if another_member.usertype.is_student %}{{another_member.usertype.userstudent.profilePicture.url}}{% else %}{{another_member.usertype.userlandlord.profilePicture.url}}{% endif %}" /> {% endcomment %}
+											{% if another_member.usertype.is_student %}
+											<img class="rounded float-left" style="width: 50px; height: 50px;" src="{{another_member.usertype.userstudent.profilePicture.url}}" />
+											{% endif %}
 											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b> {{ another_member }}</b><i class="fa fa-check text-primary" aria-hidden="true"></i> </h4>
 												
 										  </div>
@@ -523,7 +525,7 @@
 					</div>
 					
 				  </div>
-				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+				<br><br>
 			</div>
 		</div>
 		
