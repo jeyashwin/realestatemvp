@@ -1,0 +1,175 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+<style>
+	.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+	.form-control { background-color:#f7f7f7; }
+	#pictureContainer { display:none; }
+</style>
+
+        <div class="pxp-content">
+            <div class="pxp-agents" style="margin-top:3%;">
+                <div class="container">
+					{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == 'success' %}
+							<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endif %}
+						{% endfor %}
+					{% endif %}
+                    <div class="row">
+                        <div class="col-sm-12 col-md-8 col-lg-8" style="background-color:#fff; border-radius:5px; padding:25px;">
+                            <h2 class="pxp-page-header" id="flnameview">
+								<b>{{user.first_name|capfirst}} {{user.last_name|capfirst}}</b>
+								<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="editclick()"><i class="fa fa-edit"></i> Edit</span>
+							</h2>
+							<br>
+							<form action="" method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+								<small style="color: red;">{{form.landlordProfilecaptcha.errors.as_ul}}</small>
+								{% for field in form %}
+									{% if field != form.profilePicture and field != form.landlordProfilecaptcha %}
+									<p>
+										{{field.label_tag}}
+										{{field}}
+										<small style="color: red;">{{field.errors.as_ul}}</small>
+									</p>
+									{% endif %}
+								{% endfor %}
+								{{form.landlordProfilecaptcha}}
+								{{form.landlordProfilecaptcha.id_for_label|json_script:"recaptchaV3Id"}}
+								<script src="{% static 'js/recaptchaReset.js' %}"></script>
+								<span>
+									<input type="submit" value="Save" class="btn submitbtn" style="background-color:rgba(0, 0, 0, 0.8); color:#fff;">
+									<a class="btn btn-danger pull-right" onclick="return confirm('Are you sure to delete your account?');" href="{% url 'user:deleteProfile' user.username %}"><i class="fa fa-trash"></i> Delete my account</a>
+								</span>
+							<div class="form-group inputitems" id="flnameinput" style="display:none;">
+								<label for="pxp-signup-flname">Full Name</label>
+								<input type="text" class="form-control" id="pxp-signup-flname" placeholder="Enter your full name" value="Test" style="width:50%; background-color:#f4f4f2;">
+							</div>
+                            <!--span class="pxp-agent-rating"><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa fa-star"></span><span class="fa
+							fa-star"></span><span class="fa fa-star"></span></span-->
+                            <br>
+                        </div>
+                        <div class="col-sm-12 offset-lg-1 col-md-4 col-lg-3" style="padding:10px;">
+							<center>
+                            <!--div class="pxp-agent-photo pxp-cover rounded-lg mt-4 mt-md-5 mt-lg-0" id="profileimg" style="background-image: url(images/agent-4.jpg); background-position: 50% 0%;"></div-->
+							{% if object.profilePicture %}
+								<img id="output" src="{{object.profilePicture.url}}" style="width:255px; height:300px; border-radius:7px;">
+							{% else %}
+								<img id="output" src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:255px; height:300px; border-radius:7px;">
+							{% endif %}
+							<br><br>
+							<span class="pull-right btn btn-default btn-sm" style="background-color:#3a3a3a; color:#fff; cursor:pointer;" onclick="photoclick()"> Upload </span>
+							<input type="file" accept="image/*" id="photoinput" onchange="loadPhoto(event)" style="display:none;">
+							<p id="pictureContainer">{{form.profilePicture}}</p>
+							<small style="color: red;">{{form.profilePicture.errors}}</small>
+							</center>
+							<br><br><br>
+							</form>
+							{% if not user.usertype.is_landlord %}
+							<h3>Social Media</h3>
+							<ul class="list-unstyled pxp-agent-social mt-3 mt-md-4">
+								<li><a href="#"><span class="fa fa-facebook"></span></a></li>
+								<li><a href="#"><span class="fa fa-twitter"></span></a></li>
+								<li><a href="#"><span class="fa fa-pinterest"></span></a></li>
+								<li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+							</ul>
+							<span class="socialicons" id="socialicon1" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:10px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your facebook id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							<span class="socialicons" id="socialicon2" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:55px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your twitter id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							<span class="socialicons" id="socialicon3" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:95px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your pinterest id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							<span class="socialicons" id="socialicon4" style="display:none;">
+								<i class="fa fa-arrow-down" style="margin-left:135px;"></i>
+								<input type="text" class="form-control" id="pxp-signup-college" placeholder="Enter your linkedin id"  style="width:100%; background-color:#f4f4f2;">
+							</span>
+							{% endif %}
+						</div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12 col-lg-8">
+                            <div class="pxp-agent-section mt-4 mt-md-5">
+                                
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-3 offset-lg-1">                            
+                            <div class="pxp-agent-section mt-4 mt-md-5">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+		<script>
+			function editclick()
+			{
+				
+				var emailinputstatus = document.getElementById('emailinput').style.display;
+			
+				if(emailinputstatus == 'none') {										
+					document.getElementById('flnameview').style.display = 'none';
+					document.getElementById('emailview').style.display = 'none';
+					document.getElementById('phoneview').style.display = 'none';
+					document.getElementById('addressview').style.display = 'none';
+					document.getElementById('collegeview').style.display = 'none';
+					
+					document.getElementById('flnameinput').style.display = 'inline';
+					document.getElementById('emailinput').style.display = 'inline';
+					document.getElementById('phoneinput').style.display = 'inline';
+					document.getElementById('addressinput').style.display = 'inline';
+					document.getElementById('collegeinput').style.display = 'inline';
+					
+				} else {
+				
+					document.getElementById('flnameinput').style.display = 'none';
+					document.getElementById('emailinput').style.display = 'none';
+					document.getElementById('phoneinput').style.display = 'none';
+					document.getElementById('addressinput').style.display = 'none';
+					document.getElementById('collegeinput').style.display = 'none';
+				
+					document.getElementById('flnameview').style.display = 'inline';
+					document.getElementById('emailview').style.display = 'inline';
+					document.getElementById('phoneview').style.display = 'inline';
+					document.getElementById('addressview').style.display = 'inline';
+					document.getElementById('collegeview').style.display = 'inline';
+					
+				}
+					
+			}
+			
+			function photoclick()
+			{
+				document.getElementById('{{form.profilePicture.id_for_label}}').click();
+			}
+			
+			function loadPhoto()
+			{
+				  var output = document.getElementById('output');
+					output.src = URL.createObjectURL(event.target.files[0]);
+					output.onload = function() {
+					  URL.revokeObjectURL(output.src);										  
+					  document.getElementById('profileimg').style.backgroundImage = src;
+					  
+					}
+			}
+		</script>
+		
+		
+{% include "layout/footer.html" %}

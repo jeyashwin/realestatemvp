@@ -1,0 +1,117 @@
+{% include "layout/header.html" %}
+<div class="pxp-content">
+    <div class="pxp-agents" style="margin-top: 75px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 m-auto">
+                    {% if not blocked %}
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: #2f7fe9; color: #fff;">
+                            {% if forgotpass %}
+                            <h3>Forgot Password Verification</h3>
+                            {% elif updateVerify%}
+                            <h3>Update Phone Verification</h3>
+                            {% else %}
+                            <h3>Sign up Verification</h3>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <p>We have sent OTP via SMS to the following mobile number</p>
+                            {% if forgotpass %}
+                            {% load extraTags %}
+                            <p>{{verifyUser.phone|phonenumberHide}}</p>
+                            {% elif updateVerify%}
+                            <p>{{verifyUser.phone}}</p>
+                            {% else %}
+                            <div class="col-sm-12 m-auto">
+                                <form class="form-group" action="{% url 'user:updatePhone' %}" method="POST">
+                                    {% csrf_token %}
+                                    <div class="input-group mb-3">
+                                        {{PhoneNumberForm.verifyPhone}}
+                                        <div class="input-group-append">
+                                            <button class="btn btn-danger" onclick="visible()" type="button" style="border-top-right-radius: 50px; border-bottom-right-radius: 50px;" id="inputGroupFileAddon04">
+                                                <i class="fa fa-pencil" aria-hidden="true"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="phone_number_submit_button" style="display: none;">
+                                        <div class="col-sm-12 col-md-7">
+                                            {{PhoneNumberForm.changePhonecaptcha}}
+                                        </div>
+                                        <div class="col-sm-12 col-md-4 m-3">
+                                            <button class="btn btn-primary"  type="submit">Change</button>
+                                        </div>
+                                    </div>
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                        {% if message.tags == 'error' %}
+                                        <small style="color: red;">{{message}}</small>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                </form>
+                            </div>
+                            {% endif %}
+                            <div class="col-sm-12 m-auto">
+                                <form class="form-group" action="" method="POST">
+                                    {% csrf_token %}
+                                    {{VerificationForm.verificationCode}}
+                                    <small style="color: red;">{{VerificationForm.verificationCode.errors}}</small>
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                        {% if message.tags == 'warning' %}
+                                        <small style="color: red;">{{message}}</small>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    <br>
+                                    <input type="submit" class="btn btn-success btn-block" value="Verify{% if verifyUser.wrongAttemptCount <= 3 %} - Only {{verifyUser.wrongAttemptCount}} attempt left{% endif %}"/>
+                                </form>
+                            </div>
+                        </div>
+                        {% if verifyUser.resendCodeCount > 0 %}
+                        <div class="card-footer">
+                            <a href="{% url 'user:resendCallCode' verifyUser.pk %}"> Call instead for verification code?</a>
+                        </div>
+                        {% endif %}
+                        {% if verifyUser.resendCodeCount > 0 %}
+                        <div class="card-footer">
+                            <a href="{% url 'user:resendCode' verifyUser.pk %}">Resend Again? ({{verifyUser.resendCodeCount}} attempt left)</a>
+                        </div>
+                        {% endif %}
+                    <div>
+                    {% else %}
+                        {% if not forgotpass %}
+                        <h5>Sorry, Your account has been blocked, for security concern, because of 10 Wrong attempts. 
+                            Try after 10 minutes.
+                        </h5>
+                        {% else %}
+                        <h5>Sorry, Your account has been blocked permanently, for security concern, because of 3 Wrong attempts.</h5>
+                        <p>To unblock your account. Follow any one step below:</p>
+                        <ol>
+                            <li>Mail us: <a href="mailto:helloswiftliving@gmail.com">helloswiftliving@gmail.com</a> from your registered email.</li>
+                            <li>If you rembemer your password use that to login.</li>
+                        </ol>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% if not forgotpass and not blocked and not updateVerify%}
+<script>
+    document.getElementById('id_verifyPhone').setAttribute('disabled', true)
+    function visible(){
+        document.getElementById('id_verifyPhone').removeAttribute('disabled')
+        document.getElementById('phone_number_submit_button').style = 'display: flex;'
+    }
+    function onloadRecaptchaVerify(){
+        grecaptcha.render('{{PhoneNumberForm.changePhonecaptcha.id_for_label}}')
+    }
+</script>
+{% endif %}
+<br>
+<br>
+<br>
+{% include "layout/footer.html" %}

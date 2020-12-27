@@ -1,0 +1,238 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+<style>
+    .secttitle { font-family: 'Source Sans Pro', sans-serif; }
+    .sectcontent { font-family: 'Alegreya Sans', sans-serif; }
+    
+
+    .sb-customizer-toggler { display:none !important; }
+    
+    @media only screen and (min-width: 600px) {
+        .section-content-1 {
+        padding-top:5%	 !important;
+        }
+        .section-content-2 {
+        padding-top:10%	 !important;
+        }
+        .section-content-5 {
+        padding-top:10%	 !important;
+        }
+        .betasect { padding-top:20px; padding-left:10px; font-size:17px; }
+        .mailcolumn { padding-right:0; }
+        .submitcolumn { padding-left:0; }
+        
+        .mailcolumn > input { border-top-left-radius:50px !important; border-bottom-left-radius:50px !important; border-top-right-radius:0px !important; border-bottom-right-radius:0px !important;}
+        .submitcolumn > button { border-top-right-radius:50px !important; border-bottom-right-radius:50px !important; border-top-left-radius:0px !important; border-bottom-left-radius:0px !important;}
+        
+        .sect_title { font-size:48px !important; color: #323f52;}
+        .sect_content { font-size:24px !important;}			
+    }
+    
+    @media only screen and (max-width: 600px) {
+        
+	        
+	.img-fluidd-1, .img-fluidd-2, .img-fluidd-3, .img-fluidd-5, .img-fluidd-6 {
+        width:120% !important;
+        margin-left:-15% !important;
+        }
+	.img-fluidd-2 {
+	width:125% !important;
+        margin-left:-22% !important;
+	}
+        .img-fluidd-4 {
+        width:123% !important;
+        margin-left:-18% !important;
+        }
+        
+
+        .section-content-1 {
+        margin-top:-20%	 !important;
+        }
+        
+        .section-content-5 {
+        margin-top:-20%	 !important;
+        padding-bottom:10%	 !important;
+        }
+        
+        .betasect { font-size:12px; padding-top:20px; text-align:center; }
+        
+        .mailcolumn { padding-right:none; }
+        .submitcolumn { padding-left:none; }
+        
+        .mailcolumn > input { border-radius:50px; }
+        .submitcolumn > button { border-radius:50px; margin-top:10px; }
+        
+        .sect_title { font-size:30px !important;  color: #323f52;}
+        .sect_content { font-size:22px !important; }			
+
+	#firstcontainerdiv { margin-top:100px; }
+    }
+</style>
+{% comment %} {% if user.is_authenticated %}
+    <meta http-equiv="REFRESH" content="0;url={% url 'property:propertyList' %}">
+{% endif %} {% endcomment %}
+<header class="page-header page-header-dark" id="page-header-page-header-dark-id" style="background-color:#fff;">
+    <div class="page-header-content">
+        <div class="container-fluid" id="firstcontainerdiv">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 mb-5 section-content section-content-1" style="color:black;">
+                    
+                    <h1 class="sect_title"><b>The Smarter Way to Find College Housing</b></h1>
+                    <p class="sect_content">One stop shop for off campus housing! Easily find the place you love, find roommates that suit you, and rent furniture & appliances. </p>
+                    <br>
+                    <!--form id="contactForm" action="#">
+                            <div class="row">
+                                <div class="col-md-7 col-xs-0">
+                                    <input type="email" class="form-control"name="email" id="email"  placeholder="Enter your Email" style="border-top-left-radius:50px; border-bottom-left-radius:50px; padding:15px; height:40px; " required>
+                                </div>
+                                <div class="col-md-3 col-xs-0">
+                                    <button type="submit" name="submit" value="SIGN UP" class="form-control btn" style="border-top-right-radius:50px; border-bottom-right-radius:50px; background-color:#0B3360; color:#fff; padding:5px; font-weight:bold; height:40px; font-size:13px; ">Sign Up</button>
+                                </div>
+                            </div>
+                        </form-->
+                    
+                        <form id="contactForm" action="#">
+                            <div class="row">
+                                {% comment %} <div class="col-md-7 col-xs-7 mailcolumn">
+                                    <input type="email" class="form-control" name="email" 
+                                    id="email"  placeholder="Enter your Email" style="padding:15px; height:40px; " onclick="signupchange()" onkeyup="signupchange()" required>
+                                </div>
+                                <div class="col-md-4 col-xs-4 submitcolumn">
+                                    <button type="submit" id="submit" name="submit" value="SIGN UP" class="form-control btn" style="border:1px solid #0B3360; background-color:#0B3360; color:#fff; padding:5px; font-weight:bold; height:40px; font-size:13px; outline:none;">Sign Up</button>
+                                </div> {% endcomment %}
+                                <div class="col-md-8 col-xs-8">
+                                    <button type="button" class="pxp-signup-trigger btn btn-success btn-lg btn-block">Get Started</button>
+                                </div>
+                                <div class="col-md-4 col-xs-4">
+                                </div>
+                                <div class="col-md-12 col-xs-12" style="color:black;">
+                                    <p class="betasect">Be one of the first to try it - sign up for the beta.</p>
+                                </div>
+                            </div>
+                        </form>                    
+                </div>
+                <div class="col-lg-5 mb-5">
+                    <img class="img-fluid" src="{% static 'assets/images/landing-page.png' %}" style="border-radius:10px; width:100%; "/>
+                </div>
+            </div>
+            <!--div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <h4 class="page-header-titlee" style="color:black;">All your off-campus rental needs taken care of</h4>                                        
+                </div>
+                <div class="col-xs-12 col-lg-6 d-none d-lg-block" data-aos="fade-up" data-aos-delay="50">
+                    <img class="img-fluid" src="assets/images/landing-page.png" style="border-radius:10px; "/>
+                </div>
+            </div-->
+        </div>
+    </div>
+    <div class="svg-border-rounded text-whitee" style="color:#1B5FB7;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</header>
+<section class="bg-white py-10" style="background-color:#1B5FB7 !important">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 mb-5 section-content section-content-2" style="color:#fff;">
+                <h1 class="sect_title" style="color:#fff;"><b>Find your ideal home</b></h1>
+                <p class="sect_content">Explore homes using filters based on nearby attractions and specific criteria important for you.</p>
+            </div>
+            <div class="col-lg-6 mb-5">
+                <img class="img-fluidd img-fluidd-1" src="{% static 'assets/images/map.png' %}" style="border-radius:10px; width:90%; "/>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-lightt" style="color:#fff;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+<section class="bg-light py-10" style="background-color:#fff !important;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mb-5">
+                <img class="img-fluidd img-fluidd-2" src="{% static 'assets/images/roommate.svg' %}" style="margin-left:-100px; margin-top:-100px; border-radius:10px; width:140%;"/>
+            </div>
+            <!--div class="col-lg-0 mb-5 section-content" style="text-align:right;">
+                <center><b>We handle finding Roommates</b></center>
+            </div-->
+            <div class="col-lg-6">
+                <br><br>
+                
+                <h1 class="sect_title"><b>Discover a new roommate</b></h1>
+                <p class="sect_content" style='color: #687281;'>Create a profile to allow others to see your interests and preferences in a roommate.</p>
+                
+                <img class="img-fluidd img-fluidd-3" src="{% static 'assets/images/student.png' %}" style="border-radius:10px;  width:90%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-whitee" style="color:#0F498C;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+<section class="bg-white py-10" style="background-color:#0F498C !important;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <img class="img-fluidd img-fluidd-4" src="{% static 'assets/images/propcard.svg' %}" style="border-radius:10px; width:100%;"/>
+            </div>
+            <!--div class="col-lg-1 mb-5 section-content" style="color:#fff">
+                <center><b>Request Tour & Chat with seller</b></center>
+            </div-->
+            <div class="col-lg-6 mb-5">
+                <br><br>
+                
+                <h1 class="sect_title" style="color:#fff;"><b>Renting made easy</b></h1>
+                <p class="sect_content" style="color:#fff;">Communicate with property owners with ease using our messaging service to inquire about leasing terms and receive updates about your potential rental property.</p>
+                
+                
+                <img class="img-fluidd img-fluidd-5" src="{% static 'assets/images/roommate.png' %}" style="border-radius:10px; width:90%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-lightt" style="color:#fff;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor" style="border:none;"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+<section class="bg-light" style="background-color:#fff !important;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 mb-5">
+                <img class="img-fluidd img-fluidd-6" src="{% static 'assets/images/services.png' %}" style="border-radius:10px; width:90%;"/>
+            </div>
+            <div class="col-lg-5 section-content section-content-5">
+            <h1 class="sect_title"><b>Furnishing your home just got easier</b></h1>
+            <p class="sect_content" style='color: #687281;'>A marketplace for individuals to rent furniture and appliances at an affordable price.</p>
+            <br><br>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-whitee" style="color:#0B3360;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+<script src="{% static 'js/landing/main.js' %}"></script>
+{% comment %} <script src="../../code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script> {% endcomment %}
+{% comment %} <script src="../../stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> {% endcomment %}
+<script src="{% static 'js/landing/scripts.js' %}"></script>
+{% comment %} <script src="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.js"></script> {% endcomment %}
+<script>
+    AOS.init({
+        disable: 'mobile',
+        duration: 600,
+        once: true
+    });
+</script>
+
+<script src="{% static 'js/landing/sb-customizer.js' %}"></script>
+<sb-customizer project="sb-ui-kit-pro"></sb-customizer>
+<script>
+    function signupchange()
+    {
+        document.getElementById('submit').style.backgroundColor = '#0B3360';
+        document.getElementById('submit').innerHTML = 'Submit';
+    }
+</script>
+{% include "layout/footer.html" %}

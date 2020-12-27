@@ -1,0 +1,869 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+		<style>
+			{% comment %} * { font-family: Century Gothic; } {% endcomment %}
+			
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			
+			.list-inline-item > a { font-size:12px !important; }
+			
+			::-webkit-scrollbar {
+			  width: 7px;
+			  border-radius:10px;
+			}
+			::-webkit-scrollbar-track {
+			  background: #f1f1f1;
+			}
+			::-webkit-scrollbar-thumb {
+			  background: #0471A6;
+			}
+			::-webkit-scrollbar-thumb:hover {
+			  background: #555;
+			}
+			
+			.bodycontent {
+				padding-top:100px;
+			}
+			.navbar.navbar-default {
+				background-color:rgba(0, 0, 0, 0.8) !important; 
+				padding:10px !important;
+			}
+		
+			.navbar-brand {
+				color: #fff !important;
+				font-size:20px;
+			}
+			
+			.nav.navbar-nav {
+				padding-left: 27% !important;
+			}
+			
+			.nav.navbar-nav > li {
+				padding: 0px 17px !important;				
+			}
+			
+			.nav.navbar-nav > li > a {
+				color:#fff !important;
+				font-weight:bold !important;
+			}
+			
+			.nav.nav-pills > li > a {
+				border-radius:100px !important;
+				border:2px solid #F5F5F5;
+				background-color:#F5F5F5 !important;
+				color:black;
+			}
+			
+			.nav.nav-pills > li.active > a {
+				color:#fff;
+				background-color:#383836 !important;
+			}
+			
+			.panelatag {
+				color:#383836;
+				font-weight:bold;
+			}
+			#header_dropdown > .dropbtnn { font-size:15px !important; }
+			.panel {
+				border-radius: 20px;
+			}
+			
+			.panel-heading {
+				border-top-left-radius: 20px;
+				border-top-right-radius: 20px;
+			}
+			
+			.panel-footer {
+				border-bottom-left-radius: 20px;
+				border-bottom-right-radius: 20px;
+			}
+			
+			.fa.fa-heart:hover {
+				/*color:red !important;*/
+				cursor:pointer;
+			}
+			
+		</style>
+		
+
+		<style>
+				
+				.btn:focus, .btn:active:focus, .btn.active:focus {
+					
+					outline: none !important;
+					box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 0px rgba(120, 144, 156,0.8);
+				}
+
+
+				textarea:focus,
+						input[type="text"]:focus,
+						input[type="password"]:focus,
+						input[type="datetime"]:focus,
+						input[type="datetime-local"]:focus,
+						input[type="date"]:focus,
+						input[type="month"]:focus,
+						input[type="time"]:focus,
+						input[type="week"]:focus,
+						input[type="number"]:focus,
+						input[type="email"]:focus,
+						input[type="url"]:focus,
+						input[type="search"]:focus,
+						input[type="tel"]:focus,
+						input[type="color"]:focus,
+						.uneditable-input:focus {   
+						border-color: rgba(120, 144, 156,1.0); color: rgba(120, 144, 156,1.0); opacity: 0.9;
+						box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 10px rgba(120, 144, 156,0.3);
+						outline: 0 none; }
+
+
+				.card::-webkit-scrollbar {
+					width: 1px;
+				}
+				 
+				::-webkit-scrollbar-thumb {
+					border-radius: 9px;
+					background: rgba(96, 125, 139,0.99);
+				}
+
+				.balon1, .balon2 {
+
+					margin-top: 5px !important;
+					margin-bottom: 5px !important;
+
+					}
+
+
+				.balon1 a {
+
+					background: #42a5f5;
+					color: #fff !important;
+					border-radius: 20px 20px 3px 20px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+
+					}
+
+				.balon1:before {
+
+					content: attr(data-is);
+					position: absolute;
+					right: 15px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+					
+					}
+
+				.balon2 a {
+
+					background: #f1f1f1;
+					color: #000 !important;
+					border-radius: 20px 20px 20px 3px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+					
+					}
+					
+				.balon2:before {
+
+					content: attr(data-is);
+					position: absolute;
+					left: 13px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+				  
+					}
+					
+				.bg-sohbet:before {
+
+					content: "";
+					background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
+					opacity: 0.06;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					height:100%;
+					position: absolute;   
+
+					}
+					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
+		</style>
+		
+		<div class="roww bodycontent">		
+			<div class="container-fluid">
+				
+				<div class="pull-right" style="margin-top:0px;">
+					<a href="/roommates" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </a>
+					<a href="{% url 'chat:index' %}" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chat </a>
+					&nbsp;
+				</div><br>
+				
+				  <!--ul class="nav nav-pills nav-justified">
+					<li class="active"><a data-toggle="pill" href="#home">Roommates</a></li>
+					<li><a data-toggle="pill" href="#menu1">All Posts</a></li>
+					<li><a data-toggle="pill" href="#menu3">Groups</a></li>
+				  </ul-->
+				  <br>
+				  <div class="tab-content">
+					<div id="home" class="home-div">
+						
+						
+							<div class="row">
+								<div class="container bg-transparent">
+
+									<div class="row m-0 p-0 position-relativ">
+									  <div class="col-2 position-absolut" style="background-color:#094A66; color:#fff;border-top-left-radius:15px;">
+											<input type="text" placeholder="Search user" class="form-control" style="color:black; border-radius:30px; margin-top:10px;" />
+											<div class="row">
+											<style>
+												.messages-user-list { margin-top:10px; border-top:1px solid grey; padding:0px; width:100%; }
+												.messages-user-list > li { padding:13px 15px; color:#fff; border-bottom:2px solid #08587c; width:100%; border-radius:5px; font-weight:bold; }
+												.messages-user-list > li > img { width:40px; height:40px; border-radius:100px; }
+												.messages-user-list > li:hover { background-color:#08587c; cursor:pointer; }
+												.message-user-list-li {
+													padding:13px 15px; color:#fff; border-bottom:2px solid #08587c; width:100%; border-radius:5px; font-weight:bold;
+												}
+												.message-user-list-li:hover { background-color:#08587c; cursor:pointer; }
+											</style>
+											
+												<ul class="messages-user-list" style="list-style-type:none;">
+													<li style="background-color:#0471A6;"><b style="font-size:20px;">My Groups</b></li>
+													{% for group in  user_chats %}
+													<a href="{% url 'chat:group' group.pk %} ">
+                            							<li class="message-user-list-li">
+                                							{{group.name}}
+                            							</li>
+													</a>
+                        							{% endfor %}
+												</ul>
+											</div>
+									  </div>
+									  <div class="col-10 p-0 m-0 position-absolut" id="chatmessagesdiv" style="right: 0px;">
+										<div class="card border-0 rounded" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 80vh;">
+
+										  <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0" style="color: rgba(96, 125, 139,1.0);">
+											<h4 style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname">
+												Group Members: 
+												<b> {{ another_member }} <i class="fa fa-check text-primary" aria-hidden="true"></i></b>
+												<span class="pull-right" data-toggle="modal" data-target="#CreateGroupModal" style="cursor:pointer; "><i class="fa fa-plus" style="border-radius:50px; padding:6px 7px; background-color:#0471A6; color:#fff;"></i> &nbsp; &nbsp; </span>
+											</h4>
+
+<!-- Modal -->
+<div id="CreateGroupModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="margin-top:7%;">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+        <h4 class="modal-title">
+		<span style="text-align:left;">Create New Group</span>
+	</h4>
+      </div>
+      <div class="modal-body">
+	    
+        <form method="POST" action="{% url 'chat:creategroup' %}" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="row">
+		    <div class="col-md-8">
+			<label style="font-size:15px;">Group Name</label>	
+			<input type="text" name="groupname" placeholder="Name your Group" class="form-control" style="border-radius:50px; height:50px;"><br>
+		    </div>
+		    <div class="col-md-4">
+			<label style="font-size:15px;">Group Icon</label>
+			<input type="file" name="groupicon" class="form-control" style="border-radius:50px; height:50px; padding-top:10px;"><br>
+		    </div>
+		    <div class="col-md-12">
+			<label style="font-size:15px;">Users</label>
+			<select name="group_members_list" class="form-control" style="border-radius:7px !important;" multiple>
+			<option disabled> ~ Select  Users ~ </option>	
+			{% for room in friends_list.friends.all %}
+			    
+				<option value="{{ room }}"> {{ room }} </option>
+			
+			{% endfor %}
+				<!--<option> ~ Select  Users ~ </option>
+				<option> Bob </option>
+				<option> Charles </option>
+				<option> Randy </option>
+				<option> Citra </option>
+				<option> Michael </option>-->
+			</select><br>
+		    </div>
+		    
+		    <div class="col-md-2"></div>
+		    <div class="col-md-8">
+			<input type="submit" name="submit" value="Create" class="form-control" style="border-radius:50px; height:50px; color:#fff; background-color:#094a66;"><br>
+		    </div>
+		    <div class="col-md-2"></div>
+
+		</div>
+		
+		
+	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+												
+										  </div>
+										
+											<div class="card bg-sohbet border-0 m-0 p-0" id="chatmessagesbody" style="height: 400px; overflow-y: scroll;">
+										  <div id="sohbet" class="card border-0 m-0 p-0 position-relative bg-transparent" style="height: 400px;">
+										
+										  </div>
+										  </div>
+
+										  <div class="w-100 card-footer p-0 bg-light border border-bottom-0 border-left-0 border-right-0" style="height:100px;">
+											
+												<!--form class="m-0 p-0" action="#" method="POST" autocomplete="off"-->
+								
+												  <div class="row m-0 p-0">
+													<div class="col-11 m-0 p-1">
+													
+														<!--input id="text" class="mw-100 border rounded form-control" type="text" name="text" title="Type a message..." placeholder="Type a message..." required-->
+														
+														<textarea rows="3" class="form-control" id="chat-message-input" placeholder="Type a message..." style="border:none;"></textarea>
+													  
+													</div>
+													<div class="col-1 m-0 p-1">
+														<span class="btn btn-success" data-toggle="modal" data-target="#sendFile" style="width: 100%; font-size: 20px; background-color:#094A66; color:#fff; cursor:pointer; "><i class="fa fa-paperclip"  aria-hidden="true"></i></span>
+														<button id="chat-message-submit" class="btn btn-outline-secondary rounded border w-100" title="Send" style="float:right; border-radius:30px; background-color:#094A66; color:#fff; padding-right: 16px; margin-top:5px; padding:10px;"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+																
+													</div>
+												  </div>
+											
+											<!--/form-->
+												
+										  </div>
+
+										</div>
+									  </div>
+									  
+									</div>
+								  </div>
+<div id="sendFile" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg" style="margin-top:7%;">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+        <h4 class="modal-title">
+		<span style="text-align:left;">Send Attachment</span>
+	</h4>
+      </div>
+      <div class="modal-body">
+        <form id='file_attachment_form' method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="row">
+			<div class="col-md-12 text-center">
+				<small id="file_attach_loader" style="display:none;"><i class="fa fa-spinner fa-spin"></i></small>
+				<small style="color: red;" id="errorFileInput"></small>
+			</div>
+			<div class="col-md-12" style="margin-bottom: 10px;">
+				<div class="input-group">
+					<input type="file" id="fileinput" name='myFile' class="form-control" style="border-radius:50px; height:50px;" required><br>
+				</div>
+			{% comment %} <input name='myFile' type='file' class='autosubmit'/> {% endcomment %}
+		    </div>
+		    <div class="col-md-2">
+			</div>
+		    <div class="col-md-8">
+				<input type="submit" name="submit" value="Attach" class="form-control" style="border-radius:50px; height:50px; color:#fff; background-color:#094a66;"><br>
+		    </div>
+		    <div class="col-md-2">
+			</div>
+		</div>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+							<!-- Optional JavaScript -->
+								<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+								<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+								<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+								<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+								
+							</div>
+
+		{{ room_id|json_script:"room-name" }}
+	    {{ username|json_script:"user-name" }}
+		<script>
+		// $('form .autosubmit').on('change', function(e) {
+   		// 	//this.form.submit();
+		// 	   ajaxPost(e);
+			
+		// });
+		$('#file_attachment_form').on('submit', function(e) {
+   			//this.form.submit();
+			   ajaxPost(e);
+			
+		});
+		</script>
+		<script>
+			const fileAttachmentForm = document.getElementById('file_attachment_form')
+			var roomName = JSON.parse(document.getElementById('room-name').textContent);
+        	const userName = JSON.parse(document.getElementById('user-name').textContent);
+			function ajaxPost(e){
+				e.preventDefault();
+				$("#file_attach_loader").show()
+				d = new FormData(fileAttachmentForm);
+    			//var dataString = '&username=' + $('input[name=username]').val() +
+                  //   '&password=' + $('input[name=password]').val() +
+				$.ajax({
+					type: "POST",
+					url: "/chat/group/"+roomName+"/",
+					data: d,
+					contentType: false,
+					processData: false,
+					success: function(data) {
+						if (data.success){
+							$("#file_attach_loader").hide()
+							sendUrl(data)
+							document.getElementById("errorFileInput").textContent = "Attachment sent successfully!";
+							document.getElementById("errorFileInput").style = "color:green;"
+							document.getElementById("fileinput").value = "";
+						}
+						else{
+							$("#file_attach_loader").hide()
+							document.getElementById("errorFileInput").textContent = data.error;
+							document.getElementById("errorFileInput").style = "color:red;"
+						}
+					},
+				  	error: function(res){
+						console.log(res)
+						$("#file_attach_loader").hide();
+				  	}
+				});  
+			}
+		</script>
+
+		<script>
+			function sendUrl(data){
+				chatSocket.send(JSON.stringify({
+                	'message': '',
+					'url': data.url,
+                	'command': 'new_message',
+                	'roomname': roomName,
+                	'from': userName,
+					'message_id': data.message_id,
+            	}));
+			}
+		</script>
+    
+    <!--<script src="{% static 'js/reconnecting-websocket.js' %}"></script>-->
+    <script>
+
+        var alreadyFetched = 0
+
+
+        const chatSocket = new WebSocket(
+            'wss://'
+            + window.location.host
+            + '/ws/chat/'
+            + roomName
+            + '/'
+        );
+
+        chatSocket.onopen = function(e){
+            if(alreadyFetched === 0){
+                fetchMessages();
+                alreadyFetched = 1
+            }
+        }
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+			if (data.message["command"] === "new_message") {
+				createMessage(data.message["message"])
+			}
+			else if(data["command"] === "fetch_messages"){
+				console.log(data['message'].length);
+				for (let index = 0; index < data['message'].length; index++) {
+            		createMessage(data['message'][index])
+				}
+			}
+            //document.querySelector('#chatmessagesbody').value += (data.message + url + '\n');
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+        document.querySelector('#chat-message-input').focus();
+        document.querySelector('#chat-message-input').onkeyup = function(e) {
+            if (e.keyCode === 13) {  // enter, return
+
+                document.querySelector('#chat-message-submit').click();
+            }
+        };
+
+
+        document.querySelector('#chat-message-submit').onclick = function(e) {
+        const messageInputDom = document.querySelector('#chat-message-input');
+        const message = messageInputDom.value;
+        if (messageInputDom.value != '' && messageInputDom.value != " ") {
+            chatSocket.send(JSON.stringify({
+                'message': message,
+                'command': 'new_message',
+                'roomname': roomName,
+                'from': userName,
+            }));
+        }      
+        messageInputDom.value = '';
+        };
+
+        
+		function createMessage(message_data){
+			console.log("Messages!!!!")
+			console.log(message_data)
+			var message = message_data;
+			var author = message.author;
+            var time = new Date(message.timestamp).toLocaleTimeString();
+            
+
+			var msgDivTag = document.createElement('div');
+            msgDivTag.id = message.id
+			msgDivTag.className = 'balon1 p-2 m-0 position-relative'
+            //msgDivTag.data = author + " - " + time
+            
+
+			var msgtextDivTag = document.createElement('a');
+			msgtextDivTag.textContent = message.content;
+			if (message.url){
+				msgtextDivTag.setAttribute("href", message.url);
+				msgtextDivTag.setAttribute("target", "blank");
+				msgtextDivTag.setAttribute("download", message.content);
+			}
+
+			if (author === userName) {
+				msgtextDivTag.className = 'float-right'
+                msgDivTag.setAttribute("data-is", author + " - " + time)
+			} else {
+				msgtextDivTag.className = 'float-left sohbet2'
+                msgDivTag.setAttribute("data-is", author + " - " + time)
+			}
+			msgDivTag.appendChild(msgtextDivTag)
+			document.querySelector('#sohbet').appendChild(msgDivTag);
+            //document.querySelector("#sohbet").appendChild(msghtm)
+
+		}
+		
+        function fetchMessages(){
+            console.log("YaY!!")
+            chatSocket.send(JSON.stringify({
+                'command': 'fetch_messages',
+                'roomname': roomName
+            }));
+        };
+    </script>
+    	
+					
+					</div>
+					
+				  </div>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+		</div>
+		
+		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>
+
+			<!-- Modal -->
+			<div id="viewImageModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+				  <div class="modal-body">
+					<button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+					<img src="#" id="viewimageinmodal" style="width:100%; height:500px;"/>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+		
+		<script src="{% static '/js/common.js' %}"></script>
+<!-- suneditor -->
+<script src="{% static '/plugins/wysiwyg/dist/suneditor.min.js' %}"></script>
+<!-- codeMirror -->
+<script src="{% static '/plugins/wysiwyg/cdn/codemirror.min.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/htmlmixed.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/xml.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/css.js' %}"></script>
+<!-- KaTeX -->
+<script src="{% static '/plugins/wysiwyg/cdn/katex.min.js' %}"></script>
+<script>
+    SUNEDITOR.create('editor_classic', {
+        display: 'block',
+        width: '100%',
+        height: '150px',
+        popupDisplay: 'full',
+        charCounter: true,
+        charCounterLabel: 'Characters :',
+        imageGalleryUrl: 'https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo',
+        buttonList: [
+            // default
+            ['undo', 'redo'],
+            ['formatBlock'],
+            ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+            ['fontColor', 'hiliteColor', 'textStyle'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['table', 'link', 'image', 'video', 'audio', 'math'],
+            ['imageGallery'],
+            ['fullScreen', 'showBlocks', 'codeView'],
+            ['preview', 'print'],
+            ['save', 'template'],
+            // (min-width: 1565)
+            ['%1565', [
+                ['undo', 'redo'],                
+                ['formatBlock'],
+				['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['table', 'link', 'image', 'video', 'audio', 'math'],
+                ['imageGallery'],
+                ['fullScreen', 'showBlocks', 'codeView'],
+                ['-right', ':i-More Misc-default.more_vertical', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 1455)
+            ['%1455', [
+                ['undo', 'redo'],
+                ['formatBlock'],
+                ['bold', 'underline', 'italic'],
+                ['removeFormat'],
+				['table', 'link', 'image'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],                
+                ['-right', ':i-More Misc-default.more_vertical', 'fontColor', 'hiliteColor', 'textStyle', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 1326)
+            ['%1326', [
+                ['undo', 'redo'],
+                ['font', 'fontSize', 'formatBlock'],
+                ['paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 1123)
+            ['%1123', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 817)
+            ['%817', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike'],
+                [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 673)
+            ['%673', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 525)
+            ['%525', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 420)
+            ['%420', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle', 'removeFormat'],
+                [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]]
+        ],
+        placeholder: 'Start typing something...',
+        templates: [
+            {
+                name: 'Template-1',
+                html: '<p>HTML source1</p>'
+            },
+            {
+                name: 'Template-2',
+                html: '<p>HTML source2</p>'
+            }
+        ],
+        codeMirror: CodeMirror,
+        katex: katex
+    });
+    
+</script>
+		
+		<script>				
+			function postlikeclick(dis) {
+				var likeurl = dis.getAttribute('data-url');
+				
+				const csrftok = getCookie('csrftoken');
+				console.log(csrftok);
+				
+				$.ajax({
+					url: likeurl,
+					type: 'POST',
+					headers: {"X-CSRFToken": csrftok},
+					success: function(res){
+						console.log(res);
+						
+						if(res.hearted == true){
+							$(dis).css("color","red");
+							$(dis).next().text(res.total);
+						} else {
+							$(dis).css("color","silver");
+							$(dis).next().text(res.total);
+						}
+					},
+					error: function() {
+						console.log('Failed to like post!');
+					}
+				});
+				
+			}
+			
+			function commentclick(dis) {
+			
+				var cmtval = $(dis).css("color");
+				
+				if(cmtval == 'rgb(192, 192, 192)') {
+					$(dis).css("color","black");
+				} else {
+					$(dis).css("color","silver");
+				}
+			}
+		</script>
+		
+		<script>
+			function rmtogglebtnclick(key)
+			{
+				if(key == 1) {
+					$("#postsbtn").hide();
+					$("#groupsbtn").show();
+					$("#messagesbtn").show();
+					
+					$("#menu1").fadeOut(100);
+					$("#menu2").fadeOut(100);
+					$("#home").fadeIn(350);
+				} else if(key == 2) {
+					$("#groupsbtn").hide();
+					$("#postsbtn").show();
+					$("#messagesbtn").show();
+					
+					$("#home").fadeOut(100);
+					$("#menu2").fadeOut(100);
+					$("#menu1").fadeIn(350);
+				} else {
+					$("#messagesbtn").hide();
+					$("#postsbtn").show();
+					$("#groupsbtn").show();
+					
+					$("#home").fadeOut(100);
+					$("#menu1").fadeOut(100);
+					$("#menu2").fadeIn(350);
+				}
+			}
+		</script>
+       
+	   <script>
+			function rmpostimageclick(id)
+			{
+				$("#rmpostimage"+id).click();
+			}
+			
+			function rmpostimagechange(dis, id)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						$('#rmpostpreview'+id).attr('src', e.target.result);
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
+			}
+	   </script>
+	   
+	   <script>
+		function openuserchat(id)
+		{
+			$("#chatmessagesname > b").text('User name '+id);
+			$("#chatmessagesbody").fadeOut(200);
+			$("#chatmessagesbody").fadeIn(300);
+		}
+	   </script>
+	   
+	   
+	   <script>
+			function viewpostimage(dis)
+			{
+				var imgsrc = dis.getAttribute('data-imgsrc');
+				$("#viewimageinmodal").attr('src', imgsrc);
+				$("#viewImageModalBtn").click();
+			}
+
+			$(document).ready(function () {
+				var url = window.location;
+				$('#sideLinks a[href="'+ url +'"]').children().addClass('active');
+				$('#sideLinks a').filter(function() {
+					return this.href == url;
+				}).children().addClass('active');
+			});
+	   </script>
+
+{% include "layout/footer.html" %}
