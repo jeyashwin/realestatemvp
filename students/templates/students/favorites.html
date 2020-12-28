@@ -1,0 +1,142 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+		<style>
+			#layoutDefault_footer { display:none; }
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			.pxp-results-card-1-save:hover { background-color:maroon; color:#fff; }
+		</style>
+
+		
+            <div class="pxp-content-side pxp-content-leftt pxp-half">
+			<div style="position:relative; margin-top:100px;" id="resmsg"></div>
+				
+                <div class="pxp-content-side-wrapper">                   
+					<br><h2>My Favorites</h2>
+                    <div class="row">
+                        {% load humanize %}
+                        {% comment %} {% for object in object_list %}
+                            {% for property in object.properties.all %}
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="remove{{property.pk}}">
+                                    <a href="{% url 'property:propertyDetail' property.urlSlug %}" class="pxp-results-card-1 rounded-lg" data-prop="{{property.pk}}" style="box-shadow:3px 3px 5px grey;">
+                                        <div id="card-carousel-{{property.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+                                            <div class="carousel-inner">
+                                                {% for image in property.propertyimage_set.all %}
+													{% if forloop.first %}
+                                                       <div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+													{% else %}
+														<div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+													{% endif %}
+												{% endfor %}
+                                            </div>
+                                            <span class="carousel-control-prev" data-href="#card-carousel-{{property.pk}}" data-slide="prev">
+                                                <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                            </span>
+                                            <span class="carousel-control-next" data-href="#card-carousel-{{property.pk}}" data-slide="next">
+                                                <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                            </span>
+                                        </div>
+                                        <div class="pxp-results-card-1-gradient"></div>
+                                        <div class="pxp-results-card-1-details">
+                                            <div class="pxp-results-card-1-details-title">{{property.title|title|truncatechars:25}}</div>
+                                            <div class="pxp-results-card-1-details-price">${{property.rentPerPerson|intcomma}}</div>
+                                        </div>
+                                        <div class="pxp-results-card-1-features">
+                                            <span>{{property.rooms}} Room <span>|</span> {{property.bathrooms}} BA <span>|</span> {{property.sqft|intcomma}} SF</span>
+                                        </div>
+                                        
+                                        <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'students:removeFavorites' property.urlSlug %}" data-toggle="tooltip" title="Remove from favorites" onclick="return removefromfav('remove{{property.pk}}', this)"><span class="fa fa-times"></span></div>
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        {% endfor %} {% endcomment %}
+			{% if object_list %}
+                        {% for object in object_list %}
+                            <div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="remove{{object.property.pk}}">
+                                <a href="{% url 'property:propertyDetail' object.property.urlSlug %}" class="pxp-results-card-1 rounded-lg" data-prop="{{object.property.pk}}" style="box-shadow:3px 3px 5px grey;">
+                                    <div id="card-carousel-{{object.property.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+                                        <div class="carousel-inner">
+                                            {% for image in object.property.propertyimage_set.all %}
+                                                {% if forloop.first %}
+                                                    <div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+                                                {% else %}
+                                                    <div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                        <span class="carousel-control-prev" data-href="#card-carousel-{{object.property.pk}}" data-slide="prev">
+                                            <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                        </span>
+                                        <span class="carousel-control-next" data-href="#card-carousel-{{object.property.pk}}" data-slide="next">
+                                            <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                        </span>
+                                    </div>
+                                    <div class="pxp-results-card-1-gradient"></div>
+                                    <div class="pxp-results-card-1-details">
+                                        <div class="pxp-results-card-1-details-title">{{object.property.title|title|truncatechars:25}}</div>
+                                        <div class="pxp-results-card-1-details-price">${{object.property.rentPerPerson|intcomma}}</div>
+                                    </div>
+                                    <div class="pxp-results-card-1-features">
+                                        <span>{{object.property.rooms}} Room <span>|</span> {{object.property.bathrooms}} BA <span>|</span> {{object.property.sqft|intcomma}} SF</span>
+                                    </div>
+                                    
+                                    <div class="pxp-results-card-1-save removebtn" key="{{csrf_token}}" removeurl="{% url 'property:propertyReaction' object.property.urlSlug %}" data-toggle="tooltip" title="Remove from favorites" onclick="return removefromfav('remove{{object.property.pk}}', this)"><span class="fa fa-times"></span></div>
+                                </a>
+                            </div>
+                        {% endfor %}
+			{% else %}
+				<center>
+					<div class="container-fluid" style="min-height:350px; min-width:100%;">
+							<div class="alert alert-warning" style="width:100%; border-radius:10px;">
+								<h5 style="color:maroon;"><i> No favorite added yet! </i></h5>
+							</div>
+					</div>
+				</center>
+			{% endif %}
+                    </div>
+                </div>
+		
+		<script src="js/jquery-3.4.1.min.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+			  $('[data-toggle="tooltip"]').tooltip({html:true});
+			});			
+		</script>
+		
+		<script>
+		
+			function removefromfav(id, dis)
+			{
+				if(confirm("Are you sure to remove this property from favorites?") == true) {
+					$("#"+id).hide(500);
+                    var url = dis.getAttribute('removeurl');
+                    var csrfmiddlewaretoken = dis.getAttribute('key');
+                    $.ajax({
+                    url: url,
+                    type: 'POST',
+                    data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+                    success: function(res){
+                        console.log(res);
+                    },
+                    error: function(){
+                        console.log('Error!');
+                    }
+                    });
+					setTimeout(function() {
+						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favorite deleted!</span> &nbsp; <br>");
+					}, 700);
+					setTimeout(function() {
+						$("#lastmsg").fadeOut(2000);
+					}, 2000);
+					return false;
+				} else {
+					return false;
+				}				
+			}
+			
+		</script>
+
+
+{% include "layout/footer.html" %}

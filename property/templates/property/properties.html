@@ -1,0 +1,888 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+
+<style>
+	footer { display:none; }
+	.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+	.pxp-logo, .pxp-nav > li > a { color:#fff !important; }
+	.pxp-nav > li > .active, .pxp-is-sticky .pxp-nav > li > .active { color: orange; }
+
+	.fa.fa-thumbs-o-down:hover {
+		color:red;
+	}
+    .thumbs-o-down {
+        color:red;
+    }
+	.fa.fa-thumbs-o-up:hover {
+		color:green;
+	}
+    .thumbs-o-up {
+        color:green;
+		font-weight:bold;
+    }
+	.pxp-results-card-1.rounded-lg {
+		{% comment %} box-shadow:2px 2px 3px silver; {% endcomment %}
+	}
+	#filter_checks > p > input { width:13px; height:13px; }
+	#filter_checks > p { font-size:15px; }
+	#tagFriendid {
+		border-radius: 0px !important;
+	}
+								
+	input[type=range] {
+		-webkit-appearance: none;
+		margin: 20px 0;
+		width: 100%;
+	}
+	input[type=range]:focus {
+		outline: none;
+	}
+	input[type=range]::-webkit-slider-runnable-track {
+		width: 100%;
+		height: 4px;
+		cursor: pointer;
+		animate: 0.2s;
+		background: #044c7e;
+		border-radius: 25px;
+	}
+	input[type=range]::-webkit-slider-thumb {
+		height: 20px;
+		width: 20px;
+		border-radius: 50%;
+		background: #fff;
+		box-shadow: 0 0 4px 0 rgba(0,0,0, 1);
+		cursor: pointer;
+		-webkit-appearance: none;
+		margin-top: -8px;
+	}
+	input[type=range]:focus::-webkit-slider-runnable-track {
+		background: #003279;
+	}
+	.range-wrap{
+		width: 100%;
+		position: relative;
+	}
+	.range-value{
+		position: absolute;
+		top: -50%;
+	}
+	.range-value span{
+		min-width: 45px;
+		height: 24px;
+		line-height: 24px;
+		text-align: center;
+		/*background: #03a9f4;*/
+		background: #044c7e;
+		color: #fff;
+		font-size: 12px;
+		display: block;
+		position: absolute;
+		left: 50%;
+		transform: translate(-50%, 0);
+		border-radius: 6px;
+	}
+	.range-value span:before{
+		content: "";
+		position: absolute;
+		width: 0;
+		height: 0;
+		border-top: 10px solid #044c7e;
+		border-left: 5px solid transparent;
+		border-right: 5px solid transparent;
+		top: 100%;
+		left: 50%;
+		margin-left: -5px;
+		margin-top: -1px;
+	}
+
+</style>
+
+
+        <div class="pxp-content pxp-full-height"><br>
+            <style>
+		#sticky {
+		  position: fixed; 
+		  z-index: 10; 
+		  top: 20; 
+		  left: 1;
+		  overflow-x: hidden; 
+
+		}
+		
+		/*#sticky {
+		    border-radius: 0.5ex;
+		    float:left;
+		}
+		#sticky.stick {
+		    position: fixed;
+		    top: 0;
+		    z-index: 10;
+		}
+		
+		#layoutDefault_footer {
+		  z-index:999999
+		 }
+		.rightcontent {
+		  margin-left:17%;
+		}*/
+		
+	</style>
+
+
+<style>
+	
+	@media only screen and (min-width: 600px) {
+	
+		#sticky > div { display:block; }
+		#colmd10sec { margin-left: 17%; }
+		#mobilefilterbtn { display:none; }
+		#distancefilterbtn { padding-top:10px; font-size:20px; }
+		
+    }
+    
+    @media only screen and (max-width: 600px) {
+        
+		#sticky > div { display:none; }		
+		#sticky > div { margin-top:-25px; }		
+		#colmd10sec { margin-left: 7%; }
+		#mobilefilterbtn { display:block; }
+		
+		.distacefilterbars { padding-top:25px; padding-bottom:1px; }
+		#distancefilterbtn { font-size:20px; margin-left:70%; padding:5px 10px; border:2px solid #e2e2e2; border-radius:30px;  margin-bottom:5px; }
+    }
+
+	
+</style>
+	
+            <div class="row" style="width:100%;">
+			
+			<!--div id="sticky-anchor"></div-->
+			<div class="col-md-2" id="sticky">
+			  <i class="fa fa-cogs" id="mobilefilterbtn" onclick="showpropfilters()" style="font-size:22px;"></i>
+			
+				<div class="container-fluid" style="margin-left: 10px; padding:10px;  background-color:#fff; border-radius:7px;">
+				  <div class="panel panel-default">
+					<div class="panel-heading" style="background-color:#f7f7f7; padding:7px; border-top-left-radius:7px; border-top-right-radius:7px; margin-left:-10px; margin-right:-10px; margin-top:-12px;">
+						<h5> &nbsp; Filters</h5>
+					</div>
+					<form action="" method="GET" id="filter-properties-form">
+					{% comment %} {{filterSortForm.as_p}} {% endcomment %}
+					
+					<div class="panel-body">
+						<div style="padding:20px 5px;" id="filter_checks">
+							<h6>Rooms</h6>
+							<p> 
+								{% for room in filterSortForm.room %}
+									{{room}}
+									&nbsp;
+								{% endfor %}
+								{% comment %} {% else %}
+									<small style="color:silver;">N/A</small>
+								{% endif %} {% endcomment %}
+							</p>
+							<hr>
+							<h6>Occupants</h6>
+							<p> 
+								{% comment %} {% if filterSortForm.occp is defined %} {% endcomment %}
+								{% for occp in filterSortForm.occp %}
+									{{occp}}
+									&nbsp;
+								{% endfor %}
+								{% comment %} {% else %}
+									<small style="color:silver;">N/A</small>
+								{% endif %} {% endcomment %}
+							</p>
+							<hr>
+							<h6>Bathrooms</h6>
+							<p> 
+								{% comment %} {% if filterSortForm.bath is defined %} {% endcomment %}
+								{% for bath in filterSortForm.bath %}
+									{{bath}}
+									&nbsp;
+								{% endfor %}
+								{% comment %} {% else %}
+									<small style="color:silver;">N/A</small>
+								{% endif %} {% endcomment %}
+							</p>
+							<hr>
+							<h6>Price Range</h6>
+														
+							<center><label>Min</label></center>
+							<div class="range-wrap">
+								<div class="range-value" id="rangeV"></div>
+								{% comment %} <input id="range" type="range" min="0" max="1000" value="0" step="1"> {% endcomment %}
+								{{filterSortForm.minPri}}
+								{{filterSortForm.minPri.errors}}
+							</div>
+							
+							<center><label>Max</label></center>
+							<div class="range-wrap">
+								<div class="range-value" id="rangeV2"></div>
+								{% comment %} <input id="range2" type="range" min="0" max="10000" value="1000" step="1"> {% endcomment %}
+								{{filterSortForm.maxPri}}
+								{{filterSortForm.maxPri.errors}}
+							</div>
+							{% comment %}
+							<div data-role="rangeslider">
+								<small>Min</small><br>
+								{{filterSortForm.minPri}}
+								{{filterSortForm.minPri.errors}}
+								<small>Max</small><br>
+								{{filterSortForm.maxPri}}
+								{{filterSortForm.maxPri.errors}}
+							  </div><br>
+							{% endcomment %}
+
+
+
+							<style>
+								.filter-amenities-tags > span, .filter-lifestyle-tags > span { border-radius:50px; font-size:11px; border:1px solid grey; background-color:transparent; margin:3px 3px; padding:1px 10px; float:left; color:grey; }
+								.filter-amenities-tags > span:hover, .filter-lifestyle-tags > span:hover { background-color:grey; color:#fff; }
+							</style>
+							<!--h6>Amenities</h6>
+							<p class="filter-amenities-tags pull-left" style="list-style-type:none; width:100%;"> 
+								{% comment %} <span onclick="amenitiesfilterclick(this, 1)" id="amenityspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Amenities 1 </span>
+								<input type="checkbox" class="form-control" name="amenity[]" value="1" id="amenityinput1" placeholder=style="display:none; margin-top:10px;"/>
+								
+								<span onclick="amenitiesfilterclick(this, 2)" id="amenityspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> Amenities 2 </span>
+								<input type="checkbox" class="form-control" name="amenity[]" value="1" id="amenityinput2" placeholder=style="display:none; margin-top:10px;"/> {% endcomment %}
+								{{filterSortForm.amenities.errors}}
+								{% load extraTags %}
+								{% for amenities in filterSortForm.amenities %}
+									<span onclick="amenitiesfilterclick(this, '{{amenities.id_for_label}}')" id="amenityspan2" 
+										class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;{% if amenities|checkboxActive %}background-color:#094A66; color:#fff;{% endif %}"> 
+										<i class="fa fa-check" style="display:none;"></i> {{amenities}} 
+									</span>
+								{% endfor %}
+							</p-->
+							
+							{% comment %} <h6>Lifestyle</h6>
+							<p class="filter-lifestyle-tags pull-left" style="list-style-type:none; width:100%;"> 
+							<span onclick="interestfilterclick(this, 1)" id="interestspan1" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 1 </span>
+							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput1" style="display:none; margin-top:10px;"/>
+							
+							<span onclick="interestfilterclick(this, 2)" id="interestspan2" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> interest 2 </span>
+							<input type="checkbox" class="form-control" name="interest[]" value="1" id="interestinput2" style="display:none; margin-top:10px;"/>
+							{% for interest in interests %}
+								<span onclick="interestfilterclick(this, {{interest.pk}})" id="interestspan{{interest.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
+							{% endfor %}
+							{% for interest in interests %}
+								<input type="checkbox" class="form-control" name="interest[]" value="{{interest.pk}}" id="interestinput{{interest.pk}}" style="display:non; margin-top:10px;"/>
+							{% endfor %}
+							</p> {% endcomment %}
+							
+							
+							{% comment %} <h6>Distance <small>(Max in km)</small></h6>
+							<input type="number" name="filter-distance-max" class="form-control" style="height:30px;"> {% endcomment %}
+							
+							<br>
+							{% comment %} <span class="btn form-contro" style="cursor:pointer; background-color:rgba(0, 0, 0, 0.8); width:100%; color:#fff;"> Apply Filters </span> {% endcomment %}
+							<input type="submit" value="Apply Filters" class="pxp-filter-btn" id="apply_filter_btn_id" style="background-color: #044C7E; border-radius:50px;" />
+						</div>
+					</div>
+				  </div>
+				</div>
+			
+			</div>
+			<div class="col-md-10 rightcontent" id="colmd10sec" style="background-color:#fff; border-radius:7px; min-height:500px;">
+				<div class="pxp-map-side pxp-map-right pxp-half" style="display:none;">
+					<div id="results-map"></div>
+					<a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>
+				</div>
+				
+				<div class="pxp-content-side pxp-content-leftt pxp-half">
+					<div class="pxp-content-side-wrapper">
+						<div class="d-flex">
+							<div class="pxp-content-side-search-form">
+								<div class="row pxp-content-side-search-form-row">
+									
+									<div class="col-xs-12 col-sm-5 col-md-3 col-lg-3 pxp-content-side-search-form-col">
+										<select class="custom-select" id="pxp-p-search-status">
+											<option value="stony_brook" selected="selected">Stony Brook</option>
+										</select>
+									</div>
+									<!--div class="col-5 col-sm-6 col-md-6 col-lg-6 pxp-content-side-search-form-col">
+										<input type="text" class="form-control pxp-is-address" placeholder="Search by City, Neighborhood, or Address" id="pxp-p-search-address">
+										<span class="fa fa-search"></span>
+									</div-->
+									<div class="col-xs-6 col-sm-1 col-md-3 col-lg-3 pxp-content-side-search-form-col" style="padding-left:10px;">
+										<div class="row distacefilterbars">
+											<div class="col-md-12">
+												<span style="font-size:14px; position:absolute; font-family:Century Gothic; margin-top:27px; margin-left:-23px;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance from university</span>
+												<div class="range-wrap">
+													<div class="range-value" id="rangeV3"></div>
+													{{filterSortForm.disPro}}
+													{{filterSortForm.disPro.errors}}
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-1 col-md-3 col-lg-3 pxp-content-side-search-form-col" style="padding-left:10px;">
+										<div class="row distacefilterbars">
+											<div class="col-md-12">
+												<span style="font-size:14px; position:absolute; font-family:Century Gothic; margin-top:27px; margin-left:-23px;"> &nbsp; &nbsp; &nbsp; &nbsp; Distance to &nbsp; <abbr title="Restaurants"><i class="fa fa-cutlery" style="font-size:15px; color:#005918;"></i></abbr> &nbsp; <abbr title="Shopping"><i class="fa fa-shopping-bag" style="font-size:15px; color:#26006e;"></i></abbr> &nbsp; <abbr title="Beverages"><i class="fa fa-glass" style="font-size:15px; color:#750800;"></i></abbr></span>
+												<div class="range-wrap">
+													<div class="range-value" id="rangeV4"></div>
+													{{filterSortForm.disAmen}}
+													{{filterSortForm.disAmen.errors}}
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-1 col-md-1 col-lg-1">
+										<div class="row">
+											<div class="col-md-12">
+												<i class="fa fa-filter" id="distancefilterbtn" style="cursor:pointer; color:#0471A6;"> Filter</i>
+											</div>
+										</div>
+									</div>	
+									<div class="col-xs-12 col-sm-1 col-md-2 col-lg-2">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													{{filterSortForm.sort}}
+													{{filterSortForm.sort.errors}}
+												</div>
+											</div>	
+										</div>
+									</div>
+									
+								</div>
+							</div>
+							<div class="d-flex">
+								<!--a role="button" class="pxp-adv-toggle" onclick="toggle_filters()"><span class="fa fa-sliders"></span></a-->
+							</div>
+						</form>
+						</div>
+						<div class="pxp-content-side-search-form-advv mb-3" id="filtersdiv" style="display:none;">
+								<div class="row pxp-content-side-search-form-row">
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-price-min">Price</label>
+										</div>
+									</div>
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-price-max" class="d-none d-sm-inline-block">&nbsp;</label>
+										</div>
+									</div>
+									
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-distance" class="d-none d-sm-inline-block">Distance</label>
+											<input type="text" class="form-control" placeholder="Max" id="pxp-p-filter-distance">
+										</div>
+									</div>
+																	
+									<div class="col-sm-6 col-md-3 pxp-content-side-search-form-col">
+										<div class="form-group">
+											<label for="pxp-p-filter-size-max" class="d-none d-sm-inline-block">Lifestyle</label>
+											<select class="form-control" id="pxp-p-filter-lifestyle" placeholder="Max">
+												<option> ~ Select ~ </option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="mb-2">Amenities</label>
+									<div class="row pxp-content-side-search-form-row">
+										{% comment %} {{filterSortForm.amenities.errors}}
+										{% for amenities in filterSortForm.amenities %}
+											<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+												<div class="form-group">
+													<div class="checkbox custom-checkbox">
+														{{amenities}}
+													</div>
+												</div>
+											</div>
+										{% endfor %} {% endcomment %}
+										{% comment %} <div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-internet" name="pxp-p-filter-internet"><span class="fa fa-check"></span> Internet</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-pool" name="pxp-p-filter-pool" value="1"><span class="fa fa-check"></span> Pool</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-garage" name="pxp-p-filter-garage"><span class="fa fa-check"></span> Garage</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-furnished" name="pxp-p-filter-furnished"><span class="fa fa-check"></span> Furnished</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-ac" name="pxp-p-filter-ac"><span class="fa fa-check"></span> Air Conditioning</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-dishwasher" name="pxp-p-filter-dishwasher"><span class="fa fa-check"></span> Dishwasher</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-gym" name="pxp-p-filter-gym"><span class="fa fa-check"></span> Gym</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-playstore" name="pxp-p-filter-playstore"><span class="fa fa-check"></span> Playroom</label>
+												</div>
+											</div>
+										</div>
+										<div class="col-sm-6 col-md-4 pxp-content-side-search-form-col">
+											<div class="form-group">
+												<div class="checkbox custom-checkbox">
+													<label><input type="checkbox" id="pxp-p-filter-heating" name="pxp-p-filter-heating" value="1"><span class="fa fa-check"></span> Heating</label>
+												</div>
+											</div>
+										</div> {% endcomment %}
+										
+									</div>
+								</div>
+
+								<input type="submit" name="submit" value="Apply Filters" class="pxp-filter-btn" />
+								<hr>
+						</div>
+						{% if messages %}
+							{% for message in messages %}
+							<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							{% endfor %}
+						{% endif %}
+						<div class="row pb-4">
+							<div class="col-sm-6">
+								<h2 class="pxp-content-side-h2">{{total_count}} Results</h2>
+							</div>
+							<div class="col-sm-6">
+								<!--div class="pxp-sort-form form-inline float-right">
+									<div class="form-group">
+										{{filterSortForm.sort}}
+										{{filterSortForm.sort.errors}}
+									</div>
+									</form>
+									<div class="form-group d-flex">
+										<a role="button" class="pxp-map-toggle"><span class="fa fa-map-o"></span></a>
+									</div>
+								</div-->
+							</div>
+						</div>
+
+
+						<div class="row">
+
+							{% load humanize %}
+							{% for object in object_list %}
+								<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+
+
+									<div style="margin-top: 10px; padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; border:2px solid #044C7E; background-color:#fff;">
+										<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg"  data-prop="1" style="height:270px;">
+											<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+												<div class="carousel-inner">
+													{% for image in object.propertyimage_set.all %}
+														{% if forloop.first %}
+														<div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+														{% else %}
+														<div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+														{% endif %}
+													{% endfor %}
+												</div>
+												<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
+													<span class="fa fa-angle-left" aria-hidden="true"></span>
+												</span>
+												<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
+													<span class="fa fa-angle-right" aria-hidden="true"></span>
+												</span>
+											</div>
+											<div class="pxp-results-card-1-gradient"></div>
+											<div class="pxp-results-card-1-details">
+												<div class="pxp-results-card-1-details-title">{{object.title|truncatechars:25}}</div>
+												<div class="pxp-results-card-1-details-price">${{object.rentPerPerson|intcomma}}</div>
+											</div>
+											<div class="pxp-results-card-1-features">
+												<span>{{object.rooms}} Rooms <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
+											</div>
+											<div class="pxp-results-card-1-save">
+												<span id="like{{object.pk}}" onclick="return likeclick('like{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}" 
+													class="fa fa-thumbs-o-up 
+														{% for liked in object.likes.all  %}
+															{% if liked.user.user == user %}
+																thumbs-o-up
+															{% endif %}
+														{% endfor %}
+													">
+												</span>
+												<span id="dislike{{object.pk}}" onclick="return dislikeclick('dislike{{object.pk}}', this)" dislikeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}" style="background-color:white; border-radius:50px; padding:7px; margin-top:10px;" 
+													class="fa fa-thumbs-o-down 
+														{% for disliked in object.dislikes.all  %}
+															{% if disliked.user.user == user %}
+																thumbs-o-down
+															{% endif %}
+														{% endfor %}
+													">
+												</span>
+											</div>
+										</a>
+										<div class="col-md-12" style="padding-bottom:10px; font-size:12px; margin-top:-20px; color:black;">
+											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
+												<div class="col-md-6"><b><i class="fa fa-street-view"></i>&nbsp;&nbsp; Distance </b></div>
+												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												{% comment %} {{object.distance.mi}} {% endcomment %}
+												<div class="col-md-4">{% if object.distance %}{{object.distance.mi|floatformat:1}} miles{% else %}None{% endif %}</div>
+											</div>
+											<div class="row" style="padding:4px 0px; border-bottom:0px solid #444444;">
+												<div class="col-md-6"><b><i class="fa fa-cubes"></i> Amenities </b></div>
+												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												<div class="col-md-4">
+													{% for amenity in object.amenities.all %}
+														{% if forloop.first %}
+															{{amenity|truncatewords:1|truncatechars:8}},
+														{% endif %} 
+													{% endfor %}
+												</div>
+												<div class="col-md-12">
+													{% for amenity in object.amenities.all %}
+														{% if not forloop.first and forloop.counter <= 4 %}
+															{{amenity|truncatechars:8}}
+															{% if forloop.counter != 4 and not forloop.last %}
+																,
+															{% endif %}
+														{% endif %} 
+													{% endfor %}
+												</div>
+											</div>
+											<div class="row" style="padding:4px 0px;">
+												<div class="col-md-6"><b><i class="fa fa-users"></i>&nbsp; Occupants </b></div>
+												<div class="col-md-1"><i class="fa fa-arrows-h"></i></div>
+												<div class="col-md-4">{{object.occupants}}</div>
+											</div>
+										</div>
+										
+										<div class="col-md-12" style="border-top:1px solid silver; font-size:12px; background-color:#044C7E; color:#fff;">
+											<div class="row" style="border-bottom:0px solid #444444;">
+												<form action="{% url 'property:tagFriend' object.urlSlug %}" method="POST">
+													{% csrf_token %}
+													    <div class="row">
+														<div class="col-md-12">
+														<div class="input-group">
+															<select name="tagFriend" class="custom-select" id="tagFriendid" required>
+																<option value="" selected>Tag a Friend</option>
+																{% for friend in user.usertype.userstudent.friend.friends.all %}
+																	<option value="{{friend}}">{{friend}}</option>
+																{% endfor %}
+															</select>
+															<div class="input-group-append">
+																<button type="submit" class="btn btn-md btn-success" id="tag_submit_btn">Tag</button>
+															</div>
+														</div>
+													     </div>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endfor %}
+							 
+						</div>
+						<ul class="pagination pxp-paginantion mt-2 mt-md-4">
+							{% for page in total_pages %}
+							{% load extraTags %}
+								<li class="page-item {% if page == page_obj.number %}active{% endif %}" style="background: none !important;"><a class="page-link" href="?{{request.GET|combineGetvalues}}page={{ page }}">{{ page }}</a></li>
+							{% endfor %}
+							{% if page_obj.has_next %}
+								<li class="page-item"><a class="page-link" href="?{{request.GET|combineGetvalues}}page={{ page_obj.next_page_number }}">Next <span class="fa fa-angle-right"></span></a></li>
+							{% endif %}
+						</ul>
+
+					</div>
+					
+				</div>
+				
+			</div> <!--col-md-9-->
+			</div> <!--row-->
+        </div>
+		<br>
+
+	<script>
+		function toggle_filters()
+		{
+			var filtersdivstatus = document.getElementById('filtersdiv').style.display;
+			
+			if(filtersdivstatus == 'none') {
+				//document.getElementById('filtersdiv').style.display = 'block';
+				$("#filtersdiv").show(700);
+				
+			} else {
+				//document.getElementById('filtersdiv').style.display = 'none';
+				$("#filtersdiv").hide(700);
+			}
+		}
+	</script>
+	
+	<script>
+		function likeclick(id, dis)
+		{
+			/*var like = document.getElementById(id);
+			like.classList.toggle("thumbs-o-up");*/
+			var disid = dis.getAttribute('id');
+			document.getElementById(disid).style.fontWeight = 'bold';
+			document.getElementById(disid).style.color = 'green';
+			
+			var url = dis.getAttribute('likeurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				window.location.reload();
+				console.log(res);
+			  },
+			  error: function()
+			  {
+				console.log('Error!');
+			  }
+			});
+			return false;
+			
+		}
+		
+		function dislikeclick(id, dis)
+		{
+		
+			/*var dislike = document.getElementById(id);
+			dislike.classList.toggle("thumbs-o-down")*/
+			
+			var disid = dis.getAttribute('id');
+			document.getElementById(disid).style.fontWeight = 'bold';
+			document.getElementById(disid).style.color = 'red';
+			
+			var url = dis.getAttribute('dislikeurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"dislike":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+				window.location.reload();
+			  },
+			  error: function(){
+				console.log('Error!');
+			  }
+			});
+			return false;
+		}
+	</script>
+	
+	<script>
+		function interestfilterclick(dis, id)
+		{
+			
+			var catidcolor = $(dis).css("color");
+			var catid = $(dis);
+			if($("#interestinput"+id).prop('checked') == true) {
+				$("#interestinput"+id).prop('checked', false);
+				$(dis).css({"background-color":"transparent", "color":"black"});
+			} else {
+				$("#interestinput"+id).prop('checked', true);
+				$(dis).css({"background-color":"#094A66", "color":"#fff"});
+			}
+			
+		}
+		
+		function amenitiesfilterclick(dis, id)
+		{
+			var catidcolor = $(dis).css("color");
+			var catid = $(dis);
+
+			if($("#"+id).prop('checked') == true) {
+				$("#"+id).prop('checked', false);
+				$(dis).css({"background-color":"transparent", "color":"black"});
+			} else {
+				$("#"+id).prop('checked', true);
+				$(dis).css({"background-color":"#094A66", "color":"#fff"});
+			}
+			
+		}
+	</script>
+	
+
+	<script>
+		
+		var
+			range = document.getElementById('{{filterSortForm.minPri.id_for_label}}'),
+			rangeV = document.getElementById('rangeV'),
+			setValue = ()=>{
+				var
+					newValue = Number( (range.value - range.min) * 100 / (range.max - range.min) ),
+					newPosition = 10 - (newValue * 0.2);
+				rangeV.innerHTML = `<span>$${range.value}</span>`;
+				rangeV.style.left = `calc(${newValue}% + (${newPosition}px))`;
+			};
+		document.addEventListener("DOMContentLoaded", setValue);
+		range.addEventListener('input', setValue);
+		
+	</script>
+	
+	
+	<script>
+		
+		var
+			range2 = document.getElementById('{{filterSortForm.maxPri.id_for_label}}'),
+			rangeV2 = document.getElementById('rangeV2'),
+			setValue2 = ()=>{
+				var
+					newValue2 = Number( (range2.value - range2.min) * 100 / (range2.max - range2.min) ),
+					newPosition2 = 10 - (newValue2 * 0.2);
+				rangeV2.innerHTML = `<span>$${range2.value}</span>`;
+				rangeV2.style.left = `calc(${newValue2}% + (${newPosition2}px))`;
+			};
+		document.addEventListener("DOMContentLoaded", setValue2);
+		range2.addEventListener('input', setValue2);
+		
+	</script>
+	<script>
+		
+		var
+			range3 = document.getElementById('{{filterSortForm.disPro.id_for_label}}'),
+			rangeV3 = document.getElementById('rangeV3'),
+			setValue = ()=>{
+				var
+					newValue3 = Number( (range3.value - range3.min) * 100 / (range3.max - range3.min) ),
+					newPosition3 = 10 - (newValue3 * 0.2);
+				rangeV3.innerHTML = `<span>${range3.value} Mile</span>`;
+				rangeV3.style.left = `calc(${newValue3}% + (${newPosition3}px))`;
+			};
+		document.addEventListener("DOMContentLoaded", setValue);
+		range3.addEventListener('input', setValue);
+		
+	</script>
+	
+	
+	<script>
+		
+		var
+			range4 = document.getElementById('{{filterSortForm.disAmen.id_for_label}}'),
+			rangeV4 = document.getElementById('rangeV4'),
+			setValue2 = ()=>{
+				var
+					newValue4 = Number( (range4.value - range4.min) * 100 / (range4.max - range4.min) ),
+					newPosition4 = 10 - (newValue4 * 0.2);
+				rangeV4.innerHTML = `<span>${range4.value} Mile</span>`;
+				rangeV4.style.left = `calc(${newValue4}% + (${newPosition4}px))`;
+			};
+		document.addEventListener("DOMContentLoaded", setValue2);
+		range4.addEventListener('input', setValue2);
+		
+	</script>
+
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyDIKVsUE3OpqZ7o5oun4HHrVG1X6eGKUec&sensor=false&v=3&libraries=places"></script>
+	<script>
+		var autocomplete = new google.maps.places.Autocomplete($("#pxp-p-search-address")[0], {});
+
+		google.maps.event.addListener(autocomplete, 'place_changed', function() {
+			var place = autocomplete.getPlace();
+			console.log(place.address_components);
+		});
+	</script>
+
+	<script>
+		$("#distancefilterbtn").click(function(){
+			$("#apply_filter_btn_id").click();
+		});
+		$("#id_sort").change(function(){
+			var sortvalue = $("#id_sort option:selected").val();
+			console.log(sortvalue);
+			{% comment %} if(sortvalue != 'default') { {% endcomment %}
+			$("#apply_filter_btn_id").click();
+			{% comment %} } {% endcomment %}
+		});
+	</script>
+
+	<!--script>
+		$("#tag_friend_id").change(function(){
+			var tagvalue = $("#tag_friend_id option:selected").val();
+			if(tagvalue != '' || tagvalue != null) {
+				$("#tag_submit_btn").show(200);
+			} else {
+				$("#tag_submit_btn").hide(200);
+			}
+		});
+	</script-->
+
+
+	<script>
+		
+		function sticky_relocate() {
+		    var window_top = $(window).scrollTop();
+		    var footer_top = $("#layoutDefault_footer").offset().top;
+		    var div_top = $('#sticky-anchor').offset().top;
+		    var div_height = $("#sticky").height();
+		    
+		    var padding = 20;  // tweak here or get from margins etc
+		    
+		    if (window_top + div_height > footer_top - padding)
+			$('#sticky').css({top: (window_top + div_height - footer_top + padding) * -1})
+		    else if (window_top > div_top) {
+			$('#sticky').addClass('stick');
+			$('#colmd10sec').addClass('rightcontent');
+			$('#sticky').css({top: 5})
+		    } else {
+			$('#sticky').removeClass('stick');
+			$('#colmd10sec').removeClass('rightcontent');
+		    }
+		}
+
+		$(function () {
+		    $(window).scroll(sticky_relocate);
+		    sticky_relocate();
+		});
+	</script>
+
+	<script>
+		function showpropfilters()
+		{
+			var fdstat = $("#sticky > div").css("display");
+			
+			if(fdstat == 'none') {
+				$("#sticky > div").show(300);
+			} else {
+				$("#sticky > div").hide(300);
+			}
+			
+		}
+	</script>
+
+
+{% include "layout/footer.html" %}
