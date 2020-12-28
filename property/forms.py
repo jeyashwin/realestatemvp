@@ -37,23 +37,6 @@ class PropertyForm(forms.ModelForm):
         }),
         required=False,
     )
-<<<<<<< HEAD
-=======
-    amenity4 = forms.CharField(max_length=100,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Ex Unfurnished'
-        }),
-        required=False,
-    )
-    amenity5 = forms.CharField(max_length=100,
-        widget=forms.TextInput(attrs={
-            'class': 'form-control',
-            'placeholder': 'Ex Wifi'
-        }),
-        required=False,
-    )
->>>>>>> 857835abda3a496555a615e2cf4bd1931e1e3b27
     amenity6 = forms.CharField(max_length=100,
         widget=forms.TextInput(attrs={
             'class': 'form-control',
