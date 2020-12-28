@@ -2,7 +2,7 @@
 
 {% load static %}
 
-        <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"-->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -11,8 +11,9 @@
 			
 			#layoutDefault_footer { display:none !important; }
 
-			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; } 
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
 			
+			.list-inline-item > a { font-size:12px !important; }
 			
 			::-webkit-scrollbar {
 			  width: 7px;
@@ -201,25 +202,13 @@
 
 					}
 					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
-					
-					@media only screen and (min-width: 600px) {
-						
-					}
-					
-					@media only screen and (max-width: 600px) {
-						#colsection1 { padding-top:20px; }
-						#colsection2 { padding-top:80px; }
-						#colsection3 { padding-top:20px; }
-						
-					}
-
 		</style>
 		
 		<div class="roww bodycontent">
 			{% if messages %}
 			{% for message in messages %}
 			<div class="alert alert-success alert-dismissible show">
-				<strong class="text-center">{{ message }}</strong>
+				<strong>{{ message }}</strong>
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -234,7 +223,7 @@
 					{% comment %} <span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span> {% endcomment %}
 					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
 					<a href="{% url 'chat:index' %}" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chats </a>
-					&nbsp;<br><br><br><br>	
+					&nbsp;
 				</div><br>
 				
 				  <!--ul class="nav nav-pills nav-justified">
@@ -246,7 +235,7 @@
 				  <div class="tab-content">
 					<div id="home" class="home-div">
 						
-						<div class="col-md-2" id="colsection1" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px; float:left;">
+						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
 							<br>
 							<center>
 								{% if user.is_authenticated%}
@@ -274,23 +263,29 @@
 								</style>
 								
 								<div id="sideLinks">
-									<a href="{% url 'discussion:discussionList' %}" class="mypost"><p>All Social</p></a>
-									<a href="{% url 'discussion:discussionList' %}?filter=mypost" class="mypost"><p>My Posts</p></a>
+									<a href="{% url 'students:roommates' %}" class="mypost"><p>All Roommate Posts</p></a>
+									<a href="{% url 'students:roommatesMypost' %}" class="mypost"><p>My Posts</p></a>
 								</div>
-								<h5><b>Filters</b></h5>
-								<div class="leftcategorylist" id="sideLinksFilter">
-								{% for tag in tags %}
-								<a href="{% url 'discussion:discussionList' %}?filter={{tag.pk}}"><p><i class="fa fa-filter"></i> &nbsp; {{tag.tag}}</p></a>
+								{% comment %} 
+						<----------------------preference left panel section starts here------------------------------>
+								<h5><b>Categories</b></h5>
+								<div class="leftcategorylist">
+								{% for preference in preferences %}
+								<a href="{% url 'students:roommatesPreference' preference.preferenceSlug %}"><p><i class="fa fa-filter"></i> &nbsp; {{preference.preferenceType}}</p></a>
 								{% endfor %}
-								</div>
+								</div> 
+						<----------------------preference left panel section ends here------------------------------>
+								{% endcomment %}
 							</div>
 						</div>
-						<div class="col-md-4" id="colsection2" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none; float:left;">
+						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
+
 						{% comment %} {% if currentpreferences %} {% endcomment %}
 							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
 							<!-- Tab content -->
 							<div id="classic" class="tabcontent" style="border-radius:10px; display: none; width:100%;">
-								<form action="{% url 'discussion:discussionCreate'%}" method="post" enctype="multipart/form-data" id="createPostForm">
+							{% comment %} {% url 'students:postCreate' currentpreferences.preferenceSlug %} {% endcomment %}
+								<form action="{% url 'students:postCreate'%}" method="post" enctype="multipart/form-data" id="createPostForm">
 									<div>
 										<span class="pull-left" style="font-size:22px; font-weight:bold; color:grey;"> New Post </span>
 										<span onclick="closeedit()" class="btn btn-default btn-xs pull-right" style="color:maroon; font-size:20px; padding:2px 8px; border-radius:50px; margin-bottom:10px;"> <i class="fa fa-times"></i></span><br>
@@ -300,38 +295,38 @@
 									<textarea rows="7" id="editor_classiccc" style="display:none;"></textarea>
 									
 									<input type="text" class="form-control" name="title" id="rmposttitle" placeholder="Enter Title">
-									<small id="createPostErrortitle" style="color: red;"></small>
 									<br>
-									<textarea rows="7" class="form-control" id="rmpostdescription" name="description" placeholder="Description"></textarea>
-									<small id="createPostErrordescription" style="color: red;"></small>
+									<textarea rows="7" class="form-control" name="description" placeholder="About yourself.."></textarea>
 									<br>
+									{% comment %} 
+							<------------------interest section for creation of post starts here------------------->
+									
 									<div class="row">
 										<div class="col-md-12">
-											<h5><b>Tags</b></h5>
-											{% for tag in tags %}
-											<span onclick="cataddclick(this, {{tag.pk}})" id="catyspan{{tag.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{tag}} </span> &nbsp;
+											<h5><b>Interests</b></h5>
+											{% for interest in interests %}
+											<span onclick="cataddclick(this, {{interest.pk}})" id="catyspan{{interest.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
 											{% endfor %}
 										</div>
-										<small id="createPostErrortags" style="padding-left: 20px; color: red;"></small>
 									</div>
 									<br>
-									{% for tag in tags %}
-									<input type="checkbox" class="form-control" name="tags" value="{{tag.pk}}" id="catyinput{{tag.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+									{% for interest in interests %}
+									<input type="checkbox" class="form-control" name="interest" value="{{interest.pk}}" id="catyinput{{interest.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
 									{% endfor %}
+							<------------------interest section for creation of post ends here-------------------> 
+								{% endcomment %}
+									
 									<div class="row">
 										<div class="col-md-8">
 											<h5><b>Images</b></h5>
 											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center> </div>
-											{% comment %} <div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
 											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center> </div>
-											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div> {% endcomment %}
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div>
 										</div>
 										<div class="col-md-6">
-											<small id="createPostErrorimage" style="padding-left: 10px; color: red;"></small>
 											<div class="pull-right"><br><br>
-												<button type="submit" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost">
-													Post
-												</button>
+												<input type="submit" name="submit" value="Post" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost" />
 											</div>
 										</div>
 									</div>
@@ -347,10 +342,8 @@
 										$(document).ready(function(){
 											$("#createPostForm").submit(function(event){
 												event.preventDefault();
-												var subButton = document.getElementById('submitpost')
-												subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'
 												var formValues= new FormData(this);
-												// console.log(formValues);
+												console.log(formValues);
 												$.ajax({
 													url : $(this).attr('action'), // the endpoint
 													type : "POST", // http method
@@ -362,44 +355,42 @@
 													// handle a successful response
 													success : function(json) {
 														console.log(json); // log the returned json to the console
-														var fields = ['rmposttitle', 'rmpostdescription', 'rmpostimage1']
-														for(id of fields) {
-															document.getElementById(id).value = "";
-														}
-														{% for tag in tags %}
-															document.getElementById("catyinput{{tag.pk}}").checked = false;
-														{% endfor %}
 														window.location.reload();
 													},
 													// handle a non-successful response
 													error : function(xhr,errmsg,err) {
-														subButton.innerHTML = 'Post'
-														if (xhr.status == 400){
-															reso = JSON.parse(xhr.responseText)
-															for(i in reso) {
-																document.getElementById('createPostError'+i).textContent = reso[i]
-															}
-														}
-														console.log(xhr.status + ": " + xhr.responseText);
+														// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+														// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+														console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 													}
 												});
 											});
 										});
+							{% comment %} 
+							<------------------interest section for creation of post click check box function starts here------------------->
 										function cataddclick(dis, id)
 											{
 												
 												var catidcolor = $(dis).css("color");
 												var catid = $(dis);
+												//var catinput = $("#catyinput"+id).css("display");
 												if($("#catyinput"+id).prop('checked') == true) {
 													$("#catyspan"+id+"> i").hide();
+													//$("#catyinput"+id).show(500);
 													$("#catyinput"+id).prop('checked', false);
 													$(dis).css({"background-color":"transparent", "color":"black"});
 												} else {
 													$("#catyspan"+id+"> i").show();
+													//$("#catyinput"+id).hide(500);
 													$("#catyinput"+id).prop('checked', true);
 													$(dis).css({"background-color":"#094A66", "color":"#fff"});
 												}
+												
 											}
+							<------------------interest section for creation of post click check box function ends here-------------------> 
+							{% endcomment %}
+							{% comment %}
+							<------------------interest section for update of post click check box function starts here------------------->
 										function cateditclick(dis, id)
 										{
 											
@@ -416,12 +407,14 @@
 											}
 											
 										}
+							<------------------interest section for updation of post click check box function ends here------------------->
+							 {% endcomment %}
 									</script>
 								</form>
 							</div>
 							<br>
 							{% comment %} {% endif %} {% endcomment %}
-							<div style="min-height:519px;">
+							<div style="min-height:615px;">
 								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
 								<h3><b>All Posts</b></h3>
 								{% comment %} 								
@@ -455,10 +448,9 @@
 								</div>
 								<br>
 								{% for object in object_list %}
-
 								
-									<div class="panel panel-default postspanel catpanel1" id="postid{{ object.pk }}" onclick="viewpostdetails(this)" data-postid="{{ object.pk }}" data-url="{% url 'discussion:discussionDetail' object.pk %}" data-commenturl="{% url 'discussion:discussionCommentCreate' object.pk %}" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
-									<form action="{% url 'discussion:discussionUpdate' object.pk %}" method="POST" enctype="multipart/form-data" id="updatePostForm{{object.pk}}">
+									<div class="panel panel-default postspanel catpanel1" id="postid{{ object.pk }}" onclick="viewpostdetails(this)" data-postid="{{ object.pk }}" data-url="{% url 'students:postDetail' object.pk %}" data-commenturl="{% url 'students:commentCreate' object.pk %}" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									<form action="{% url 'students:postUpdate' object.pk %}" method="POST" enctype="multipart/form-data" id="updatePostForm{{object.pk}}">
 										<div class="panel-body" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; padding-bottom: 0px;">
 											<div class="row" style="color:#565555">
 												<div class="col-md-1">
@@ -478,20 +470,23 @@
 														&nbsp; &nbsp; 
 														<b>{{object.student.user.user.first_name|title}} {{object.student.user.user.last_name|title}}</b>
 														&nbsp;
-														{% comment %} {% for tag in tags %}
-														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{tag}} &nbsp; </span>
-														{% endfor %} {% endcomment %}
+														{% for interest in object.student.interests.all %}
+														<span class="btn btn-default btn-xs" style="display:none; color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
+		<style>
+	.chatnowbtn:hover { background-color:rgba(15, 73, 140, 0.1); }
+</style>												{% endfor %}
+
 														{% if user != object.student.user.user %}
 															{% load extraTags %}
 															{% get_friend_status object.student as friendStatus %}
 																{% if friendStatus.status == "Friends" %}
-																	<a href="{% url 'chat:room' friendStatus.url %}"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /></a>
+																	
+<a href="{% url 'chat:room' friendStatus.url %}" class="chatnowbtn" style="border:1px solid #0f498c; border-radius:10px; padding:7px; text-decoration:none; color:grey; font-weight:bold;"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /> Chat now</a>
 																{% elif friendStatus.status == "FriendRequestSent" %}
 																	<a><img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/pending-2820831-2340793.png" style="width:25px; height:25px;" /></a>
 																{% else %}
-																	<a href="{% url 'chat:message_request_update' object.student.user.user 'discussion' %}">
-																		<img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" />
-																	</a>
+											
+<a href="{% url 'chat:message_request_update' object.student.user.user 'roommates' %}" class="chatnowbtn" style="border:1px solid #0f498c; border-radius:10px; padding:7px; text-decoration:none; color:grey; font-weight:bold;"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" /> Request Chat</a>
 																{% endif %}
 														{% endif %}
 														<span class="pull-right" style="margin-top:-10px;">
@@ -587,25 +582,23 @@
 													<h4 class="postkeyviewfields{{object.pk}}"><b>{{object.title|title}}</b></h4>
 													<h4 class="postkeyeditfields{{object.pk}}" style="display:none;">
 														<input type="text" name="title" id="edit_rmposttitle_{{object.pk}}" class="form-control" value="{{object.title|title}}" placeholder="Enter Title" style="border-radius:50px; padding:5px 10px;">
-														<small id="updatePostErrortitle_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</h4>
 													
 													<p class="postkeyviewfields{{object.pk}}">{{object.description|striptags}}</p>
 													<p class="postkeyeditfields{{object.pk}}" style="display:none;">
-														<textarea rows="5" class="form-control" name="description" id="edit_rmpostdesc_{{object.pk}}" placeholder="Description" style="border-radius:20px;">{{object.description|title}}</textarea>
-														<small id="updatePostErrordescription_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
+														<textarea rows="5" class="form-control" name="description" id="edit_rmpostdesc_{{object.pk}}" placeholder="About yourself.." style="border-radius:20px;">{{object.description|title}}</textarea>
 													</p>
 													
 													<div class="postkeyeditfields{{object.pk}}" style="display:none; padding-bottom:50px;">
 														<h5><b>Images</b></h5>
-														<div class="col-md-12 mb-1"> 
-															{% comment %} <center> {% endcomment %}
+														<div class="col-md-12"> 
+															<center>
 																{% if object.image %}
 																	<img src="{{object.image.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}1)" id="rmpostpreview{{object.pk}}1" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}1" name="image" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}1)" style="display:none;" />
 																{% else %}
 																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}1)" id="rmpostpreview{{object.pk}}1" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}1" name="image" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}1)" style="display:none;" />
 																{% endif %}
-																{% comment %} {% if object.image1 %}
+																{% if object.image1 %}
 																	<img src="{{object.image1.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}2)" id="rmpostpreview{{object.pk}}2" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;"/><input type="file" id="rmpostimage{{object.pk}}2" name="image1" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}2)" style="display:none;" />
 																{% else %}
 																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}2)" id="rmpostpreview{{object.pk}}2" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}2" name="image1" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}2)" style="display:none;" />
@@ -619,20 +612,19 @@
 																	<img src="{{object.image3.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}4)" id="rmpostpreview{{object.pk}}4" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}4" name="image3" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}4)" style="display:none;" />
 																{% else %}
 																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}4)" id="rmpostpreview{{object.pk}}4" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}4" name="image3" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}4)" style="display:none;" />
-																{% endif %} {% endcomment %}
-															{% comment %} </center>  {% endcomment %}
+																{% endif %}
+															</center> 
 														</div>
-														<small id="updatePostErrorimage_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
 													</div>
-													<div class="col-md-12 mb-2">
-													{% for tag in tags %}
-														<span onclick="cateditclick(this, {{object.pk}}{{tag.pk}})" id="catespan{{object.pk}}{{tag.pk}}" class="btn btn-default btn-xs postkeyeditfields{{object.pk}}" style="border:2px solid #383836; border-radius:50px; display:none;{% for objTag in object.tags.all %}{% if objTag == tag %}background-color:#094A66; color:#fff;{% endif %}{% endfor %}"> <i class="fa fa-check" style="display:none;{% for objTag in object.tags.all %}{% if objTag == tag %}display:inherit;{% endif %}{% endfor %}"></i> {{tag}} </span> &nbsp;
+											{% comment %} <-------------------- interest selection for update post starts here --------------------> 
+													{% for interest in interests %}
+														<span onclick="cateditclick(this, {{interest.pk}})" id="catespan{{interest.pk}}" class="btn btn-default btn-xs postkeyeditfields{{object.pk}}" style="background-color:transparent; border:2px solid #383836; border-radius:50px; display:none;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
 													{% endfor %}
-													{% for tag in tags %}
-														<input type="checkbox" class="form-control" {% for objTag in object.tags.all %}{% if objTag == tag %}checked{% endif %}{% endfor %} name="tags" value="{{tag.pk}}" id="cateinput{{object.pk}}{{tag.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+													{% for interest in interests %}
+													<input type="checkbox" class="form-control" name="interest" value="{{interest.pk}}" id="cateinput{{interest.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
 													{% endfor %}
-													</div>
-													<small id="updatePostErrortags_{{object.pk}}" style="padding-left: 20px; color: red;"></small>
+											<-------------------- interest selection for update post starts here -------------------->  {% endcomment %}
+
 												</div>
 												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px; background-color:#0f498c; border-bottom-left-radius:7px; border-bottom-right-radius:7px; padding-bottom:5px;">
 													<div class="pull-left">
@@ -645,18 +637,16 @@
 																{% if heart.user.user == user %}
 																	userliked
 																{% endif %}
-															{% endfor %}" style="font-size:17px;" onclick="postlikeclick(this)" data-url="{% url 'discussion:discussionAddRemoveHeart' object.pk %}"></i> <b class="totalhearts" style="font-size:16px; color:silver;">{{object.totalHearts}}</b></span>
+															{% endfor %}" style="font-size:17px;" onclick="postlikeclick(this)" data-url="{% url 'students:addRemoveHeart' object.pk %}"></i> <b class="totalhearts" style="font-size:16px; color:silver;">{{object.totalHearts}}</b></span>
 													</div>
 													<div class="pull-right">
 														<!--a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a-->
 														{% if user == object.student.user.user %}
 														<span class="pull-right">
 															<i class="fa fa-edit btn btn-primary btn-sm postkeyviewfields{{object.pk}}" onclick="edit_my_post(this, {{object.pk}})" data-editurl=""  style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer;"></i>
-															<button type="submit" id="updatebutton{{object.pk}}" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;">
-																Update
-															</button>
+															<input type="submit" name="submit" value="Update" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;" />
 															&nbsp;
-															<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'discussion:discussionDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
+															<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'students:postDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
 															<script>
 																function edit_my_post(dis, postid)
 																{
@@ -667,8 +657,6 @@
 															
 																$("#updatePostForm{{object.pk}}").submit(function(event){
 																	event.preventDefault();
-																	var subButton = document.getElementById('updatebutton{{object.pk}}')
-																	subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>'
 																	var formValues= new FormData(this);
 																	const csrftok = getCookie('csrftoken');
 																	console.log(formValues);
@@ -688,14 +676,9 @@
 																		},
 																		// handle a non-successful response
 																		error : function(xhr,errmsg,err) {
-																			subButton.innerHTML = 'Update'
-																			if (xhr.status == 400){
-																				reso = JSON.parse(xhr.responseText)
-																				for(i in reso) {
-																					document.getElementById('updatePostError'+ i + '_{{object.pk}}').textContent = reso[i]
-																				}
-																			}
-																			console.log(xhr.status + ": " + xhr.responseText);
+																			// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+																			// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+																			console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
 																		}
 																	});
 																});
@@ -804,13 +787,13 @@
 							</div>
 						</div>
 						
-						<div class="col-md-6" id="colsection3" style="max-height:700px; overflow-y:scroll;  float:left;">
+						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
 							
 							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
 							
-								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>	
+								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>
 							
-								<div class="panel-body" style="min-height:615px;">
+								<div class="panel-body" style="min-height:630px;">
 									<div class="row panelrow" style="color:#565555">
 										<div class="col-md-1 imgcol" style="text-align:center;">
 											<img src="#" class="pull-right" style="width:40px; height:40px; border-radius:100px; border:3px solid grey;" />
@@ -827,7 +810,7 @@
 										<div class="col-md-6 usercaty" style="margin-top:5px;"></div>
 										
 										
-										<div class="col-md-12 userhabits" style="display:none;">
+										<div class="col-md-12 userhabits">
 											<div class="row" style="padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
@@ -846,7 +829,7 @@
 											</div>
 										</div>
 										
-										<div class="col-md-12 userschedule" style="display:none; border-top:1px solid #e2e2e2; padding-top:10px;">	
+										<div class="col-md-12 userschedule" style="border-top:1px solid #e2e2e2; padding-top:10px;">	
 											<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
 												<div class="col-md-6">
 													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
@@ -860,8 +843,8 @@
 											</div>
 												
 										</div>
-
-										<div class="col-md-12 usercontent" style="border-top:2px solid #fff; margin-top:7px;">
+										
+										<div class="col-md-12 usercontent" style="border-top:2px solid #fff;">
 											<h4>
 												<b class="usertitle pull-left"></b>
 												<b class="userlikes pull-right"></b>
@@ -869,7 +852,7 @@
 											<br><br>
 											<p class="userdesc"></p>
 											<hr>
-											<h4 id="userimgsPhotos"><b>Photos</b></h4>
+											<h4><b>Photos</b></h4>
 											<div class="userimgs"></div>
 										</div>
 										
@@ -880,10 +863,11 @@
 											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#044C7E;">Submit</span>
 											
 											<h4>Comments</h4><hr>
-
 											<input type="hidden" id="thisusername" value="{{user}}" />
 											<div class="col-md-12" id="prevcomments" ><span style="color:silver; text-align:center;">No comments yet</span></div>
-										<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
+										
+
+<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
 										</div>
 										
 									</div>
@@ -1067,14 +1051,14 @@ function tConvert (timeString) {
 										if(res.student.friendStatus.status == 'Friends') {
 											
 											var url = "/chat/room/"+res.student.friendStatus.url+"/";
-											var chat_req_icon = '<a href="'+url+'"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /></a>';
+											var chat_req_icon = '<a href="'+url+'" style="color:grey;"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /> Chat now</a>';
 											
 											$(".req_open_chat").html(chat_req_icon);
 											
 										} else if(res.student.friendStatus.status == 'NotFriends') {
 											
-											var url = "/chat/message_request/"+res.student.username+"/discussion/";
-											var chat_req_icon = '<a href="'+url+'"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" /></a>';
+											var url = "/chat/message_request/"+res.student.username+"/roommates/";
+											var chat_req_icon = '<a href="'+url+'" style="color:grey;"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" />Request Chat</a>';
 											
 											$(".req_open_chat").html(chat_req_icon);
 											
@@ -1086,6 +1070,7 @@ function tConvert (timeString) {
 											
 										} else if(res.student.friendStatus.status == 'CurrentUser') {
 											var chat_req_icon = '';
+											
 											$(".req_open_chat").html(chat_req_icon);
 										} else {
 										
@@ -1099,7 +1084,7 @@ function tConvert (timeString) {
 											
 										}); {% endcomment %}
 										
-										$.each(res.tags, function(i, item) {
+										$.each(res.student.interest, function(i, item) {
 											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span>';
 											
 											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
@@ -1114,7 +1099,7 @@ function tConvert (timeString) {
 										if(res.image != null) {
 											imgs += '<img class="userimg" onclick="viewpostimage(this)" src="'+res.image+'" data-imgsrc="'+res.image+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
 										}
-										{% comment %} if(res.image1 != null) {
+										if(res.image1 != null) {
 											imgs += '<img class="userimg1" onclick="viewpostimage(this)" src="'+res.image1+'" data-imgsrc="'+res.image1+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
 										}
 										if(res.image2 != null) {
@@ -1122,13 +1107,8 @@ function tConvert (timeString) {
 										}
 										if(res.image3 != null) {
 											imgs += '<img class="userimg3" onclick="viewpostimage(this)" data-imgsrc="'+res.image3+'" src="'+res.image3+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
-										} {% endcomment %}
-										if (imgs === ''){
-											$("#userimgsPhotos").hide();
 										}
-										else{
-											$("#userimgsPhotos").show();
-										}
+										
 										$("#viewpostdetails > .panel-body > .panelrow > .usercontent > .userimgs").html(imgs);
 										
 										$("#commentsubmit").attr('data-url', cmnturl);
@@ -1139,14 +1119,14 @@ function tConvert (timeString) {
 										var cmntlisting = '';
 										$.each(res.comments, function(i, item) {
 										
-											var commentupdatedeleteurl = "/discussion/comment/"+item.id+"/";
-											var addreplyurl = "/discussion/comment/"+item.id+"/reply/create/";
+											var commentupdatedeleteurl = "/roommates/comment/"+item.id+"/";
+											var addreplyurl = "/roommates/comment/"+item.id+"/reply/create/";
 											
 											var replies = "";
 											console.log(item.commentreply);
 											$.each(item.commentreply, function(key, val) {
 											
-												var replyupdatedeleteurl = "/discussion/reply/"+val.id+"/";
+												var replyupdatedeleteurl = "/roommates/reply/"+val.id+"/";
 												
 												replies += '<div class="col-md-1"></div><div class="col-md-11"><p><img src="'+val.student.image+'" style="border-radius:50px; width:25px; height:25px;"/> &nbsp; <b>'+val.student.username+'</b><br><p style="padding-left:15%;" id="replyview'+val.id+'">'+val.reply+'</p> &nbsp; <i class="fa fa-edit" onclick="editmyreply(this)" data-pkid="'+val.id+'"></i> <i class="fa fa-trash" onclick="deletemyreply(this)" data-pkid="'+val.id+'" data-replydelurl="'+replyupdatedeleteurl+'" data-postid="'+postid+'"></i><br><br><span id="replyeditinput'+val.id+'" style="display:none;" ><textarea class="form-control" id="replyedittextarea'+val.id+'">'+val.reply+'</textarea><i class="fa fa-check btn btn-primary btn-sm pull-right" onclick="update_reply(this)" data-replyurl="'+replyupdatedeleteurl+'" data-pkid="'+val.id+'" data-postid="'+postid+'"></i></span></p></div>';
 											});
@@ -1610,6 +1590,8 @@ function tConvert (timeString) {
 				  </div>
 				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 			</div>
+
+
 		</div>
 		
 		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>
@@ -1629,6 +1611,130 @@ function tConvert (timeString) {
 			  </div>
 			</div>
 		
+
+<button id="habitsmodalbtn" type="button" data-toggle="modal" data-target="#habitsmodal" style="display:none;"></button>
+
+   <!-- Modal -->
+   <div id="habitsmodal" class="modal fade" role="dialog">
+     <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+     <center><h4><b>Living Habits</b></h4></center>
+     <button type="button" class="close" data-dismiss="modal" style="color:red;">&times;</button>
+      </div>
+      <div class="modal-body">
+     <form method="POST" action="#">
+     <style>
+      .lhrows { margin-top:15px; }
+      .form-control { border-radius:50px !important; background-color:rgba(255, 255, 255, 0.2); }
+     </style>
+      <div class="col-md-12">
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b><br>Sleep Schedule</b></p>
+        </div>
+        <div class="col-md-4">
+         <small>From</small>
+         <input type="time" name="sleepschedulefrom" class="form-control" />
+        </div>
+        <div class="col-md-4">
+         <small>To</small>
+         <input type="time" name="sleepscheduleto" class="form-control" />
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b><br>Study Hours</b></p> 
+        </div>
+        <div class="col-md-4">
+         <small>From</small>
+         <input type="time" name="studyhoursfrom" class="form-control" />
+        </div>
+        <div class="col-md-4">
+         <small>To</small>
+         <input type="time" name="studyhoursto" class="form-control" />
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Tobacco Usage</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="tobaccousage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Alcohol Usage</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="alcoholusage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Cleanliness</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="cleanliness" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Guests</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="guests" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      </div>
+      
+      <div class="row lhrows">
+       <div class="col-md-12">
+        <br><br>
+        <center>
+         <input type="submit" name="submit" value="Submit" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"/>
+        </center>
+        <br>
+       </div>
+      </div>
+     </form>
+      </div>
+    </div>
+
+     </div>
+   </div>
+  
+  <script>
+   function openhabitsmodal()
+   {
+    document.getElementById('habitsmodalbtn').click();
+   }
+   openhabitsmodal();
+  </script>
+
+
 		<script src="{% static '/js/common.js' %}"></script>
 <!-- suneditor -->
 <script src="{% static '/plugins/wysiwyg/dist/suneditor.min.js' %}"></script>
@@ -1911,13 +2017,7 @@ function tConvert (timeString) {
 				$('#sideLinks a').filter(function() {
 					return this.href == url;
 				}).children().addClass('active1');
-			});
-			$(document).ready(function () {
-				var url = window.location;
-				$('#sideLinksFilter a[href="'+ url +'"]').children().addClass('active1');
-				$('#sideLinksFilter a').filter(function() {
-					return this.href == url;
-				}).children().addClass('active1');
+				
 			});
 	   </script>
 
