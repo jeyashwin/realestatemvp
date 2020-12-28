@@ -183,7 +183,7 @@
 										<img src="{% if object and form.imagePath.value %}
 													{{form.instance.imagePath.url}}
 												  {% else %}
-													https://via.placeholder.com/150
+													{% static '/createproperty/150.png' %}
 												 {% endif %}"
 											id="property-image-preview-{{form.imagePath.id_for_label}}"
 											style="border-radius: 30px; width: 150px; height: 150px"
@@ -220,7 +220,7 @@
 										{{ hidden }}
 									{% endfor %}
 									<span id="property-video-div-{{form.videoPath.id_for_label}}">
-										<img src="https://via.placeholder.com/300x200"
+										<img src="{% static '/createproperty/300x200.png' %}"
 											id="property-video-preview-{{form.videoPath.id_for_label}}"
 											style="border-radius: 50px; width: 300px; height: 200px"
 											onclick="choosevidclick('{{form.videoPath.id_for_label}}')"
