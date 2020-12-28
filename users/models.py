@@ -137,7 +137,7 @@ class UserLandLord(models.Model):
     phone = PhoneNumberField(region='US')
     emailVerified = models.BooleanField(default=False)
     phoneVerified = models.BooleanField(default=False)
-    # profilePicture = models.ImageField(upload_to=profile_image_file_path, default='uploads/avatar/profile_avatar.png')
+    #profilePicture = models.ImageField(upload_to=profile_image_file_path, default='uploads/avatar/profile_avatar.png')
     createdDate = models.DateTimeField(auto_now_add=True)
 
     def clean(self):

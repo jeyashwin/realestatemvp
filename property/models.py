@@ -194,6 +194,7 @@ class Property(geoModel.Model):
 class PropertyImage(models.Model):
     
     propertyKey = models.ForeignKey(Property, on_delete=models.CASCADE)
+   # imageDescription = models.CharField(max_length=50, verbose_name="Video Description")
     imagePath = models.ImageField(upload_to=unique_file_path_generator, verbose_name="Image")
 
     @property
