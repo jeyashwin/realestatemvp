@@ -5,7 +5,7 @@ from http import HTTPStatus
 from PIL import Image
 import tempfile, os
 
-from users.models import UserType, UserStudent, UserLandLord, Interest
+from users.models import UserType, UserStudent, UserLandLord, Interest, InviteCode
 
 client = Client()
 
@@ -27,7 +27,7 @@ def createLandlordUser(username="TestUser"):
     data = { 'first_name': 'Test1', 'last_name': 'Test2' , 
                 'email': 'TESTtest@123.com' , 'username': username,
                 'password1': 'first@123', 'password2': 'first@123',
-                'phone': "+21312312313", 'profilePicture': MockImage()
+                'phone': "+12125552368", 'lanprofilePicture': MockImage()
             }
     response = client.post(
             reverse('user:landlordSignup'),
@@ -40,15 +40,17 @@ def createLandlordUser(username="TestUser"):
 def createStudentUser(username="TestUser"):
     in1 = createInterest()
     in2 = createInterest(name="sports")
+    # 'interests': [in1.pk, in2.pk]
     data = { 'first_name': 'Test1', 'last_name': 'Test2' , 
                 'email': 'TESTtest@123.com' , 'username': username,
                 'password1': 'first@123', 'password2': 'first@123',
-                'phone': "+21312312313", 'university': 'aasd asdasd', 'classYear': 2025,
+                'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
-                'interests': [in1.pk, in2.pk] , 'fblink': "https://www.facebook.com/", 
-                'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
-                'redditLink': "https://www.reddit.com/",
+                'interest1': 'sports', 'interest2': 'party', 'interest3': 'cycling',
+                'fblink': "https://www.facebook.com/", 
+                'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
             }
+    # , 'snapLink': "https://www.snapchat.com/"
     response = client.post(
             reverse('user:studentSignup'),
             data
@@ -65,15 +67,15 @@ class LandlordSignUpViewTests(TestCase):
         self.validPayload = { 'first_name': 'Test Seller', 'last_name': 'TestLastname', 
                 'email': 'SellerTest@Prop.com' , 'username': 'seller', 
                 'password1': 'Password@123' , 'password2': 'Password@123',
-                'phone': "+21312312313", 'profilePicture': MockImage()
+                'phone': "+12125552368", 'lanprofilePicture': MockImage()
             }
         self.invalidPayload1 = { 'first_name': '', 'last_name': '', 'email': '' , 
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
-                'profilePicture': ''
+                'lanprofilePicture': ''
             }
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
                 'username': 'TestUser', 'password1': '12312312', 'password2': 'Test2323', 
-                'phone': "231212", 'profilePicture': MockImage('.mp4')
+                'phone': "231212", 'lanprofilePicture': MockImage('.mp4')
             }
 
     def test_create_seller_link_without_payload(self):
@@ -90,8 +92,10 @@ class LandlordSignUpViewTests(TestCase):
             reverse('user:landlordSignup'),
             self.validPayload
         )
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, "/")
+        # self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        # self.assertEqual(response.url, "/")
+        self.assertEqual(response.status_code, HTTPStatus.CREATED)
+        self.assertEqual(response.json().get('success_message'), "Landlord Profile created")
 
         user = UserType.objects.get(user__username=self.validPayload.get('username'))
         userSeller = UserLandLord.objects.get(user=user)
@@ -128,7 +132,7 @@ class LandlordSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('password1'), ['This field is required.'])
         self.assertEqual(errorData.get('password2'), ['This field is required.'])
         self.assertEqual(errorData.get('phone'), ['This field is required.'])
-        self.assertEqual(errorData.get('profilePicture'), ['This field is required.'])
+        self.assertEqual(errorData.get('lanprofilePicture'), ['This field is required.'])
 
     def test_create_seller_invalid_payload2(self):
         """Test creating a new Seller user with invalid payload2"""
@@ -143,9 +147,9 @@ class LandlordSignUpViewTests(TestCase):
 
         self.assertEqual(errorData.get('email'), ['Enter a valid email address.'])
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
-        self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
-        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. +12125552368).'])
-        self.assertEqual(errorData.get('profilePicture'), ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData.get('password2'), ['The two password fields didn’t match.'])
+        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
+        self.assertEqual(errorData.get('lanprofilePicture'), ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
 
 
 class StudentSignUpViewTests(TestCase):
@@ -154,28 +158,35 @@ class StudentSignUpViewTests(TestCase):
     def setUp(self):
         in1 = createInterest()
         in2 = createInterest("Adventure")
+        # 'interests': [in1.pk, in2.pk],
         self.validPayload = { 'first_name': 'Test Seller', 'last_name': 'TestLastname', 
                 'email': 'SellerTEST@Prop.com' , 'username': 'student', 
                 'password1': 'Password@123' , 'password2': 'Password@123',
-                'phone': "+21312312313", 'university': 'aasd asdasd', 'classYear': 2025,
+                'phone': "+12125552368", 'university': 'aasd asdasd', 'classYear': 2025,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage(),
-                'interests': [in1.pk, in2.pk], 
-                'fblink': "https://www.facebook.com/", 'snapLink': "https://www.snapchat.com/", 
-                'instaLink':"https://www.instagram.com/", 'redditLink': "https://www.reddit.com/",
+                'interest1': 'Adventure', 'interest2': 'sports', 'interest3': 'loud', 
+                'fblink': "https://www.facebook.com/", 
+                'instaLink':"https://www.instagram.com/", 'twitterLink': "https://www.twitter.com/",
+                # , 'snapLink': "https://www.snapchat.com/"
             }
+        # 'interests': []
         self.invalidPayload1 = { 'first_name': '', 'last_name': '', 'email': '' , 
                 'username': '', 'password1': '', 'password2': '', 'phone': '',
-                'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interests': [], 
-                'fblink': '', 'snapLink': '', 'instaLink':'', 'redditLink': '',
+                'university': '', 'classYear': '' , 'bio': '', 'profilePicture': '', 'interest1': '', 
+                'interest2': '', 'interest3': '', 'fblink': '', 'instaLink':'', 
+                'twitterLink': '', 'ssFrom': '', 'ssTo': '12:00', 'shFrom': '11:00', 'shTo': ''
             }
+        # , 'snapLink': "https://www.snapchat.com/"
+        # 'interests': ['123']
         self.invalidPayload2 = { 'first_name': 'saasd12123', 'last_name': 'qwqew', 'email': 'notemail' , 
                 'username': 'TestUser', 'password1': '12312312', 'password2': 'Test2323', 
                 'phone': "231212", 'university': 'aasd asdasd', 'classYear': 2001,
                 'bio': "32423432423dsas sfas", 'profilePicture': MockImage('.avi'),
-                'interests': ['123'], 'fblink': "facebook", 
-                'snapLink': "snapchat", 'instaLink':"instagram",
-                'redditLink': "reddit",
+                'interest1': 'sad', 'interest2': 'asd', 'interest3': 'asda', 'fblink': "facebook", 
+                'instaLink':"instagram",
+                'twitterLink': "twitter"
             }
+            # 'snapLink': "snapchat", 
 
     def test_create_student_link_without_payload(self):
         """Test creating a new Student link user without payload"""
@@ -191,9 +202,10 @@ class StudentSignUpViewTests(TestCase):
             reverse('user:studentSignup'),
             self.validPayload
         )
-
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, "/")
+        # self.assertEqual(response.status_code, HTTPStatus.FOUND)
+        # self.assertEqual(response.url, "/")
+        self.assertEqual(response.status_code, HTTPStatus.CREATED)
+        self.assertEqual(response.json().get('success_message'), "Student Profile created")
 
         user = UserType.objects.get(user__username=self.validPayload.get('username'))
         userStudent = UserStudent.objects.get(user=user)
@@ -212,7 +224,8 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(userStudent.classYear, self.validPayload.get('classYear'))
         self.assertFalse(userStudent.emailVerified)
         self.assertFalse(userStudent.phoneVerified)
-        self.assertTrue(userStudent.interests.filter(interest="Developer").exists)
+        self.assertTrue(userStudent.interests.filter(interest="Adventure").exists)
+        self.assertTrue(InviteCode.objects.filter(student=userStudent).exists())
         deleteImage(userStudent.profilePicture)
 
     def test_create_student_invalid_payload1(self):
@@ -231,11 +244,16 @@ class StudentSignUpViewTests(TestCase):
         self.assertEqual(errorData.get('username'), ['This field is required.'])
         self.assertEqual(errorData.get('password1'), ['This field is required.'])
         self.assertEqual(errorData.get('password2'), ['This field is required.'])
+        self.assertEqual(errorData.get('interest1'), ['This field is required.'])
+        self.assertEqual(errorData.get('interest2'), ['This field is required.'])
+        self.assertEqual(errorData.get('interest3'), ['This field is required.'])
+        self.assertEqual(errorData.get('ssFrom'), ['This field is required.'])
+        self.assertEqual(errorData.get('shTo'), ['This field is required.'])
         self.assertEqual(errorData.get('phone'), ['This field is required.'])
         self.assertEqual(errorData.get('university'), ['This field is required.'])
         self.assertEqual(errorData.get('classYear'), ['This field is required.'])
         self.assertEqual(errorData.get('bio'), ['This field is required.'])
-        self.assertEqual(errorData.get('interests'), ['This field is required.'])
+        # self.assertEqual(errorData.get('interests'), ['This field is required.'])
         self.assertEqual(errorData.get('profilePicture'), ['This field is required.'])
 
     def test_create_student_invalid_payload1(self):
@@ -251,15 +269,15 @@ class StudentSignUpViewTests(TestCase):
         
         self.assertEqual(errorData.get('email'), ['Enter a valid email address.'])
         self.assertEqual(errorData.get('username'), ['A user with that username already exists.'])
-        self.assertEqual(errorData.get('password2'), ["The two password fields didn't match."])
-        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. +12125552368).'])
+        self.assertEqual(errorData.get('password2'), ['The two password fields didn’t match.'])
+        self.assertEqual(errorData.get('phone'), ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData.get('fblink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
+        # self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('redditLink'), ['Enter a valid URL.'])
+        self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('classYear'), ['Minimum year 2010'])
-        self.assertEqual(errorData.get('interests'), ['Select a valid choice. 123 is not one of the available choices.'])
-        self.assertEqual(errorData.get('profilePicture'), ["File extension 'avi' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        # self.assertEqual(errorData.get('interests'), ['Select a valid choice. 123 is not one of the available choices.'])
+        self.assertEqual(errorData.get('profilePicture'), ['File extension “avi” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
         self.invalidPayload2["classYear"] = 2040
         response = client.post(
             reverse('user:studentSignup'),
@@ -352,17 +370,22 @@ class StudentProfileUpdateViewTests(TestCase):
         self.validPayload = {'first_name': 'Testfirst', 'last_name': 'Testlast' , 
                 'email': 'TESTEmail@123.com' , 'phone': "+12345678901", 'university': 'Test college', 
                 'classYear': 2015, 'bio': "test bio data", 'profilePicture': MockImage('.jpg'),
-                'interests': [int1.pk] , 'fbLink': "https://www.facebook.com/", 
-                'snapLink': "https://www.snapchat.com/", 'instaLink':"https://www.instagram.com/",
-                'redditLink': "https://www.reddit.com/",
+                'interest1': 'asd', 'interest2': 'asd', 'interest3': 'asd' , 'fbLink': "https://www.facebook.com/", 
+                'instaLink':"https://www.instagram.com/",
+                'twitterLink': "https://www.twitter.com/", 'tobaccoUsage': 'never', 
+                'alcoholUsage': 'never', 'cleanliness': 'daily', 'guests': 'occasionally', 
             }
+        # 'snapLink': "https://www.snapchat.com/",
         self.invalidPayload1 = {'first_name': '', 'last_name': '' , 'email': '' , 'phone': "", 
-                'university': '', 'classYear': '', 'bio': "", 'profilePicture': '', 'interests': [] 
-                , 'fbLink': "", 'snapLink': "", 'instaLink':"", 'redditLink': "",
+                'university': '', 'classYear': '', 'bio': "", 'profilePicture': '', 'interest1': '',
+                 'interest2': '', 'interest3': ''
+                , 'fbLink': "", 'instaLink':"", 'twitterLink': "",
             }
+        # 'snapLink': "",
         self.invalidPayload2 = {'email': 'TESTEmail' , 'phone': "+1234567", 'classYear': 2040, 
-                'profilePicture': MockImage('.mp4'), 'interests': [10] , 'fbLink': "facebook", 
-                'snapLink': "zsfsdf", 'instaLink':"dfsdf", 'redditLink': "adas",}
+                'profilePicture': MockImage('.mp4'), 'fbLink': "facebook", 
+                 'instaLink':"dfsdf", 'twitterLink': "adas",}
+        # 'snapLink': "zsfsdf",
 
     def test_retrieve_student_profile_success(self):
         """Test retrieving profile for logged in student user"""
@@ -405,6 +428,7 @@ class StudentProfileUpdateViewTests(TestCase):
                 reverse('user:studentProfile', kwargs={'username': self.student.username}),
                 data=self.validPayload
             )
+        
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/student/profile/{}/'.format(self.student.username))
 
@@ -419,7 +443,7 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(studentObject.profilePicture.url[-4:], ".jpg")
         self.assertTrue(os.path.isfile(studentObject.profilePicture.path))
         self.assertEqual(studentObject.bio, self.validPayload.get('bio'))
-        self.assertTrue(studentObject.interests.filter(pk__in=self.validPayload.get('interests')).exists())
+        # self.assertTrue(studentObject.interests.filter(pk__in=self.validPayload.get('interests')).exists())
         self.assertEqual(studentObject.fbLink, self.validPayload.get('fbLink'))
 
         deleteImage(studentObject.profilePicture)
@@ -444,7 +468,10 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertEqual(errorData["university"],  ['This field is required.'])
         self.assertEqual(errorData["classYear"],  ['This field is required.'])
         self.assertEqual(errorData["bio"],  ['This field is required.'])
-        self.assertEqual(errorData["interests"],  ['This field is required.'])
+        # self.assertEqual(errorData["interests"],  ['This field is required.'])
+        self.assertEqual(errorData["interest1"],  ['This field is required.'])
+        self.assertEqual(errorData["interest2"],  ['This field is required.'])
+        self.assertEqual(errorData["interest3"],  ['This field is required.'])
         self.assertEqual(errorData.get("fbLink", None), None)
 
     def test_update_student_profile_with_invalidPayload2(self):
@@ -461,14 +488,14 @@ class StudentProfileUpdateViewTests(TestCase):
         self.assertNotEqual(studentObject.user.user.email, self.invalidPayload2.get('email'))
         self.assertNotEqual(studentObject.phone, self.invalidPayload2.get('phone'))
         self.assertEqual(errorData["email"],  ['Enter a valid email address.'])
-        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. +12125552368).'])
+        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
         self.assertEqual(errorData["classYear"],  ['Maximum year 2030'])
-        self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
-        self.assertEqual(errorData["interests"],  ['Select a valid choice. 10 is not one of the available choices.'])
+        self.assertEqual(errorData['profilePicture'], ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
+        # self.assertEqual(errorData["interests"],  ['Select a valid choice. 10 is not one of the available choices.'])
         self.assertEqual(errorData.get('fbLink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
+        # self.assertEqual(errorData.get('snapLink'), ['Enter a valid URL.'])
         self.assertEqual(errorData.get('instaLink'), ['Enter a valid URL.'])
-        self.assertEqual(errorData.get('redditLink'), ['Enter a valid URL.'])
+        self.assertEqual(errorData.get('twitterLink'), ['Enter a valid URL.'])
 
 
 class LandlordProfileUpdateViewTests(TestCase):
@@ -573,8 +600,8 @@ class LandlordProfileUpdateViewTests(TestCase):
         self.assertNotEqual(landlordObject.user.user.first_name, self.validPayload.get('first_name'))
         self.assertNotEqual(landlordObject.user.user.last_name, self.validPayload.get('last_name'))
         self.assertEqual(errorData["email"],  ['Enter a valid email address.'])
-        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. +12125552368).'])
-        self.assertEqual(errorData['profilePicture'], ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorData["phone"],  ['Enter a valid phone number (e.g. (201) 555-0123) or a number with an international call prefix.'])
+        self.assertEqual(errorData['profilePicture'], ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
 
 
 class UserDeleteViewTests(TestCase):
@@ -690,3 +717,8 @@ class PrivateAccessTests(TestCase):
         response = client.post(reverse('user:deleteProfile', kwargs={'username': "TestUser"}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/?next=/delete/profile/TestUser/')
+
+#userstudent signup with invite code valid, invalid
+#userstudent signup with extra fields valid, invalid
+#userstudent profile update with extra fields valid, invalid
+#contact form with valid, invalid

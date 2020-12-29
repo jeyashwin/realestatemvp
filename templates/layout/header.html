@@ -5,9 +5,11 @@
     
 <!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:18:32 GMT -->
 <head>
-
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+		<meta name="description" content />
+		<meta name="author" content />
         <link rel="shortcut icon" href="{% static '/images/favicon.png' %}" type="image/x-icon">
         <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
         <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
@@ -18,15 +20,55 @@
         {% comment %} important css don't remove {% endcomment %}
         <link rel="stylesheet" href="{% static '/css/Master.css' %}">
         <link rel="stylesheet" href="{% static '/css/propertyMaster.css' %}">
+		<link rel="stylesheet" href="{% static '/css/masterStudent.css' %}">
 		<script src="{% static '/js/jquery-3.4.1.min.js' %} "></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 		<script type="text/javascript" src="{% static '/ipconfig.js' %}"></script>
+		<!-- Select2 -->
+		{% comment %} <script src="{% static '/plugins/select2/select2.min.js' %}"></script>
+		<link href="{% static '/plugins/select2/select2.min.css' %}" rel="stylesheet"/> {% endcomment %}
+        <title>SwiftLiving</title>
 
-        <title>RE</title>
+		{% comment %} landing page {% endcomment %}
+		{% comment %} <link href="{% static 'css/landing/styles.css' %}" rel="stylesheet" /> {% endcomment %}
+		<link href="{% static 'css/landing/MasterStyle.css' %}" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        {% comment %} <link rel="stylesheet" href="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.css" /> {% endcomment %}
+        <link rel="icon" type="image/x-icon" href="{% static '/assets/images/logo/Symbol.svg' %}" />
+        {% comment %} <script data-search-pseudo-elements defer src="../../cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js" crossorigin="anonymous"></script> {% endcomment %}
+        {% comment %} <script src="../../cdnjs.cloudflare.com/ajax/libs/feather-icons/4.24.1/feather.min.js" crossorigin="anonymous"></script> {% endcomment %}
+
+		<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@800&family=Balsamiq+Sans&family=Roboto:wght@900&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans:wght@300;800&family=Balsamiq+Sans&family=Roboto:wght@900&family=Source+Sans+Pro:wght@600&display=swap" rel="stylesheet">
 
 <style>
+	/* width */
+	::-webkit-scrollbar {
+	  width: 10px;
+	}
+
+	/* Track */
+	::-webkit-scrollbar-track {
+	  background: #f1f1f1;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+	  background: #0471A6;
+	}
+
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+	  background: #0471A6;
+	}
 	.form-control { background-color: rgba(255, 255, 255, 0.2); border-radius:30px; }
+	
+	.select2-selection.select2-selection--single { border-radius:30px !important; outline:none !important; background-color:rgba(255, 255, 255, 0.3) !important; padding:7px 5px !important; border:1px solid #e2e2e2 !important; height:43px !important; }
+	.select2-dropdown { border-radius:30px !important; }
+	.select2-results__option { border-radius:20px !important; }
+	.select2-search__field { display:none !important; }
+	.select2-selection__arrow { margin-top:7px !important; margn-right: 7px !important; }
 	select { border-radius:30px !important; }
 	.form-group > label { padding-left:15px; }
 	#id_logUserType { list-style-type:none; margin-bottom:80px; }
@@ -38,6 +80,10 @@
 	#id_regUserType > li > label > input { width:0px; }
 	.formInput{
 		background-color:rgba(255, 255, 255, 0.5);
+	}
+	.errorSignupFields {
+		color: red;
+		padding-left: 15px;
 	}
 	.socialmediainput {
 		display:none; 
@@ -57,11 +103,21 @@
 	
 	
 	.signup-interests-ul { list-style-type:none; }	
-	.signup-interests-ul > li { float:left; margin:5px 7px; padding:1px 5px; border-radius:4px; border:1px solid rgba(0, 0, 0, 0.5); }
-	.signup-interests-ul > li:hover { background-color:rgba(0, 0, 0, 0.5); color:#fff; cursor:pointer; }
-	.signup-interests-ul > li > small > input { display:none; }
+	.signup-interests-ul > li { float:left; margin:5px 7px; padding:3px 5px; border-radius:6px; background-color:rgba(255, 255, 255, 0.5); border-radius:50px; width:30%; font-size:13px; }
+	.signup-interests-ul > li:hover { background-color:rgba(255, 255, 255, 0.5); color:#fff; cursor:pointer; }
+	.signup-interests-ul > li > small > label > input { display:none; }
+
+	#user-action-btn:hover { color:black; }
 	
+	#signinform > .alert-danger { font-size: 12px !important; }
+	.socialmediainput { outline:none !important; }
+	.interestTextbox {
+		outline:none; 
+		border:none; 
+		background-color:transparent;
+	}
 	
+	.notnclosebtn:hover { color:red !important; }
 </style>
 
     </head>
@@ -69,51 +125,120 @@
 	
 	<!--https://images.assetsdelivery.com/compings_v2/scyther5/scyther51306/scyther5130600066.jpg-->
 	<!--https://img.freepik.com/free-photo/white-paper-canvas-texture-background-design-backdrop-overlay-design_1962-68.jpg?size=626&ext=jpg-->	
-        <div class="pxp-header fixed-top pxp-animate" style="background-color:rgba(0, 0, 0, 0.1);">
-            <div class="container">
+        <div class="pxp-header fixed-top pxp-animate" style="background-color:#2F7FE9 !important;">
+            <div class="container-fluid" style="padding:0.5% 3%;">
+			
+				
+			
                 <div class="row align-items-center">
-                    <div class="col-5 col-md-2">
-                        <a href="/" class="pxp-logo text-decoration-none">RE.</a>
+                    <div class="col-md-2 col-xs-2">
+                        <a class="text-white" href="/">
+							<img src="{% static 'assets/images/logo/sl_logo_white.svg' %}" id="header_sl_logo" style="color:#fff; height:auto;"/>
+						</a>
+						{% comment %} <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><i data-feather="menu"></i></button> {% endcomment %}
+						<a href="javascript:void(0);" class="pxp-header-nav-trigger pull-right" onclick="openmobilemenu()"><span id="navtogglebtn" class="fa fa-bars"></span></a>
+						<script>
+							function openmobilemenu()
+							{
+								var navelem = document.querySelector("#resnavlist");
+								
+								if(navelem.classList.contains("pxp-nav")) {
+								
+									//$("#resnavlist").css("overflow-y","scroll");
+								
+									$("#resnavlist").removeClass("pxp-nav");	
+									$("#resnavlist").css({"display":"block", "border-top":"2px solid #fff", "margin-top":"10px", "padding-top":"15px"});	
+									
+									$(".list-inline-item").css({"width":"100%", "float":"left", "padding":"10px"});
+									$(".list-inline-item > a").css({"font-size":"20px", "color":"#fff"});
+									$("#mobilesignbtns").css({"display":"block"});
+									
+									$("#navtogglebtn").removeClass("fa-bars");
+									$("#navtogglebtn").addClass("fa-times");
+								} else {
+									$("#resnavlist").addClass("pxp-nav");	
+									$("#resnavlist").css("display", "none");	
+									
+									$(".list-inline-item > a").css({"color":"#fff"});
+									
+									$("#navtogglebtn").removeClass("fa-times");
+									$("#navtogglebtn").addClass("fa-bars");
+								}
+								
+							}
+						</script>
                     </div>
-                    <div class="col-md-10 text-center">
-                        <ul class="pxp-nav list-inline">
+					
+                    <div class="col-md-10 col-xs-10 text-center">
+<style>
+	.pxp-nav.list-inline > .list-inline-item > a { font-size:14px !important; }
+</style>
+                        <ul class="pxp-nav list-inline" id="resnavlist">
 							{% if user.is_authenticated%}
                                 {% if user.usertype.is_student %}
-                                    <li class="list-inline-item" style="padding:0px 20px; color:orange;">
-                                        <a href="/">Home</a>
-                                    </li>
-                                    <li class="list-inline-item" style="padding:0px 20px;">
+                 
+                                    <li class="list-inline-item" style="padding:0px 5px;">
                                         <a href="{% url 'property:propertyList' %}">Properties</a>
                                     </li>
-                                    <li class="list-inline-item" style="padding:0px 20px;">
-                                        <a href="{% url 'students:favourites' %}">Favourites</a>
+                                    <li class="list-inline-item" style="padding:0px 5px;">
+                                        <a href="{% url 'students:favorites' %}">Favorites</a>
                                     </li>
-                                    <li class="list-inline-item" style="padding:0px 20px;">
+                                    <li class="list-inline-item" style="padding:0px 5px;">
                                         <a href="{% url 'students:roommates' %}">Roommates</a>
                                     </li>
+									<li class="list-inline-item" style="padding:0px 5px;">
+                                        <a href="{% url 'discussion:discussionList' %}">Social</a>
+                                    </li>
+									<li class="list-inline-item" style="padding:0px 5px;">
+                                		<a href="{% url 'services:servicesList' %}">Services</a>
+                            		</li>
                                 {% elif user.usertype.is_landlord %}
-                                    <li class="list-inline-item" style="padding:0px 20px; color:orange;">
+                                    <li class="list-inline-item" style="padding:0px 12px; color:orange;">
                                         <a href="{% url 'property:propertyManage' %}">Home</a>
                                     </li>
-                                    <li class="list-inline-item" style="padding:0px 20px;">
+                                    <li class="list-inline-item" style="padding:0px 12px;">
                                         <a href="{% url 'property:propertyCreate' %}">Add Property</a>
+                                    </li>
+                                    <li class="list-inline-item" style="padding:0px 12px;">
+                                        <a href="{% url 'checkout:myrequest' %}">Requests</a>
                                     </li>
                                 {% endif %}
 								
 							{% else %}	
-								<li class="list-inline-item" style="padding:0px 20px;">
+								<li class="list-inline-item" style="padding:0px 12px;">
 									<a href="#" class="pxp-signin-trigger">Properties</a>
 								</li>
-								<li class="list-inline-item" style="padding:0px 20px;">
+								<li class="list-inline-item" style="padding:0px 12px;">
 									<a href="#" class="pxp-signin-trigger">Roommates</a>
 								</li>
+								<li class="list-inline-item" style="padding:0px 12px;">
+									<a href="#" class="pxp-signin-trigger">Social</a>
+								</li>
+								<li class="list-inline-item" style="padding:0px 12px;">
+									<a href="#" class="pxp-signin-trigger">Services</a>
+								</li>
 							{% endif %}
-                            {% comment %} <li class="list-inline-item" style="padding:0px 20px;">
+                            {% comment %} <li class="list-inline-item" style="padding:50px 50px;">
                                 <a href="blog.html">Blog </a>                                
                             </li>  {% endcomment %}
-                            <li class="list-inline-item pxp-is-last">
-                                <a href="{% url 'user:contact' %}">Contact Us</a>
+							<li class="list-inline-item" style="padding:0px 12px;">
+                                <a href="{% url 'resources:resources-home' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}">Resources</a>
                             </li>
+                            <li class="list-inline-item pxp-is-last">
+                                <a href="{% url 'user:contactUs' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}">Contact Us</a>
+                            </li>
+                            {% if user.is_authenticated%}
+                                {% if user.usertype.is_landlord %} 
+                                  
+                             	{% elif user.usertype.is_student %}
+                             	
+                            	{% endif %}
+      						{% else %}
+      							<li class="list-inline-item pxp-is-last" style="border-radius: 12px;padding:0px 25px; right:-5%; ">
+                            	<a href="javascript:void(0);" style ="border: 2px solid #ffff; border-radius: 50px; padding:7px;   "class="pxp-header-user pxp-signup-trigger"id="user-action-btn" 
+                            	onclick="triggerlandlordsignup()">List Your Property</a>
+                            	</li>
+                            {% endif %}
                             <li class="list-inline-item pxp-has-btns">
                                 <div class="pxp-user-btns">
                                     <a href="#" class="pxp-user-btns-signup pxp-signup-trigger">Sign Up</a>
@@ -122,11 +247,173 @@
                             </li>
 							
 							<li class="pull-right" class="usernamesec">
-								<i class="fa fa-bell-o" style="color:orange; font-size:22px;"></i> &nbsp; &nbsp;
-									<a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a>
+								{% if user.is_authenticated %}
+								{% if user.usertype.is_student %}
+								<span data-toggle="modal" data-target="#pxp-invite-people-modal" class="pxp-invite-people-trigger" onclick="invite_people_modal_open_click()">
+									<i class="fa fa-users" id="invitepeople" style="color:#fff; font-size:18px; cursor:pointer;"></i> &nbsp; &nbsp;
+								</span>
+								{% endif %}
+								{% load extraTags %}
+									{% get_all_notifications as notifcation %}
+								<i class="fa fa-bell-o" id="notificationbell" onmouseover="hover_notification()" onmouseleave="leave_notification()" onclick="open_notifications()" style="color:silver; font-size:22px; cursor:pointer;">{% if notifcation %}<b style="color: #f00; font-weight: 1000;">.</b>{% endif %}</i> &nbsp; &nbsp;
+								<i class="fa fa-comments-o" onclick="messagesclick()" style="color:#fff; font-size:22px; cursor:pointer;"></i> &nbsp; &nbsp;
+									<script>
+										function messagesclick()
+										{
+											window.location.href = "{% url 'chat:index' %}";
+										}
+									</script>
+									<div id="notificationpanel" class="panel" style="position:absolute; z-index:1000; background-color:#fff; margin-left:-150px; margin-top:30px; border-radius:7px; width:400px; border:1px solid #e2e2e2; display:none;">
+										<div class="panel-header" style="border-top-left-radius:7px; border-top-right-radius:7px; color:#fff; padding:5px 5px;">
+											<i class="fa fa-times pull-right notnclosebtn" style="color:silver;" onclick="open_notifications()"></i>
+										</div>
+										<div class="panel-body" style="text-align:left; margin-top:10px;  max-height:400px; overflow-y:scroll;">										
+											<ul style="list-style-type:none; color: black;">
+												{% if notifcation %}
+													{% for notify in notifcation %}
+														{% if notify.notificationType == "rentRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='text-decoration: none; color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has requested <b>{{notify.content}}</b> for Rent.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "tourRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='text-decoration: none;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has requested <b>{{notify.content}}</b> property for tour.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "serviceRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has requested {{notify.content}} for Rent.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "question" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;' >
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has asked question on {{notify.content}} property.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "answered" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p>You got answer for the  question <b>{{notify.content}}?</b>.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "deletedQuestion" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p>Landlord has deleted your <b>{{notify.content}}? </b> question.</p><hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "newChatLandlord" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has initiated chat for the property <b>{{notify.content}}</b>. Start chatting with the user<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "newMessage" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p>You have <b>{{notify.content}}</b> message from <b>{{notify.fromUser}}</b>.<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "newFriendRequest" %}
+														<li> 
+															<p>You have received friend request from <b>{{notify.fromUser}}</b>.
+															<form action="{% url 'chat:create_room' %}" method="post">
+																{% csrf_token %}
+																<input type="hidden" name="notfiid" value="{{notify.pk}}">
+																<button value="{{notify.content}}" class="btn btn-sm btn-info" name='create_room_username'>Accept</button>&nbsp;
+																<a href="{% url 'notification:notificationRedirect' notify.pk %}" class='btn btn-sm btn-outline-secondary'>Deny</a>
+															</form>
+															<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "acceptFriendRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has accepted your friend Request. Start the chat.<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "denyFriendRequest" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has denied your friend Request.<hr>
+														</li>
+														</a>
+														{% endif %}
+														{% if notify.notificationType == "tagFriend" %}
+														<a href="{% url 'notification:notificationRedirect' notify.pk %}" style='color: grey; font-size:17px;'>
+														<li> 
+															<p><b>{{notify.fromUser}}</b> has tagged you to see this property <b>{{notify.content}}</b><hr>
+														</li>
+														</a>
+														{% endif %}
+													{% endfor %}
+												{% else %}
+												<li> 
+													<center><p style="font-size:17px; color:silver; padding:20px;"><i class="fa fa-bell"></i> No notification found</p></center>
+												</li>
+												{% endif %}
+											</ul>
+										</div>
+										{% comment %} <div class="panel-header" style="border-bottom-left-radius:7px; border-bottom-right-radius:7px; background-color:rgba(4, 113, 166, 0.8); color:#fff; padding:5px 5px;">
+											<span onclick="open_notifications()" style="cursor:pointer; color:#f1f1f1;"><b>Close</b></span>
+										</div> {% endcomment %}
+									</div>
+									
+									<script>
+										function hover_notification()
+										{
+											$("#notificationbell").removeClass("fa fa-bell-o");
+											$("#notificationbell").addClass("fa fa-bell");
+										}
+										
+										function leave_notification()
+										{
+											
+											$("#notificationbell").removeClass("fa fa-bell");
+											$("#notificationbell").addClass("fa fa-bell-o");
+										
+										}
+										function open_notifications()
+										{
+											var npanelstatus = $("#notificationpanel").css("display");
+											
+											if(npanelstatus == 'none') {
+												$("#notificationbell").removeClass("fa fa-bell-o");
+												$("#notificationbell").addClass("fa fa-bell");
+												$("#notificationpanel").show(500);
+											} else {
+												$("#notificationbell").removeClass("fa fa-bell");
+												$("#notificationbell").addClass("fa fa-bell-o");
+												$("#notificationpanel").hide(500);
+											}
+											
+										}
+									</script>
+								{% endif %}
+								
+								
+								
+								
+								
+									<!--a href="javascript:void(0);" class="pxp-header-nav-trigger"><span class="fa fa-bars"></span></a-->
 									{% if user.is_authenticated%}
 										<div class="dropdown" id="header_dropdown">
-										  <div class="dropbtn" style="border:none; padding:0px 0px;">
+										  <div class="dropbtnn" style="border:none; padding:0px 0px; color:#fff;">
 											{% if user.usertype.is_student %}
 												<img 
 													src=" {% if user.usertype.userstudent.profilePicture %}
@@ -134,30 +421,40 @@
 														  {% else %} 
 																https://www.w3schools.com/bootstrap/img_avatar1.png
 														  {% endif %}"
-													style="width:30px; height:30px; border-radius:50px; border:1px solid #ed8200;" />
-											{% else %}
-												<img 
+													style="width:30px; height:30px; border-radius:50px; border:1px solid #286090;" />
+											{% comment %} {% else %} {% endcomment %}
+												{% comment %} <img 
 													src="{% if user.usertype.userlandlord.profilePicture %}
 																{{user.usertype.userlandlord.profilePicture.url}}
 														  {% else %} 
 																https://www.w3schools.com/bootstrap/img_avatar1.png
 														  {% endif %}" 
-												style="width:30px; height:30px; border-radius:50px; border:1px solid #ed8200;" />
+												style="width:40px; height:40px; border-radius:50px; border:1px solid #ed8200;" /> {% endcomment %}
 											{% endif %}
 											&nbsp;
 											{{user}} &nbsp; <i class="fa fa-caret-down"></i> &nbsp;
 										  </div>
 										  <div class="dropdown-content" id="header_dropdown_content" style="margin-left:25px; text-align:right;">
 											{% if user.usertype.is_student %}
-												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
+												<a class="aprofile" href="{% url 'user:studentProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% elif user.usertype.is_landlord %}
-												<a class="aprofile" href="{% url 'user:landlordProfile' user.username %}" style="color:black;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
+												<a class="aclass" href="{% url 'checkout:myrequest' %}" style="color:black; text-decoration:none;"> Requests</a>
+												<a class="aprofile" href="{% url 'user:landlordProfile' user.username %}" style="color:black; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-user"></i> Profile</a>
 											{% endif %}
-											<a class="aclass" href="{% url 'user:logout' %}" style="color:maroon;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>
+											<a class="aclass" href="{% url 'user:logout' %}" style="color:maroon; text-decoration:none;"> &nbsp;&nbsp; <i class="fa fa-sign-out"></i> Logout</a>
 										  </div>	
 										</div>
 									{% else %}
 										<a href="javascript:void(0);" class="pxp-header-user pxp-signin-trigger" id="user-action-btn"><span class="fa fa-user-o"></span></a>
+										<b id="mobilesignbtns" style="display:none;">
+											<center>
+												<a href="#" class="pxp-signup-trigger" id="" style="color:#fff;">Sign Up</a>
+												&nbsp; &nbsp; &nbsp;
+												<a href="#" class="pxp-signin-trigger" id="mobilesigninbtn" style="color:#f2f2f2	;">Sign In</a>
+												&nbsp; &nbsp;
+											</center>
+										</b>
+										
 									{% endif %}
 								
 							</li>
@@ -165,13 +462,43 @@
                         </ul>
 						
                     </div>
-                    <div class="col-5 col-md-3 text-right">  
+                    <div class="col-5 col-md-3"> </div>	
+                </div>
+            </div>
+        </div>
+		{% if user.is_authenticated %}
+		{% if user.usertype.is_student %}
+		<div class="modal fade" id="pxp-invite-people-modal" tabindex="-1" role="dialog" aria-labelledby="pxpInvitePeopleModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document" style="width:200%;">
+                <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <center><h5 class="modal-title" id="pxpInvitePeopleModal">Invite your Friends</h5></center>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-md-11">
+									<input type="text" id="invitepeoplelink" class="form-control" value="{% get_invite_url %}" style="background-color:rgba(255, 255, 255, 0.5);" readonly>
+									<br>
+									<center><span class="alert alert-success alert-sm" id="invitecopyalert" style="font-size:13px; display:none;"><i class="fa fa-check"></i> Link Copied</span></center>
+								</div>
+								<div class="col-md-1">
+									<style> .fa.fa-copy:hover { color:silver; cursor:pointer; } </style>
+									<i class="fa fa-copy" onclick="invitecopyclick()" style="font-size:20px; margin-top:13px;"></i>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
             </div>
         </div>
+	{% endif %}
+	{% endif %}
 
- {% if not user.is_authenticated %}
+ {% if not user.is_authenticated and not failure_limit%}
         <div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
@@ -183,17 +510,38 @@
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSigninModal">Sign In</h5></center>
 			            <center><i id="reg-msg"></i></center>
-                        <form action="{% url 'user:home' %}" method="POST">
+						{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == 'success' %}
+							<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endif %}
+						{% endfor %}
+						{% endif %}
+						<div id='signupSuccess' style="display: none;">
+							<div class="alert alert-success alert-dismissible fade show" role="alert">
+								<strong id="successMessages"></strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						</div>
+                        <form action="{% url 'user:home' %}" method="POST" id="signinform">
                             {% load bootstrap3 %}
                             {% csrf_token %}
                             {% bootstrap_form form %}
-                            <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn">
+                            <input type="submit" value="Sign IN" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
+							{% comment %} <span class="pxp-agent-contact-modal-btn" onclick="submitsigninclick()" style="background-color:#003a8c; border-radius:30px; cursor:pointer;">SIGN IN</span> {% endcomment %}
 
 			    			<div class="form-group mt-4 text-center pxp-modal-small">
                                 <a href="javascript:void(0);" data-toggle="modal" data-target="#pxp-forgot-pass-modal" class="pxp-modal-link pxp-forgot-pass-trigger" onclick="close_signin_modal()">Forgot password</a>
                             </div>
                             <div class="text-center pxp-modal-small">
-                                New to RE? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
+                                New to SwiftLiving? <a href="javascript:void(0);" class="pxp-modal-link pxp-signup-trigger">Create an account</a>
                             </div>
                         </form>
                     </div>
@@ -211,10 +559,27 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpForgotPassModal">Forgot Password</h5></center>
-                        <form class="mt-4" onsubmit="forgot_pass()" action="#">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="pxp-fp-email" placeholder="Enter your email address" required style="background-color:rgba(255, 255, 255, 0.5);">
-                            </div>
+						{% if messages %}
+						{% for message in messages %}
+						{% if message.tags == 'forgotPassword error' %}
+							<div class="alert alert-danger alert-dismissible fade show" role="alert">
+								<strong>{{ message }}</strong>
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+						{% endif %}
+						{% endfor %}
+						{% endif %}
+                        <form class="mt-4" method='POST' action="{% url 'user:forgotPass' %}">
+							{% csrf_token %}
+							{% load bootstrap3 %}
+							{% for field in ForgotPasswordForm %}
+                                {% bootstrap_field field show_label=False %}
+                            {% endfor %}
+                            {% comment %} <div class="form-group">
+                                <input type="text" class="form-control" name="forgotUsername" placeholder="Enter your username" required style="background-color:rgba(255, 255, 255, 0.5);">
+                            </div> {% endcomment %}
                             <div class="form-group">
 								<div class="row">
 									<div class="col-6">
@@ -230,8 +595,7 @@
                 </div>
             </div>
         </div>
-		
-		
+
         <div class="modal fade" id="pxp-signup-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSignupModal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
@@ -242,201 +606,460 @@
                     </div>
                     <div class="modal-body">
                         <center><h5 class="modal-title" id="pxpSignupModal">Create an account</h5></center>
-<<<<<<< HEAD
-			<center>
-			<br>
-<div class="row">				
-<style>
-	.toggle-form-btns:hover { background-color: #e2e2e2; }
-</style>
-<div class="col-md-1"></div>
-				<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-1" onclick="return toggle_signup_form(1)" style="cursor:pointer; color:#fff; background-color:grey; padding-top:10px; padding-bottom:8px; border-radius:50px;">I am a Student</div>
-
-				<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-2" onclick="return toggle_signup_form(2)" style="cursor:pointer; color:grey; border:2px solid grey; padding-top:10px; padding-bottom:8px; border-radius:50px;">I am a Renter</div>
-<div class="col-md-1"></div>	
-
-			</div>
-			<br>
-			</center>
-			<center><i id="signup-error-msg" class="toggle-form-1" style="color:maroon;"></i></center>
-                        <form id="student_signup_form" action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data">
-
-                            {% csrf_token %}
-                            {% bootstrap_form StudentSignupForm %}
-                            <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
-			    <div class="text-center mt-4 pxp-modal-small">
-                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
-                            </div>
-                        </form>
-
-			<form id="landlord_signup_form" class="toggle-form-2" action="{% url 'user:landlordSignup' %}" method="POST" enctype="multipart/form-data" style="display:none;">
-
-                            {% csrf_token %}
-                            {% bootstrap_form LandlordSignupForm %}
-                            <input type="submit" value="Sign Up" class="pxp-agent-contact-modal-btn">
-			    <div class="text-center mt-4 pxp-modal-small">
-                                Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
-                            </div>
-                        </form>
-=======
-						<center>
-						<br>
-							<!--div class="row">				
-								<style> 
-									.toggle-form-btns:hover { background-color: #e2e2e2; } 
-									div.help-block { display:none; }
-								</style>
-								<div class="col-md-1"></div>
-								<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-1" onclick="return toggle_signup_form(1)" style="cursor:pointer; color:#fff; border:2px solid grey; background-color:grey; padding-top:3px; padding-bottom:2px; border-radius:50px; font-size:14px;">I am a Student</div>
-								
-								&nbsp; &nbsp;
-								
-								<div class="col-md-5 toggle-form-btns" id="toggle-form-btn-2" onclick="return toggle_signup_form(2)" style="cursor:pointer; color:grey; border:2px solid grey; padding-top:3px; padding-bottom:2px; border-radius:50px; font-size:14px;">I am a Renter</div>
-								<div class="col-md-1"></div>	
-
-							</div>
-						<br-->
-						</center>						
+						<center><br></center>						
 						<center><i id="signup-error-msg" style="color:maroon;">{{StudentSignupForm.errors}}</i></center>
 						<center><i id="signup-error-msg" style="color:maroon;">{{LandlordSignupForm.errors}}</i></center>
-						<div class="row">							
+						<div class="row" id="signupusertypebtns">							
 							<div class="col-1"></div>
-							<label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:5px 0px; border:2px solid grey; border-radius:15px; background-color:grey; color:white;" onclick="regusertypeclick(1)"> <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Student </label>
+							<label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:5px 0px; border:2px solid #003a8c; border-radius:15px; background-color:#003a8c; color:white;" onclick="regusertypeclick(1)"> <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Student </label>
 							&nbsp;&nbsp;
-							<label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:5px 0px; border:2px solid grey; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Landlord </label>	
+							<label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:5px 0px; border:2px solid #003a8c; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Landlord/Sublease </label>	
 						</div>
 						
-						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}" method="POST" enctype="multipart/form-data" >
+						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}" method="POST" enctype="multipart/form-data" >
+<style>
+	.reqred { color:red; }
+</style>
 							{% csrf_token %} 
 							{% comment %} {% bootstrap_form StudentSignupForm %} {% endcomment %}
-							<div class="row">
-								<div class="col-6">
-									<div class="form-group">
-										{{StudentSignupForm.first_name.label_tag}}
-                                    	{{StudentSignupForm.first_name}}
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="form-group">
-										{{StudentSignupForm.last_name.label_tag}}
-                                    	{{StudentSignupForm.last_name}}
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<div class="col-6">
-									<div class="form-group">
-										{{StudentSignupForm.email.label_tag}}
-                                    	{{StudentSignupForm.email}}
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="form-group">
-										{{StudentSignupForm.phone.label_tag}}
-                                    	{{StudentSignupForm.phone}}
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								{{StudentSignupForm.profilePicture.label_tag}}
+							<div id="step1div">	
 								<div class="row">
-									<div class="col-md-10">
-										<center id="signupprofilepicsel" onclick="studentsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
-										{{StudentSignupForm.profilePicture}}
-									</div>
-									<div class="col-md-2">
-										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="border-radius:50px; border:2px solid #e2e2e2; width:40px; height:40px;" />
-									</div>
-								</div>
-							</div>
-							
-							<div id="studentdiv">
-								<div class="row">
-									<div class="col-8">
+									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.university.label_tag}}
-                                    		{{StudentSignupForm.university}}
+											{{StudentSignupForm.first_name.label_tag}} <small class="reqred">*</small>
+											{{StudentSignupForm.first_name}}
+											<small id="studentFormError-{{StudentSignupForm.first_name.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
-									<div class="col-4">	
+									<div class="col-6">
 										<div class="form-group">
-											{{StudentSignupForm.classYear.label_tag}}
-                                    		{{StudentSignupForm.classYear}}
+											{{StudentSignupForm.last_name.label_tag}} <small class="reqred">*</small>
+											{{StudentSignupForm.last_name}}
+											<small id="studentFormError-{{StudentSignupForm.last_name.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 								</div>
-								
+								<div class="row">
+									<div class="col-6">
+										<div class="form-group">
+											{{StudentSignupForm.email.label_tag}} <small class="reqred">*</small>
+											{{StudentSignupForm.email}}
+											<small id="studentFormError-{{StudentSignupForm.email.name}}" class='errorSignupFields'></small>
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="form-group" id="studentphone">
+											{{StudentSignupForm.phone.label_tag}} <small class="reqred">*</small>
+											{{StudentSignupForm.phone}}
+											<small id="studentFormError-{{StudentSignupForm.phone.name}}" class='errorSignupFields'></small>
+											<small class="sphoneerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+										</div>
+									</div>
+								</div>
 								<div class="form-group">
-									{{StudentSignupForm.bio.label_tag}}
-                                    {{StudentSignupForm.bio}}
-								</div>
-								
-								<div class="row form-group">
-									<div class="col-md-12">
-										<h6><b>Interests: </b></h6>
-										<div class="row">
-											<ul class="signup-interests-ul">
-												{% for interest in StudentSignupForm.interests %}
-													<li><small>{{interest}}</small></li>
-												{% endfor %}
-												{% comment %} <li><small>Travelling <input type="checkbox" id="signup-travelling" name="signup-travelling"/></small></li>
-												<li><small>Sports <input type="checkbox" id="signup-sports" name="signup-sports"/></small></li>
-												<li><small>Adventuring <input type="checkbox" id="signup-adventuring" name="signup-adventuring" /></small></li>
-												<li><small>Smoking <input type="checkbox" id="signup-smoking" name="signup-smoking" /></small></li>
-												<li><small>Drinking <input type="checkbox" id="signup-drinking" name="signup-drinking" /></small></li>
-												<li><small>Net Surfing <input type="checkbox" id="signup-net-surfing" name="signup-net-surfing" /></small></li>
-												<li><small>Partying <input type="checkbox" id="signup-partying" name="signup-partying" /></small></li> {% endcomment %}
-											</ul>
+									{{StudentSignupForm.profilePicture.label_tag}}
+									<div class="row">
+										<div class="col-md-10" id="studentpicdiv">
+											<center id="stdsignupprofilepicsel" onclick="studentsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
+											{{StudentSignupForm.profilePicture}}
+											<small class="picerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+										</div>
+										<div class="col-md-2">
+											<img src="{% static '/images/user-default.png' %}" id="reg_stu_img_preview" style="border-radius:50px; border:2px solid #003a8c; width:50px; height:50px; margin-top:-7px;" />
 										</div>
 									</div>
+									<small id="studentFormError-{{StudentSignupForm.profilePicture.name}}" class='errorSignupFields'></small>
 								</div>
 								
-								<div class="row form-group">
-									<div class="col-md-12">
-										<h6><b>Social media accounts: </b></h6>
+								<div id="studentdiv">
+									<div class="row">
+										<div class="col-8">
+											<div class="form-group">
+												{{StudentSignupForm.university.label_tag}} <small class="reqred">*</small>
+												{{StudentSignupForm.university}}
+												<small id="studentFormError-{{StudentSignupForm.university.name}}" class='errorSignupFields'></small>
+											</div>
+										</div>
+										<div class="col-4">	
+											<div class="form-group">
+												{{StudentSignupForm.classYear.label_tag}} <small class="reqred">*</small>
+												{{StudentSignupForm.classYear}}
+												<small id="studentFormError-{{StudentSignupForm.classYear.name}}" class='errorSignupFields'></small>
+											</div>
+										</div>
+									</div>
+									
+									{% comment %} <div class="form-group">
+										{{StudentSignupForm.bio.label_tag}} <small class="reqred">*</small>
+										{{StudentSignupForm.bio}}
+									</div> {% endcomment %}
+									
+									<div class="row form-group">
 										<div class="col-md-12">
-											<i class="fa fa-facebook" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;">{{StudentSignupForm.fblink}}</i>
-											&nbsp;
-											<i class="fa fa-instagram" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.instaLink}}</i>
-											&nbsp;
-											<i class="fa fa-snapchat-ghost" onclick="opensml('{{StudentSignupForm.snapLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.snapLink}}</i>
-											&nbsp;
-											<i class="fa fa-reddit-alien" onclick="opensml('{{StudentSignupForm.redditLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.redditLink}}</i>
-											{% comment %} &nbsp;
-											<i class="fa fa-pinterest" onclick="opensml(5)" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;"><input id="sml5" type="text" name="pinterestlink" style="display:none; border:none; background-color:transparent; margin-left:5px;" placeholder="Enter pinterest link"/></i> {% endcomment %}
+											<h6><b>Interests: <small class="reqred">*</small></b></h6>
+											<div class="row">
+												<ul class="signup-interests-ul">
+													<li>{{StudentSignupForm.interest1}}</li>
+													
+													<li>{{StudentSignupForm.interest2}}</li>
+													
+													<li>{{StudentSignupForm.interest3}}</li>
+
+													{% comment %} 
+													{% for interest in StudentSignupForm.interests %}
+														<li id="signup-check-{{interest.id_for_label}}" onclick="regintclick('{{interest.id_for_label}}')"><small>{{interest}}</small></li>
+													{% endfor %}
+													{% endcomment %}
+												</ul>
+												<small id="studentFormError-{{StudentSignupForm.interest1.name}}" class='errorSignupFields' style="margin-left: 50px;"></small>
+												<small id="studentFormError-{{StudentSignupForm.interest2.name}}" class='errorSignupFields' style="margin-left: 100px;"></small>
+												<small id="studentFormError-{{StudentSignupForm.interest3.name}}" class='errorSignupFields' style="margin-left: 100px;"></small>
+											</div>
+										</div>
+									</div>
+									
+									<div class="row form-group">
+										<div class="col-md-12">
+											<h6><b>Social media accounts: </b></h6>
+											<div class="col-md-12">
+												<i class="fa fa-instagramm" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;"><img src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:32px; height:25px; position:relative; z-index:9999;" />{{StudentSignupForm.instaLink}}</i>
+												<small id="studentFormError-{{StudentSignupForm.instaLink.name}}" class='errorSignupFields' style="margin-left: -15px"></small>
+												<i class="fa fa-facebookk" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;"><img src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:30px; height:25px; position:relative; z-index:9999;" />{{StudentSignupForm.fblink}}</i>
+												<small id="studentFormError-{{StudentSignupForm.fblink.name}}" class='errorSignupFields' style="margin-left: -15px"></small>
+												{% comment %} <i class="fa fa-facebook" onclick="opensml('{{StudentSignupForm.fblink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px 10px; border:2px solid grey;">{{StudentSignupForm.fblink}}</i>
+												&nbsp;
+												<i class="fa fa-instagram" onclick="opensml('{{StudentSignupForm.instaLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.instaLink}}</i>
+												&nbsp;
+												<i class="fa fa-snapchat-ghost" onclick="opensml('{{StudentSignupForm.snapLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.snapLink}}</i>
+												&nbsp;
+												<i class="fa fa-twitter" onclick="opensml('{{StudentSignupForm.twitterLink.id_for_label}}')" style="cursor:pointer; margin-top:10px; width:30px height:30px; border-radius:100px; padding:7px; border:2px solid grey;">{{StudentSignupForm.twitterLink}}</i> {% endcomment %}
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group" id="studentuname1div">
+											{{StudentSignupForm.username.label_tag}} <small class="reqred">*</small>
+											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.username.help_text}}"></span>
+											{{StudentSignupForm.username}}
+											<small id="studentFormError-{{StudentSignupForm.username.name}}" class='errorSignupFields'></small>
+										</div>
+									</div>
+								</div>						
+								<div class="row">
+									<div class="col-6">
+										<div class="form-group" id="studentpass1div">
+											{{StudentSignupForm.password1.label_tag}} <small class="reqred">*</small>
+											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
+											{{StudentSignupForm.password1}}
+											<small id="studentFormError-{{StudentSignupForm.password1.name}}" class='errorSignupFields'></small>
+											<small class="passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+
+
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="form-group" id="studentpass2div">
+											{{StudentSignupForm.password2.label_tag}} <small class="reqred">*</small>
+											<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password2.help_text}}"></span> 
+											{{StudentSignupForm.password2}}
+											<small id="studentFormError-{{StudentSignupForm.password2.name}}" class='errorSignupFields'></small>
+											<small class="cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+										</div>
+									</div>
+								</div>
+								
+								<div class="row">
+									<div class="col-12">
+										<div class="form-group">
+											{{StudentSignupForm.studentcaptcha}}
+											<small id="studentFormError-{{StudentSignupForm.studentcaptcha.name}}" class='errorSignupFields'></small>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12">
-									<div class="form-group">
-										{{StudentSignupForm.username.label_tag}}
-										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.username.help_text}}"></span> 
-                                    	{{StudentSignupForm.username}}
-									</div>
-								</div>
-							</div>						
-							<div class="row">
-								<div class="col-6">
-									<div class="form-group">
-										{{StudentSignupForm.password1.label_tag}}
-										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password1.help_text|striptags}}"></span> 
-                                    	{{StudentSignupForm.password1}}
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="form-group">
-										{{StudentSignupForm.password2.label_tag}}
-										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{StudentSignupForm.password2.help_text}}"></span> 
-                                    	{{StudentSignupForm.password2}}
-									</div>
-								</div>
-							</div>
+
 							<br>
 							
+							<div id="step2div" style="display:none;">
+								
+								<div class="form-group">
+								
+								<style>
+									.switch {
+									  position: relative;
+									  display: inline-block;
+									  width: 43px;
+									  height: 23px;
+									}
+
+									.switch input { 
+									  opacity: 0;
+									  width: 0;
+									  height: 0;
+									}
+
+									.slider {
+									  position: absolute;
+									  cursor: pointer;
+									  top: 0;
+									  left: 0;
+									  right: 0;
+									  bottom: 0;
+									  background-color: #ccc;
+									  -webkit-transition: .4s;
+									  transition: .4s;
+									}
+
+									.slider:before {
+									  position: absolute;
+									  content: "";
+									  height: 20px;
+									  width: 20px;
+									  left: 1px;
+									  bottom: 1px;
+									  right: 2px;
+									  top: 1px;
+									  background-color: white;
+									  -webkit-transition: .4s;
+									  transition: .4s;
+									}
+
+									input:checked + .slider {
+									  background-color: #003a8c;
+									}
+
+									input:focus + .slider {
+									  box-shadow: 0 0 1px #2196F3;
+									}
+
+									input:checked + .slider:before {
+									  -webkit-transform: translateX(26px);
+									  -ms-transform: translateX(26px);
+									  transform: translateX(26px);
+									}
+
+									/* Rounded sliders */
+									.slider.round {
+									  border-radius: 34px;
+									}
+
+									.slider.round:before {
+									  border-radius: 50%;
+									}
+									</style>
+									
+									<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css" integrity="sha512-3//o69LmXw00/DZikLz19AetZYntf4thXiGYJP6L49nziMIhp6DVrwhkaQ9ppMSy8NWXfocBwI3E8ixzHcpRzw==" crossorigin="anonymous" />
+									
+									<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.css" integrity="sha512-7/BfnxW2AdsFxJpEdHdLPL7YofVQbCL4IVI4vsf9Th3k6/1pu4+bmvQWQljJwZENDsWePEP8gBkDKTsRzc5uVQ==" crossorigin="anonymous" />
+
+									<h4><b>Living Habits</b></h4>
+									<style>
+										.step2label { margin-top:5px; }
+									</style>
+									<!--style>
+										.hobbies_list > input { font-size:12px; outline:none; border:2px solid silver; width:70px; border-radius:50px; padding:4px 7px; }
+									</style-->
+									<br>
+									
+									<div style="padding:0px 7px 7px 7px;">								
+										<div class="row">
+											<div class="col-md-4">
+												<p class="step2label"><b>Sleep Schedule</b></p>
+											</div>
+											<div class="col-md-4">
+												{% comment %}
+												<small>From</small>
+												{{StudentSignupForm.ssFrom}}
+												{% endcomment %}
+											</div>
+											<div class="col-md-4">
+												{% comment %}
+												<small>To</small>
+												{{StudentSignupForm.ssTo}}
+												{% endcomment %}
+											</div>
+										</div>
+										<!--label class="switch pull-right" id="switch1" onclick="switchclick(this, 1)">
+										  <input type="checkbox">
+										  <span class="slider round"></span>
+										</label-->
+									</div>
+									
+									<textarea class="form-control" name="switchinput1" id="switchinput1" placeholder="Enter here" style="display:none;"></textarea>
+									
+									<div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-4">
+												<p class="step2label"><b>Study Hours</b></p> 
+											</div>
+											<div class="col-md-4">
+												{% comment %}
+												<small>From</small>
+												{{StudentSignupForm.shFrom}}
+												{% endcomment %}
+											</div>
+											<div class="col-md-4">
+												{% comment %}
+												<small>To</small>
+												{{StudentSignupForm.shTo}}
+												{% endcomment %}
+											</div>
+										</div>
+										<!--label class="switch pull-right" id="switch2" onclick="switchclick(this, 2)">
+										  <input type="checkbox">
+										  <span class="slider round"></span>
+										</label-->
+									</div>
+									
+									<textarea class="form-control" name="switchinput2" id="switchinput2" placeholder="Enter here" style="display:none;"></textarea>
+									
+									<div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-4">
+												<p class="step2label"><b>Tobacco Usage</b></p>
+											</div>
+											<div class="col-md-8">
+												{% comment %}
+												{{StudentSignupForm.tbUsage}}
+												{% endcomment %}
+												<!--label class="switch pull-right" id="switch3" onclick="switchclick(this, 3)">
+												  <input type="checkbox">
+												  <span class="slider round"></span>
+												</label-->
+											</div>
+										</div>
+									</div>
+									
+									<div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-4">
+												<p class="step2label"><b>Alcohol Usage</b></p>
+											</div>
+											<div class="col-md-8">
+												{% comment %}
+												{{StudentSignupForm.alUsage}}
+												{% endcomment %}
+												<!--label class="switch pull-right" id="switch3" onclick="switchclick(this, 3)">
+												  <input type="checkbox">
+												  <span class="slider round"></span>
+												</label-->
+											</div>
+										</div>
+									</div>
+									
+									<textarea class="form-control" name="switchinput3" id="switchinput3" placeholder="Enter here" style="display:none;"></textarea>
+									
+									<div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-4">
+												<p class="step2label"><b>Cleanliness</b></p>
+											</div>
+											<div class="col-md-8">
+												{% comment %}
+												{{StudentSignupForm.cleanliness}}
+												{% endcomment %}
+												<!--label class="switch pull-right" id="switch4" onclick="switchclick(this, 4)">
+												  <input type="checkbox">
+												  <span class="slider round"></span>
+												</label-->
+											</div>
+										</div>
+									</div>
+									
+									<textarea class="form-control" name="switchinput4" id="switchinput4" placeholder="Enter here" style="display:none;"></textarea>
+									
+									<div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-4">
+												<p class="step2label"><b>Guests</b></p>
+											</div>
+											<div class="col-md-8">
+												{% comment %}
+												{{StudentSignupForm.guests}}
+												{% endcomment %}
+												<!--label class="switch pull-right" id="switch5" onclick="switchclick(this, 5)">
+												  <input type="checkbox">
+												  <span class="slider round"></span>
+												</label-->
+											</div>
+										</div>
+									</div>
+									{% comment %} <div style="padding:15px 7px 7px 7px;">
+										<div class="row">
+											<div class="col-md-12">
+												{{StudentSignupForm.studentcaptcha}}
+											</div>
+										</div>
+									</div> {% endcomment %}
+									
+									<textarea class="form-control" name="switchinput5" id="switchinput5" placeholder="Enter here" style="display:none;"></textarea>
+									<br>
+									
+									<script>
+										function switchclick(dis, id)
+										{
+											var disid = dis.getAttribute('id');
+											var checkval = $('#' + disid + '>input').is(":checked");
+											
+											if(checkval == true) {
+												$("#switchinput"+id).show(300);
+												$("#switchinput"+id).focus();
+											} else {
+												$("#switchinput"+id).hide(300);
+											}
+										}
+									</script>
+									
+								</div>
+								
+							</div>
+
 							<div class="form-group">
-								<input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
+								<div class="col-md-12" id="signupcontinuebtn" style="display:none;">
+									<span class="pxp-agent-contact-modal-btn" id="signup_continue_btn" onclick="continue_registration()" style="background-color:#003a8c; cursor:pointer; border:none; border-radius:30px;"> Continue &nbsp; <i class="fa fa-forward"></i></span>
+								</div>
+								<div class="row">
+									<div class="col-md-6" id="signupprevbtn" style="display:none;">
+										<div class="row">
+											<span class="pxp-agent-contact-modal-btn" id="signup_previous_btn" onclick="prev_registration()" style="border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"><i class="fa fa-backward"></i> &nbsp; Previous</span>
+										</div>
+									</div>
+									<div class="col-md-12" id="signupsubmitbtn">
+										<div class="row">
+											<button class="pxp-agent-contact-modal-btn" id="studentSignupButton" type="submit" style="border-radius:100px; background-color:#003a8c; border-left:1px solid silver; outline:none;">
+												Sign Up
+											</button>
+											{% comment %} <span class="pxp-agent-contact-modal-btn" id="signup_submit_btn" style="border-top-right-radius:100px; border-bottom-right-radius:100px; background-color:#003a8c; border-left:1px solid silver;">Sign Up</span> {% endcomment %}
+										</div>
+									</div>
+								</div>
+								
+								<script>
+									function continue_registration()
+									{
+										$("#signupusertypebtns").hide(400);
+										
+										$("#step1div").hide(500);
+										$("#step2div").show(600);
+										
+										$("#signupcontinuebtn").hide(500);
+										$("#signupprevbtn").show(600);
+										$("#signupsubmitbtn").show(600);
+									}
+									function prev_registration()
+									{
+										$("#signupusertypebtns").show(400);
+										
+										$("#step2div").hide(500);
+										$("#step1div").show(600);
+										
+										$("#signupprevbtn").hide(500);
+										$("#signupsubmitbtn").hide(600);
+										$("#signupcontinuebtn").show(600);
+									}
+								</script>
 							</div>
 							<div class="text-center mt-4 pxp-modal-small">
 								Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
@@ -448,86 +1071,102 @@
 							{% comment %} {% bootstrap_form LandlordSignupForm %} {% endcomment %}
 							<div class="row">
 								<div class="col-6">
-									<div class="form-group">
-										{{LandlordSignupForm.first_name.label_tag}}
-                                    	{{LandlordSignupForm.first_name}}
+									<div class="form-group" id="ll_fname">
+										{{LandlordSignupForm.first_name.label_tag}} <small class="reqred">*</small>
+										{{LandlordSignupForm.first_name}}
+										<small id="landlordFormError-{{LandlordSignupForm.first_name.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="form-group">
-										{{LandlordSignupForm.last_name.label_tag}}
-                                    	{{LandlordSignupForm.last_name}}
+									<div class="form-group" id="ll_lname">
+										{{LandlordSignupForm.last_name.label_tag}} <small class="reqred">*</small>
+										{{LandlordSignupForm.last_name}}
+										<small id="landlordFormError-{{LandlordSignupForm.last_name.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-6">
-									<div class="form-group">
-										{{LandlordSignupForm.email.label_tag}}
-                                    	{{LandlordSignupForm.email}}
+									<div class="form-group" id="ll_email">
+										{{LandlordSignupForm.email.label_tag}} <small class="reqred">*</small>
+										{{LandlordSignupForm.email}}
+										<small id="landlordFormError-{{LandlordSignupForm.email.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 								<div class="col-6">
-									<div class="form-group">
-										{{LandlordSignupForm.phone.label_tag}}
-                                    	{{LandlordSignupForm.phone}}
+									<div class="form-group" id="ll_phone">
+										{{LandlordSignupForm.phone.label_tag}} <small class="reqred">*</small>
+										{{LandlordSignupForm.phone}}
+										<p id="landlordFormError-{{LandlordSignupForm.phone.name}}" class='errorSignupFields' style="font-size: 80%;"></p>
 									</div>
 								</div>
 							</div>
-							<div class="form-group">
+							{% comment %} <div class="form-group">
 								{{LandlordSignupForm.lanprofilePicture.label_tag}}
 								<div class="row">
 									<div class="col-md-10">
-										<center id="signupprofilepicsel" onclick="landlordsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
+										<center id="lansignupprofilepicsel" onclick="landlordsignupprofilepicsel()" style="border-radius:30px; background-color:rgba(255, 255, 255, 0.5); color:grey; border:2px solid #e2e2e2; padding:7px 0px; font-size:12px; cursor:pointer;">Pick Image</center>
 										{{LandlordSignupForm.lanprofilePicture}}
 									</div>
 									<div class="col-md-2">
-										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="border-radius:50px; border:2px solid #e2e2e2; width:40px; height:40px;" />
+										<img src="{% static '/images/user-default.png' %}" id="reg_land_img_preview" style="border-radius:50px; border:2px solid #e2e2e2; width:50px; height:50px; margin-top:-7px;" />
+									</div>
+								</div>
+								<small id="landlordFormError-{{LandlordSignupForm.lanprofilePicture.name}}" class='errorSignupFields'></small>
+							</div> {% endcomment %}
+							<div class="row">
+								<div class="col-12">
+									<div class="form-group" id="ll_uname">
+										{{LandlordSignupForm.username.label_tag}} <small class="reqred">*</small>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.username.help_text}}"></span> 
+										{{LandlordSignupForm.username}}
+										<small id="landlordFormError-{{LandlordSignupForm.username.name}}" class='errorSignupFields'></small>
+									</div>
+								</div>
+							</div>						
+							<div class="row">
+								<div class="col-6">
+									<div class="form-group" id="ll_pass1">
+										{{LandlordSignupForm.password1.label_tag}} <small class="reqred">*</small>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password1.help_text|striptags}}"></span> 
+										{{LandlordSignupForm.password1}}
+										<small id="landlordFormError-{{LandlordSignupForm.password1.name}}" class='errorSignupFields'></small>
+										<small class="ll_passerror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
+									</div>
+								</div>
+								<div class="col-6">
+									<div class="form-group" id="ll_pass2">
+										{{LandlordSignupForm.password2.label_tag}} <small class="reqred">*</small>
+										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
+										{{LandlordSignupForm.password2}}
+										<small id="landlordFormError-{{LandlordSignupForm.password2.name}}" class='errorSignupFields'></small>
+										<small class="ll_cpasserror" style="color:#d30000; margin-left:10px; font-style:italic;"></small>
 									</div>
 								</div>
 							</div>
 							<div class="row">
 								<div class="col-12">
 									<div class="form-group">
-										{{LandlordSignupForm.username.label_tag}}
-										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.username.help_text}}"></span> 
-                                    	{{LandlordSignupForm.username}}
-									</div>
-								</div>
-							</div>						
-							<div class="row">
-								<div class="col-6">
-									<div class="form-group">
-										{{LandlordSignupForm.password1.label_tag}}
-										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password1.help_text|striptags}}"></span> 
-                                    	{{LandlordSignupForm.password1}}
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="form-group">
-										{{LandlordSignupForm.password2.label_tag}}
-										<span class="fa fa-info-circle help" data-toggle="tooltip" title="{{LandlordSignupForm.password2.help_text}}"></span> 
-                                    	{{LandlordSignupForm.password2}}
+										{{LandlordSignupForm.landlordcaptcha}}
+										<small id="landlordFormError-{{LandlordSignupForm.landlordcaptcha.name}}" class='errorSignupFields'></small>
 									</div>
 								</div>
 							</div>
 							<br>
 							<div class="form-group">
-								<input class="pxp-agent-contact-modal-btn" type="submit" name="submit" value="Sign Up">
+								<button id="landlordSignupButton" class="pxp-agent-contact-modal-btn" type="submit" style="background-color:#003a8c;">
+									Sign Up
+								</button>
 							</div>
 							<div class="text-center mt-4 pxp-modal-small">
 								Already have an account? <a href="javascript:void(0);" class="pxp-modal-link pxp-signin-trigger">Sign in</a>
 							</div>
 						</form>
 						<br><hr><br>
->>>>>>> origin/roomates
                     </div>
                 </div>
             </div>
         </div>	
-<<<<<<< HEAD
-{% endif %}
-=======
 		
 		<script>
 			function regusertypeclick(typeval) {
@@ -535,7 +1174,7 @@
 					document.getElementById('regusertype1').click();
 					document.getElementById('regusertype1label').style.color = 'white';
 					document.getElementById('regusertype2label').style.color = 'black';
-					document.getElementById('regusertype1label').style.backgroundColor = 'grey';
+					document.getElementById('regusertype1label').style.backgroundColor = '#003a8c';
 					document.getElementById('regusertype2label').style.backgroundColor = 'transparent';
 					
 					/*document.getElementById('sellhome').style.display = 'none';
@@ -549,7 +1188,7 @@
 					document.getElementById('regusertype1label').style.color = 'black';
 					document.getElementById('regusertype2label').style.color = 'white';
 					document.getElementById('regusertype1label').style.backgroundColor = 'transparent';
-					document.getElementById('regusertype2label').style.backgroundColor = 'grey';
+					document.getElementById('regusertype2label').style.backgroundColor = '#003a8c';
 					
 					/*document.getElementById('findhome').style.display = 'none';
 					document.getElementById('sellhome').style.display = 'inline';*/
@@ -566,11 +1205,345 @@
 			{
 				document.getElementById('{{StudentSignupForm.profilePicture.id_for_label}}').click();
 			}
-			function landlordsignupprofilepicsel()
+			{% comment %} function landlordsignupprofilepicsel()
 			{
 				document.getElementById('{{LandlordSignupForm.lanprofilePicture.id_for_label}}').click();
+			} {% endcomment %}
+			function studentsignupprofilepicchanged(dis)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						document.getElementById('reg_stu_img_preview').src = e.target.result;
+						document.getElementById('stdsignupprofilepicsel').innerHTML = 'Change Image';
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
+			}
+			function landlordsignupprofilepicchanged(dis)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						document.getElementById('reg_land_img_preview').src = e.target.result;
+						document.getElementById('lansignupprofilepicsel').innerHTML = 'Change Image';
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
 			}
 		</script>
-		
+		<script>
+			$('.select2').select2({ width: '100%' });
+			$("#tobaccousage").css("border-radius","30px !important");
+		</script>
+
+		<script>
+			function removereqpic()
+			{
+				$("#studentpicdiv > input").prop('required',false);
+				$("#id_lanprofilePicture").prop('required',false);
+
+			}
+			removereqpic();
+			
+			$("#studentphone > input").keyup(function(){
+
+			 var sphone = $("#studentphone > input").val();
+
+			 //if(sphone.includes("+") == false) {
+
+			if(sphone.charAt(0) != '+') {
+				$(".sphoneerror").html('Country code required');
+			 } else {
+				$(".sphoneerror").html('');
+			 }
+			});
+
+
+			$("#id_password1").keyup(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 var fname = $("#id_first_name").val();
+			 var lname = $("#id_last_name").val();
+			 var email = $("#id_email").val();
+			 var phone = $("#id_phone").val();
+			 var uname = $("#studentuname1div > input").val();
+			 
+			 var re = new RegExp(pass, 'g');
+
+			 if(pass.length < 8) {
+			  $(".passerror").html('Minimum 8 characters');
+			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+			  $(".passerror").html('Must be unique');
+			 } else {
+			  $(".passerror").html('');
+			 }
+			});
+			
+			$("#id_password1").blur(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 var fname = $("#id_first_name").val();
+			 var lname = $("#id_last_name").val();
+			 var email = $("#id_email").val();
+			 var phone = $("#id_phone").val();
+			 var uname = $("#studentuname1div > input").val();
+			 
+			 var re = new RegExp(pass, 'g');
+
+			 if(pass.length < 8) {
+			  $(".passerror").html('Minimum 8 characters');
+			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+			  $(".passerror").html('Must be unique');
+			 } else {
+			  $(".passerror").html('');
+			 }
+			});
+			
+			$("#id_password2").keyup(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 if(pass !== cpass) {
+			  $(".cpasserror").html('Not matching');
+			 } else {
+			  $(".cpasserror").html('');
+			 }
+			});
+			
+			$("#student_signup_form2").submit(function(){
+			 var pass = $("#id_password1").val();
+			 var cpass = $("#id_password2").val();
+			 
+			 var fname = $("#id_first_name").val();
+			 var lname = $("#id_last_name").val();
+			 var email = $("#id_email").val();
+			 var phone = $("#id_phone").val();
+			 var uname = $("#studentuname1div > input").val();
+			 
+			 var sphone = $("#studentphone > input").val();
+
+			 
+			 var re = new RegExp(pass, 'g');
+			 
+			 if(sphone.charAt(0) != '+') {
+			  $(".sphoneerror").html('Country code required');
+			  return false;
+			 } else if(pass.length < 8) {
+			  $(".passerror").html('Minimum 8 characters');
+			  return false;
+			 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+			  $(".passerror").html('Must be unique');
+			  return false;
+			 } else if(pass !== cpass) {
+			  $(".cpasserror").html('Not matching!');
+			  return false;
+			 }else {
+			  $(".passerror").html('');
+			  return true;
+			 }
+			});
+			 {% comment %} else if(1 == 1) {
+			  var submiturl = "{% url 'user:studentSignup' %}";
+				$.ajax({
+					method: 'POST',
+					url: submiturl,
+					success:function(res){
+						console.log(res);
+					}
+				});
+
+			  return false;
+			 }  {% endcomment %}
+		       </script>
+
+			<script>
+				
+				$("#ll_pass1 > input").keyup(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 var fname = $("#ll_fname > input").val();
+				 var lname = $("#ll_lname > input").val();
+				 var email = $("#ll_email > input").val();
+				 var phone = $("#ll_phone > input").val();
+				 var uname = $("#ll_uname > input").val();
+				 
+				 var re = new RegExp(pass, 'g');
+
+				 if(pass.length < 8) {
+				  $(".ll_passerror").html('Minimum 8 characters');
+				 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+				  $(".ll_passerror").html('Must be unique');
+				 } else {
+				  $(".ll_passerror").html('');
+				 }
+				});
+				
+				$("#ll_pass1 > input").blur(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 var fname = $("#ll_fname > input").val();
+				 var lname = $("#ll_lname > input").val();
+				 var email = $("#ll_email > input").val();
+				 var phone = $("#ll_phone > input").val();
+				 var uname = $("#ll_uname > input").val();
+				 
+				 var re = new RegExp(pass, 'g');
+
+				 if(pass.length < 8) {
+				  $(".ll_passerror").html('Minimum 8 characters');
+				 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+				  $(".ll_passerror").html('Must be unique');
+				 } else {
+				  $(".ll_passerror").html('');
+				 }
+				});
+				
+				$("#ll_pass2 > input").keyup(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 if(pass !== cpass) {
+				  $(".ll_cpasserror").html('Not matching');
+				 } else {
+				  $(".ll_cpasserror").html('');
+				 }
+				});
+				
+				
+				$("#landlord_signup_form2").submit(function(){
+				 var pass = $("#ll_pass1 > input").val();
+				 var cpass = $("#ll_pass2 > input").val();
+				 
+				 var fname = $("#ll_fname > input").val();
+				 var lname = $("#ll_lname > input").val();
+				 var email = $("#ll_email > input").val();
+				 var phone = $("#ll_phone > input").val();
+				 var uname = $("#ll_uname > input").val();
+				 
+				 var re = new RegExp(pass, 'g');
+				 
+				 if(pass.length < 8) {
+				  $(".ll_passerror").html('Minimum 8 characters');
+				  return false;
+				 } else if(fname.match(re) || lname.match(re) || email.match(re) || phone.match(re) || uname.match(re)) { 
+				  $(".ll_passerror").html('Must be unique');
+				  return false;
+				 } else if(pass !== cpass) {
+				  $(".ll_cpasserror").html('Not matching!');
+				  return false;
+				 } else {
+				  $(".ll_passerror").html('');
+				  return true;
+				 }
+				});
+				var LandlordWidget;
+				var StudentWidget;
+				function onloadRecaptcha(){
+					LandlordWidget = grecaptcha.render('{{LandlordSignupForm.landlordcaptcha.id_for_label}}')
+					StudentWidget = grecaptcha.render('{{StudentSignupForm.studentcaptcha.id_for_label}}')
+					grecaptcha.render('{{ForgotPasswordForm.forgotcaptcha.id_for_label}}')
+				}
+				$(document).ready(function(){
+					$("#landlord_signup_form2").submit(function(event){
+						event.preventDefault();
+						var subButton = document.getElementById('landlordSignupButton');
+						subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+						var q = document.querySelectorAll('.errorSignupFields');
+						[].forEach.call(q, (e)=>{
+							e.textContent = "";
+						});
+						var formValues= new FormData(this);
+						// console.log(formValues);
+						$.ajax({
+							url : $(this).attr('action'), // the endpoint
+							type : "POST", // http method
+							data : formValues, // data sent with the post request
+							enctype: 'multipart/form-data',
+							cache:false,
+							contentType: false,
+							processData: false,
+							success : function(json) {
+								// console.log(json); // log the returned json to the console
+								subButton.innerHTML = 'Sign Up'
+								document.getElementById('landlord_signup_form2').reset();
+								{% comment %} document.getElementById('reg_land_img_preview').setAttribute('src', "{% static '/images/user-default.png' %}"); {% endcomment %}
+								{% comment %} document.getElementById('lansignupprofilepicsel').textContent = 'Pick Image'; {% endcomment %}
+								grecaptcha.reset(LandlordWidget);
+								$("#signupSuccess").show();
+								$("#successMessages").text(json.success);
+								$(".pxp-signin-trigger").click();
+							},
+							error : function(xhr,errmsg,err) {
+								subButton.innerHTML = 'Sign Up'
+								if (xhr.status == 400){
+									reso = JSON.parse(xhr.responseText)
+									for(i in reso) {
+										document.getElementById('landlordFormError-'+i).textContent = reso[i]
+									}
+								}
+								// console.log(xhr.status + ":" + xhr.responseText)
+								grecaptcha.reset(LandlordWidget);
+							}
+						});
+					});
+				});
+				$(document).ready(function(){
+					$("#student_signup_form2").submit(function(event){
+						event.preventDefault();
+						var subButton = document.getElementById('studentSignupButton');
+						subButton.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+						var q = document.querySelectorAll('.errorSignupFields');
+						[].forEach.call(q, (e)=>{
+							e.textContent = "";
+						});
+						var formValues= new FormData(this);
+						// console.log(formValues);
+						$.ajax({
+							url : $(this).attr('action'), // the endpoint
+							type : "POST", // http method
+							data : formValues, // data sent with the post request
+							enctype: 'multipart/form-data',
+							cache:false,
+							contentType: false,
+							processData: false,
+							success : function(json) {
+								// console.log(json); // log the returned json to the console
+								subButton.innerHTML = 'Sign Up'
+								document.getElementById('student_signup_form2').reset();
+								document.getElementById('reg_stu_img_preview').setAttribute('src', "{% static '/images/user-default.png' %}");
+								document.getElementById('stdsignupprofilepicsel').textContent = 'Pick Image';
+								grecaptcha.reset(StudentWidget);
+								$("#signupSuccess").show();
+								$("#successMessages").text(json.success);
+								$(".pxp-signin-trigger").click();
+							},
+							error : function(xhr,errmsg,err) {
+								subButton.innerHTML = 'Sign Up'
+								if (xhr.status == 400){
+									reso = JSON.parse(xhr.responseText)
+									for(i in reso) {
+										document.getElementById('studentFormError-'+i).textContent = reso[i]
+									}
+								}
+								// console.log(xhr.status + ":" + xhr.responseText)
+								grecaptcha.reset(StudentWidget);
+							}
+						});
+					});
+				});
+				function triggerlandlordsignup() {
+					$("#regusertype2label").click(); 
+				}
+			</script>
+
+
 {% endif %}
->>>>>>> origin/roomates

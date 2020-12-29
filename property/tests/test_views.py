@@ -117,13 +117,13 @@ class PrivateAccessTests(TestCase):
     def test_post_answer_view(self):
         """Test get & post request login required for post answer view"""
         prop = sampleProperty()
-        response = client.get(reverse('property:propertyAnswer', kwargs={'slug': prop.urlSlug, 'pk': 1}))
+        response = client.get(reverse('property:propertyAnswer', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/property/answer/{}/1/'.format(prop.urlSlug))
+        self.assertEqual(response.url, '/?next=/property/answer/1/')
 
-        response = client.post(reverse('property:propertyAnswer', kwargs={'slug': prop.urlSlug, 'pk': 1}))
+        response = client.post(reverse('property:propertyAnswer', kwargs={'pk': 1}))
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/?next=/property/answer/{}/1/'.format(prop.urlSlug))
+        self.assertEqual(response.url, '/?next=/property/answer/1/')
 
 
 class PrivateLandlordAccessTests(TestCase):
@@ -222,7 +222,7 @@ class PrivateLandlordAccessTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(response.context.get('user'), self.landlord)
         self.assertEqual(response.context.get('object_list').count(), 2)
-        self.assertEqual(str(response.context.get('object_list')), f"<QuerySet [<Property: {prop}>, <Property: {prop1}>]>")
+        self.assertEqual(str(response.context.get('object_list')), f"<QuerySet [<Property: {prop1}>, <Property: {prop}>]>")
 
         response = self.client.post(reverse('property:propertyManage'))
         self.assertEqual(response.status_code, HTTPStatus.METHOD_NOT_ALLOWED)
@@ -293,50 +293,41 @@ class PrivateLandlordAccessTests(TestCase):
         stud = createStudentUser(username="StudentUser")
         studObject = models.UserStudent.objects.get(user__user=stud)
         q1 = propmodel.PostQuestion.objects.create(propKey=prop1, question="What is the amount of rent?", student=studObject)
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}))
+        response = self.client.get(reverse('property:propertyAnswer', kwargs={'pk': q1.pk}))
 
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/property/{}/'.format(prop1.urlSlug))
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q1.pk}),
                         data={'prop-answer': "Per month $1000"}
                     )
         answer = propmodel.PostAnswer.objects.get(question=q1)
-        self.assertEqual(response.status_code, HTTPStatus.FOUND)
-        self.assertEqual(response.url, '/property/{}/'.format(prop1.urlSlug))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertEqual(response.json().get('answer'), "Per month $1000")
         self.assertEqual(answer.answer, "Per month $1000")
 
         #invalid Requests
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': "sad-sad", 'pk': q1.pk}))
-
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-        
-        response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': "sad-sad", 'pk': q1.pk}),
-                        data={'prop-answer': "Per month $1000"}
-                    )
-        self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
-
         prop2 = sampleProperty(landName="LandlordUser")
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': prop2.urlSlug, 'pk': q1.pk}))
+        q2 = propmodel.PostQuestion.objects.create(propKey=prop2, question="What is the amount of rent?", student=studObject)
+        response = self.client.get(reverse('property:propertyAnswer', kwargs={'pk': q2.pk}))
 
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
         
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop2.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q2.pk}),
                         data={'prop-answer': "Per month $1000"}
                     )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': 20}),
+                        reverse('property:propertyAnswer', kwargs={'pk': 20}),
                         data={'prop-answer': 4234}
                     )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q1.pk}),
                         data={'prop-answer': ""}
                     )
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
@@ -505,11 +496,11 @@ class PrivateStudentAccessTests(TestCase):
         studObject = models.UserStudent.objects.get(user__user=self.student)
         q1 = propmodel.PostQuestion.objects.create(propKey=prop1, question="Is there 24hrs WIFI?", student=studObject)
 
-        response = self.client.get(reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}))
+        response = self.client.get(reverse('property:propertyAnswer', kwargs={'pk': q1.pk}))
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
 
         response = self.client.post(
-                        reverse('property:propertyAnswer', kwargs={'slug': prop1.urlSlug, 'pk': q1.pk}),
+                        reverse('property:propertyAnswer', kwargs={'pk': q1.pk}),
                         data={'prop-answer': "Yes we have"}
                     )
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND)
@@ -528,11 +519,13 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.client = client
         self.client.force_login(user=self.landlord)
         self.validPayload1 = {'title': "New Property Near Lake", 'city': city().pk, 'zipcode': 12345,
-                                'address': "address of property", 'sqft': 123, 'occupants': 10,
+                                'address': "1419 Westwood Blvd", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': True, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description", 'utilities': True,
                                 'garage': True, 'parkingSpace': 10, 
-                                'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                # 'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                'amenity1': 'Pool', 'amenity2': 'Pool2', 'amenity3': 'cool',
+                                'amenity4': 'cooler', 'amenity5': 'wifi', 'amenity6': 'Internet', 
                                 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 10, 
@@ -571,11 +564,12 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'propertyvideo_set-3-videoPath': MockImageVideo('.mkv'),
                             }
         self.validPayload2 = {'title': "New Property Near Lake", 'city': city().pk, 'zipcode': "54353",
-                                'address': "address of property", 'sqft': 123, 'occupants': 10,
+                                'address': "1419 Westwood Blvd", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description",
-                                'amenities': [amenity().pk, amenity(name="Pool").pk],
-                                'fromDate': datetime.date.today(), 
+                                # 'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                'amenity1': 'Pool', 'amenity2': 'gated home', 'amenity3': 'heater', 
+                                'amenity4': 'gym', 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 5, 
                                 'propertyimage_set-INITIAL_FORMS': 0, 
@@ -602,7 +596,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                             }
         self.invalidPayload1 = {'title': "", 'city': '', 'zipcode': '', 'address': '', 'sqft': '', 
                                 'occupants': '', 'rooms': '', 'bathrooms': '', 'securityDeposit': True, 
-                                'amount': '', 'rentPerPerson': '', 'description': '', 'amenities': [],
+                                'amount': '', 'rentPerPerson': '', 'description': '',
+                                # 'amenities': [],
+                                'amenity1': '', 'amenity2': '', 'amenity3': '', 'amenity4': '',
                                 'fromDate': '', 'toDate': '',
                                 'propertyimage_set-TOTAL_FORMS': 4, 
                                 'propertyimage_set-INITIAL_FORMS': 0, 
@@ -629,7 +625,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'address': "address of property", 'sqft': -10, 'occupants': -5,
                                 'rooms': 0, 'bathrooms': -2, 'securityDeposit': True, 'amount': -1000,
                                 'rentPerPerson': -2000, 'description': "Description", 'utilities': '23',
-                                'garage': '23', 'parkingSpace': -50, 'amenities': [234],
+                                'garage': '23', 'parkingSpace': -50, 
+                                # 'amenities': [234],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
                                 'fromDate': '202asas', 'toDate': '4324324dsfds',
                                 'propertyimage_set-TOTAL_FORMS': 6, 
                                 'propertyimage_set-INITIAL_FORMS': 0, 
@@ -657,10 +655,12 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'propertyvideo_set-2-videoPath': MockImageVideo('.pdf'),
                             }
         self.invalidPayload3 = {'title': "New Property Near Lake", 'city': 100, 'zipcode': "115",
-                                'address': "address of property", 'sqft': 1000, 'occupants': 21,
+                                'address': "1419 Westwood Blvd", 'sqft': 1000, 'occupants': 21,
                                 'rooms': 30, 'bathrooms': 43, 'securityDeposit': True, 'amount': 0,
                                 'rentPerPerson': 0, 'description': "Description", 'utilities': '23',
-                                'garage': '23', 'parkingSpace': 65, 'amenities': [234],
+                                'garage': '23', 'parkingSpace': 65, 
+                                # 'amenities': [234],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
                                 'fromDate': datetime.date.today() - datetime.timedelta(days=1), 
                                 'toDate': datetime.date.today() - datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 4, 
@@ -685,7 +685,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'rooms': 5, 'bathrooms': 2, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 500, 'description': "Description", 'utilities': False,
                                 'garage': False, 'parkingSpace': 1, 
-                                'amenities': [amenity(name="Heater").pk, amenity(name="Gym").pk],
+                                # 'amenities': [amenity(name="Heater").pk, amenity(name="Gym").pk],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
+                                'amenity5': 'asd', 'amenity6': 'asdd',
                                 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=30),
                                 'propertyimage_set-TOTAL_FORMS': 8, 
@@ -728,10 +730,11 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                                 'propertyvideo_set-3-videoPath': MockImageVideo('.mkv'),
                             }
         self.validUpdatePayload2 = {'title': "lake property", 'city': city().pk, 'zipcode': "54353",
-                                'address': "address of property", 'sqft': 123, 'occupants': 10,
+                                'address': "1419 Westwood Blvd", 'sqft': 123, 'occupants': 10,
                                 'rooms': 15, 'bathrooms': 5, 'securityDeposit': False, 'amount': 10000,
                                 'rentPerPerson': 1000, 'description': "Description",
-                                'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                # 'amenities': [amenity().pk, amenity(name="Pool").pk],
+                                'amenity1': 'asd', 'amenity2': 'asdd', 'amenity3': 'asdaasd', 'amenity4': '45', 
                                 'fromDate': datetime.date.today(), 
                                 'toDate': datetime.date.today() + datetime.timedelta(days=1),
                                 'propertyimage_set-TOTAL_FORMS': 3, 
@@ -757,7 +760,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
                             }
         self.invalidUpdatePayload1 = {'title': "", 'city': '', 'zipcode': '', 'address': '', 'sqft': '', 
                                 'occupants': '', 'rooms': '', 'bathrooms': '', 'securityDeposit': True, 
-                                'amount': '', 'rentPerPerson': '', 'description': '', 'amenities': [],
+                                'amount': '', 'rentPerPerson': '', 'description': '', 
+                                # 'amenities': [],
+                                'amenity1': '', 'amenity2': '', 'amenity3': '', 'amenity4': '', 
                                 'fromDate': '', 'toDate': '',
                                 'propertyimage_set-TOTAL_FORMS': 4, 
                                 'propertyimage_set-INITIAL_FORMS': 4, 
@@ -801,9 +806,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/myproperty/')
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validPayload1.get('title'))
+        self.assertEqual(prop.title, '1419 Westwood Blvd, Los Angeles, OZ 12345')
         self.assertEqual(prop.zipcode, str(self.validPayload1.get('zipcode')))
-        self.assertEqual(prop.urlSlug, "new-property-near-lake")
+        self.assertEqual(prop.urlSlug, "1419-westwood-blvd-los-angeles-oz-12345")
         self.assertEqual(prop.city.pk, self.validPayload1.get('city'))
         self.assertEqual(prop.rooms, self.validPayload1.get('rooms'))
         self.assertEqual(prop.securityDeposit, self.validPayload1.get('securityDeposit'))
@@ -827,9 +832,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/myproperty/')
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validPayload2.get('title'))
+        self.assertEqual(prop.title, '1419 Westwood Blvd, Los Angeles, OZ 54353')
         self.assertEqual(prop.zipcode, str(self.validPayload2.get('zipcode')))
-        self.assertEqual(prop.urlSlug, "new-property-near-lake")
+        self.assertEqual(prop.urlSlug, "1419-westwood-blvd-los-angeles-oz-54353")
         self.assertEqual(prop.city.pk, self.validPayload2.get('city'))
         self.assertEqual(prop.rooms, self.validPayload2.get('rooms'))
         self.assertFalse(prop.securityDeposit)
@@ -855,7 +860,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertEqual(propmodel.Property.objects.filter(landlord__user__user=self.landlord).count(), 0)
-        self.assertEqual(errorForm.get("title"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("title"), ['This field is required.'])
         self.assertEqual(errorForm.get("city"), ['This field is required.'])
         self.assertEqual(errorForm.get("zipcode"), ['This field is required.'])
         self.assertEqual(errorForm.get("address"), ['This field is required.'])
@@ -866,7 +871,11 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), ['This field is required.'])
         self.assertEqual(errorForm.get("rentPerPerson"), ['This field is required.'])
         self.assertEqual(errorForm.get("description"), ['This field is required.'])
-        self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity1"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity2"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity3"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity4"), ['This field is required.'])
         self.assertEqual(errorForm.get("fromDate"), ['This field is required.'])
         self.assertEqual(errorForm.get("toDate"), ['This field is required.'])
 
@@ -901,12 +910,12 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), ['Minimum Amount cannot be lower than 0'])
         self.assertEqual(errorForm.get("rentPerPerson"), ['Minimum Price cannot be lower than 0'])
         self.assertEqual(errorForm.get("parkingSpace"), ['Minimum 0'])
-        self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
+        # self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
         self.assertEqual(errorForm.get("fromDate"), ['Enter a valid date.'])
         self.assertEqual(errorForm.get("toDate"), ['Enter a valid date.'])
 
-        self.assertEqual(errorImageForm[0].get("imagePath"), ["File extension 'mp4' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
-        self.assertEqual(errorImageForm[5].get("imagePath"), ["File extension 'mov' is not allowed. Allowed extensions are: 'bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm'."])
+        self.assertEqual(errorImageForm[0].get("imagePath"), ['File extension “mp4” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
+        self.assertEqual(errorImageForm[5].get("imagePath"), ['File extension “mov” is not allowed. Allowed extensions are: bmp, dib, gif, tif, tiff, jfif, jpe, jpg, jpeg, pbm, pgm, ppm, pnm, png, apng, blp, bufr, cur, pcx, dcx, dds, ps, eps, fit, fits, fli, flc, ftc, ftu, gbr, grib, h5, hdf, jp2, j2k, jpc, jpf, jpx, j2c, icns, ico, im, iim, mpg, mpeg, mpo, msp, palm, pcd, pdf, pxr, psd, bw, rgb, rgba, sgi, ras, tga, icb, vda, vst, webp, wmf, emf, xbm, xpm.'])
         self.assertEqual(errorVideoForm[0].get("videoPath"), ["File extension 'jpg' is not allowed. Allowed extensions are: ['mov', 'mp4', 'avi', 'mkv']."])
         self.assertEqual(errorVideoForm[2].get("videoPath"), ["File extension 'pdf' is not allowed. Allowed extensions are: ['mov', 'mp4', 'avi', 'mkv']."])
 
@@ -929,7 +938,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), None)
         self.assertEqual(errorForm.get("rentPerPerson"), None)
         self.assertEqual(errorForm.get("parkingSpace"), ['Maximum 20'])
-        self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
+        # self.assertEqual(errorForm.get("amenities"), ['Select a valid choice. 234 is not one of the available choices.'])
         self.assertEqual(errorForm.get("fromDate"), ['From Date cannot be older than today.'])
         self.assertEqual(errorForm.get("toDate"), ['To Date cannot be less than or equal to From Date.'])
 
@@ -966,9 +975,9 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         prop.refresh_from_db()
 
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validUpdatePayload1.get('title'))
+        self.assertEqual(prop.title, 'property address, Los Angeles, OZ 32534')
         self.assertEqual(prop.zipcode, str(self.validUpdatePayload1.get('zipcode')))
-        self.assertEqual(prop.urlSlug, "lake-property")
+        self.assertEqual(prop.urlSlug, "property-address-los-angeles-oz-32534")
         self.assertEqual(prop.rooms, self.validUpdatePayload1.get('rooms'))
         self.assertFalse(prop.securityDeposit)
         self.assertEqual(prop.amount, None)
@@ -991,7 +1000,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
             data=self.validPayload2
         )
         prop = propmodel.Property.objects.get(landlord__user__user=self.landlord)
-        
+        # print(response.context.get('form').errors)
         self.assertEqual(response.status_code, HTTPStatus.FOUND)
         self.assertEqual(response.url, '/myproperty/')
 
@@ -1009,7 +1018,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
 
         prop.refresh_from_db()
         self.assertEqual(prop.landlord.user.user, self.landlord)
-        self.assertEqual(prop.title, self.validUpdatePayload2.get('title'))
+        self.assertEqual(prop.title, '1419 Westwood Blvd, Los Angeles, OZ 54353')
         
         self.assertEqual(prop.propertyimage_set.count(), 4)
         self.assertEqual(prop.propertyvideo_set.count(), 1)
@@ -1048,7 +1057,7 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
 
 
         self.assertEqual(response.status_code, HTTPStatus.OK)
-        self.assertEqual(errorForm.get("title"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("title"), ['This field is required.'])
         self.assertEqual(errorForm.get("city"), ['This field is required.'])
         self.assertEqual(errorForm.get("zipcode"), ['This field is required.'])
         self.assertEqual(errorForm.get("address"), ['This field is required.'])
@@ -1059,7 +1068,12 @@ class PropertyCreateUpdateViewFieldsTests(TestCase):
         self.assertEqual(errorForm.get("amount"), ['This field is required.'])
         self.assertEqual(errorForm.get("rentPerPerson"), ['This field is required.'])
         self.assertEqual(errorForm.get("description"), ['This field is required.'])
-        self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        # self.assertEqual(errorForm.get("amenities"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity1"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity2"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity3"), ['This field is required.'])
+        self.assertEqual(errorForm.get("amenity4"), ['This field is required.'])
+        
         self.assertEqual(errorForm.get("fromDate"), ['This field is required.'])
         self.assertEqual(errorForm.get("toDate"), ['This field is required.'])
 
@@ -1124,7 +1138,7 @@ def samplePropertyList(landName=None, room=1, bath=6, occp=10, rent=2000, sqft=1
         landlord = createLandlordUser(username=landName)
     landlordObject = models.UserLandLord.objects.get(user__user=landlord)
     prop = propmodel.Property.objects.create(landlord=landlordObject, title="New property near lake", 
-            city=city(), zipcode=12345, address="10/2 North cross", sqft=sqft, occupants=occp, rooms=room,
+            city=city(), zipcode=12345, address="1419 Westwood Blvd", sqft=sqft, occupants=occp, rooms=room,
             bathrooms=bath, securityDeposit=True, amount=1000, rentPerPerson=rent, 
             description="asdas asdas", utilities=True, garage=True, parkingSpace=10, 
             fromDate=datetime.date.today(), toDate=datetime.date.today() + datetime.timedelta(days=2)

@@ -1,366 +1,238 @@
 {% include "layout/header.html" %}
 
 {% load static %}
-        <div class="pxp-content" style="margin-top:-30px;">
-            <div class="pxp-hero vh-100">
-                <div class="pxp-hero-bg pxp-cover pxp-cover-bottom" style="background-image: url({% static '/images/hero-1.jpg' %});"></div>
-                <div class="pxp-hero-opacity"></div>
-                <div class="pxp-hero-caption">
-                    <div class="container">
-                        <h1 class="text-white">Find your future home</h1>
+<style>
+    .secttitle { font-family: 'Source Sans Pro', sans-serif; }
+    .sectcontent { font-family: 'Alegreya Sans', sans-serif; }
+    
 
-                        <form class="pxp-hero-search mt-4" action="#">
-                            <div class="row">
-                                
-                                <div class="col-sm-12 col-md-8" style="margin-left:17%;">
-                                    <div class="form-group">
-                                        <input type="text" id="search-address" class="form-control pxp-is-address" placeholder="Enter address..." style="background-color:rgba(255, 255, 255, 0.8);" required>
-                                        <span class="fa fa-search" onclick="search_property()" style="cursor:pointer;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
+    .sb-customizer-toggler { display:none !important; }
+    
+    @media only screen and (min-width: 600px) {
+        .section-content-1 {
+        padding-top:5%	 !important;
+        }
+        .section-content-2 {
+        padding-top:10%	 !important;
+        }
+        .section-content-5 {
+        padding-top:10%	 !important;
+        }
+        .betasect { padding-top:20px; padding-left:10px; font-size:17px; }
+        .mailcolumn { padding-right:0; }
+        .submitcolumn { padding-left:0; }
+        
+        .mailcolumn > input { border-top-left-radius:50px !important; border-bottom-left-radius:50px !important; border-top-right-radius:0px !important; border-bottom-right-radius:0px !important;}
+        .submitcolumn > button { border-top-right-radius:50px !important; border-bottom-right-radius:50px !important; border-top-left-radius:0px !important; border-bottom-left-radius:0px !important;}
+        
+        .sect_title { font-size:48px !important; color: #323f52;}
+        .sect_content { font-size:24px !important;}			
+    }
+    
+    @media only screen and (max-width: 600px) {
+        
+	        
+	.img-fluidd-1, .img-fluidd-2, .img-fluidd-3, .img-fluidd-5, .img-fluidd-6 {
+        width:115% !important;
+        margin-left:-15% !important;
+        }
+	.img-fluidd-2 {
+	width:125% !important;
+        margin-left:-22% !important;
+	}
+        .img-fluidd-4 {
+        width:115% !important;
+        margin-left:-12% !important;
+        }
+        
 
-            <!--div class="container-fluid pxp-props-carousel-right mt-100" id="featured-props">
-                <h2 class="pxp-section-h2">Featured Properties</h2>
-                <p class="pxp-text-light">Browse our latest hot offers</p>
-                <div class="pxp-props-carousel-right-container mt-4 mt-md-5">
-                    <div class="owl-carousel pxp-props-carousel-right-stage">
-                        <div>
-                            <a href="single-property.html" class="pxp-prop-card-1 rounded-lg">
-                                <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({% static '/images/properties/prop-1-1-gallery.jpg' %});"></div>
-                                <div class="pxp-prop-card-1-gradient pxp-animate"></div>
-                                <div class="pxp-prop-card-1-details">
-                                    <div class="pxp-prop-card-1-details-title">Chic Apartment in Downtown</div>
-                                    <div class="pxp-prop-card-1-details-price">$890,000</div>
-                                    <div class="pxp-prop-card-1-details-features text-uppercase">2 BD <span>|</span> 2 BA <span>|</span> 920 SF</div>
-                                </div>
-                                <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
-                            </a>
-                        </div>
+        .section-content-1 {
+        margin-top:-20%	 !important;
+        }
+        
+        .section-content-5 {
+        margin-top:-20%	 !important;
+        padding-bottom:10%	 !important;
+        }
+        
+        .betasect { font-size:12px; padding-top:20px; text-align:center; }
+        
+        .mailcolumn { padding-right:none; }
+        .submitcolumn { padding-left:none; }
+        
+        .mailcolumn > input { border-radius:50px; }
+        .submitcolumn > button { border-radius:50px; margin-top:10px; }
+        
+        .sect_title { font-size:30px !important;  color: #323f52;}
+        .sect_content { font-size:22px !important; }			
 
-                        <div>
-                            <a href="single-property.html" class="pxp-prop-card-1 rounded-lg">
-                                <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({% static '/images/properties/prop-2-1-gallery.jpg' %});"></div>
-                                <div class="pxp-prop-card-1-gradient pxp-animate"></div>
-                                <div class="pxp-prop-card-1-details">
-                                    <div class="pxp-prop-card-1-details-title">Colorful Little Apartment</div>
-                                    <div class="pxp-prop-card-1-details-price">$2,675</div>
-                                    <div class="pxp-prop-card-1-details-features text-uppercase">1 BD <span>|</span> 1 BA <span>|</span> 500 SF</div>
-                                </div>
-                                <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="single-property.html" class="pxp-prop-card-1 rounded-lg">
-                                <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({% static '/images/properties/prop-3-1-gallery.jpg' %});"></div>
-                                <div class="pxp-prop-card-1-gradient pxp-animate"></div>
-                                <div class="pxp-prop-card-1-details">
-                                    <div class="pxp-prop-card-1-details-title">Cozy Two Bedroom Apartment</div>
-                                    <div class="pxp-prop-card-1-details-price">$960,000</div>
-                                    <div class="pxp-prop-card-1-details-features text-uppercase">2 BD <span>|</span> 2 BA <span>|</span> 870 SF</div>
-                                </div>
-                                <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="single-property.html" class="pxp-prop-card-1 rounded-lg">
-                                <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({% static '/images/properties/prop-7-1-gallery.jpg' %});"></div>
-                                <div class="pxp-prop-card-1-gradient pxp-animate"></div>
-                                <div class="pxp-prop-card-1-details">
-                                    <div class="pxp-prop-card-1-details-title">Beautiful House in Marina</div>
-                                    <div class="pxp-prop-card-1-details-price">$5,198,000</div>
-                                    <div class="pxp-prop-card-1-details-features text-uppercase">5 BD <span>|</span> 4.5 BA <span>|</span> 3,945 SF</div>
-                                </div>
-                                <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="single-property.html" class="pxp-prop-card-1 rounded-lg">
-                                <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({% static '/images/properties/prop-8-1-gallery.jpg' %});"></div>
-                                <div class="pxp-prop-card-1-gradient pxp-animate"></div>
-                                <div class="pxp-prop-card-1-details">
-                                    <div class="pxp-prop-card-1-details-title">Modern Residence</div>
-                                    <div class="pxp-prop-card-1-details-price">$7,995</div>
-                                    <div class="pxp-prop-card-1-details-features text-uppercase">4 BD <span>|</span> 1.5 BA <span>|</span> 2,240 SF</div>
-                                </div>
-                                <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
-                            </a>
-                        </div>
-
-                        <div>
-                            <a href="single-property.html" class="pxp-prop-card-1 rounded-lg">
-                                <div class="pxp-prop-card-1-fig pxp-cover" style="background-image: url({% static '/images/properties/prop-9-1-gallery.jpg' %});"></div>
-                                <div class="pxp-prop-card-1-gradient pxp-animate"></div>
-                                <div class="pxp-prop-card-1-details">
-                                    <div class="pxp-prop-card-1-details-title">Luxury Mansion</div>
-                                    <div class="pxp-prop-card-1-details-price">$5,430,000</div>
-                                    <div class="pxp-prop-card-1-details-features text-uppercase">4 BD <span>|</span> 5 BA <span>|</span> 5,200 SF</div>
-                                </div>
-                                <div class="pxp-prop-card-1-details-cta text-uppercase">View Details</div>
-                            </a>
-                        </div>
-                    </div>
-
-                    <a href="properties.html" class="pxp-primary-cta text-uppercase mt-4 mt-md-5 pxp-animate">Browse All</a>
-                </div>
-            </div-->
-            </div-->
-			
-			<div class="container-fluid" style="background-color:#fff;"><br>
-			<div class="row"><br>
-				<div class="col-sm-0 col-md-3 col-lg-3"></div>
-				<div class="col-sm-12 col-md-6 col-lg-6" style="background-color:#fff;">
-					<a href="#" class="pxp-plans-1-item" style="border-top-left-radius:100px; border-bottom-right-radius:100px; border-top-right-radius:5px; border-bottom-left-radius:5px; ">
-						<div class="pxp-plans-1-item-title">GET ACCESS</div>
-						<div class="pxp-plans-1-item-fig">
-							<img src="{% static '/images/plan-personal.svg' %}" alt="...">
-						</div>
-						<style>
-							.getaccessbtn:hover { background-color:rgba(0, 0, 0, 0.9); color:#fff; }
-							.pxp-plans-1-item:hover { border-top: 7px solid black; border-bottom: 7px solid black; }
-						</style>
-						{% if user.is_authenticated%}
-							
-						{% else %}
-							<div class="pxp-plans-1-item-title">
-								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signup-trigger getaccessbtn">SIGNUP</span>
-								&nbsp; &nbsp; &nbsp; &nbsp;
-								<span style="cursor:pointer; margin-top:-30px; border:2px solid black; border-radius:50px; padding:7px 25px;" class="pxp-signin-trigger getaccessbtn">LOGIN</span>
-							</div>
-						{% endif %}
-						<div class="pxp-plans-1-item-price">
-							<span class="pxp-plans-1-item-price-sum">Free</span>
-							<span class="pxp-plans-1-item-price-period"> / 1 month</span>
-						</div>
-						<div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
-					</a>
-				</div>
-				<div class="col-sm-0 col-md-3 col-lg-3"></div>
-			</div>
-			</div>
-			
-			<!--div class="col-sm-12 col-md-6 col-lg-4">
-				<a href="#" class="pxp-plans-1-item">
-					<div class="pxp-plans-1-item-fig">
-						<img src="{% static '/images/plan-business.svg' %}" alt="...">
-					</div>
-					<div class="pxp-plans-1-item-title">Business</div>
-					<ul class="pxp-plans-1-item-features list-unstyled">
-						<li>10 Listings</li>
-						<li>2 Featured Listings</li>
-					</ul>
-					<div class="pxp-plans-1-item-price">
-						<span class="pxp-plans-1-item-price-currency">$</span>
-						<span class="pxp-plans-1-item-price-sum">99.99</span>
-						<span class="pxp-plans-1-item-price-period"> / 1 year</span>
-					</div>
-					<div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
-				</a>
-			</div-->
-
-            <div class="pxp-services pxp-cover pt-100" style="background-image: url({% static '/images/services-h-fige6dd.jpg' %}); background-position: 50% 60%;">
-                <h2 class="text-center pxp-section-h2">Why Choose Us</h2>
-                <p class="pxp-text-light text-center">We offer perfect real estate services</p>
-
-                <div class="container">
-                    <div class="pxp-services-container rounded-lg mt-4 mt-md-5">
-                        <a href="properties.html" class="pxp-services-item">
-                            <div class="pxp-services-item-fig">
-                                <img src="{% static '/images/service-icon-1.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-services-item-text text-center">
-                                <div class="pxp-services-item-text-title">Find your future home</div>
-                                <div class="pxp-services-item-text-sub">We help you find a new home by offering<br>a smart real estate experience</div>
-                            </div>
-                            <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
-                        </a>
-                        <a href="properties.html" class="pxp-services-item">
-                            <div class="pxp-services-item-fig">
-                                <img src="{% static '/images/service-icon-3.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-services-item-text text-center">
-                                <div class="pxp-services-item-text-title">Rent homes</div>
-                                <div class="pxp-services-item-text-sub">Millions of houses and apartments in<br>your favourite cities</div>
-                            </div>
-                            <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
-                        </a>
-                        <a href="submit-property.html" class="pxp-services-item">
-                            <div class="pxp-services-item-fig">
-                                <img src="{% static '/images/service-icon-4.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-services-item-text text-center">
-                                <div class="pxp-services-item-text-title">List your own property</div>
-                                <div class="pxp-services-item-text-sub">Sign up now and rent<br>your own properties</div>
-                            </div>
-                            <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
-                        </a>
-						<a href="agents.html" class="pxp-services-item">
-                            <div class="pxp-services-item-fig">
-                                <img src="{% static '/images/service-icon-2.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-services-item-text text-center">
-                                <div class="pxp-services-item-text-title">Customer support</div>
-                                <div class="pxp-services-item-text-sub">Get support 24/7<br>when you have doubts</div>
-                            </div>
-                            <div class="pxp-services-item-cta text-uppercase text-center">Learn More</div>
-                        </a>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container mt-100">
-                <h2 class="pxp-section-h2">Explore Our Neighborhoods</h2>
-                <p class="pxp-text-light">Browse our comprehensive neighborhood listings</p>
-
-                <div class="row mt-4 mt-md-5">
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                            <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({% static '/images/area-1.jpg' %});"></div>
-                            <div class="pxp-areas-1-item-details">
-                                <div class="pxp-areas-1-item-details-area">Bluemont</div>
-                                <div class="pxp-areas-1-item-details-city">Arlington, VA</div>
-                            </div>
-                            <div class="pxp-areas-1-item-counter"><span>324 Properties</span></div>
-                            <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                            <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({% static '/images/area-2.jpg' %});"></div>
-                            <div class="pxp-areas-1-item-details">
-                                <div class="pxp-areas-1-item-details-area">Overlake</div>
-                                <div class="pxp-areas-1-item-details-city">Redmond, WA</div>
-                            </div>
-                            <div class="pxp-areas-1-item-counter"><span>158 Properties</span></div>
-                            <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                            <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({% static '/images/area-3.jpg' %});"></div>
-                            <div class="pxp-areas-1-item-details">
-                                <div class="pxp-areas-1-item-details-area">College Terrace</div>
-                                <div class="pxp-areas-1-item-details-city">Palo Alto, CA</div>
-                            </div>
-                            <div class="pxp-areas-1-item-counter"><span>129 Properties</span></div>
-                            <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                            <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({% static '/images/area-4.jpg' %});"></div>
-                            <div class="pxp-areas-1-item-details">
-                                <div class="pxp-areas-1-item-details-area">Inner Sunset</div>
-                                <div class="pxp-areas-1-item-details-city">San Francisco, CA</div>
-                            </div>
-                            <div class="pxp-areas-1-item-counter"><span>129 Properties</span></div>
-                            <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                            <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({% static '/images/area-5.jpg' %});"></div>
-                            <div class="pxp-areas-1-item-details">
-                                <div class="pxp-areas-1-item-details-area">Upper West Side</div>
-                                <div class="pxp-areas-1-item-details-city">New York City, NY</div>
-                            </div>
-                            <div class="pxp-areas-1-item-counter"><span>324 Properties</span></div>
-                            <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                        </a>
-                    </div>
-                    <div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="properties.html" class="pxp-areas-1-item rounded-lg">
-                            <div class="pxp-areas-1-item-fig pxp-cover" style="background-image: url({% static '/images/area-6.jpg' %});"></div>
-                            <div class="pxp-areas-1-item-details">
-                                <div class="pxp-areas-1-item-details-area">Marina District</div>
-                                <div class="pxp-areas-1-item-details-city">San Francisco, CA</div>
-                            </div>
-                            <div class="pxp-areas-1-item-counter"><span>158 Properties</span></div>
-                            <div class="pxp-areas-1-item-cta text-uppercase">Explore</div>
-                        </a>
-                    </div>
-                </div>
-
-                <a href="properties.html" class="pxp-primary-cta text-uppercase mt-2 mt-md-4 pxp-animate">Explore Neighborhoods</a>
-            </div>
-
-            <div class="pxp-cta-1 pxp-cover mt-100 pt-300" style="background-image: url({% static '/images/cta-fig-1.jpg' %}); background-position: 50% 60%;">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-6 col-lg-4">
-                            <div class="pxp-cta-1-caption pxp-animate-in">
-                                <h2 class="pxp-section-h2">Search Smarter, From Anywhere</h2>
-                                <p class="pxp-text-light">Power your search with our real estate platform, for timely listings and a seamless experience.</p>
-                                <a href="properties.html" class="pxp-primary-cta text-uppercase mt-3 mt-md-5 pxp-animate">Search Now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-	
-            <div class="container mt-100">
-                
-                <!--p class="pxp-text-light text-center">Choose the plan that suits you best</p-->
-                <div class="row mt-5">
-                    <!--div class="col-sm-12 col-md-6 col-lg-4">
-                        <a href="#" class="pxp-plans-1-item">
-                            <div class="pxp-plans-1-item-fig">
-                                <img src="{% static '/images/plan-personal.svg' %}" alt="...">
-                            </div>
-                            <div class="pxp-plans-1-item-title">Personal</div>
-                            <ul class="pxp-plans-1-item-features list-unstyled">
-                                <li>10 Listings</li>
-                                <li>2 Featured Listings</li>
-                            </ul>
-                            <div class="pxp-plans-1-item-price">
-                                <span class="pxp-plans-1-item-price-sum">Free</span>
-                                <span class="pxp-plans-1-item-price-period"> / 1 month</span>
-                            </div>
-                            <div class="pxp-plans-1-item-cta text-uppercase">Choose Plan</div>
-                        </a>
-                    </div-->
+	#firstcontainerdiv { margin-top:100px; }
+    }
+</style>
+{% comment %} {% if user.is_authenticated %}
+    <meta http-equiv="REFRESH" content="0;url={% url 'property:propertyList' %}">
+{% endif %} {% endcomment %}
+<header class="page-header page-header-dark" id="page-header-page-header-dark-id" style="background-color:#fff;">
+    <div class="page-header-content">
+        <div class="container-fluid" id="firstcontainerdiv">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 mb-5 section-content section-content-1" style="color:black;">
                     
+                    <h1 class="sect_title"><b>The Smarter Way to Find College Housing</b></h1>
+                    <p class="sect_content">One stop shop for off campus housing! Easily find the place you love, find roommates that suit you, and rent furniture & appliances. </p>
+                    <br>
+                    <!--form id="contactForm" action="#">
+                            <div class="row">
+                                <div class="col-md-7 col-xs-0">
+                                    <input type="email" class="form-control"name="email" id="email"  placeholder="Enter your Email" style="border-top-left-radius:50px; border-bottom-left-radius:50px; padding:15px; height:40px; " required>
+                                </div>
+                                <div class="col-md-3 col-xs-0">
+                                    <button type="submit" name="submit" value="SIGN UP" class="form-control btn" style="border-top-right-radius:50px; border-bottom-right-radius:50px; background-color:#0B3360; color:#fff; padding:5px; font-weight:bold; height:40px; font-size:13px; ">Sign Up</button>
+                                </div>
+                            </div>
+                        </form-->
+                    
+                        <form id="contactForm" action="#">
+                            <div class="row">
+                                {% comment %} <div class="col-md-7 col-xs-7 mailcolumn">
+                                    <input type="email" class="form-control" name="email" 
+                                    id="email"  placeholder="Enter your Email" style="padding:15px; height:40px; " onclick="signupchange()" onkeyup="signupchange()" required>
+                                </div>
+                                <div class="col-md-4 col-xs-4 submitcolumn">
+                                    <button type="submit" id="submit" name="submit" value="SIGN UP" class="form-control btn" style="border:1px solid #0B3360; background-color:#0B3360; color:#fff; padding:5px; font-weight:bold; height:40px; font-size:13px; outline:none;">Sign Up</button>
+                                </div> {% endcomment %}
+                                <div class="col-md-8 col-xs-8">
+                                    <button type="button" class="pxp-signup-trigger btn btn-success btn-lg btn-block">Get Started</button>
+                                </div>
+                                <div class="col-md-4 col-xs-4">
+                                </div>
+                                <div class="col-md-12 col-xs-12" style="color:black;">
+                                    <p class="betasect">Be one of the first to try it - sign up for the beta.</p>
+                                </div>
+                            </div>
+                        </form>                    
                 </div>
+                <div class="col-lg-5 mb-5">
+                    <img class="img-fluid" src="{% static 'assets/images/landing-page.png' %}" style="border-radius:10px; width:100%; "/>
+                </div>
+            </div>
+            <!--div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <h4 class="page-header-titlee" style="color:black;">All your off-campus rental needs taken care of</h4>                                        
+                </div>
+                <div class="col-xs-12 col-lg-6 d-none d-lg-block" data-aos="fade-up" data-aos-delay="50">
+                    <img class="img-fluid" src="assets/images/landing-page.png" style="border-radius:10px; "/>
+                </div>
+            </div-->
+        </div>
+    </div>
+    <div class="svg-border-rounded text-whitee" style="color:#1B5FB7;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</header>
+<section class="bg-white py-10" style="background-color:#1B5FB7 !important">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-5 mb-5 section-content section-content-2" style="color:#fff;">
+                <h1 class="sect_title" style="color:#fff;"><b>Find your ideal home</b></h1>
+                <p class="sect_content">Explore homes using filters based on nearby attractions and specific criteria important for you.</p>
+            </div>
+            <div class="col-lg-6 mb-5">
+                <img class="img-fluidd img-fluidd-1" src="{% static 'assets/images/map.png' %}" style="border-radius:10px; width:90%; "/>
             </div>
         </div>
-		
-		
-		<script>
-			function search_property()
-			{
-				var type = document.getElementById('search-type').value;
-				var address = document.getElementById('search-address').value;
-				
-				//document.getElementById('search-loader').innerHTML = '';
-				
-				console.log('Type', type);
-				console.log('Address', address);
-				
-				var elmnt = document.getElementById("featured-props");
-				//elmnt.scrollIntoView(3000);
-				elmnt.scrollIntoView({ behavior: 'smooth', block: 'center' });
-				
-				/*var request = new XMLHttpRequest();				
-				request.open("POST", "url");								
-				request.onreadystatechange = function() {				
-					if(this.readyState === 4 && this.status === 200) {				
-						console.log(this.responseText);
-					}
-				};
-				request.send('type='+type+'&address='+address);
-				*/
-				
-				return false;
-			}
-		</script>
-		
-		
+    </div>
+    <div class="svg-border-rounded text-lightt" style="color:#fff;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+<section class="bg-light py-10" style="background-color:#fff !important;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mb-5">
+                <img class="img-fluidd img-fluidd-2" src="{% static 'assets/images/roommate.svg' %}" style="margin-left:-100px; margin-top:-100px; border-radius:10px; width:140%;"/>
+            </div>
+            <!--div class="col-lg-0 mb-5 section-content" style="text-align:right;">
+                <center><b>We handle finding Roommates</b></center>
+            </div-->
+            <div class="col-lg-6">
+                <br><br>
+                
+                <h1 class="sect_title"><b>Discover a new roommate</b></h1>
+                <p class="sect_content" style='color: #687281;'>Create a profile to allow others to see your interests and preferences in a roommate.</p>
+                
+                <img class="img-fluidd img-fluidd-3" src="{% static 'assets/images/student.png' %}" style="border-radius:10px;  width:90%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-whitee" style="color:#0F498C;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+<section class="bg-white py-10" style="background-color:#0F498C !important;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <img class="img-fluidd img-fluidd-4" src="{% static 'assets/images/propcard.svg' %}" style="border-radius:10px; width:100%;"/>
+            </div>
+            <!--div class="col-lg-1 mb-5 section-content" style="color:#fff">
+                <center><b>Request Tour & Chat with seller</b></center>
+            </div-->
+            <div class="col-lg-6 mb-5">
+                <br><br>
+                
+                <h1 class="sect_title" style="color:#fff;"><b>Renting made easy</b></h1>
+                <p class="sect_content" style="color:#fff;">Communicate with property owners with ease using our messaging service to inquire about leasing terms and receive updates about your potential rental property.</p>
+                
+                
+                <img class="img-fluidd img-fluidd-5" src="{% static 'assets/images/roommate.png' %}" style="border-radius:10px; width:90%;"/>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-lightt" style="color:#fff;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor" style="border:none;"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+<section class="bg-light" style="background-color:#fff !important;">
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-7 mb-5">
+                <img class="img-fluidd img-fluidd-6" src="{% static 'assets/images/services.png' %}" style="border-radius:10px; width:90%;"/>
+            </div>
+            <div class="col-lg-5 section-content section-content-5">
+            <h1 class="sect_title"><b>Furnishing your home just got easier</b></h1>
+            <p class="sect_content" style='color: #687281;'>A marketplace for individuals to rent furniture and appliances at an affordable price.</p>
+            <br><br>
+            </div>
+        </div>
+    </div>
+    <div class="svg-border-rounded text-whitee" style="color:#0B3360;">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 144.54 17.34" preserveAspectRatio="none" fill="currentColor"><path d="M144.54,17.34H0V0H144.54ZM0,0S32.36,17.34,72.27,17.34,144.54,0,144.54,0" /></svg>
+    </div>
+</section>
+
+<script src="https://www.gstatic.com/firebasejs/6.1.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
+<script src="{% static 'js/landing/main.js' %}"></script>
+{% comment %} <script src="../../code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script> {% endcomment %}
+{% comment %} <script src="../../stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script> {% endcomment %}
+<script src="{% static 'js/landing/scripts.js' %}"></script>
+{% comment %} <script src="../../unpkg.com/aos%403.0.0-beta.6/dist/aos.js"></script> {% endcomment %}
+<script>
+    AOS.init({
+        disable: 'mobile',
+        duration: 600,
+        once: true
+    });
+</script>
+
+<script src="{% static 'js/landing/sb-customizer.js' %}"></script>
+<sb-customizer project="sb-ui-kit-pro"></sb-customizer>
+<script>
+    function signupchange()
+    {
+        document.getElementById('submit').style.backgroundColor = '#0B3360';
+        document.getElementById('submit').innerHTML = 'Submit';
+    }
+</script>
 {% include "layout/footer.html" %}

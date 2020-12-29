@@ -40,8 +40,8 @@ class PropertyUtilsTests(TestCase):
         propObject1 = sampleProperty()
         propObject2 = sampleProperty()
 
-        self.assertEqual(propObject1.urlSlug, "new-property-near-lake")
-        self.assertNotEqual(propObject2.urlSlug, "new-property-near-lake")
+        self.assertEqual(propObject1.urlSlug, "912-i-10-deming-nm-88030")
+        self.assertNotEqual(propObject2.urlSlug, "912-i-10-deming-nm-88030")
 
     def test_student_access(self):
         """Test that only student can access"""

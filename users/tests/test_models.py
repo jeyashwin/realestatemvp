@@ -70,7 +70,7 @@ class UsersModelTests(TestCase):
             fbLink="https://www.facebook.com/",
             snapLink="https://www.snapchat.com/",
             instaLink="https://www.instagram.com/",
-            redditLink="https://www.reddit.com/",
+            twitterLink="https://www.twitter.com/",
         )
         userstudent.interests.set([interest1, interest2])
 
@@ -104,7 +104,7 @@ class UsersModelTests(TestCase):
             fbLink="https://www.facebook.com/",
             snapLink="https://www.snapchat.com/",
             instaLink="https://www.instagram.com/",
-            redditLink="https://www.reddit.com/",
+            twitterLink="https://www.twitter.com/",
         )
         userstudent.interests.set([interest1, interest2])
 
@@ -155,7 +155,7 @@ class UsersModelTests(TestCase):
         try:
             userlandlord.full_clean()
         except ValidationError as e:
-            self.assertEqual(dict(e).get("phone"), ["The phone number entered is not valid."])
+            self.assertEqual(dict(e).get("phone"), ["The phone number entered is not valid.", 'Currently we accept only USA Numbers!'])
             self.assertEqual(dict(e).get("user"), ["User is not a Seller!"])
 
     @patch('uuid.uuid4')
@@ -167,3 +167,8 @@ class UsersModelTests(TestCase):
         exp_path = f'uploads/profilePicture/{uuid}.jpg'
 
         self.assertEqual(file_path, exp_path)
+
+
+#invite code model str & post save
+# contact us model str
+# userstudent new fields valid & invalid

@@ -18,15 +18,18 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from property import views as property_views
-# from users import views as users_views
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('search/<text>',property_views.search),
+    path('admin/defender/', include('defender.urls')),
     path('', include("users.urls", namespace='userApp')),
     path('',include("property.urls", namespace='propertyApp')),
     path('', include("students.urls", namespace='studentsApp')),
+    path('', include("services.urls", namespace='servicesApp')),
+    path('', include("checkout.urls", namespace='checkoutApp')),
+    path('', include("notifications.urls", namespace='notificationApp')),
+    path('', include("discussion.urls", namespace='discussionApp')),
+    path('chat/', include("chat.urls", namespace='chatApp')),
+    path('', include("resources.urls", namespace='resourcesApp')),
 ]
 
 
