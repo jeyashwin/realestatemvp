@@ -81,7 +81,7 @@ class Property(geoModel.Model):
                         MinValueValidator(1, "Minimum 1"),
                         MaxValueValidator(20, "Maximum 20")
                     ])
-    rooms = models.IntegerField(help_text="Available Rooms", validators=[
+    rooms = models.IntegerField(help_text="Available Rooms",verbose_name="Bedrooms",validators=[
                         MinValueValidator(1, "Minimum 1"),
                         MaxValueValidator(20, "Maximum 20")
                     ])
@@ -96,7 +96,7 @@ class Property(geoModel.Model):
     amount = models.IntegerField(null=True, blank=True, help_text="Security Deposit Amount in $", 
                             validators=[MinValueValidator(0, 'Minimum Amount cannot be lower than 0')]
                         )
-    rentPerPerson = models.IntegerField(verbose_name="Rent Per Person", help_text="Amount in $", 
+    rent = models.IntegerField(verbose_name="Total Rent", help_text="Amount in $", 
                             validators=[MinValueValidator(0, 'Minimum Price cannot be lower than 0')]
                         )
     description = models.TextField(help_text="Describe about your property", max_length=500)

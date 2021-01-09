@@ -277,16 +277,16 @@ class PropertyListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
                     else:
                         propObjects = propObjects.filter(bathrooms__gte=4)
             if minPri is not None:
-                propObjects = propObjects.filter(rentPerPerson__gte=minPri)
+                propObjects = propObjects.filter(rent__gte=minPri)
             if maxPri is not None:
-                propObjects = propObjects.filter(rentPerPerson__lte=maxPri)
+                propObjects = propObjects.filter(rent__lte=maxPri)
             # if amenities is not None and amenities:
             #     propObjects = propObjects.filter(amenities__in=amenities).distinct()
             if sort is not None:
                 if sort == "p_low_hi":
-                    propObjects = propObjects.order_by("rentPerPerson")
+                    propObjects = propObjects.order_by("rent")
                 if sort == "p_hi_low":
-                    propObjects = propObjects.order_by("-rentPerPerson")
+                    propObjects = propObjects.order_by("-rent")
                 if sort == "room":
                     propObjects = propObjects.order_by("-rooms")
                 if sort == "bath":

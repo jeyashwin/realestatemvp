@@ -81,7 +81,7 @@ class PropertyForm(forms.ModelForm):
                 'class': 'utiltiesExpand',
                 'placeholder': '0'
             }),
-            'rentPerPerson': forms.NumberInput(attrs={
+            'rent': forms.NumberInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter amount'
             }),
@@ -215,8 +215,8 @@ class PropertyFilterSortForm(forms.Form):
     def __init__(self, request=None, *args, **kwargs):
         super(PropertyFilterSortForm, self).__init__(*args, **kwargs)
         obj = Property.objects.all().annotate(distance=Distance(userlocation, 'location'))
-        maxp = obj.aggregate(Max('rentPerPerson'))
-        minp = obj.aggregate(Min('rentPerPerson'))
+        maxp = obj.aggregate(Max('rent'))
+        minp = obj.aggregate(Min('rent'))
         maxDisP = obj.aggregate(Max('distance'))
         minDisP = obj.aggregate(Min('distance'))
         minDistanceInMile = minDisP.get('distance__min', 0)
@@ -232,19 +232,19 @@ class PropertyFilterSortForm(forms.Form):
         self.fields['minPri'] = forms.IntegerField(
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Min', 'type': 'range', 'step': '1',
-                                        'value': minp.get('rentPerPerson__min', 0)
+                                        'value': minp.get('rent__min', 0)
                                     }),
-                                    min_value=minp.get('rentPerPerson__min', 0),
-                                    max_value=maxp.get('rentPerPerson__max', 0),
+                                    min_value=minp.get('rent__min', 0),
+                                    max_value=maxp.get('rent__max', 0),
                                     required=False
                                 )
         self.fields['maxPri'] = forms.IntegerField(
                                     widget=forms.NumberInput(attrs={
                                         'placeholder': 'Max', 'type': 'range', 'step': '1',
-                                        'value': maxp.get('rentPerPerson__max', 0)
+                                        'value': maxp.get('rent__max', 0)
                                     }),
-                                    max_value = maxp.get('rentPerPerson__max', 0),
-                                    min_value = minp.get('rentPerPerson__min', 0),
+                                    max_value = maxp.get('rent__max', 0),
+                                    min_value = minp.get('rent__min', 0),
                                     required=False,
                                 )
         self.fields['disPro'] = forms.FloatField(

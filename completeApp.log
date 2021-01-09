@@ -1,0 +1,842 @@
+09-Jan-21 05:10:21 - django.utils.autoreload - 48770 - INFO - Watching for file changes with StatReloader
+09-Jan-21 05:10:31 - django.channels.server - 48770 - INFO - [32mHTTP GET / 302 [0.07, 127.0.0.1:55963][0m
+09-Jan-21 05:10:32 - django.channels.server - 48770 - INFO - [32mHTTP GET / 302 [0.03, 127.0.0.1:55964][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /property/ 200 [1.98, 127.0.0.1:55963][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/css/masterStudent.css 200 [0.03, 127.0.0.1:55972][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/css/font-awesome.min.css 200 [0.05, 127.0.0.1:55964][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/css/propertyMaster.css 200 [0.04, 127.0.0.1:55971][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/css/bootstrap.min.css 200 [0.05, 127.0.0.1:55963][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/css/style.css 200 [0.05, 127.0.0.1:55969][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/jquery-3.4.1.min.js 200 [0.05, 127.0.0.1:55970][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/popper.min.js 200 [0.01, 127.0.0.1:55963][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/bootstrap.min.js 200 [0.01, 127.0.0.1:55964][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/owl.carousel.min.js 200 [0.01, 127.0.0.1:55969][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/main3813.js 200 [0.01, 127.0.0.1:55970][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/maine2a5.js 200 [0.01, 127.0.0.1:55972][0m
+09-Jan-21 05:10:33 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/markerclusterer.js 200 [0.01, 127.0.0.1:55971][0m
+09-Jan-21 05:10:34 - django.channels.server - 48770 - INFO - [mHTTP GET /static/fonts/fontawesome-webfont3e6e.woff2?v=4.7.0 200 [0.00, 127.0.0.1:55971][0m
+09-Jan-21 05:10:35 - django.channels.server - 48770 - INFO - [32mHTTP GET /logout/ 302 [0.02, 127.0.0.1:55971][0m
+09-Jan-21 05:10:35 - django.channels.server - 48770 - INFO - [mHTTP GET / 200 [0.09, 127.0.0.1:55971][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/landing-page.png 200 [0.01, 127.0.0.1:55972][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/map.png 200 [0.02, 127.0.0.1:55970][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/js/landing/sb-customizer.js 200 [0.02, 127.0.0.1:55971][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/student.png 200 [0.02, 127.0.0.1:55964][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/propcard.svg 200 [0.03, 127.0.0.1:55963][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/roommate.png 200 [0.02, 127.0.0.1:55972][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/services.png 200 [0.02, 127.0.0.1:55970][0m
+09-Jan-21 05:10:36 - django.channels.server - 48770 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.08, 127.0.0.1:55969][0m
+09-Jan-21 05:10:36 - django.request - 48770 - WARNING - Not Found: /sass.js
+09-Jan-21 05:10:36 - django.channels.server - 48770 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:55970][0m
+09-Jan-21 05:28:30 - django.utils.autoreload - 48920 - INFO - Watching for file changes with StatReloader
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [mHTTP GET / 200 [0.15, 127.0.0.1:56096][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.00, 127.0.0.1:56096][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.00, 127.0.0.1:56097][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/css/style.css 304 [0.00, 127.0.0.1:56097][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.00, 127.0.0.1:56097][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.00, 127.0.0.1:56096][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.00, 127.0.0.1:56101][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/assets/images/map.png 304 [0.01, 127.0.0.1:56097][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/assets/images/student.png 304 [0.01, 127.0.0.1:56103][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/assets/images/landing-page.png 304 [0.01, 127.0.0.1:56101][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/assets/images/propcard.svg 304 [0.01, 127.0.0.1:56104][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/assets/images/roommate.png 304 [0.01, 127.0.0.1:56105][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/assets/images/services.png 304 [0.00, 127.0.0.1:56105][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/landing/sb-customizer.js 304 [0.01, 127.0.0.1:56104][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:56101][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:56105][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:56097][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:56103][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.00, 127.0.0.1:56097][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.00, 127.0.0.1:56103][0m
+09-Jan-21 05:28:39 - django.channels.server - 48920 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.06, 127.0.0.1:56096][0m
+09-Jan-21 05:28:40 - django.channels.server - 48920 - INFO - [mHTTP GET / 200 [0.10, 127.0.0.1:56096][0m
+09-Jan-21 05:28:40 - django.request - 48920 - WARNING - Not Found: /sass.js
+09-Jan-21 05:28:40 - django.channels.server - 48920 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:56096][0m
+09-Jan-21 05:29:01 - django.channels.server - 48920 - INFO - [32mHTTP POST / 302 [0.20, 127.0.0.1:56096][0m
+09-Jan-21 05:29:02 - django.channels.server - 48920 - INFO - [mHTTP GET /myproperty/ 200 [0.13, 127.0.0.1:56096][0m
+09-Jan-21 05:29:02 - django.request - 48920 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 05:29:02 - django.channels.server - 48920 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56096][0m
+09-Jan-21 05:29:02 - django.request - 48920 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 05:29:02 - django.channels.server - 48920 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56096][0m
+09-Jan-21 05:29:03 - django.channels.server - 48920 - INFO - [mHTTP GET /property/create/ 200 [0.12, 127.0.0.1:56096][0m
+09-Jan-21 05:29:03 - django.channels.server - 48920 - INFO - [mHTTP GET /static/js/recaptchaReset.js 200 [0.00, 127.0.0.1:56096][0m
+09-Jan-21 05:29:03 - django.channels.server - 48920 - INFO - [mHTTP GET /static/createproperty/150.png 200 [0.01, 127.0.0.1:56103][0m
+09-Jan-21 05:29:03 - django.channels.server - 48920 - INFO - [mHTTP GET /static/createproperty/300x200.png 200 [0.01, 127.0.0.1:56097][0m
+09-Jan-21 05:29:03 - django.channels.server - 48920 - INFO - [mHTTP GET /static/js/jquery.formset.js 200 [0.01, 127.0.0.1:56096][0m
+09-Jan-21 05:30:25 - django.channels.server - 48920 - INFO - [mHTTP GET /property/create/ 200 [0.15, 127.0.0.1:56115][0m
+09-Jan-21 05:31:01 - django.utils.autoreload - 48920 - INFO - /Users/ashwinjeyaraman/Documents/Swift_Master/realestatemvp/property/models.py changed, reloading.
+09-Jan-21 05:31:02 - django.utils.autoreload - 48960 - INFO - Watching for file changes with StatReloader
+09-Jan-21 05:34:50 - django.utils.autoreload - 48960 - INFO - /Users/ashwinjeyaraman/Documents/Swift_Master/realestatemvp/property/forms.py changed, reloading.
+09-Jan-21 05:34:51 - django.utils.autoreload - 48985 - INFO - Watching for file changes with StatReloader
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [mHTTP GET /property/create/ 200 [0.20, 127.0.0.1:56142][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.01, 127.0.0.1:56142][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.02, 127.0.0.1:56143][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.01, 127.0.0.1:56148][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:56147][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.01, 127.0.0.1:56149][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.01, 127.0.0.1:56150][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/recaptchaReset.js 304 [0.00, 127.0.0.1:56150][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/jquery.formset.js 304 [0.01, 127.0.0.1:56150][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:56149][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:56148][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:56147][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:56143][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.01, 127.0.0.1:56142][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.00, 127.0.0.1:56143][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/createproperty/150.png 304 [0.00, 127.0.0.1:56143][0m
+09-Jan-21 05:34:53 - django.channels.server - 48985 - INFO - [36mHTTP GET /static/createproperty/300x200.png 304 [0.00, 127.0.0.1:56142][0m
+09-Jan-21 05:35:25 - django.utils.autoreload - 48985 - INFO - /Users/ashwinjeyaraman/Documents/Swift_Master/realestatemvp/property/models.py changed, reloading.
+09-Jan-21 05:35:27 - django.utils.autoreload - 49000 - INFO - Watching for file changes with StatReloader
+09-Jan-21 05:35:46 - django.utils.autoreload - 49000 - INFO - /Users/ashwinjeyaraman/Documents/Swift_Master/realestatemvp/property/forms.py changed, reloading.
+09-Jan-21 05:35:47 - django.utils.autoreload - 49006 - INFO - Watching for file changes with StatReloader
+09-Jan-21 05:35:48 - django.channels.server - 49006 - INFO - [mHTTP GET /property/create/ 200 [0.19, 127.0.0.1:56157][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [32mHTTP GET /logout/ 302 [0.08, 127.0.0.1:56250][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [mHTTP GET / 200 [0.09, 127.0.0.1:56250][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.02, 127.0.0.1:56251][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:56256][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.01, 127.0.0.1:56257][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.02, 127.0.0.1:56250][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.01, 127.0.0.1:56258][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.02, 127.0.0.1:56259][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/landing/sb-customizer.js 304 [0.01, 127.0.0.1:56259][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:56258][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:56257][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:56250][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.00, 127.0.0.1:56251][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:56256][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.01, 127.0.0.1:56250][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/assets/images/map.png 304 [0.01, 127.0.0.1:56258][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/assets/images/landing-page.png 304 [0.01, 127.0.0.1:56257][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/assets/images/propcard.svg 304 [0.01, 127.0.0.1:56259][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/assets/images/student.png 304 [0.01, 127.0.0.1:56256][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/assets/images/roommate.png 304 [0.01, 127.0.0.1:56250][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [36mHTTP GET /static/assets/images/services.png 304 [0.00, 127.0.0.1:56257][0m
+09-Jan-21 05:42:52 - django.channels.server - 49006 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.05, 127.0.0.1:56251][0m
+09-Jan-21 05:42:52 - django.request - 49006 - WARNING - Not Found: /sass.js
+09-Jan-21 05:42:52 - django.channels.server - 49006 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:56257][0m
+09-Jan-21 05:47:18 - django.channels.server - 49006 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.02, 127.0.0.1:56271][0m
+09-Jan-21 05:47:18 - django.channels.server - 49006 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:56272][0m
+09-Jan-21 05:47:18 - django.channels.server - 49006 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.01, 127.0.0.1:56272][0m
+09-Jan-21 06:00:15 - django.utils.autoreload - 49240 - INFO - Watching for file changes with StatReloader
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [mHTTP GET / 200 [0.13, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.01, 127.0.0.1:56490][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.00, 127.0.0.1:56494][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/assets/images/landing-page.png 304 [0.01, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/assets/images/map.png 304 [0.01, 127.0.0.1:56490][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/assets/images/student.png 304 [0.01, 127.0.0.1:56495][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/assets/images/propcard.svg 304 [0.01, 127.0.0.1:56496][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/assets/images/roommate.png 304 [0.01, 127.0.0.1:56497][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/assets/images/services.png 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/landing/sb-customizer.js 304 [0.01, 127.0.0.1:56497][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:56496][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:56495][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:56490][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.01, 127.0.0.1:56497][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:37 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.07, 127.0.0.1:56494][0m
+09-Jan-21 06:00:38 - django.channels.server - 49240 - INFO - [mHTTP GET / 200 [0.07, 127.0.0.1:56494][0m
+09-Jan-21 06:00:38 - django.request - 49240 - WARNING - Not Found: /sass.js
+09-Jan-21 06:00:38 - django.channels.server - 49240 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:56494][0m
+09-Jan-21 06:00:46 - django.channels.server - 49240 - INFO - [32mHTTP POST / 302 [0.21, 127.0.0.1:56494][0m
+09-Jan-21 06:00:46 - django.channels.server - 49240 - INFO - [mHTTP GET /myproperty/ 200 [0.10, 127.0.0.1:56494][0m
+09-Jan-21 06:00:46 - django.request - 49240 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:00:46 - django.channels.server - 49240 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56494][0m
+09-Jan-21 06:00:46 - django.request - 49240 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:00:46 - django.channels.server - 49240 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56494][0m
+09-Jan-21 06:00:48 - django.channels.server - 49240 - INFO - [mHTTP GET /property/create/ 200 [0.11, 127.0.0.1:56494][0m
+09-Jan-21 06:00:48 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/createproperty/150.png 304 [0.00, 127.0.0.1:56494][0m
+09-Jan-21 06:00:48 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/createproperty/300x200.png 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:48 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/recaptchaReset.js 304 [0.00, 127.0.0.1:56489][0m
+09-Jan-21 06:00:48 - django.channels.server - 49240 - INFO - [36mHTTP GET /static/js/jquery.formset.js 304 [0.00, 127.0.0.1:56494][0m
+09-Jan-21 06:01:05 - django.channels.server - 49240 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:56489][0m
+09-Jan-21 06:01:06 - django.channels.server - 49240 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.02, 127.0.0.1:56494][0m
+09-Jan-21 06:01:06 - django.channels.server - 49240 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.01, 127.0.0.1:56497][0m
+09-Jan-21 06:04:37 - django.channels.server - 49240 - INFO - [mHTTP GET / 200 [0.07, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/bootstrap.min.css 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/font-awesome.min.css 200 [0.01, 127.0.0.1:56550][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/owl.theme.default.min.css 200 [0.01, 127.0.0.1:56552][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/owl.carousel.min.css 200 [0.01, 127.0.0.1:56551][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/style.css 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/propertyMaster.css 200 [0.01, 127.0.0.1:56555][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/Master.css 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/masterStudent.css 200 [0.01, 127.0.0.1:56551][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/ipconfig.js 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/jquery-3.4.1.min.js 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/css/landing/MasterStyle.css 200 [0.01, 127.0.0.1:56555][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/images/user-default.png 200 [0.00, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/logo/sl_logo_white.svg 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/landing-page.png 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/map.png 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/student.png 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/services.png 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/roommate.png 200 [0.01, 127.0.0.1:56551][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/propcard.svg 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/landing/main.js 200 [0.01, 127.0.0.1:56551][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/landing/scripts.js 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/popper.min.js 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.05, 127.0.0.1:56555][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/landing/sb-customizer.js 200 [0.01, 127.0.0.1:56551][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/bootstrap.min.js 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/main3813.js 200 [0.01, 127.0.0.1:56553][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/owl.carousel.min.js 200 [0.01, 127.0.0.1:56555][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/markerclusterer.js 200 [0.01, 127.0.0.1:56551][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/maine2a5.js 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/mapee61.js 200 [0.01, 127.0.0.1:56552][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET / 200 [0.12, 127.0.0.1:56552][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/images/bg-pattern1.png 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:38 - django.channels.server - 49240 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.04, 127.0.0.1:56552][0m
+09-Jan-21 06:04:38 - django.request - 49240 - WARNING - Not Found: /sass.js
+09-Jan-21 06:04:38 - django.channels.server - 49240 - WARNING - [33mHTTP GET /sass.js 404 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:46 - django.channels.server - 49240 - INFO - [32mHTTP POST / 302 [0.21, 127.0.0.1:56552][0m
+09-Jan-21 06:04:46 - django.channels.server - 49240 - INFO - [mHTTP GET /myproperty/ 200 [0.09, 127.0.0.1:56552][0m
+09-Jan-21 06:04:46 - django.request - 49240 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:04:46 - django.channels.server - 49240 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56552][0m
+09-Jan-21 06:04:46 - django.request - 49240 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:04:46 - django.channels.server - 49240 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56552][0m
+09-Jan-21 06:04:48 - django.channels.server - 49240 - INFO - [mHTTP GET /property/create/ 200 [0.10, 127.0.0.1:56552][0m
+09-Jan-21 06:04:48 - django.channels.server - 49240 - INFO - [mHTTP GET /static/createproperty/300x200.png 200 [0.01, 127.0.0.1:56549][0m
+09-Jan-21 06:04:48 - django.channels.server - 49240 - INFO - [mHTTP GET /static/createproperty/150.png 200 [0.01, 127.0.0.1:56552][0m
+09-Jan-21 06:04:48 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/jquery.formset.js 200 [0.00, 127.0.0.1:56549][0m
+09-Jan-21 06:04:48 - django.channels.server - 49240 - INFO - [mHTTP GET /static/js/recaptchaReset.js 200 [0.01, 127.0.0.1:56552][0m
+09-Jan-21 06:24:58 - django.utils.autoreload - 49510 - INFO - Watching for file changes with StatReloader
+09-Jan-21 06:25:09 - django.channels.server - 49510 - INFO - [32mHTTP GET / 302 [0.05, 127.0.0.1:56674][0m
+09-Jan-21 06:25:10 - django.request - 49510 - ERROR - Internal Server Error: /myproperty/
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedColumn: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/base.py", line 202, in _get_response
+    response = response.render()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/defaulttags.py", line 311, in render
+    if match:
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 291, in __bool__
+    self._fetch_all()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+09-Jan-21 06:25:10 - django.channels.server - 49510 - ERROR - [35;1mHTTP GET /myproperty/ 500 [0.13, 127.0.0.1:56674][0m
+09-Jan-21 06:25:10 - django.channels.server - 49510 - INFO - [32mHTTP GET / 302 [0.02, 127.0.0.1:56674][0m
+09-Jan-21 06:25:15 - django.channels.server - 49510 - INFO - [32mHTTP GET / 302 [0.01, 127.0.0.1:56674][0m
+09-Jan-21 06:25:15 - django.request - 49510 - ERROR - Internal Server Error: /myproperty/
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedColumn: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/base.py", line 202, in _get_response
+    response = response.render()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/defaulttags.py", line 311, in render
+    if match:
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 291, in __bool__
+    self._fetch_all()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+09-Jan-21 06:25:15 - django.channels.server - 49510 - ERROR - [35;1mHTTP GET /myproperty/ 500 [0.10, 127.0.0.1:56674][0m
+09-Jan-21 06:30:17 - django.utils.autoreload - 49569 - INFO - Watching for file changes with StatReloader
+09-Jan-21 06:30:26 - django.channels.server - 49569 - INFO - [32mHTTP GET / 302 [0.06, 127.0.0.1:56704][0m
+09-Jan-21 06:30:26 - django.request - 49569 - ERROR - Internal Server Error: /myproperty/
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedColumn: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/base.py", line 202, in _get_response
+    response = response.render()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/defaulttags.py", line 311, in render
+    if match:
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 291, in __bool__
+    self._fetch_all()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+09-Jan-21 06:30:26 - django.channels.server - 49569 - ERROR - [35;1mHTTP GET /myproperty/ 500 [0.14, 127.0.0.1:56704][0m
+09-Jan-21 06:30:26 - django.channels.server - 49569 - INFO - [32mHTTP GET / 302 [0.02, 127.0.0.1:56704][0m
+09-Jan-21 06:34:56 - django.utils.autoreload - 49658 - INFO - Watching for file changes with StatReloader
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET / 200 [0.16, 127.0.0.1:56755][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/owl.carousel.min.css 200 [0.01, 127.0.0.1:56758][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/bootstrap.min.css 200 [0.03, 127.0.0.1:56755][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/owl.theme.default.min.css 200 [0.02, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/font-awesome.min.css 200 [0.02, 127.0.0.1:56757][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/style.css 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/Master.css 200 [0.01, 127.0.0.1:56761][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/masterStudent.css 200 [0.01, 127.0.0.1:56755][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/propertyMaster.css 200 [0.01, 127.0.0.1:56761][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/css/landing/MasterStyle.css 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/ipconfig.js 200 [0.01, 127.0.0.1:56757][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/jquery-3.4.1.min.js 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/logo/sl_logo_white.svg 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/images/user-default.png 200 [0.00, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/landing-page.png 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/map.png 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/student.png 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/propcard.svg 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/roommate.png 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/services.png 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/landing/main.js 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/landing/scripts.js 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.05, 127.0.0.1:56757][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/landing/sb-customizer.js 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/popper.min.js 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/owl.carousel.min.js 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/bootstrap.min.js 200 [0.01, 127.0.0.1:56761][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/main3813.js 200 [0.01, 127.0.0.1:56757][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/markerclusterer.js 200 [0.01, 127.0.0.1:56759][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/maine2a5.js 200 [0.01, 127.0.0.1:56761][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET /static/js/mapee61.js 200 [0.01, 127.0.0.1:56760][0m
+09-Jan-21 06:35:06 - django.channels.server - 49658 - INFO - [mHTTP GET / 200 [0.09, 127.0.0.1:56760][0m
+09-Jan-21 06:35:07 - django.channels.server - 49658 - INFO - [mHTTP GET /static/images/bg-pattern1.png 200 [0.01, 127.0.0.1:56761][0m
+09-Jan-21 06:35:07 - django.channels.server - 49658 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.04, 127.0.0.1:56760][0m
+09-Jan-21 06:35:07 - django.request - 49658 - WARNING - Not Found: /sass.js
+09-Jan-21 06:35:07 - django.channels.server - 49658 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:56761][0m
+09-Jan-21 06:35:17 - django.channels.server - 49658 - INFO - [32mHTTP POST / 302 [0.25, 127.0.0.1:56760][0m
+09-Jan-21 06:35:17 - django.request - 49658 - ERROR - Internal Server Error: /myproperty/
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+psycopg2.errors.UndefinedColumn: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/exception.py", line 47, in inner
+    response = get_response(request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/core/handlers/base.py", line 202, in _get_response
+    response = response.render()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 105, in render
+    self.content = self.rendered_content
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/response.py", line 83, in rendered_content
+    return template.render(context, self._request)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/backends/django.py", line 61, in render
+    return self.template.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 170, in render
+    return self._render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 162, in _render
+    return self.nodelist.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 938, in render
+    bit = node.render_annotated(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/base.py", line 905, in render_annotated
+    return self.render(context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/template/defaulttags.py", line 311, in render
+    if match:
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 291, in __bool__
+    self._fetch_all()
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 1308, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/query.py", line 53, in __iter__
+    results = compiler.execute_sql(chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/models/sql/compiler.py", line 1156, in execute_sql
+    cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 98, in execute
+    return super().execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 66, in execute
+    return self._execute_with_wrappers(sql, params, many=False, executor=self._execute)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 75, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/utils.py", line 90, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/Users/ashwinjeyaraman/Documents/Swift_Master/swift/lib/python3.9/site-packages/django/db/backends/utils.py", line 84, in _execute
+    return self.cursor.execute(sql, params)
+django.db.utils.ProgrammingError: column property_property.rentPerPerson does not exist
+LINE 1: ...."securityDeposit", "property_property"."amount", "property_...
+                                                             ^
+
+09-Jan-21 06:35:17 - django.channels.server - 49658 - ERROR - [35;1mHTTP GET /myproperty/ 500 [0.13, 127.0.0.1:56760][0m
+09-Jan-21 06:37:50 - django.utils.autoreload - 49658 - INFO - /Users/ashwinjeyaraman/Documents/Swift_Master/realestatemvp/property/models.py changed, reloading.
+09-Jan-21 06:37:52 - django.utils.autoreload - 49690 - INFO - Watching for file changes with StatReloader
+09-Jan-21 06:47:56 - django.utils.autoreload - 49783 - INFO - Watching for file changes with StatReloader
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [32mHTTP GET / 302 [0.06, 127.0.0.1:56894][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [mHTTP GET /myproperty/ 200 [0.12, 127.0.0.1:56894][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.01, 127.0.0.1:56894][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.01, 127.0.0.1:56898][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/owl.carousel.min.css 304 [0.00, 127.0.0.1:56899][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/owl.theme.default.min.css 304 [0.01, 127.0.0.1:56894][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/Master.css 304 [0.00, 127.0.0.1:56899][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.00, 127.0.0.1:56900][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.00, 127.0.0.1:56899][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/ipconfig.js 304 [0.01, 127.0.0.1:56894][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/css/landing/MasterStyle.css 304 [0.01, 127.0.0.1:56898][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/logo/sl_logo_white.svg 304 [0.01, 127.0.0.1:56901][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:56899][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:56894][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:56901][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.01, 127.0.0.1:56898][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.01, 127.0.0.1:56899][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/mapee61.js 304 [0.00, 127.0.0.1:56898][0m
+09-Jan-21 06:48:03 - django.request - 49783 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:48:03 - django.channels.server - 49783 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.04, 127.0.0.1:56902][0m
+09-Jan-21 06:48:03 - django.channels.server - 49783 - INFO - [32mHTTP GET / 302 [0.02, 127.0.0.1:56902][0m
+09-Jan-21 06:48:04 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/images/bg-pattern1.png 304 [0.00, 127.0.0.1:56902][0m
+09-Jan-21 06:48:04 - django.request - 49783 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:48:04 - django.channels.server - 49783 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.02, 127.0.0.1:56902][0m
+09-Jan-21 06:48:07 - django.channels.server - 49783 - INFO - [mHTTP GET /property/create/ 200 [0.12, 127.0.0.1:56902][0m
+09-Jan-21 06:48:07 - django.channels.server - 49783 - INFO - [mHTTP GET /static/createproperty/300x200.png 200 [0.02, 127.0.0.1:56898][0m
+09-Jan-21 06:48:07 - django.channels.server - 49783 - INFO - [mHTTP GET /static/createproperty/150.png 200 [0.02, 127.0.0.1:56902][0m
+09-Jan-21 06:48:07 - django.channels.server - 49783 - INFO - [mHTTP GET /static/js/recaptchaReset.js 200 [0.01, 127.0.0.1:56899][0m
+09-Jan-21 06:48:07 - django.channels.server - 49783 - INFO - [mHTTP GET /static/js/jquery.formset.js 200 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [32mHTTP GET /logout/ 302 [0.02, 127.0.0.1:56900][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [mHTTP GET / 200 [0.10, 127.0.0.1:56900][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/images/user-default.png 304 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/landing-page.png 304 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/landing/main.js 304 [0.01, 127.0.0.1:56894][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/student.png 304 [0.01, 127.0.0.1:56898][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/propcard.svg 304 [0.01, 127.0.0.1:56901][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/map.png 304 [0.02, 127.0.0.1:56899][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/landing/scripts.js 304 [0.01, 127.0.0.1:56900][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/js/landing/sb-customizer.js 304 [0.01, 127.0.0.1:56899][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/services.png 304 [0.01, 127.0.0.1:56898][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [36mHTTP GET /static/assets/images/roommate.png 304 [0.01, 127.0.0.1:56901][0m
+09-Jan-21 06:48:12 - django.channels.server - 49783 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.07, 127.0.0.1:56902][0m
+09-Jan-21 06:48:12 - django.request - 49783 - WARNING - Not Found: /sass.js
+09-Jan-21 06:48:12 - django.channels.server - 49783 - WARNING - [33mHTTP GET /sass.js 404 [0.01, 127.0.0.1:56901][0m
+09-Jan-21 06:48:29 - django.channels.server - 49783 - INFO - [32mHTTP POST / 302 [0.26, 127.0.0.1:56902][0m
+09-Jan-21 06:48:29 - django.channels.server - 49783 - INFO - [mHTTP GET /myproperty/ 200 [0.10, 127.0.0.1:56902][0m
+09-Jan-21 06:48:29 - django.request - 49783 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 06:48:29 - django.channels.server - 49783 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56902][0m
+09-Jan-21 06:51:15 - django.channels.server - 49783 - INFO - [32mHTTP GET /logout/ 302 [0.07, 127.0.0.1:56916][0m
+09-Jan-21 06:51:15 - django.channels.server - 49783 - INFO - [mHTTP GET / 200 [0.08, 127.0.0.1:56916][0m
+09-Jan-21 06:51:16 - django.request - 49783 - WARNING - Not Found: /sass.js
+09-Jan-21 06:51:16 - django.channels.server - 49783 - WARNING - [33mHTTP GET /sass.js 404 [0.01, 127.0.0.1:56916][0m
+09-Jan-21 06:55:11 - django.channels.server - 49783 - INFO - [mHTTP GET / 200 [0.07, 127.0.0.1:56931][0m
+09-Jan-21 06:55:11 - django.request - 49783 - WARNING - Not Found: /sass.js
+09-Jan-21 06:55:11 - django.channels.server - 49783 - WARNING - [33mHTTP GET /sass.js 404 [0.01, 127.0.0.1:56931][0m
+09-Jan-21 07:03:21 - django.utils.autoreload - 49917 - INFO - Watching for file changes with StatReloader
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET / 200 [0.14, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/font-awesome.min.css 200 [0.01, 127.0.0.1:56967][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/owl.carousel.min.css 200 [0.01, 127.0.0.1:56968][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/owl.theme.default.min.css 200 [0.01, 127.0.0.1:56969][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/bootstrap.min.css 200 [0.02, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/style.css 200 [0.01, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/Master.css 200 [0.01, 127.0.0.1:56971][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/propertyMaster.css 200 [0.01, 127.0.0.1:56969][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/masterStudent.css 200 [0.01, 127.0.0.1:56971][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/ipconfig.js 200 [0.01, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/landing/MasterStyle.css 200 [0.01, 127.0.0.1:56967][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/jquery-3.4.1.min.js 200 [0.01, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/images/user-default.png 200 [0.01, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/logo/sl_logo_white.svg 200 [0.01, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/landing-page.png 200 [0.01, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/map.png 200 [0.01, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/student.png 200 [0.01, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/propcard.svg 200 [0.03, 127.0.0.1:56971][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.png 200 [0.02, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/services.png 200 [0.02, 127.0.0.1:56969][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/landing/main.js 200 [0.01, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/landing/scripts.js 200 [0.01, 127.0.0.1:56969][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/landing/sb-customizer.js 200 [0.02, 127.0.0.1:56971][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/popper.min.js 200 [0.01, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/owl.carousel.min.js 200 [0.02, 127.0.0.1:56970][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/bootstrap.min.js 200 [0.02, 127.0.0.1:56968][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/markerclusterer.js 200 [0.01, 127.0.0.1:56965][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/main3813.js 200 [0.01, 127.0.0.1:56969][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/maine2a5.js 200 [0.01, 127.0.0.1:56971][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/mapee61.js 200 [0.01, 127.0.0.1:56968][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.08, 127.0.0.1:56967][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET / 200 [0.09, 127.0.0.1:56967][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/images/bg-pattern1.png 200 [0.01, 127.0.0.1:56968][0m
+09-Jan-21 07:03:33 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.04, 127.0.0.1:56967][0m
+09-Jan-21 07:03:34 - django.request - 49917 - WARNING - Not Found: /sass.js
+09-Jan-21 07:03:34 - django.channels.server - 49917 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:56968][0m
+09-Jan-21 07:03:44 - django.channels.server - 49917 - INFO - [32mHTTP POST / 302 [0.26, 127.0.0.1:56967][0m
+09-Jan-21 07:03:44 - django.channels.server - 49917 - INFO - [mHTTP GET /myproperty/ 200 [0.10, 127.0.0.1:56967][0m
+09-Jan-21 07:03:44 - django.request - 49917 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:03:44 - django.channels.server - 49917 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56967][0m
+09-Jan-21 07:03:44 - django.request - 49917 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:03:44 - django.channels.server - 49917 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:56967][0m
+09-Jan-21 07:03:45 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.13, 127.0.0.1:56967][0m
+09-Jan-21 07:03:45 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/300x200.png 200 [0.01, 127.0.0.1:56968][0m
+09-Jan-21 07:03:45 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/150.png 200 [0.01, 127.0.0.1:56967][0m
+09-Jan-21 07:03:45 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/recaptchaReset.js 200 [0.01, 127.0.0.1:56967][0m
+09-Jan-21 07:03:45 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/jquery.formset.js 200 [0.01, 127.0.0.1:56968][0m
+09-Jan-21 07:05:00 - django.channels.server - 49917 - INFO - [mHTTP GET /myrequests/ 200 [0.17, 127.0.0.1:57004][0m
+09-Jan-21 07:05:01 - django.channels.server - 49917 - INFO - [mHTTP GET /myproperty/ 200 [0.07, 127.0.0.1:57004][0m
+09-Jan-21 07:05:01 - django.request - 49917 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:05:01 - django.channels.server - 49917 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57004][0m
+09-Jan-21 07:05:01 - django.request - 49917 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:05:01 - django.channels.server - 49917 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57004][0m
+09-Jan-21 07:05:07 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.11, 127.0.0.1:57004][0m
+09-Jan-21 07:06:08 - django.channels.server - 49917 - INFO - [32mHTTP GET /logout/ 302 [0.06, 127.0.0.1:57011][0m
+09-Jan-21 07:06:08 - django.channels.server - 49917 - INFO - [mHTTP GET / 200 [0.06, 127.0.0.1:57011][0m
+09-Jan-21 07:06:08 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.04, 127.0.0.1:57011][0m
+09-Jan-21 07:06:08 - django.request - 49917 - WARNING - Not Found: /sass.js
+09-Jan-21 07:06:08 - django.channels.server - 49917 - WARNING - [33mHTTP GET /sass.js 404 [0.01, 127.0.0.1:57013][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET / 200 [0.07, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/bootstrap.min.css 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/font-awesome.min.css 200 [0.01, 127.0.0.1:57017][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/owl.carousel.min.css 200 [0.01, 127.0.0.1:57018][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/owl.theme.default.min.css 200 [0.01, 127.0.0.1:57019][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/style.css 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/Master.css 200 [0.01, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/propertyMaster.css 200 [0.00, 127.0.0.1:57017][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/ipconfig.js 200 [0.01, 127.0.0.1:57017][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/masterStudent.css 200 [0.01, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/css/landing/MasterStyle.css 200 [0.01, 127.0.0.1:57019][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/jquery-3.4.1.min.js 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/logo/sl_logo_white.svg 200 [0.00, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/images/user-default.png 200 [0.00, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/landing-page.png 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/map.png 200 [0.01, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/student.png 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/propcard.svg 200 [0.01, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.png 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/services.png 200 [0.00, 127.0.0.1:57017][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/landing/main.js 200 [0.01, 127.0.0.1:57017][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/landing/scripts.js 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/popper.min.js 200 [0.01, 127.0.0.1:57018][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/landing/sb-customizer.js 200 [0.02, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.05, 127.0.0.1:57019][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/owl.carousel.min.js 200 [0.01, 127.0.0.1:57032][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/bootstrap.min.js 200 [0.01, 127.0.0.1:57017][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/main3813.js 200 [0.01, 127.0.0.1:57015][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/markerclusterer.js 200 [0.01, 127.0.0.1:57018][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/maine2a5.js 200 [0.01, 127.0.0.1:57020][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/mapee61.js 200 [0.01, 127.0.0.1:57032][0m
+09-Jan-21 07:06:58 - django.channels.server - 49917 - INFO - [mHTTP GET / 200 [0.08, 127.0.0.1:57019][0m
+09-Jan-21 07:06:59 - django.channels.server - 49917 - INFO - [mHTTP GET /static/images/bg-pattern1.png 200 [0.01, 127.0.0.1:57032][0m
+09-Jan-21 07:06:59 - django.channels.server - 49917 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.04, 127.0.0.1:57019][0m
+09-Jan-21 07:06:59 - django.request - 49917 - WARNING - Not Found: /sass.js
+09-Jan-21 07:06:59 - django.channels.server - 49917 - WARNING - [33mHTTP GET /sass.js 404 [0.02, 127.0.0.1:57032][0m
+09-Jan-21 07:07:08 - django.channels.server - 49917 - INFO - [32mHTTP POST / 302 [0.21, 127.0.0.1:57019][0m
+09-Jan-21 07:07:08 - django.channels.server - 49917 - INFO - [mHTTP GET /myproperty/ 200 [0.07, 127.0.0.1:57019][0m
+09-Jan-21 07:07:08 - django.request - 49917 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:07:08 - django.channels.server - 49917 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57019][0m
+09-Jan-21 07:07:08 - django.request - 49917 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:07:08 - django.channels.server - 49917 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57019][0m
+09-Jan-21 07:07:10 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.11, 127.0.0.1:57019][0m
+09-Jan-21 07:07:10 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/150.png 200 [0.00, 127.0.0.1:57019][0m
+09-Jan-21 07:07:10 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/300x200.png 200 [0.00, 127.0.0.1:57032][0m
+09-Jan-21 07:07:10 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/jquery.formset.js 200 [0.00, 127.0.0.1:57019][0m
+09-Jan-21 07:07:10 - django.channels.server - 49917 - INFO - [mHTTP GET /static/js/recaptchaReset.js 200 [0.01, 127.0.0.1:57032][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.29, 127.0.0.1:57233][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.01, 127.0.0.1:57233][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.01, 127.0.0.1:57235][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:57238][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/owl.carousel.min.css 304 [0.01, 127.0.0.1:57236][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/owl.theme.default.min.css 304 [0.01, 127.0.0.1:57237][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/Master.css 304 [0.01, 127.0.0.1:57239][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.01, 127.0.0.1:57233][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.01, 127.0.0.1:57235][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/css/landing/MasterStyle.css 304 [0.01, 127.0.0.1:57238][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.01, 127.0.0.1:57236][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/ipconfig.js 304 [0.01, 127.0.0.1:57237][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/recaptchaReset.js 304 [0.00, 127.0.0.1:57237][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:57236][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/jquery.formset.js 304 [0.01, 127.0.0.1:57237][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:57238][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:57235][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.01, 127.0.0.1:57239][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:57233][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/images/bg-pattern1.png 304 [0.01, 127.0.0.1:57236][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/mapee61.js 304 [0.01, 127.0.0.1:57235][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/assets/images/logo/sl_logo_white.svg 304 [0.01, 127.0.0.1:57237][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.01, 127.0.0.1:57238][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/createproperty/300x200.png 304 [0.01, 127.0.0.1:57239][0m
+09-Jan-21 07:24:35 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/photosplaceholder.jpeg 200 [0.01, 127.0.0.1:57233][0m
+09-Jan-21 07:29:40 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.18, 127.0.0.1:57294][0m
+09-Jan-21 07:29:40 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/createproperty/photosplaceholder.jpeg 304 [0.00, 127.0.0.1:57294][0m
+09-Jan-21 07:29:40 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/videoicon.jpeg 200 [0.00, 127.0.0.1:57294][0m
+09-Jan-21 07:33:27 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.25, 127.0.0.1:57329][0m
+09-Jan-21 07:33:27 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/createproperty/photosplaceholder.jpeg 304 [0.00, 127.0.0.1:57329][0m
+09-Jan-21 07:33:27 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/videoicon2.jpeg 200 [0.00, 127.0.0.1:57331][0m
+09-Jan-21 07:35:47 - django.channels.server - 49917 - INFO - [mHTTP GET /property/create/ 200 [0.17, 127.0.0.1:57336][0m
+09-Jan-21 07:35:47 - django.channels.server - 49917 - INFO - [36mHTTP GET /static/createproperty/photosplaceholder.jpeg 304 [0.00, 127.0.0.1:57336][0m
+09-Jan-21 07:35:47 - django.channels.server - 49917 - INFO - [mHTTP GET /static/createproperty/videoiconfinal.jpg 200 [0.00, 127.0.0.1:57336][0m
+09-Jan-21 07:40:16 - django.utils.autoreload - 49917 - INFO - /Users/ashwinjeyaraman/Documents/Swift_Master/realestatemvp/property/models.py changed, reloading.
+09-Jan-21 07:40:19 - django.utils.autoreload - 50336 - INFO - Watching for file changes with StatReloader
+09-Jan-21 07:40:39 - django.utils.autoreload - 50355 - INFO - Watching for file changes with StatReloader
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [32mHTTP GET / 302 [0.06, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.13, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.00, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.00, 127.0.0.1:57376][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/owl.carousel.min.css 304 [0.00, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/owl.theme.default.min.css 304 [0.01, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:57376][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/Master.css 304 [0.01, 127.0.0.1:57377][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.01, 127.0.0.1:57378][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.01, 127.0.0.1:57380][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.01, 127.0.0.1:57379][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/ipconfig.js 304 [0.01, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/landing/MasterStyle.css 304 [0.01, 127.0.0.1:57377][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/logo/sl_logo_white.svg 304 [0.01, 127.0.0.1:57376][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.00, 127.0.0.1:57376][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:57377][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:57379][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.01, 127.0.0.1:57380][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.00, 127.0.0.1:57376][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/mapee61.js 304 [0.00, 127.0.0.1:57372][0m
+09-Jan-21 07:40:47 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:40:47 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.04, 127.0.0.1:57378][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [32mHTTP GET / 302 [0.02, 127.0.0.1:57378][0m
+09-Jan-21 07:40:47 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/images/bg-pattern1.png 304 [0.00, 127.0.0.1:57378][0m
+09-Jan-21 07:40:47 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:40:47 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.02, 127.0.0.1:57378][0m
+09-Jan-21 07:40:49 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.12, 127.0.0.1:57378][0m
+09-Jan-21 07:40:49 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/photosplaceholder.jpeg 304 [0.00, 127.0.0.1:57378][0m
+09-Jan-21 07:40:49 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/videoiconfinal.jpg 304 [0.00, 127.0.0.1:57372][0m
+09-Jan-21 07:40:49 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/recaptchaReset.js 304 [0.00, 127.0.0.1:57372][0m
+09-Jan-21 07:40:49 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/jquery.formset.js 304 [0.00, 127.0.0.1:57378][0m
+09-Jan-21 07:42:32 - django.channels.server - 50355 - INFO - [32mHTTP GET / 302 [0.06, 127.0.0.1:57393][0m
+09-Jan-21 07:42:32 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.09, 127.0.0.1:57393][0m
+09-Jan-21 07:42:32 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:42:32 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57393][0m
+09-Jan-21 07:42:35 - django.channels.server - 50355 - INFO - [mHTTP GET /landlord/profile/jimmy2020/ 200 [0.06, 127.0.0.1:57393][0m
+09-Jan-21 07:42:37 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.06, 127.0.0.1:57393][0m
+09-Jan-21 07:42:37 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:42:37 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57393][0m
+09-Jan-21 07:42:38 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.11, 127.0.0.1:57393][0m
+09-Jan-21 07:42:38 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/videoiconfinal.jpg 304 [0.00, 127.0.0.1:57393][0m
+09-Jan-21 07:42:40 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.06, 127.0.0.1:57393][0m
+09-Jan-21 07:42:40 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:42:40 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:57393][0m
+09-Jan-21 07:43:02 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.01, 127.0.0.1:57393][0m
+09-Jan-21 07:43:02 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:57404][0m
+09-Jan-21 07:43:02 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.01, 127.0.0.1:57406][0m
+09-Jan-21 07:48:58 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.19, 127.0.0.1:59396][0m
+09-Jan-21 07:48:58 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:48:58 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.02, 127.0.0.1:59396][0m
+09-Jan-21 07:48:58 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:48:58 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.02, 127.0.0.1:59396][0m
+09-Jan-21 07:48:58 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.02, 127.0.0.1:59398][0m
+09-Jan-21 07:48:58 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.01, 127.0.0.1:59398][0m
+09-Jan-21 07:48:58 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:59396][0m
+09-Jan-21 07:49:12 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.11, 127.0.0.1:59396][0m
+09-Jan-21 07:49:12 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:49:12 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:59396][0m
+09-Jan-21 07:49:12 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:49:12 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:59396][0m
+09-Jan-21 07:49:16 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.01, 127.0.0.1:59396][0m
+09-Jan-21 07:49:16 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:59398][0m
+09-Jan-21 07:49:16 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.01, 127.0.0.1:59396][0m
+09-Jan-21 07:54:23 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.12, 127.0.0.1:60699][0m
+09-Jan-21 07:54:23 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:54:23 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:60699][0m
+09-Jan-21 07:54:23 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:54:23 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.02, 127.0.0.1:60699][0m
+09-Jan-21 07:54:23 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.02, 127.0.0.1:60701][0m
+09-Jan-21 07:54:23 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.02, 127.0.0.1:60701][0m
+09-Jan-21 07:54:23 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.02, 127.0.0.1:60699][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.13, 127.0.0.1:61221][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/bootstrap.min.css 304 [0.01, 127.0.0.1:61221][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/font-awesome.min.css 304 [0.01, 127.0.0.1:61223][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/owl.carousel.min.css 304 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/style.css 304 [0.01, 127.0.0.1:61226][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/Master.css 304 [0.01, 127.0.0.1:61227][0m
+09-Jan-21 07:57:21 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/owl.theme.default.min.css 304 [0.01, 127.0.0.1:61225][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/propertyMaster.css 304 [0.01, 127.0.0.1:61221][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/jquery-3.4.1.min.js 304 [0.00, 127.0.0.1:61226][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/landing/MasterStyle.css 304 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/css/masterStudent.css 304 [0.01, 127.0.0.1:61223][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/ipconfig.js 304 [0.01, 127.0.0.1:61227][0m
+09-Jan-21 07:57:22 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/popper.min.js 304 [0.01, 127.0.0.1:61223][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61227][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/bootstrap.min.js 304 [0.01, 127.0.0.1:61223][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/owl.carousel.min.js 304 [0.01, 127.0.0.1:61227][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/main3813.js 304 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/markerclusterer.js 304 [0.01, 127.0.0.1:61226][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/maine2a5.js 304 [0.01, 127.0.0.1:61221][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/mapee61.js 304 [0.01, 127.0.0.1:61225][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/images/bg-pattern1.png 304 [0.01, 127.0.0.1:61223][0m
+09-Jan-21 07:57:22 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:57:22 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/logo/sl_logo_white.svg 304 [0.02, 127.0.0.1:61227][0m
+09-Jan-21 07:57:22 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:28 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.07, 127.0.0.1:61224][0m
+09-Jan-21 07:57:28 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:57:28 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:34 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.08, 127.0.0.1:61224][0m
+09-Jan-21 07:57:35 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:57:35 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:41 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.07, 127.0.0.1:61224][0m
+09-Jan-21 07:57:41 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:57:41 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:43 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.07, 127.0.0.1:61224][0m
+09-Jan-21 07:57:43 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:57:43 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:53 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:57:53 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:61227][0m
+09-Jan-21 07:57:53 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:58:18 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.12, 127.0.0.1:61224][0m
+09-Jan-21 07:58:18 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:58:18 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:58:18 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:58:18 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:59:01 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.12, 127.0.0.1:61224][0m
+09-Jan-21 07:59:01 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 07:59:01 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 07:59:34 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.18, 127.0.0.1:61224][0m
+09-Jan-21 07:59:34 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/photosplaceholder.jpeg 304 [0.00, 127.0.0.1:61224][0m
+09-Jan-21 07:59:34 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/videoiconfinal.jpg 304 [0.00, 127.0.0.1:61354][0m
+09-Jan-21 07:59:34 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/recaptchaReset.js 304 [0.00, 127.0.0.1:61354][0m
+09-Jan-21 07:59:34 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/jquery.formset.js 304 [0.00, 127.0.0.1:61224][0m
+09-Jan-21 08:00:26 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/popper.min.js.map 404 [0.01, 127.0.0.1:61224][0m
+09-Jan-21 08:00:26 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/js/bootstrap.min.js.map 404 [0.01, 127.0.0.1:61354][0m
+09-Jan-21 08:00:26 - django.channels.server - 50355 - WARNING - [33mHTTP GET /static/css/bootstrap.min.css.map 404 [0.01, 127.0.0.1:61364][0m
+09-Jan-21 08:01:22 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.19, 127.0.0.1:61364][0m
+09-Jan-21 08:01:22 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 08:01:22 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61364][0m
+09-Jan-21 08:02:12 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.20, 127.0.0.1:61364][0m
+09-Jan-21 08:02:12 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/videoiconfinal.jpg 304 [0.00, 127.0.0.1:61364][0m
+09-Jan-21 08:03:23 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.22, 127.0.0.1:61620][0m
+09-Jan-21 08:03:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/photosplaceholder.jpeg 304 [0.00, 127.0.0.1:61620][0m
+09-Jan-21 08:03:34 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.19, 127.0.0.1:61620][0m
+09-Jan-21 08:06:30 - django.channels.server - 50355 - INFO - [mHTTP GET /myproperty/ 200 [0.18, 127.0.0.1:61656][0m
+09-Jan-21 08:06:30 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 08:06:30 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61656][0m
+09-Jan-21 08:06:30 - django.request - 50355 - WARNING - Not Found: /myproperty/js/jquery-3.4.1.min.js
+09-Jan-21 08:06:30 - django.channels.server - 50355 - WARNING - [33mHTTP GET /myproperty/js/jquery-3.4.1.min.js 404 [0.01, 127.0.0.1:61656][0m
+09-Jan-21 08:06:31 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.11, 127.0.0.1:61656][0m
+09-Jan-21 08:06:31 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/createproperty/videoiconfinal.jpg 304 [0.00, 127.0.0.1:61656][0m
+09-Jan-21 08:06:48 - django.channels.server - 50355 - INFO - [mHTTP GET /property/create/ 200 [0.15, 127.0.0.1:61656][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [32mHTTP GET /logout/ 302 [0.06, 127.0.0.1:61656][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [mHTTP GET / 200 [0.09, 127.0.0.1:61656][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/images/user-default.png 304 [0.01, 127.0.0.1:61656][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/landing-page.png 304 [0.01, 127.0.0.1:61656][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/map.png 304 [0.01, 127.0.0.1:61666][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/student.png 304 [0.01, 127.0.0.1:61668][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/roommate.png 304 [0.01, 127.0.0.1:61670][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/propcard.svg 304 [0.01, 127.0.0.1:61669][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/landing/main.js 304 [0.01, 127.0.0.1:61656][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/landing/scripts.js 304 [0.01, 127.0.0.1:61670][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/js/landing/sb-customizer.js 304 [0.01, 127.0.0.1:61668][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [36mHTTP GET /static/assets/images/services.png 304 [0.01, 127.0.0.1:61669][0m
+09-Jan-21 08:07:23 - django.channels.server - 50355 - INFO - [mHTTP GET /static/assets/images/roommate.svg 200 [0.06, 127.0.0.1:61667][0m
+09-Jan-21 08:07:23 - django.request - 50355 - WARNING - Not Found: /sass.js
+09-Jan-21 08:07:23 - django.channels.server - 50355 - WARNING - [33mHTTP GET /sass.js 404 [0.01, 127.0.0.1:61667][0m

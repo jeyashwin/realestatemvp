@@ -613,7 +613,7 @@
 							<div class="col-1"></div>
 							<label for="regusertype1" class="col-5" id="regusertype1label" style="text-align:center; padding:5px 0px; border:2px solid #003a8c; border-radius:15px; background-color:#003a8c; color:white;" onclick="regusertypeclick(1)"> <input type="radio" name="usertype" id="regusertype1" value="buyer" style="display:none;" checked /> I'm a Student </label>
 							&nbsp;&nbsp;
-							<label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:5px 0px; border:2px solid #003a8c; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Landlord/Sublease </label>	
+							<label for="regusertype2" class="col-5" id="regusertype2label" style="text-align:center; padding:5px 0px; border:2px solid #003a8c; border-radius:15px;" onclick="regusertypeclick(2)"> <input type="radio" name="usertype" id="regusertype2" value="seller" style="display:none;" /> I'm a Agent/Landlord/Sublease </label>	
 						</div>
 						
 						<form id="student_signup_form2" class="mt-4" action="{% url 'user:studentSignup' %}{% if request.GET.invite_code %}?invite_code={{request.GET.invite_code}}{% endif %}" method="POST" enctype="multipart/form-data" >
