@@ -1,0 +1,29 @@
+{% include "layout/header.html" %}
+
+
+<div class="pxp-content">
+    <div class="pxp-agents mt-100">
+        <div class="container">
+            <div class="row">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <h5>Hi {{object.first_name}},</h5>
+                    <h6>Are you sure you want to delete your 
+                        {% if object.usertype.is_landlord %}
+                        Seller
+                        {% elif object.usertype.is_student %}
+                        Student
+                        {% endif %}
+                        account</h6>
+                    {% if object.usertype.is_landlord %}
+                        <a href="{% url 'user:landlordProfile' object.username %}">Cancel</a>
+                    {% elif object.usertype.is_student %}
+                        <a href="{% url 'user:studentProfile' object.username %}">Cancel</a>
+                    {% endif %}
+                    <input type="submit" value="Delete">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "layout/footer.html" %}

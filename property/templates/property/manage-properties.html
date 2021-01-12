@@ -1,0 +1,210 @@
+{% include "layout/header.html" %}
+
+{% load static %}
+
+		<style>
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			.pxp-results-card-1-save:hover { background-color:maroon; color:#fff; }
+			.leaseDate {
+				background:rgba(255, 255, 255, 1); 
+				border-radius:5px; 
+				border:none; 
+				border-radius:0px; 
+				border-top:2px solid #002754;
+			}
+		</style>
+		
+            <div class="pxp-content-side pxp-content-leftt pxp-half">
+			<br><br>
+                <div class="pxp-content-side-wrapper">                   
+					<br><br>
+					<h2 style="margin-bottom: 30px">
+						Manage Properties - Total {{object_list.count}}
+						{% if object_list.all %}
+
+						
+							{% else %}
+						<a href="{% url 'property:propertyCreate' %}" class="btn pull-right" style="background-color: #044C7E; border-radius:50px; color:#fff;"><i class="fa fa-plus"></i> Add new Property</a>
+						{% endif %}
+					</h2>
+					<hr>
+					{% if messages %}
+					{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+						<strong>{{ message }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endfor %}
+					{% endif %}
+					{% load humanize %}
+                    <div class="row">
+						{% if object_list %}
+							{% for object in object_list %}
+							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3" id="fprop{{object.pk}}" style="margin-bottom: 30px;">
+								<div style="padding:0px; box-shadow:3px 3px 5px grey; border-radius:10px; background-color:rgba(0, 0, 0, 0.9);">
+									<a href="{% url 'property:propertyDetail' object.urlSlug %}" class="pxp-results-card-1 rounded-lg">
+										<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+											<div class="carousel-inner">
+												{% for image in object.propertyimage_set.all %}
+													{% if forloop.first %}
+													<div class="carousel-item active" style="background-image: url({{image.imagePath.url}})"></div>
+													{% else %}
+													<div class="carousel-item" style="background-image: url({{image.imagePath.url}});"></div>
+													{% endif %}
+												{% endfor %}
+											</div>
+											<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
+												<span class="fa fa-angle-left" aria-hidden="true"></span>
+											</span>
+											<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
+												<span class="fa fa-angle-right" aria-hidden="true"></span>
+											</span>
+										</div>
+										<div class="pxp-results-card-1-gradient"></div>
+										<div class="pxp-results-card-1-details">
+											<div class="pxp-results-card-1-details-title">{{object.title}}</div>
+											<div class="pxp-results-card-1-details-price">${{object.rent|intcomma}}</div>
+										</div>
+										<div class="pxp-results-card-1-features">
+											<span>{{object.rooms}} Room <span>|</span> {{object.bathrooms}} BA <span>|</span> {{object.sqft|intcomma}} SF</span>
+										</div>
+										{% comment %} <a href="{% url 'property:propertyDelete' object.urlSlug %}"> 
+											<span class="fa fa-times"></span>sdads
+										</a>
+										<div class="pxp-results-card-1-save" data-toggle="tooltip" title="Delete Property" onclick="return removefromfav({{object.pk}})">
+											<span class="fa fa-times"></span>
+										</div> {% endcomment %}
+									</a>
+									<div class="container-fluid" style="color:#f2f2f2;margin-top:-30px;">
+									    <form method="POST" action="{% url 'property:vaccant' object.urlSlug %}">
+										{% csrf_token %}
+										<div class="row">
+											<div class="col-md-6 form-control" id="leasedcheckdiv_{{object.id}}" onclick="leasedcheckclick({{object.id}})" style="border:none; border-radius:0px; {% if object.isleased %}background-color:#002754; {% else %} background-color:#fff;{% endif %}">
+												<span class="pull-left" style="padding-top:7px; color:#fff;">
+													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="leasedcheckfa_{{object.id}}" style="{% if not object.isleased %}display:none;{% endif %}"></i></span>
+													<label style="{% if not object.isleased %}color:black;{% endif %}" id="leasedcheckinput_{{object.id}}"><input name="leasestatus" value="lease" {% if object.isleased %}checked{% endif %} type="radio" style="width:0px; display:none;"> &nbsp; Leased</label>
+												</span>
+											</div>
+											<div class="col-md-6 form-control" id="vacantcheckdiv_{{object.id}}" onclick="vacantcheckclick({{object.id}})" style="border:none; border-radius:0px; {% if object.isleased %}background-color:#fff;{% else %}background-color:#002754;{% endif %}">
+												<span class="pull-left" style="padding-top:7px; color:#fff;">
+													<span style="padding-top:7px; color:#fff;"><i class="fa fa-check" id="vacantcheckfa_{{object.id}}"></i></span>
+													<label style="{% if object.isleased %}color:black;{% endif %}" id="vacantcheckinput_{{object.id}}"><input name="leasestatus" type="radio" value="vaccant" {% if not object.isleased %}checked{% endif %} style="width:0px; display:none;"> &nbsp; Vacant</label>
+												</span>
+											</div>
+											<div class="row" id="leaseddates_{{object.id}}" style="{% if not object.isleased %}display: none;{% endif %}">	
+												<div class="col-md-6" style="padding-right:0;">
+													<input type="date" placeholder="Start Date" class="form-control leaseDate" {% if object.isleased %}value={{object.leaseStart|date:'Y-m-d'}}{% endif %} id="leasestartdate" name="leasestartdate">
+													{% comment %} {{form.leaseStart}} {% endcomment %}
+												</div>
+												<div class="col-md-6" style="padding-left:0;">	
+													{% comment %} {{form.leaseEnd}} {% endcomment %}
+													<input type="date" placeholder="End Date" class="form-control leaseDate" id="leaseenddate" {% if object.isleased %}value={{object.leaseEnd|date:'Y-m-d'}}{% endif %} name="leaseenddate">
+												</div>
+												{% comment %} <div class="col-md-12">
+													
+												</div> {% endcomment %}
+											</div>
+											<input type="submit" value="Submit" class="form-control" style="border:none; border-radius:0px; background-color:#002754; width:100%; color:#fff; font-weight:bold;"/>
+										</div>
+									    </form>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						{% else %}
+						{% comment %}
+						<h1 style="margin-left: 45%; ">
+							<br>
+							<br>
+							<br>
+							<br>
+							<a href="{% url 'property:propertyCreate' %}" class="btn pull-right" 
+							style="background-color: #044C7E; border-radius:50px; color:#fff;"><i 
+							class="fa fa-plus"></i> Add new Property</a>
+
+						</h1>
+						{% endcomment %}
+							<center>
+								<div class="container-fluid" style="min-height:550px; min-width:100%;">
+										<div  style="width:100%; border-radius:10px;">
+											<br>
+											<br>
+											<br>
+											<br>
+											<br>
+										</div>
+								</div>
+							</center>
+						{% endif %}
+                    </div>
+                </div>
+		
+		<script src="js/jquery-3.4.1.min.js"></script>
+		
+		<script>
+			$(document).ready(function(){
+			  $('[data-toggle="tooltip"]').tooltip({html:true});
+			});			
+		</script>
+		
+		<script>
+		
+			function removefromfav(id)
+			{
+				if(confirm("Are you sure to remove this property from favorites?") == true) {
+					//document.getElementById('fprop'+id).remove();
+					$("#fprop"+id).hide(500);
+					
+					setTimeout(function() {
+						$("#resmsg").html(" &nbsp; &nbsp; <span class='alert alert-danger alert-xs pull-right' id='lastmsg' style='color:maroon;'>Favorite deleted!</span> &nbsp; <br>");					
+					}, 700);
+					setTimeout(function() {
+						$("#lastmsg").fadeOut(2000);
+					}, 2000);
+					return false;
+				} else {
+					return false;
+				}				
+			}
+			
+		</script>
+		
+		<script>
+			function leasedcheckclick(id)
+			{
+				$("#leasedcheckinput_"+id+" > input").prop("checked", true);				
+				
+				$("#leasedcheckfa_"+id).show();
+				$("#vacantcheckfa_"+id).hide();
+
+				$("#leasedcheckinput_"+id).css({"color":"#fff"});
+				$("#vacantcheckinput_"+id).css({"color":"black"});
+
+				$("#leasedcheckdiv_"+id).css({"background-color":"#002754"});
+				$("#vacantcheckdiv_"+id).css("background-color","#fff");
+				
+				$("#leaseddates_"+id).show();
+				
+			}
+
+			function vacantcheckclick(id)
+			{
+				$("#vacantcheckinput_"+id+" > input").prop( "checked", true );
+				
+				$("#leasedcheckfa_"+id).hide();
+				$("#vacantcheckfa_"+id).show();
+
+				$("#leasedcheckinput_"+id).css({"color":"black"});
+				$("#vacantcheckinput_"+id).css({"color":"#fff"});
+
+				$("#leasedcheckdiv_"+id).css("background-color","#fff");
+				$("#vacantcheckdiv_"+id).css("background-color","#002754");	
+				
+				$("#leaseddates_"+id).hide();
+			}
+		</script>
+
+
+{% include "layout/footer.html" %}
