@@ -1,0 +1,22 @@
+{% include "layout/google-analytics.html" %}
+{% load static %}
+{% include "layout/google-analytics.html" %}
+
+{% block content %}
+  <h1>Message Request List</h1>
+  {% if message_request_list %}
+  <ul>
+    {% for msg_req in message_request_list %}
+      <li>
+        {{ msg_req.logged_in_user }}
+        <form action="{% url 'chat:create_room' %}" method="post">
+          {% csrf_token %}
+          <button type="submit" value={{msg_req.logged_in_user}} name='create_room_username'> Accept </button>
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>These are the request you have got !!!</p>
+  {% endif %}       
+{% endblock %}

@@ -1,0 +1,124 @@
+{% include "layout/google-analytics.html" %}
+{% include "layout/header.html" %}
+
+{% load static %}
+
+
+<style>
+	
+	.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 0.9) !important; }
+	.pxp-logo, .pxp-nav > li > a { color:#fff !important; }
+	.pxp-nav > li > .active, .pxp-is-sticky .pxp-nav > li > .active { color: orange; }
+
+	.fa.fa-thumbs-o-down:hover {
+		color:red;
+	}
+    .thumbs-o-down {
+        color:red;
+    }
+	.fa.fa-thumbs-o-up:hover {
+		color:green;
+	}
+    .thumbs-o-up {
+        color:green;
+    }
+	.pxp-results-card-1.rounded-lg {
+		{% comment %} box-shadow:2px 2px 3px silver; {% endcomment %}
+	}
+	#filter_checks > p > input { width:13px; height:13px; }
+	#filter_checks > p { font-size:15px; }
+</style>
+
+
+        <div class="pxp-content pxp-full-height">
+            
+            <div class="roww" style="width:100%;">
+			<div class="col-md-12" style="background-color:#fff; border-radius:7px;">
+				<div class="pxp-map-side pxp-map-right pxp-half" style="display:none;">
+					<div id="results-map"></div>
+					<a href="javascript:void(0);" class="pxp-list-toggle"><span class="fa fa-list"></span></a>
+				</div>
+				
+				<div class="pxp-content-side pxp-content-leftt pxp-half" style="min-height:530px;">
+					<div class="pxp-content-side-wrapper">
+						<div class="d-flex">
+							<div class="pxp-content-side-search-form">
+								<div class="row pxp-content-side-search-form-row">
+									<div class="col-xs-12 col-sm-2 col-md-2 col-lg-2 pxp-content-side-search-form-col">
+										<h2 class="pxp-content-side-h2">Services for Rent</h2>
+									</div>
+									<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9 pxp-content-side-search-form-col">
+										<form action="" method="get" class="form-group">
+											<div class="input-group input-group-md">
+												<input type="text" class="form-control pxp-is-address" name="serviceName" placeholder="Search by entering name" id="pxp-p-search-address">
+												<div class="input-group-append">
+													<button type="submit" class="btn btn-md btn-outline-primary" style="border-top-right-radius:50px; border-bottom-right-radius:50px"><span class="fa fa-search"></span></button>
+    											</div>
+											</div>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="row pb-4">
+							<!--div class="col-sm-6">
+								<h2 class="pxp-content-side-h2">{{object_list.count}} Results</h2>
+							</div-->
+							<div class="col-sm-6">
+								<div class="pxp-sort-form form-inline float-right">
+									<div class="form-group">
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							{% load humanize %}
+							{% for object in object_list %}
+							<div class="col-xs-12 col-sm-6 col-md-3 col-xxxl-3">
+								<a href="{% url 'services:servicesDetail' object.pk %}" class="pxp-results-card-1 rounded-lg" data-prop="3" style="background-color:rgba(4, 113, 166, 0.3); text-decoration:none;">
+									<h5 style="color:black; padding:10px;">{{object.serviceName}}</h5>
+									<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+										<div class="carousel-inner">
+											{% for image in object.serviceimage_set.all %}
+												{% if forloop.first %}
+												<div class="carousel-item active" style="background-image: url({{image.image.url}})"></div>
+												{% else %}
+												<div class="carousel-item" style="background-image: url({{image.image.url}});"></div>
+												{% endif %}
+											{% endfor %}
+										</div>
+										<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
+											<span class="fa fa-angle-left" aria-hidden="true"></span>
+										</span>
+										<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
+											<span class="fa fa-angle-right" aria-hidden="true"></span>
+										</span>
+									</div>
+									<div class="pxp-results-card-1-gradient"></div>
+									<div class="pxp-results-card-1-details">
+										<div class="pxp-results-card-1-details-price" style="border-radius:50px; background-color:rgba(0, 0, 0, 0.5); padding:10px; width:60%; color:#fff;">$ {{object.price|intcomma}} {{object.rentCycle|title}}</div>
+									</div>
+								</a>
+							</div>
+							{% endfor %}
+						</div>
+
+						<ul class="pagination pxp-paginantion mt-2 mt-md-4">
+							{% for page in total_pages %}
+								<li class="page-item {% if page == page_obj.number %}active{% endif %}" style="background: none !important;"><a class="page-link" href="?{% if request.GET.serviceName %}serviceName={{request.GET.serviceName}}&{% endif %}page={{ page }}">{{ page }}</a></li>
+							{% endfor %}
+							{% if page_obj.has_next %}
+								<li class="page-item"><a class="page-link" href="?{% if request.GET.serviceName %}serviceName={{request.GET.serviceName}}&{% endif %}page={{ page_obj.next_page_number }}">Next <span class="fa fa-angle-right"></span></a></li>
+							{% endif %}
+						</ul>
+
+					</div>
+					
+				</div>
+				
+			</div> <!--col-md-9-->
+			</div> <!--row-->
+        </div>
+
+{% include "layout/footer.html" %}
