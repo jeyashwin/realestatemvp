@@ -10,6 +10,9 @@ from property.models import Property
 from notifications.models import Notification
 from django.contrib.auth import get_user_model
 from django.views.generic import ListView
+from .serializers import RoomSerializer, MessageRequestSerializer, MessageSerializer, FriendSerializer
+from rest_framework import generics, viewsets
+
 # from django.core.files.storage import FileSystemStorage
 import json
 
@@ -347,3 +350,35 @@ def landlord_student_chat(request, studuser):
         new_room.members.add(request.user)
         new_room.save()
         return redirect('chat:room', new_room.pk)
+
+class RoomListCreate(generics.ListCreateAPIView):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+class RoomViewSet(viewsets.ModelViewSet):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+
+class MessageListCreate(generics.ListCreateAPIView):
+    queryset = MessageSerializer.objects.all()
+    serializer_class = MessageSerializer
+
+class MessageViewSet(viewsets.ModelViewSet):
+    queryset = MessageSerializer.objects.all()
+    serializer_class = RoomSerializer
+
+class MessageRequestListCreate(generics.ListCreateAPIView):
+    queryset = MessageRequestSerializer.objects.all()
+    serializer_class = MessageRequestSerializer
+
+class MessageRequestViewSet(viewsets.ModelViewSet):
+    queryset = MessageRequestSerializer.objects.all()
+    serializer_class = RoomSerializer
+
+class FriendListCreate(generics.ListCreateAPIView):
+    queryset = Friend.objects.all()
+    serializer_class = FriendSerializer
+
+class FriendViewSet(viewsets.ModelViewSet):
+    queryset = Friend.objects.all()
+    serializer_class = RoomSerializer

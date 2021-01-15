@@ -5,6 +5,10 @@ from django.http import Http404
 
 from .models import *
 from checkout.forms import RequestToRentServiceForm
+from .models import Service
+from .serializers import ServiceSerializer, ServiceImageSerializer
+from rest_framework import generics, viewsets
+
 
 # Create your views here.
 class ServiceListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -53,4 +57,20 @@ class ServiceDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
                                 'email': self.request.user.email
                             })
         return context
+
+class ServiceListCreate(generics.ListCreateAPIView):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializer
+
+class ServiceImageListCreate(generics.ListCreateAPIView):
+    queryset = ServiceImage.objects.all()
+    serializer_class = ServiceImageSerializer
+
+class ServiceImageViewSet(viewsets.ModelViewSet):
+    queryset = ServiceImage.objects.all()
+    serializer_class = ServiceImageSerializer
 

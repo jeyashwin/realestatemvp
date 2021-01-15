@@ -12,6 +12,8 @@ from property.models import Property
 from services.models import Service
 from users.models import UserStudent
 from notifications.models import Notification
+from rest_framework import generics, viewsets
+from .serializers import RequestToRentPropertySerializer, RequestToRentServiceSerializer, RequestToTourPropertySerializer
 # Create your views here.
 
 @login_required
@@ -119,3 +121,26 @@ class RequestToTourPropertyDetailView(LoginRequiredMixin, UserPassesTestMixin, D
         except:
             raise Http404
 
+class RequestToTourPropertyListCreate(generics.ListCreateAPIView):
+    queryset = RequestToTourProperty.objects.all()
+    serializer_class = RequestToTourPropertySerializer
+
+class RequestToTourPropertyViewSet(viewsets.ModelViewSet):
+    queryset = RequestToTourProperty.objects.all()
+    serializer_class = RequestToTourPropertySerializer
+
+class RequestToRentPropertyListCreate(generics.ListCreateAPIView):
+    queryset = RequestToRentProperty.objects.all()
+    serializer_class = RequestToRentPropertySerializer
+
+class RequestToRentPropertyViewSet(viewsets.ModelViewSet):
+    queryset = RequestToRentProperty.objects.all()
+    serializer_class = RequestToRentPropertySerializer
+
+class RequestToRentServiceListCreate(generics.ListCreateAPIView):
+    queryset = RequestToRentService.objects.all()
+    serializer_class = RequestToRentServiceSerializer
+
+class RequestToRentServiceViewSet(viewsets.ModelViewSet):
+    qqueryset = RequestToRentService.objects.all()
+    serializer_class = RequestToRentServiceSerializer
