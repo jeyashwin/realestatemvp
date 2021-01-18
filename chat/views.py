@@ -359,21 +359,21 @@ class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
     serializer_class = RoomSerializer
 
-class MessageListCreate(generics.ListCreateAPIView):
-    queryset = MessageSerializer.objects.all()
-    serializer_class = MessageSerializer
+# class MessageListCreate(generics.ListCreateAPIView):
+#     queryset = MessageSerializer.objects.all()
+#     serializer_class = MessageSerializer
+#
+# class MessageViewSet(viewsets.ModelViewSet):
+#     queryset = MessageSerializer.objects.all()
+#     serializer_class = MessageSerializer
 
-class MessageViewSet(viewsets.ModelViewSet):
-    queryset = MessageSerializer.objects.all()
-    serializer_class = RoomSerializer
-
-class MessageRequestListCreate(generics.ListCreateAPIView):
-    queryset = MessageRequestSerializer.objects.all()
-    serializer_class = MessageRequestSerializer
-
-class MessageRequestViewSet(viewsets.ModelViewSet):
-    queryset = MessageRequestSerializer.objects.all()
-    serializer_class = RoomSerializer
+# class MessageRequestListCreate(generics.ListCreateAPIView):
+#     queryset = MessageRequestSerializer.objects.all()
+#     serializer_class = MessageRequestSerializer
+#
+# class MessageRequestViewSet(viewsets.ModelViewSet):
+#     queryset = MessageRequestSerializer.objects.all()
+#     serializer_class = MessageRequestSerializer
 
 class FriendListCreate(generics.ListCreateAPIView):
     queryset = Friend.objects.all()
@@ -381,4 +381,4 @@ class FriendListCreate(generics.ListCreateAPIView):
 
 class FriendViewSet(viewsets.ModelViewSet):
     queryset = Friend.objects.all()
-    serializer_class = RoomSerializer
+    serializer_class = FriendSerializer
