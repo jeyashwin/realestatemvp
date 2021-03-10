@@ -1,0 +1,2025 @@
+{% include "layout/google-analytics.html" %}
+{% include "layout/header.html" %}
+
+{% load static %}
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<style>
+			{% comment %} * { font-family: Century Gothic; } {% endcomment %}
+			
+			#layoutDefault_footer { display:none !important; }
+
+			.pxp-header.fixed-top.pxp-animate { background-color:rgba(4, 113, 166, 1) !important; }
+			
+			.list-inline-item > a { font-size:12px !important; }
+			
+			::-webkit-scrollbar {
+			  width: 7px;
+			  border-radius:10px;
+			}
+			::-webkit-scrollbar-track {
+			  background: #f1f1f1;
+			}
+			::-webkit-scrollbar-thumb {
+			  background: #0471A6;
+			}
+			::-webkit-scrollbar-thumb:hover {
+			  background: #555;
+			}
+			
+			.bodycontent {
+				padding-top:100px;
+			}
+			.navbar.navbar-default {
+				background-color:rgba(0, 0, 0, 0.8) !important; 
+				padding:10px !important;
+			}
+		
+			.navbar-brand {
+				color: #fff !important;
+				font-size:20px;
+			}
+			
+			.nav.navbar-nav {
+				padding-left: 27% !important;
+			}
+			
+			.nav.navbar-nav > li {
+				padding: 0px 17px !important;				
+			}
+			
+			.nav.navbar-nav > li > a {
+				color:#fff !important;
+				font-weight:bold !important;
+			}
+			
+			.nav.nav-pills > li > a {
+				border-radius:100px !important;
+				border:2px solid #F5F5F5;
+				background-color:#F5F5F5 !important;
+				color:black;
+			}
+			
+			.nav.nav-pills > li.active > a {
+				color:#fff;
+				background-color:#383836 !important;
+			}
+			
+			.panelatag {
+				color:#383836;
+				font-weight:bold;
+			}
+			#header_dropdown > .dropbtnn { font-size:15px !important; }
+			.panel {
+				border-radius: 20px;
+			}
+			
+			.panel-heading {
+				border-top-left-radius: 20px;
+				border-top-right-radius: 20px;
+			}
+			
+			.panel-footer {
+				border-bottom-left-radius: 20px;
+				border-bottom-right-radius: 20px;
+			}
+			
+			.fa.fa-heart:hover {
+				/*color:red !important;*/
+				cursor:pointer;
+			}
+			
+			.active { background-color: rgba(15, 73, 140, 0.5) !important; }
+		</style>
+		
+
+		<style>
+				
+				.btn:focus, .btn:active:focus, .btn.active:focus {
+					
+					outline: none !important;
+					box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 0px rgba(120, 144, 156,0.8);
+				}
+
+
+				textarea:focus,
+						input[type="text"]:focus,
+						input[type="password"]:focus,
+						input[type="datetime"]:focus,
+						input[type="datetime-local"]:focus,
+						input[type="date"]:focus,
+						input[type="month"]:focus,
+						input[type="time"]:focus,
+						input[type="week"]:focus,
+						input[type="number"]:focus,
+						input[type="email"]:focus,
+						input[type="url"]:focus,
+						input[type="search"]:focus,
+						input[type="tel"]:focus,
+						input[type="color"]:focus,
+						.uneditable-input:focus {   
+						border-color: rgba(120, 144, 156,1.0); color: rgba(120, 144, 156,1.0); opacity: 0.9;
+						box-shadow: 0 0px 0px rgba(120, 144, 156,1.0) inset, 0 0 10px rgba(120, 144, 156,0.3);
+						outline: 0 none; }
+
+
+				.card::-webkit-scrollbar {
+					width: 1px;
+				}
+				 
+				::-webkit-scrollbar-thumb {
+					border-radius: 9px;
+					background: rgba(96, 125, 139,0.99);
+				}
+
+				.balon1, .balon2 {
+
+					margin-top: 5px !important;
+					margin-bottom: 5px !important;
+
+					}
+
+
+				.balon1 a {
+
+					background: #42a5f5;
+					color: #fff !important;
+					border-radius: 20px 20px 3px 20px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+
+					}
+
+				.balon1:before {
+
+					content: attr(data-is);
+					position: absolute;
+					right: 15px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+					
+					}
+
+				.balon2 a {
+
+					background: #f1f1f1;
+					color: #000 !important;
+					border-radius: 20px 20px 20px 3px;
+					display: block;
+					max-width: 75%;
+					padding: 10px 13px 7px 13px;
+					
+					}
+					
+				.balon2:before {
+
+					content: attr(data-is);
+					position: absolute;
+					left: 13px;
+					bottom: -0.8em;
+					display: block;
+					font-size: 1rem;
+					color: rgba(84, 110, 122,1.0);
+				  
+					}
+					
+				.bg-sohbet:before {
+
+					content: "";
+					background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAgOCkiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PGNpcmNsZSBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgY3g9IjE3NiIgY3k9IjEyIiByPSI0Ii8+PHBhdGggZD0iTTIwLjUuNWwyMyAxMW0tMjkgODRsLTMuNzkgMTAuMzc3TTI3LjAzNyAxMzEuNGw1Ljg5OCAyLjIwMy0zLjQ2IDUuOTQ3IDYuMDcyIDIuMzkyLTMuOTMzIDUuNzU4bTEyOC43MzMgMzUuMzdsLjY5My05LjMxNiAxMC4yOTIuMDUyLjQxNi05LjIyMiA5LjI3NC4zMzJNLjUgNDguNXM2LjEzMSA2LjQxMyA2Ljg0NyAxNC44MDVjLjcxNSA4LjM5My0yLjUyIDE0LjgwNi0yLjUyIDE0LjgwNk0xMjQuNTU1IDkwcy03LjQ0NCAwLTEzLjY3IDYuMTkyYy02LjIyNyA2LjE5Mi00LjgzOCAxMi4wMTItNC44MzggMTIuMDEybTIuMjQgNjguNjI2cy00LjAyNi05LjAyNS0xOC4xNDUtOS4wMjUtMTguMTQ1IDUuNy0xOC4xNDUgNS43IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+PHBhdGggZD0iTTg1LjcxNiAzNi4xNDZsNS4yNDMtOS41MjFoMTEuMDkzbDUuNDE2IDkuNTIxLTUuNDEgOS4xODVIOTAuOTUzbC01LjIzNy05LjE4NXptNjMuOTA5IDE1LjQ3OWgxMC43NXYxMC43NWgtMTAuNzV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjcxLjUiIGN5PSI3LjUiIHI9IjEuNSIvPjxjaXJjbGUgZmlsbD0iIzAwMCIgY3g9IjE3MC41IiBjeT0iOTUuNSIgcj0iMS41Ii8+PGNpcmNsZSBmaWxsPSIjMDAwIiBjeD0iODEuNSIgY3k9IjEzNC41IiByPSIxLjUiLz48Y2lyY2xlIGZpbGw9IiMwMDAiIGN4PSIxMy41IiBjeT0iMjMuNSIgcj0iMS41Ii8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkzIDcxaDN2M2gtM3ptMzMgODRoM3YzaC0zem0tODUgMThoM3YzaC0zeiIvPjxwYXRoIGQ9Ik0zOS4zODQgNTEuMTIybDUuNzU4LTQuNDU0IDYuNDUzIDQuMjA1LTIuMjk0IDcuMzYzaC03Ljc5bC0yLjEyNy03LjExNHpNMTMwLjE5NSA0LjAzbDEzLjgzIDUuMDYyLTEwLjA5IDcuMDQ4LTMuNzQtMTIuMTF6bS04MyA5NWwxNC44MyA1LjQyOS0xMC44MiA3LjU1Ny00LjAxLTEyLjk4N3pNNS4yMTMgMTYxLjQ5NWwxMS4zMjggMjAuODk3TDIuMjY1IDE4MGwyLjk0OC0xOC41MDV6IiBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMS4yNSIvPjxwYXRoIGQ9Ik0xNDkuMDUgMTI3LjQ2OHMtLjUxIDIuMTgzLjk5NSAzLjM2NmMxLjU2IDEuMjI2IDguNjQyLTEuODk1IDMuOTY3LTcuNzg1LTIuMzY3LTIuNDc3LTYuNS0zLjIyNi05LjMzIDAtNS4yMDggNS45MzYgMCAxNy41MSAxMS42MSAxMy43MyAxMi40NTgtNi4yNTcgNS42MzMtMjEuNjU2LTUuMDczLTIyLjY1NC02LjYwMi0uNjA2LTE0LjA0MyAxLjc1Ni0xNi4xNTcgMTAuMjY4LTEuNzE4IDYuOTIgMS41ODQgMTcuMzg3IDEyLjQ1IDIwLjQ3NiAxMC44NjYgMy4wOSAxOS4zMzEtNC4zMSAxOS4zMzEtNC4zMSIgc3Ryb2tlPSIjMDAwIiBzdHJva2Utd2lkdGg9IjEuMjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvZz48L3N2Zz4=');
+					opacity: 0.06;
+					top: 0;
+					left: 0;
+					bottom: 0;
+					right: 0;
+					height:100%;
+					position: absolute;   
+
+					}
+					.rmnewpostimages:hover { border:4px solid #98d1ec !important; }
+		</style>
+		
+		<div class="roww bodycontent">
+			{% if messages %}
+			{% for message in messages %}
+			<div class="alert alert-success alert-dismissible show">
+				<strong>{{ message }}</strong>
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			{% endfor %}
+			{% endif %}
+			<div class="container-fluid">
+				
+				<div class="pull-right" style="margin-top:0px;">
+					{% comment %} <span data-toggle="pill" href="#home" class="btn" id="postsbtn" onclick="rmtogglebtnclick(1)" style="border-radius:50px; background-color:#094a66; color:#fff; display:none;"> Posts </span> {% endcomment %}
+					{% comment %} <span data-toggle="pill" href="#menu1" class="btn" id="groupsbtn" onclick="rmtogglebtnclick(2)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </span> {% endcomment %}
+					{% comment %} <span data-toggle="pill" href="#menu2" class="btn" id="messagesbtn" onclick="rmtogglebtnclick(3)" style="border-radius:50px; background-color:#094a66; color:#fff;"> Messages </span> {% endcomment %}
+					<a href="{% url 'chat:groupindex' %}" class="btn" id="groupsbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Groups </a>
+					<a href="{% url 'chat:index' %}" class="btn" id="messagesbtn" style="border-radius:50px; background-color:#094a66; color:#fff;"> Chats </a>
+					&nbsp;
+				</div><br>
+				
+				  <!--ul class="nav nav-pills nav-justified">
+					<li class="active"><a data-toggle="pill" href="#home">Roommates</a></li>
+					<li><a data-toggle="pill" href="#menu1">All Posts</a></li>
+					<li><a data-toggle="pill" href="#menu3">Groups</a></li>
+				  </ul-->
+				  <br>
+				  <div class="tab-content">
+					<div id="home" class="home-div">
+						
+						<div class="col-md-2" style="margin-left:-10px; background-color:#fff; border-radius:5px; margin-top:-50px; min-height:700px;">
+							<br>
+							<center>
+								{% if user.is_authenticated%}
+									<img 
+										src=" {% if user.usertype.userstudent.profilePicture %}
+													{{user.usertype.userstudent.profilePicture.url}} 
+												{% else %} 
+													https://www.w3schools.com/bootstrap/img_avatar1.png
+												{% endif %}"
+										style="width:70px; height:70px; border-radius:100px; border:2px solid #0471a6;" />	
+									<h4 style="color:black;"><b>{{user}}</b></h4>
+									<p style="color:grey;">{{user.usertype.userstudent.university}}</p>
+								{% endif %}
+							</center>
+							<hr>
+							<div>
+								<style>
+									.leftcategorylist { padding-bottom:150px; }
+									.leftcategorylist a {text-decoration: none; color: inherit;}
+									.leftcategorylist a > p { margin-top:1px; padding:5px 10px; background-color:rgba(96, 95, 95, 0.1); border-radius:15px; }
+									.leftcategorylist a > p:hover { cursor:pointer; background-color:rgba(13, 118, 170, 0.5); color:#fff; }
+									.mypost {text-decoration: none !important; color: inherit;}
+									.mypost > p { margin-top:1px; padding:5px 10px; background-color:rgba(96, 95, 95, 0.1); border-radius:15px; }
+									.mypost > p:hover { cursor:pointer; background-color:rgba(13, 118, 170, 0.5); color:#fff; }
+								</style>
+								
+								<div id="sideLinks">
+									<a href="{% url 'students:roommates' %}" class="mypost"><p>All Roommate Posts</p></a>
+									<a href="{% url 'students:roommatesMypost' %}" class="mypost"><p>My Posts</p></a>
+								</div>
+								{% comment %} 
+						<----------------------preference left panel section starts here------------------------------>
+								<h5><b>Categories</b></h5>
+								<div class="leftcategorylist">
+								{% for preference in preferences %}
+								<a href="{% url 'students:roommatesPreference' preference.preferenceSlug %}"><p><i class="fa fa-filter"></i> &nbsp; {{preference.preferenceType}}</p></a>
+								{% endfor %}
+								</div> 
+						<----------------------preference left panel section ends here------------------------------>
+								{% endcomment %}
+							</div>
+						</div>
+						<div class="col-md-4" style="margin-top:-40px; box-shadow:3px 3px 5px silver; max-height:700px; overflow-y:scroll; overflow-x:none;">
+
+						{% comment %} {% if currentpreferences %} {% endcomment %}
+							<div id="start_writing" onclick="startedit()" style="cursor:text; color:grey; padding:15px; background-color:#fff; border-radius:7px;"><i class="fa fa-edit"></i> Start typing something..</div>
+							<!-- Tab content -->
+							<div id="classic" class="tabcontent" style="border-radius:10px; display: none; width:100%;">
+							{% comment %} {% url 'students:postCreate' currentpreferences.preferenceSlug %} {% endcomment %}
+								<form action="{% url 'students:postCreate'%}" method="post" enctype="multipart/form-data" id="createPostForm">
+									<div>
+										<span class="pull-left" style="font-size:22px; font-weight:bold; color:grey;"> New Post </span>
+										<span onclick="closeedit()" class="btn btn-default btn-xs pull-right" style="color:maroon; font-size:20px; padding:2px 8px; border-radius:50px; margin-bottom:10px;"> <i class="fa fa-times"></i></span><br>
+									</div>
+									{% csrf_token %}
+									<div class="inline-margin"></div>
+									<textarea rows="7" id="editor_classiccc" style="display:none;"></textarea>
+									
+									<input type="text" class="form-control" name="title" id="rmposttitle" placeholder="Enter Title">
+									<br>
+									<textarea rows="7" class="form-control" name="description" placeholder="About yourself.."></textarea>
+									<br>
+									{% comment %} 
+							<------------------interest section for creation of post starts here------------------->
+									
+									<div class="row">
+										<div class="col-md-12">
+											<h5><b>Interests</b></h5>
+											{% for interest in interests %}
+											<span onclick="cataddclick(this, {{interest.pk}})" id="catyspan{{interest.pk}}" class="btn btn-default btn-xs" style="background-color:transparent; border:2px solid #383836; border-radius:50px;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
+											{% endfor %}
+										</div>
+									</div>
+									<br>
+									{% for interest in interests %}
+									<input type="checkbox" class="form-control" name="interest" value="{{interest.pk}}" id="catyinput{{interest.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+									{% endfor %}
+							<------------------interest section for creation of post ends here-------------------> 
+								{% endcomment %}
+									
+									<div class="row">
+										<div class="col-md-8">
+											<h5><b>Images</b></h5>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(1)" id="rmpostpreview1" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage1" name="image" accept="image/*" onchange="rmpostimagechange(this, 1)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(2)" id="rmpostpreview2" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;"/><input type="file" id="rmpostimage2" name="image1" accept="image/*" onchange="rmpostimagechange(this, 2)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(3)" id="rmpostpreview3" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage3" name="image2" accept="image/*" onchange="rmpostimagechange(this, 3)" style="display:none;" /></center> </div>
+											<div class="col-md-3"> <center><img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick(4)" id="rmpostpreview4" style="cursor:pointer; width:60px; height:60px; border:2px solid #98d1ec; border-radius:10px;" /><input type="file" id="rmpostimage4" name="image3" accept="image/*" onchange="rmpostimagechange(this, 4)" style="display:none;" /></center> </div>
+										</div>
+										<div class="col-md-6">
+											<div class="pull-right"><br><br>
+												<input type="submit" name="submit" value="Post" class="btn btn-primary" style="border-radius:10px; padding:10px 20px; background-color:rgba(4, 113, 166, 1);" onclick="submit_post()" id="submitpost" />
+											</div>
+										</div>
+									</div>
+									
+									<script>
+										
+										function submit_post()
+										{
+											var postdata = $(".se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable").html();
+											console.log(postdata);
+										}
+
+										$(document).ready(function(){
+											$("#createPostForm").submit(function(event){
+												event.preventDefault();
+												var formValues= new FormData(this);
+												console.log(formValues);
+												$.ajax({
+													url : $(this).attr('action'), // the endpoint
+													type : "POST", // http method
+													data : formValues, // data sent with the post request
+													enctype: 'multipart/form-data',
+													cache:false,
+													contentType: false,
+													processData: false,
+													// handle a successful response
+													success : function(json) {
+														console.log(json); // log the returned json to the console
+														window.location.reload();
+													},
+													// handle a non-successful response
+													error : function(xhr,errmsg,err) {
+														// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+														// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+														console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+													}
+												});
+											});
+										});
+							{% comment %} 
+							<------------------interest section for creation of post click check box function starts here------------------->
+										function cataddclick(dis, id)
+											{
+												
+												var catidcolor = $(dis).css("color");
+												var catid = $(dis);
+												//var catinput = $("#catyinput"+id).css("display");
+												if($("#catyinput"+id).prop('checked') == true) {
+													$("#catyspan"+id+"> i").hide();
+													//$("#catyinput"+id).show(500);
+													$("#catyinput"+id).prop('checked', false);
+													$(dis).css({"background-color":"transparent", "color":"black"});
+												} else {
+													$("#catyspan"+id+"> i").show();
+													//$("#catyinput"+id).hide(500);
+													$("#catyinput"+id).prop('checked', true);
+													$(dis).css({"background-color":"#094A66", "color":"#fff"});
+												}
+												
+											}
+							<------------------interest section for creation of post click check box function ends here-------------------> 
+							{% endcomment %}
+							{% comment %}
+							<------------------interest section for update of post click check box function starts here------------------->
+										function cateditclick(dis, id)
+										{
+											
+											var catidcolor = $(dis).css("color");
+											var catid = $(dis);
+											if($("#cateinput"+id).prop('checked') == true) {
+												$("#catespan"+id+"> i").hide();
+												$("#cateinput"+id).prop('checked', false);
+												$(dis).css({"background-color":"transparent", "color":"black"});
+											} else {
+												$("#catespan"+id+"> i").show();
+												$("#cateinput"+id).prop('checked', true);
+												$(dis).css({"background-color":"#094A66", "color":"#fff"});
+											}
+											
+										}
+							<------------------interest section for updation of post click check box function ends here------------------->
+							 {% endcomment %}
+									</script>
+								</form>
+							</div>
+							<br>
+							{% comment %} {% endif %} {% endcomment %}
+							<div style="min-height:615px;">
+								<div class="" style="border-top:2px solid #fff; padding-top:10px; font-weight:bold;"> 
+								<h3><b>All Posts</b></h3>
+								{% comment %} 								
+								 <------- interest filters starts here ------->
+									<a style="text-decoration: none;"  href="{% if currentpreferences %}{% url 'students:roommatesPreference' currentpreferences.preferenceSlug %} {% else %}{% url 'students:roommates' %}{% endif %}">
+										<span 
+											class="btn btn-default btn-xs filtercontainer 
+											{% if not filtinterest %}
+												filterinterestactive
+											{% endif %}
+											"
+										>
+										All
+										</span>
+									</a>
+									{% load extraTags %}
+									{% for interest in interests %}
+										<a style="text-decoration: none;" href="?fil={{interest.pk|filterurl:filtinterest}}">
+											<span class="btn btn-default btn-xs filtercontainer 
+												{% if interest.pk|filterclass:filtinterest %}
+													filterinterestactive
+												{% endif %}
+												"
+											>
+												{{interest}}
+											</span>
+										</a>
+									{% endfor %} 
+									<------- interest filters ends here ------->
+									{% endcomment %}
+								</div>
+								<br>
+								{% for object in object_list %}
+								
+									<div class="panel panel-default postspanel catpanel1" id="postid{{ object.pk }}" onclick="viewpostdetails(this)" data-postid="{{ object.pk }}" data-url="{% url 'students:postDetail' object.pk %}" data-commenturl="{% url 'students:commentCreate' object.pk %}" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									<form action="{% url 'students:postUpdate' object.pk %}" method="POST" enctype="multipart/form-data" id="updatePostForm{{object.pk}}">
+										<div class="panel-body" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; padding-bottom: 0px;">
+											<div class="row" style="color:#565555">
+												<div class="col-md-1">
+													<img 
+														src="
+														{% if object.student.profilePicture %}
+														{{object.student.profilePicture.url}} 
+														{% else %}
+														https://xeroneit.net/upload/profile/20.jpg
+														{% endif %}
+														" 
+														style="width:35px; height:35px; border-radius:100px; border:3px solid grey;" 
+													/>
+												</div>
+												<div class="col-md-10">
+													<h5> 
+														&nbsp; &nbsp; 
+														<b>{{object.student.user.user.first_name|title}} {{object.student.user.user.last_name|title}}</b>
+														&nbsp;
+														{% for interest in object.student.interests.all %}
+														<span class="btn btn-default btn-xs" style="display:none; color:#fff; background-color:rgba(4, 113, 166, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> &nbsp; {{interest}} &nbsp; </span>
+		<style>
+	.chatnowbtn:hover { background-color:rgba(15, 73, 140, 0.1); }
+</style>												{% endfor %}
+
+														{% if user != object.student.user.user %}
+															{% load extraTags %}
+															{% get_friend_status object.student as friendStatus %}
+																{% if friendStatus.status == "Friends" %}
+																	
+<a href="{% url 'chat:room' friendStatus.url %}" class="chatnowbtn" style="border:1px solid #0f498c; border-radius:10px; padding:7px; text-decoration:none; color:grey; font-weight:bold;"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /> Chat now</a>
+																{% elif friendStatus.status == "FriendRequestSent" %}
+																	<a><img src="https://cdn.iconscout.com/icon/premium/png-256-thumb/pending-2820831-2340793.png" style="width:25px; height:25px;" /></a>
+																{% else %}
+											
+<a href="{% url 'chat:message_request_update' object.student.user.user 'roommates' %}" class="chatnowbtn" style="border:1px solid #0f498c; border-radius:10px; padding:7px; text-decoration:none; color:grey; font-weight:bold;"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" /> Request Chat</a>
+																{% endif %}
+														{% endif %}
+														<span class="pull-right" style="margin-top:-10px;">
+															{% if object.student.instaLink %}
+															<a href="{{object.student.instaLink}}" style="text-decoration:none;" target="blank">
+																<img onmouseover="hoverinsta(this)" onmouseleave="leaveinsta(this)" src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:33px; height:25px;" />
+															</a>
+															&nbsp;
+															{% endif %}
+															{% if object.student.fbLink %}
+															<a href="{{object.student.fbLink}}" style="text-decoration:none;" target="blank">
+																<img onmouseover="hoverfb(this)" onmouseleave="leavefb(this)" src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:27px; height:22px;" />
+															</a>
+															{% endif %}
+															{% if object.student.twitterLink %}
+															<a href="{{object.student.twitterLink}}" style="text-decoration:none;" target="blank">
+																<img onmouseover="hovertwitter(this)" onmouseleave="leavetwitter(this)" src="https://i.pinimg.com/originals/88/69/9b/88699b2ec3b3164abaf20a23e20ed935.png" style="width:25px; height:20px;" />
+															</a>
+															{% endif %}
+														</span>
+													</h5>
+												</div>
+												<!--div class="col-md-4">
+													<div class="pull-rightt">
+														<a href="#" style="text-decoration:none;">
+															<img onmouseover="hoverinsta(this)" onmouseleave="leaveinsta(this)" src="https://www.transparentpng.com/thumb/instagram-logo-icon/yVnfo1-instagram-logo-photo-icon.png" style="width:30px; height:25px;" />
+														</a>
+														&nbsp;
+														<a href="#" style="text-decoration:none;">
+															<img onmouseover="hoverfb(this)" onmouseleave="leavefb(this)" src="https://www.starpng.com/public/uploads/small/facebook-png-transparent-background-13-11577996684jrmznanrqlu1fzgvi64nobf3dzsbtxyqpmcaqhqaapvtwvzu3zlpktxrzmoaygu344mhko3vtodrrv08nikq4q0vbpzzni1uyuwu.png" style="width:30px; height:25px;" />
+														</a>
+														<a href="#" style="text-decoration:none;">
+															<img onmouseover="hovertwitter(this)" onmouseleave="leavetwitter(this)" src="https://i.pinimg.com/originals/88/69/9b/88699b2ec3b3164abaf20a23e20ed935.png" style="width:30px; height:25px;" />
+														</a>
+													</div>
+													<script>
+														function hoverinsta(dis)
+														{
+															$(dis).css({"width":"55px", "height":"40px"});
+														}
+														function leaveinsta(dis)
+														{
+															$(dis).css({"width":"40px", "height":"28px"});
+														}
+														
+														function hoverfb(dis)
+														{
+															$(dis).css({"width":"35px", "height":"35px"});
+														}
+														function leavefb(dis)
+														{
+															$(dis).css({"width":"25px", "height":"25px"});
+														}
+														
+														function hovertwitter(dis)
+														{
+															$(dis).css({"width":"40px", "height":"35px"});
+														}
+														function leavetwitter(dis)
+														{
+															$(dis).css({"width":"30px", "height":"25px"});
+														}
+													</script>
+												</div-->
+												
+												<!--div class="row" style="padding-bottom:10px; width:100%;">
+													<div class="col-md-1"></div>
+													<div class="col-md-11">
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:#fff;
+														background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Tobacco Usage &nbsp; | &nbsp; Weekly </span>
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Alcohol Usage &nbsp; | &nbsp; Occasionally </span>
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:#fff; background-color:rgb(4, 113, 166); border-radius:20px;"> &nbsp; Cleanliness &nbsp; | &nbsp; Daily </span>
+													</div>
+													<br>
+												</div-->
+												
+												<!--div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
+													<div class="col-md-1"></div>
+													<div class="col-md-11">
+														&nbsp; &nbsp;
+														<span class="btn btn-default btn-xs" style="color:grey;
+														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Sleep Schedule | 10:00 pm - 06:00 am </span>
+														&nbsp;
+														<span class="btn btn-default btn-xs" style="color:grey;
+														background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"> &nbsp; Study Hours | 09:00 am - 03:00 pm </span>
+													</div>
+												</div-->
+												
+												<div class="col-md-12"><br>
+													<h4 class="postkeyviewfields{{object.pk}}"><b>{{object.title|title}}</b></h4>
+													<h4 class="postkeyeditfields{{object.pk}}" style="display:none;">
+														<input type="text" name="title" id="edit_rmposttitle_{{object.pk}}" class="form-control" value="{{object.title|title}}" placeholder="Enter Title" style="border-radius:50px; padding:5px 10px;">
+													</h4>
+													
+													<p class="postkeyviewfields{{object.pk}}">{{object.description|striptags}}</p>
+													<p class="postkeyeditfields{{object.pk}}" style="display:none;">
+														<textarea rows="5" class="form-control" name="description" id="edit_rmpostdesc_{{object.pk}}" placeholder="About yourself.." style="border-radius:20px;">{{object.description|title}}</textarea>
+													</p>
+													
+													<div class="postkeyeditfields{{object.pk}}" style="display:none; padding-bottom:50px;">
+														<h5><b>Images</b></h5>
+														<div class="col-md-12"> 
+															<center>
+																{% if object.image %}
+																	<img src="{{object.image.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}1)" id="rmpostpreview{{object.pk}}1" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}1" name="image" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}1)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}1)" id="rmpostpreview{{object.pk}}1" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}1" name="image" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}1)" style="display:none;" />
+																{% endif %}
+																{% if object.image1 %}
+																	<img src="{{object.image1.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}2)" id="rmpostpreview{{object.pk}}2" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;"/><input type="file" id="rmpostimage{{object.pk}}2" name="image1" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}2)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}2)" id="rmpostpreview{{object.pk}}2" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}2" name="image1" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}2)" style="display:none;" />
+																{% endif %}
+																{% if object.image2 %}
+																	<img src="{{object.image2.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}3)" id="rmpostpreview{{object.pk}}3" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}3" name="image2" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}3)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}3)" id="rmpostpreview{{object.pk}}3" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}3" name="image2" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}3)" style="display:none;" />
+																{% endif %}
+																{% if object.image3 %}
+																	<img src="{{object.image3.url}}" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}4)" id="rmpostpreview{{object.pk}}4" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}4" name="image3" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}4)" style="display:none;" />
+																{% else %}
+																	<img src="https://image.freepik.com/free-vector/illustration-touch-screen-hand-gesture_53876-5607.jpg" class="rmnewpostimages" onclick="rmpostimageclick({{object.pk}}4)" id="rmpostpreview{{object.pk}}4" style="cursor:pointer; width:40px; height:40px; border:2px solid #98d1ec; border-radius:10px; margin-left:10px; margin-right:10px;" /><input type="file" id="rmpostimage{{object.pk}}4" name="image3" accept="image/*" onchange="rmpostimagechange(this, {{object.pk}}4)" style="display:none;" />
+																{% endif %}
+															</center> 
+														</div>
+													</div>
+											{% comment %} <-------------------- interest selection for update post starts here --------------------> 
+													{% for interest in interests %}
+														<span onclick="cateditclick(this, {{interest.pk}})" id="catespan{{interest.pk}}" class="btn btn-default btn-xs postkeyeditfields{{object.pk}}" style="background-color:transparent; border:2px solid #383836; border-radius:50px; display:none;"> <i class="fa fa-check" style="display:none;"></i> {{interest}} </span> &nbsp;
+													{% endfor %}
+													{% for interest in interests %}
+													<input type="checkbox" class="form-control" name="interest" value="{{interest.pk}}" id="cateinput{{interest.pk}}" placeholder="Enter here" style="display:none; margin-top:10px;"/>
+													{% endfor %}
+											<-------------------- interest selection for update post starts here -------------------->  {% endcomment %}
+
+												</div>
+												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px; background-color:#0f498c; border-bottom-left-radius:7px; border-bottom-right-radius:7px; padding-bottom:5px;">
+													<div class="pull-left">
+													<style>
+														.postlikei { color:silver; }
+														.userliked { color:red; }
+													</style>
+														<span href="#"><i class="fa fa-heart postlikei
+															{% for heart in object.heart.all  %}
+																{% if heart.user.user == user %}
+																	userliked
+																{% endif %}
+															{% endfor %}" style="font-size:17px;" onclick="postlikeclick(this)" data-url="{% url 'students:addRemoveHeart' object.pk %}"></i> <b class="totalhearts" style="font-size:16px; color:silver;">{{object.totalHearts}}</b></span>
+													</div>
+													<div class="pull-right">
+														<!--a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a-->
+														{% if user == object.student.user.user %}
+														<span class="pull-right">
+															<i class="fa fa-edit btn btn-primary btn-sm postkeyviewfields{{object.pk}}" onclick="edit_my_post(this, {{object.pk}})" data-editurl=""  style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:16px; cursor:pointer;"></i>
+															<input type="submit" name="submit" value="Update" class="btn btn-primary btn-xs postkeyeditfields{{object.pk}}" style="background-color:#044c7e; padding:3px 15px; border-radius:50px; font-size:13px; cursor:pointer; display:none;" />
+															&nbsp;
+															<i class="fa fa-trash btn btn-danger btn-sm" onclick="return delete_my_post(this)" data-deleteurl="{% url 'students:postDelete' object.pk %}" style="background-color:maroon; padding:3px 15px; border-radius:50px;font-size:16px; cursor:pointer;"></i>
+															<script>
+																function edit_my_post(dis, postid)
+																{
+																
+																	$(".postkeyviewfields"+postid).hide();
+																	$(".postkeyeditfields"+postid).show();
+																}
+															
+																$("#updatePostForm{{object.pk}}").submit(function(event){
+																	event.preventDefault();
+																	var formValues= new FormData(this);
+																	const csrftok = getCookie('csrftoken');
+																	console.log(formValues);
+																	$.ajax({
+																		url : $(this).attr('action'), // the endpoint
+																		type : "PUT", // http method
+																		headers: {"X-CSRFToken": csrftok},
+																		data : formValues, // data sent with the post request
+																		enctype: 'multipart/form-data',
+																		cache:false,
+																		contentType: false,
+																		processData: false,
+																		// handle a successful response
+																		success : function(json) {
+																			console.log(json); // log the returned json to the console
+																			window.location.reload();
+																		},
+																		// handle a non-successful response
+																		error : function(xhr,errmsg,err) {
+																			// $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+																			// 	" <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+																			console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+																		}
+																	});
+																});
+															
+																function delete_my_post(dis)
+																{
+																
+																	if(confirm('Are you sure you want to delete this post?') == true) {
+																	
+																		var deleteurl = dis.getAttribute('data-deleteurl');
+																		
+																		const csrftok = getCookie('csrftoken');
+																			console.log(csrftok);
+																			$.ajax({
+																				url: deleteurl,
+																				type: 'DELETE',
+																				headers: {"X-CSRFToken": csrftok},
+																				success: function(){
+																					console.log('Post deleted!');
+																					location.reload();
+																				},
+																				error: function() {
+																					console.log('Failed to delete post!');
+																				}
+																			});
+																	} else {
+																		return false;
+																	}
+																}
+															</script>
+														</span>
+														{% endif %}
+													</div>
+												</div>
+											</div>
+										</div>	
+									</div>
+									</form>
+									
+									{% empty %}
+										<center><hr><h4 style="color:grey;"><br><br> No posts yet</h4></center>
+									{% endfor %}
+								
+									{% comment %} <div class="panel panel-default postspanel catpanel1" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+										<div class="panel-body">
+											<div class="row" style="color:#565555;">
+												<div class="col-md-2">
+													<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+												</div>
+												<div class="col-md-6">
+													<h5><b> Johnson </b></h5>
+													<h6>johnson1@email.com</h6>
+												</div>
+												<div class="col-md-4">
+													<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 1 </span>
+												</div>
+												<br>
+												<div class="col-md-12" style="max-height:180px;">
+													<h3>Test Heading</h3>
+													<h4>Test Head 2	</h4>
+													<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+												</div>
+												<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+													<div class="pull-left">
+														<a href="#"><i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i></a>
+													</div>
+													<div class="pull-right">
+														<a href="#"><i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i></a>
+													</div>
+												</div>	
+											</div>
+										</div>	
+									</div>
+									
+									<div class="panel panel-default postspanel catpanel2" style="cursor:pointer; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+									
+									<div class="panel-body">
+										<div class="row" style="color:#565555">
+											<div class="col-md-2">
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:75%; border-radius:100px; border:3px solid grey;" />
+											</div>
+											<div class="col-md-6">
+												<h5><b> Test User 1 </b></h5>
+												<h6>testuser1@email.com</h6>
+											</div>
+											<div class="col-md-4">
+												<span class="pull-right btn btn-default btn-sm" style="color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px;"> Category 2 </span>
+											</div>
+											<br>
+											<div class="col-md-12" style="max-height:180px;">
+												<h3>Test Heading</h3>
+												<h4>Test Head 2	</h4>
+												<p>Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum </p>
+											</div>
+											<div class="col-md-12" style="border-top:1px solid #e2e2e2; padding-top:10px;">
+												<div class="pull-left">
+													<i class="fa fa-heart" style="font-size:22px; color:silver;" onclick="likeclick(this)"></i>
+												</div>
+												<div class="pull-right">
+													<i class="fa fa-commenting" style="font-size:22px; color:silver;" onclick="commentclick(this)"></i>
+												</div>
+											</div>			
+										</div>
+									</div>	
+								</div> {% endcomment %}
+							</div>
+						</div>
+						
+						<div class="col-md-6" style="max-height:700px; overflow-y:scroll;">
+							
+							<div class="panel panel-default" id="viewpostdetails" style="display:none; border-radius:10px; background-color:rgba(255, 255, 255, 0.7);">
+							
+								<span class="pull-right"><i class="fa fa-times" style="color:maroon; cursor:pointer;" onclick="closeviewpost()"></i> &nbsp; </span>
+							
+								<div class="panel-body" style="min-height:630px;">
+									<div class="row panelrow" style="color:#565555">
+										<div class="col-md-1 imgcol" style="text-align:center;">
+											<img src="#" class="pull-right" style="width:40px; height:40px; border-radius:100px; border:3px solid grey;" />
+										</div>
+										<div class="col-md-3 userheadcol">
+											<h5><b></b></h5>
+											<h6></h6>
+										</div>
+										
+										<div class="col-md-2" style="margin-top:5px;">
+											<span class="req_open_chat"></span>
+										</div>
+										
+										<div class="col-md-6 usercaty" style="margin-top:5px;"></div>
+										
+										
+										<div class="col-md-12 userhabits">
+											<div class="row" style="padding-bottom:10px; width:100%;">
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; padding:3px;
+													background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Tobacco Usage &nbsp; | &nbsp; <span class="tobaccousagevalue">N/A</span> </span>
+												</div>
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Alcohol Usage &nbsp; <i class="fa fa-glass"></i> &nbsp; <span class="alcoholusagevalue">N/A</span> </span>
+												</div>
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Cleanliness &nbsp; <i class="fa fa-shower"></i> &nbsp; <span class="cleanlinessvalue">N/A</span> </span>
+												</div>
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="margin-top:5px; color:#fff; background-color:rgb(4, 113, 166); border-radius:20px; width:100%;"> Guests &nbsp; <i class="fa fa-users"></i> &nbsp; <span class="guestsvalue">N/A</span> </span>
+												</div>
+												<br>
+											</div>
+										</div>
+										
+										<div class="col-md-12 userschedule" style="border-top:1px solid #e2e2e2; padding-top:10px;">	
+											<div class="row" style="border-bottom:1px solid #e2e2e2; padding-bottom:10px; width:100%;">
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
+													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Sleep Schedule </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; <span class="sleepschedulevalue">N/A</span> </span>
+												</div>
+												
+												<div class="col-md-6">
+													<span class="btn btn-default btn-xs" style="width:100%; color:grey;
+													background-color:rgb(232, 232, 232, 0.1); border-radius:20px;"><b> Study Hours </b>&nbsp; <i class="fa fa-clock-o"></i> &nbsp; <span class="studyhoursvalue">N/A</span> </span>
+												</div>
+											</div>
+												
+										</div>
+										
+										<div class="col-md-12 usercontent" style="border-top:2px solid #fff;">
+											<h4>
+												<b class="usertitle pull-left"></b>
+												<b class="userlikes pull-right"></b>
+											</h4>
+											<br><br>
+											<p class="userdesc"></p>
+											<hr>
+											<h4><b>Photos</b></h4>
+											<div class="userimgs"></div>
+										</div>
+										
+										<div class="col-md-12" style="padding-top:10px;">
+											<hr>
+											
+											<br>
+											<span class="btn btn-primary btn-sm pull-right" id="commentsubmit" onclick="addcomment(this)" data-url="#" data-postid="#" style="background-color:#044C7E;">Submit</span>
+											
+											<h4>Comments</h4><hr>
+											<input type="hidden" id="thisusername" value="{{user}}" />
+											<div class="col-md-12" id="prevcomments" ><span style="color:silver; text-align:center;">No comments yet</span></div>
+										
+
+<textarea rows="1" id="commenttext" onclick="expandcomment(this)" class="form-control" placeholder="Write your comment.." style="border-radius:15px;"></textarea>
+										</div>
+										
+									</div>
+								</div>
+								
+							</div>
+							
+						</div>
+						
+						<script>
+							function expandcomment(dis)
+							{
+								dis.setAttribute('rows', 4);
+							}
+							
+							function getCookie(name) {
+								let cookieValue = null;
+								if (document.cookie && document.cookie !== '') {
+									const cookies = document.cookie.split(';');
+									for (let i = 0; i < cookies.length; i++) {
+										const cookie = cookies[i].trim();
+										// Does this cookie string begin with the name we want?
+										if (cookie.substring(0, name.length + 1) === (name + '=')) {
+											cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+											break;
+										}
+									}
+								}
+								return cookieValue;
+							}
+							
+							function addcomment(dis)
+							{
+							
+								var url = dis.getAttribute('data-url');
+								var postid = dis.getAttribute('data-postid');
+								var cmt = $("#commenttext").val();
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(csrftok);
+								
+								$.ajax({
+									url: url,
+									type: 'POST',
+									data: {comment: cmt},
+									headers: {"X-CSRFToken": csrftok},
+									success: function(res){
+										console.log(res);
+										
+										$("#postid"+postid).click();
+										
+										/*var prevcmtdata = $("#prevcomments > span").text();
+										
+										var cmthtml = "<div style='margin-top:5px; padding:10px; background-color:rgba(201, 233, 246, 0.3); border-radius:10px;' class='col-md-12'><h5><img src='"+res.student.image+"' style='width:40px; height:40px; border-radius:100px; border:2px solid grey;' /><b> &nbsp; "+res.student.username+" </b><small style='color:grey; font-size:10px;'> just now</small><small class='pull-right'><i class='fa fa-edit' onclick='delete_comment(this)' style='font-size:17px; color:blue;'></i> &nbsp; <i class='fa fa-trash' onclick='delete_comment(this)' style='font-size:17px; color:maroon;'></i> </small></h5><p style='padding-left:15%;'>"+res.comment+"</p></div><br><br>";
+								
+											if(prevcmtdata == 'No comments yet') {
+												$("#prevcomments").html(cmthtml);
+											} else {
+												$("#prevcomments").append(cmthtml);
+											}
+										
+										$("#commenttext").val('');
+										*/
+										
+									}
+								});
+								
+								/*
+								var cmthtml = "<div style='margin-top:5px; padding:10px; background-color:#ECECEC; border-radius:10px;' class='col-md-12'><h5 style='color:silver;'><img src='https://xeroneit.net/upload/profile/20.jpg' style='width:7%; border-radius:100px; border:2px solid grey;' /><b> &nbsp; You </b><small style='color:grey; font-size:10px;'> just now</small><small class='pull-right'><i class='fa fa-trash' onclick='delete_comment(this)'></i></small></h5><p style='padding-left:15%;'>"+cmt+"</p></div><br><br>";
+								
+									if(prevcmtdata == 'No comments yet') {
+										$("#prevcomments").html(cmthtml);
+									} else {
+										$("#prevcomments").append(cmthtml);
+									}
+								
+								$("#commenttext").val('');
+								*/
+								
+							}
+							
+							function updatecomment(dis)
+							{
+							
+								var url = dis.getAttribute('data-url');
+								var cmt = $("#commenttext").val();
+								
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(csrftok);
+								
+								console.log(url);
+								console.log(cmt);
+								$.ajax({
+									url: url,
+									type: 'POST',
+									data: {comment: cmt},
+									success: function(res){
+										console.log(res);
+									}
+								});
+								
+							}
+							
+							function deletecomment(dis)
+							{
+							
+								var url = dis.getAttribute('data-url');
+								var cmt = $("#commenttext").val();
+								
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(csrftok);
+								
+								$.ajax({
+									url: url,
+									type: 'POST',
+									data: {comment: cmt},
+									success: function(res){
+										console.log(res);
+									}
+								});
+								
+							}
+							
+							/*$(".postspanel").click(function(){
+								$("#viewpostdetails").hide(300);
+								$("#viewpostdetails").show(300);
+							});*/
+							
+							function viewpostdetails(dis)
+							{
+								var url = dis.getAttribute('data-url');	
+								var cmnturl = dis.getAttribute('data-commenturl');	
+								var postid = dis.getAttribute('data-postid');	
+								
+								$.ajax({
+									url: url,
+									success: function(res){
+										console.log(res);
+										$("#viewpostdetails > .panel-body > .panelrow > .imgcol > img").attr('src', res.student.image);
+										$("#viewpostdetails > .panel-body > .panelrow > .userheadcol > h5 > b").html(res.student.name);
+										$("#viewpostdetails > .panel-body > .panelrow > .userheadcol > h6").html(res.student.email);
+function tConvert (timeString) {
+	  var timeString12hr = new Date('1970-01-01T' + timeString + 'Z')
+	  .toLocaleTimeString({},
+		{timeZone:'UTC',hour12:true,hour:'numeric',minute:'numeric'}
+	  );
+	  return timeString12hr; 
+	}
+
+	if(res.student.sleepScheduleFrom) {
+		var ssfrom = tConvert (res.student.sleepScheduleFrom);
+	} else {
+		var ssfrom = '~';
+	}
+	if(res.student.sleepScheduleTo) {
+		var ssto = tConvert (res.student.sleepScheduleTo);
+	} else {
+		var ssto = '~';
+	}
+	if(res.student.studyHourFrom) {
+		var shfrom = tConvert (res.student.studyHourFrom);
+	} else {
+		var shfrom = '~';
+	}
+	if(res.student.studyHourTo) {
+		var shto = tConvert (res.student.studyHourTo);
+	} else {
+		var shto = '~';
+	}
+
+										$(".tobaccousagevalue").html(res.student.tobaccoUsage);
+										$(".alcoholusagevalue").html(res.student.alcoholUsage);
+										$(".cleanlinessvalue").html(res.student.cleanliness);
+										$(".guestsvalue").html(res.student.guests);
+										$(".sleepschedulevalue").html(ssfrom+' - '+ssto);
+										$(".studyhoursvalue").html(shfrom+' - '+shto);
+
+										
+										if(res.student.friendStatus.status == 'Friends') {
+											
+											var url = "/chat/room/"+res.student.friendStatus.url+"/";
+											var chat_req_icon = '<a href="'+url+'" style="color:grey;"><img src="https://primedepartamentos.com/images/icons/chat-icon.png" style="width:25px; height:25px;" /> Chat now</a>';
+											
+											$(".req_open_chat").html(chat_req_icon);
+											
+										} else if(res.student.friendStatus.status == 'NotFriends') {
+											
+											var url = "/chat/message_request/"+res.student.username+"/roommates/";
+											var chat_req_icon = '<a href="'+url+'" style="color:grey;"><img src="https://cdn3.iconfinder.com/data/icons/pretty-office-part-9-shadow-style-2/256/Comment-add.png" style="width:25px; height:25px;" />Request Chat</a>';
+											
+											$(".req_open_chat").html(chat_req_icon);
+											
+										} else if(res.student.friendStatus.status == 'FriendRequestSent') {
+											
+											var chat_req_icon = '<a href="#"><img src="https://cdn4.iconfinder.com/data/icons/fintech-solutions-filled-outline/24/pending_time_clock_watch_timer-512.png" style="width:25px; height:25px;" /></a>';
+											
+											$(".req_open_chat").html(chat_req_icon);
+											
+										} else if(res.student.friendStatus.status == 'CurrentUser') {
+											var chat_req_icon = '';
+											
+											$(".req_open_chat").html(chat_req_icon);
+										} else {
+										
+										}										
+										var catyhtml = '';
+
+										{% comment %} $.each(res.interest, function(i, item) {
+											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span><br>';
+											
+											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
+											
+										}); {% endcomment %}
+										
+										$.each(res.student.interest, function(i, item) {
+											catyhtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span>';
+											
+											$("#viewpostdetails > .panel-body > .panelrow > .usercaty").html(catyhtml);
+										});
+										$("#viewpostdetails > .panel-body > .panelrow > .usercontent > h4 > .usertitle").html(res.title);
+										$("#viewpostdetails > .panel-body > .panelrow > .usercontent > h4 > .userlikes").html('<i class="fa fa-heart" style="color:maroon;"></i>&nbsp;'+res.totalHearts);
+										let description = new DOMParser().parseFromString(res.description, 'text/html');
+										$("#viewpostdetails > .panel-body > .panelrow > .usercontent > .userdesc").text(description.body.textContent);
+										
+										var imgs = '';
+										
+										if(res.image != null) {
+											imgs += '<img class="userimg" onclick="viewpostimage(this)" src="'+res.image+'" data-imgsrc="'+res.image+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
+										}
+										if(res.image1 != null) {
+											imgs += '<img class="userimg1" onclick="viewpostimage(this)" src="'+res.image1+'" data-imgsrc="'+res.image1+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
+										}
+										if(res.image2 != null) {
+											imgs += '<img class="userimg2" onclick="viewpostimage(this)" src="'+res.image2+'" data-imgsrc="'+res.image2+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
+										}
+										if(res.image3 != null) {
+											imgs += '<img class="userimg3" onclick="viewpostimage(this)" data-imgsrc="'+res.image3+'" src="'+res.image3+'" style="width:60px; height:60px; border-radius:5px; margin:5px; cursor:pointer;">';
+										}
+										
+										$("#viewpostdetails > .panel-body > .panelrow > .usercontent > .userimgs").html(imgs);
+										
+										$("#commentsubmit").attr('data-url', cmnturl);
+										$("#commentsubmit").attr('data-postid', postid);
+										
+										var prevcmtdata = $("#prevcomments > span").text();
+									
+										var cmntlisting = '';
+										$.each(res.comments, function(i, item) {
+										
+											var commentupdatedeleteurl = "/roommates/comment/"+item.id+"/";
+											var addreplyurl = "/roommates/comment/"+item.id+"/reply/create/";
+											
+											var replies = "";
+											console.log(item.commentreply);
+											$.each(item.commentreply, function(key, val) {
+											
+												var replyupdatedeleteurl = "/roommates/reply/"+val.id+"/";
+												
+												replies += '<div class="col-md-1"></div><div class="col-md-11"><p><img src="'+val.student.image+'" style="border-radius:50px; width:25px; height:25px;"/> &nbsp; <b>'+val.student.username+'</b><br><p style="padding-left:15%;" id="replyview'+val.id+'">'+val.reply+'</p> &nbsp; <i class="fa fa-edit" onclick="editmyreply(this)" data-pkid="'+val.id+'"></i> <i class="fa fa-trash" onclick="deletemyreply(this)" data-pkid="'+val.id+'" data-replydelurl="'+replyupdatedeleteurl+'" data-postid="'+postid+'"></i><br><br><span id="replyeditinput'+val.id+'" style="display:none;" ><textarea class="form-control" id="replyedittextarea'+val.id+'">'+val.reply+'</textarea><i class="fa fa-check btn btn-primary btn-sm pull-right" onclick="update_reply(this)" data-replyurl="'+replyupdatedeleteurl+'" data-pkid="'+val.id+'" data-postid="'+postid+'"></i></span></p></div>';
+											});
+											
+											if(replies == '') { var display_replies = 'display:none;'; }  else { var display_replies = 'display:inline;'; }
+											
+											var logusername = $("#thisusername").val();
+											
+											if(logusername == item.student.username) {
+											
+												var useroptions = "<small class='pull-right'><i class='fa fa-edit' onclick='edit_comment(this)' data-pkid='"+item.id+"' data-cudurl='"+commentupdatedeleteurl+"' style='font-size:17px; color:grey;'></i> &nbsp; <i class='fa fa-trash' onclick='delete_comment(this)' data-pkid='"+item.id+"' data-cudurl='"+commentupdatedeleteurl+"' style='font-size:17px; color:grey;'></i> </small>";
+												
+											} else {
+												var useroptions = "";
+											}
+											
+											cmntlisting += "<div style='margin-top:5px; padding:10px; background-color:rgba(201, 233, 246, 0.2); border-radius:10px;' class='col-md-12'><h5><img src='"+item.student.image+"' style='width:40px; height:40px; border-radius:100px; border:2px solid grey;' /><b> &nbsp; "+item.student.username+" </b><small style='color:grey; font-size:10px;'> just now</small>"+useroptions+"</h5><p class='commentview"+item.id+"' style='padding-left:15%;'>"+item.comment+" &nbsp; &nbsp; <i class='fa fa-reply' onclick='addreplies(this)' data-pkid='"+item.id+"' ></i><span class='replyinput"+item.id+"' style='display:none;'><br><br><textarea class='form-control' id='addreplytext"+item.id+"' placeholder='Reply here..'></textarea><i class='fa fa-check btn btn-primary btn-sm pull-right' onclick='submitreplies(this)' data-pkid='"+item.id+"' data-postid='"+postid+"' data-addreplyurl='"+addreplyurl+"'></i></span></p><p class='commentinput"+item.id+"' style='display:none;'><textarea type='text' class='form-control' id='commentedittext"+item.id+"' placeholder='Enter comment..'>"+item.comment+"</textarea><span class='btn btn-default btn-sm pull-right' onclick='cancel_comment_update(this)' data-pkid='"+item.id+"' style='font-size:12px;'><i class='fa fa-times'></i></span>&nbsp;<span class='btn btn-primary btn-sm pull-right' onclick='update_comment(this)' data-cudurl='"+commentupdatedeleteurl+"' data-pkid='"+item.id+"' style='font-size:12px;'><i class='fa fa-check'></i></span></p><span class='pull-right' onclick='viewreplies(this)' data-pkid='"+item.id+"' style='"+display_replies+"font-size:11px; color:grey; text-align:center; cursor:default;'>view replies</span><div class='replies replysec"+item.id+"' style='display:none;'><br>"+replies+"</div></div><br><br>";
+										});
+											if(prevcmtdata == 'No comments yet') {
+												$("#prevcomments").html(cmntlisting);
+											} else {
+												$("#prevcomments").html(cmntlisting);
+											}
+										
+										$("#commenttext").val('');
+										
+										
+										/*var commentshtml = '';
+										$.each(res.interest, function(i, item) {
+											commentshtml += '<span class="pull-right btn btn-default btn-sm" style="cursor:auto; color:#fff; background-color:rgba(13, 118, 170, 0.5); border-top-left-radius:20px; border-bottom-right-radius:20px; margin-top:3px;  font-size:10px;"> '+ item +' </span><br>';
+											
+											$("#prevcomments").html(commentshtml);
+										});*/
+										
+										
+									},
+									error: function()
+									{
+										console.log('something went wrong');
+									}
+								});
+								
+								$("#viewpostdetails").hide(300);
+								$("#viewpostdetails").show(300);
+							}
+							
+							function viewreplies(dis)
+							{
+								var id = dis.getAttribute('data-pkid');
+								$(".replies").hide();
+								$(".replysec"+id).show();
+								$(this).hide();
+							}
+							
+							function edit_comment(dis)
+							{
+								var id = dis.getAttribute('data-pkid');
+								$(".commentview"+id).hide();
+								$(".commentinput"+id).show();
+								$(".commentinput"+id).focus();
+							}
+							
+							function editmyreply(dis)
+							{
+								var id = dis.getAttribute('data-pkid');
+								$("#replyview"+id).hide();
+								$("#replyeditinput"+id).show();
+							}
+							
+							function update_comment(dis)
+							{
+								var url = dis.getAttribute('data-cudurl');
+								var disid = dis.getAttribute('data-pkid');
+								var cmnt = $("#commentedittext"+disid).val();
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(csrftok);
+								
+								$.ajax({
+									url: url,
+									type: 'PUT',
+									data: {comment: cmnt},
+									headers: {"X-CSRFToken": csrftok},
+									success: function(res){
+										console.log(res);
+										
+										$(".commentview"+disid).html(res.comment);
+										$(".commentinput"+disid).hide();
+										$(".commentview"+disid).show();
+	
+									}
+								});
+								
+							}
+							
+							function update_reply(dis)
+							{
+								var url = dis.getAttribute('data-replyurl');
+								var disid = dis.getAttribute('data-pkid');
+								var postid = dis.getAttribute('data-postid');
+								var reply = $("#replyedittextarea"+disid).val();
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(csrftok);
+								
+								$.ajax({
+									url: url,
+									type: 'PUT',
+									data: {reply: reply},
+									headers: {"X-CSRFToken": csrftok},
+									success: function(res){
+										console.log(res);
+										$("#postid"+postid).click();
+										/*$(".commentview"+disid).html(res.comment);
+										$(".commentinput"+disid).hide();
+										$(".commentview"+disid).show();*/
+	
+									}
+								});
+								
+							}
+							
+							function delete_comment(dis)
+							{
+								var url = dis.getAttribute('data-cudurl');
+								var disid = dis.getAttribute('data-pkid');
+								var cmnt = $("#commentedittext"+disid).val();
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(url);
+								
+								$.ajax({
+									url: url,
+									type: 'DELETE',
+									headers: {"X-CSRFToken": csrftok},
+									success: function(res){
+										console.log(res);
+										$("#postid"+disid).click();
+									}
+								});
+								
+							}
+							
+							function deletemyreply(dis)
+							{
+								var url = dis.getAttribute('data-replydelurl');
+								var disid = dis.getAttribute('data-pkid');
+								var postid = dis.getAttribute('data-postid');
+								
+								const csrftok = getCookie('csrftoken');
+								console.log(url);
+								
+								$.ajax({
+									url: url,
+									type: 'DELETE',
+									headers: {"X-CSRFToken": csrftok},
+									success: function(){
+										$("#postid"+disid).click();
+									}
+								});
+								
+							}
+							
+							function cancel_comment_update(dis)
+							{
+								var id = dis.getAttribute('data-pkid');
+								$(".commentinput"+id).hide();
+								$(".commentview"+id).show();
+							}
+							
+							function addreplies(dis)
+							{
+								var disid = dis.getAttribute('data-pkid');
+								$(".replyinput"+disid).show();
+							}
+							
+							function canceladdreplies(dis)
+							{
+								var disid = dis.getAttribute('data-pkid');
+								$("#replyinput"+disid).hide();
+							}
+							
+							function submitreplies(dis)
+							{
+								var url = dis.getAttribute('data-addreplyurl');
+								var disid = dis.getAttribute('data-pkid');
+								var postid = dis.getAttribute('data-postid');
+								var reply = $("#addreplytext"+disid).val();
+								
+								const csrftok = getCookie('csrftoken');
+								
+								$.ajax({
+									url: url,
+									type: 'POST',
+									data: {reply: reply},
+									headers: {"X-CSRFToken": csrftok},
+									success: function(res){
+										console.log(res);
+										$("#postid"+postid).click();
+										/*$(".commentview"+disid).html(res.comment);
+										$(".commentinput"+disid).hide();
+										$(".commentview"+disid).show();*/
+	
+									}
+								});
+							}
+							
+							function startedit()
+							{								
+								$('#start_writing').hide(700);
+								$('#classic').show(700);
+								$(".se-wrapper-inner.se-wrapper-wysiwyg.sun-editor-editable").focus();
+							}
+							function closeedit()
+							{
+								$('#start_writing').show(500);
+								$('#classic').hide(500);
+							}
+							function closeviewpost()
+							{
+								$("#viewpostdetails").hide(300);
+							}
+						</script>
+
+					
+					</div>
+					<div id="menu1" class="menu1-div" style="display:none;">
+					
+						
+					  <div class="container">
+						  <div class="panel panel-default">									
+							<div class="panel-heading" style="background-color:#094A66; color:#fff;">
+								<h3>
+									&nbsp; &nbsp; <b>Stony Prope Name</b>
+									<!--span class="pull-right"><i class="fa fa-plus" style="font-size:20px;"></i></span-->
+								</h3>
+							</div>								
+							<div class="panel-body">
+								<div class="col-md-3" style="overflow-y:scroll; max-height:400px;">
+									<ul style="list-style-type:none;">
+										<li><h4><b> MEMBERS </b></h4></li>
+										<hr>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Jason
+											</h4><br>
+										</li>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Williams
+											</h4><br>
+										</li>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Watson
+											</h4><br>
+										</li>
+										<li class="active" style="border-bottom:#e2e2e2;">
+											<h4>
+												<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:15%; border-radius:100px; border:3px solid grey;" /> 
+												Miller
+											</h4><br>
+										</li>
+										<br><br>
+									</ul>
+								</div>
+								<div class="col-md-9" style="margin-top:-20px; max-height:400px; overflow-y:scroll;">
+									<br>
+									<div id="usermsgbody">
+									 
+										<small class="pull-left">
+										<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
+										<b style="font-size:17px;">You</b> <i>04:00 pm</i></small><br><br>
+										<div class="msg1" style="max-width:50%; padding-left:35px;">
+											Hello all
+										</div><hr>
+										
+										<small class="pull-left">
+										<img src="https://image.freepik.com/free-vector/businessman-profile-cartoon_18591-58479.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
+										<b style="font-size:17px;">Williams</b> <i>04:05 pm</i></small><br><br>
+										<div class="msg2" style="max-width:50%; padding-left:35px;">
+											Hi How are you?
+										</div><hr>
+										 
+										<small class="pull-left">
+										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" />
+										<b style="font-size:17px;">Jason</b> <i>04:07 pm</i></small><br><br>
+										<div class="msg2" style="max-width:50%; padding-left:35px;">
+											Hi dude. How is it going?
+										</div><hr>
+										
+										<small class="pull-left">
+										<img src="https://xeroneit.net/upload/profile/20.jpg" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
+										<b style="font-size:17px;">You</b> <i>04:10 pm</i></small><br><br>
+										<div class="msg1" style="max-width:50%; padding-left:35px;">											
+											Yeah. I'm good
+										</div><hr>
+										
+										<small class="pull-left">
+										<img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> 
+										<b style="font-size:17px;">Miller</b> <i>04:07 pm</i></small><br><br>
+										<div class="msg1" style="max-width:50%; padding-left:35px;">											
+											Where are you now?
+										</div><hr>
+									</div>
+									
+									<div class="row"><hr><br>
+										<div class="col-md-11">
+											<textarea rows="2" id="group_user_message" class="form-control" placeholder="Type your message.." ></textarea>
+										</div>
+										<div class="col-md-1">
+											<span class="btn btn-primary" onclick="sendgroupmessageclick()" style="padding:15px 5px;">&nbsp; <i class="fa fa-paper-plane"></i> &nbsp;</span>
+										</div>										
+									</div>
+									
+								</div>
+								
+							</div>
+							
+						</div>
+					</div>
+					  
+					
+					</div>
+					<div id="menu2" class="menu2-div" style="display:none;">
+					  
+							<div class="row">
+								<div class="container bg-transparent">
+
+									<div class="row m-0 p-0 position-relativ">
+									  <div class="col-2 position-absolut" style="background-color:#094A66; color:#fff;border-top-left-radius:15px;">
+											<input type="text" placeholder="Search user" class="form-control" style="color:black; border-radius:30px; margin-top:10px;" />
+											<div class="row">
+											<style>
+												.messages-user-list { margin-top:10px; border-top:1px solid grey; padding:0px; width:100%; }
+												.messages-user-list > li { padding:13px 15px; color:#fff; border-bottom:2px solid #08587c; width:100%; border-radius:5px; font-weight:bold; }
+												.messages-user-list > li > img { width:40px; height:40px; border-radius:100px; }
+												.messages-user-list > li:hover { background-color:#08587c; cursor:pointer; }
+											</style>
+											
+												<ul class="messages-user-list" style="list-style-type:none;">
+													<li style="background-color:#0471A6;"><b style="font-size:20px;">Users</b></li>
+													<li onclick="openuserchat(1)"><img src="https://4.bp.blogspot.com/-7lKcs3VI8Kg/WtgJ__1RxaI/AAAAAAAAF9Q/6XFIxYxnGkspQc7-kvDMlzf-8cx0_khewCEwYBhgL/s1600/best%2Bprofile%2Bpics.png"> &nbsp; Johnson </li>
+													<li onclick="openuserchat(2)"><img src="https://www.eharmony.co.uk/dating-advice/wp-content/uploads/2014/01/profile-picture-960x640.jpg"> &nbsp; Williams </li>
+													<li onclick="openuserchat(3)"><img src="https://www.trickscity.com/wp-content/uploads/2018/06/anonymous-dp-for-boys.jpg"> &nbsp; Wilson </li>
+													<li onclick="openuserchat(4)"><img src="https://1.bp.blogspot.com/-d9OLr9Cv3rM/WtgKCNunwZI/AAAAAAAAF9o/DWsQl8XCuaUdr_XBxIyy8Y3hwffhNVfbgCEwYBhgL/s1600/cool%2Bprofile%2Bpics.png"> &nbsp; Taylor </li>
+												</ul>
+											</div>
+									  </div>
+									  <div class="col-10 p-0 m-0 position-absolut" id="chatmessagesdiv" style="right: 0px;">
+										<div class="card border-0 rounded" style="box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.10), 0 6px 10px 0 rgba(0, 0, 0, 0.01); overflow: hidden; height: 80vh;">
+
+										  <div class="card-header p-1 bg-light border border-top-0 border-left-0 border-right-0" style="color: rgba(96, 125, 139,1.0);">
+											
+											<img class="rounded float-left" style="width: 50px; height: 50px;" src="https://i.pinimg.com/736x/5c/24/69/5c24695df36eee73abfbdd8274085ecd--cute-anime-guys-anime-boys.jpg" />
+											
+											<h4 class="float-left" style="margin-top: 13px; margin-left: 10px;" id="chatmessagesname"><b> Miller </b><i class="fa fa-check text-primary" aria-hidden="true"></i> </h4>
+												
+										  </div>
+										
+											<div class="card bg-sohbet border-0 m-0 p-0" id="chatmessagesbody" style="height: 400px; overflow-y: scroll;">
+										  <div id="sohbet" class="card border-0 m-0 p-0 position-relative bg-transparent" style="height: 400px;">
+										
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:20 pm">
+											
+												<a class="float-right"> Hey there! What's up? </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:22 pm">
+											
+												<a class="float-left sohbet2"> Checking out iOS7 you know.. </a>
+											  
+											</div>
+											
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:23 pm">
+											
+												<a class="float-right"> Check out this bubble! </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:26 pm">
+											
+												<a class="float-left sohbet2"> It's pretty cool! </a>
+											  
+											</div>
+											
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:28 pm">
+											
+												<a class="float-right"> Yeah it's pure CSS & HTML </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:33 pm">
+											
+												<a class="float-left sohbet2"> Wow that's impressive. But what's even more impressive is that this bubble is really high. </a>
+											  
+											</div>
+											
+											<div class="balon1 p-2 m-0 position-relative" data-is="You - 3:28 pm">
+											
+												<a class="float-right"> Yeah it's pure CSS & HTML </a>
+											  
+											</div>
+											
+											<div class="balon2 p-2 m-0 position-relative" data-is="Johnson - 3:33 pm">
+											
+												<a class="float-left sohbet2"> Wow that's impressive. But what's even more impressive is that this bubble is really high. </a>
+											  
+											</div>
+											
+										  </div>
+										  </div>
+
+										  <div class="w-100 card-footer p-0 bg-light border border-bottom-0 border-left-0 border-right-0" style="height:100px;">
+											
+												<!--form class="m-0 p-0" action="#" method="POST" autocomplete="off"-->
+								
+												  <div class="row m-0 p-0">
+													<div class="col-11 m-0 p-1">
+													
+														<!--input id="text" class="mw-100 border rounded form-control" type="text" name="text" title="Type a message..." placeholder="Type a message..." required-->
+														
+														<textarea rows="3" class="form-control" id="user_message" placeholder="Type a message..." style="border:none;"></textarea>
+													  
+													</div>
+													<div class="col-1 m-0 p-1">
+														<br>
+														<button onclick="sendmessageclick()" class="btn btn-outline-secondary rounded border w-100" title="Send" style="float:right; border-radius:30px; background-color:#094A66; color:#fff; padding-right: 16px; margin-top:25px; padding:10px;"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+																
+													</div>
+												  </div>
+											
+											<!--/form-->
+												
+										  </div>
+
+										</div>
+									  </div>
+									  
+									</div>
+								  </div>
+
+
+							<!-- Optional JavaScript -->
+								<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+								<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+								<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+								<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+								
+							</div>
+							
+					  
+					</div>
+					<div id="menu3" class="tab-pane fade">
+							
+					</div>
+				  </div>
+				<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+			</div>
+
+
+		</div>
+		
+		<button id="viewImageModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#viewImageModal" style="display:none;"></button>
+
+			<!-- Modal -->
+			<div id="viewImageModal" class="modal fade" role="dialog">
+			  <div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+				  <div class="modal-body">
+					<button type="button" class="close pull-right" data-dismiss="modal">&times;</button>
+					<img src="#" id="viewimageinmodal" style="width:100%; height:500px;"/>
+				  </div>
+				</div>
+
+			  </div>
+			</div>
+		
+
+<button id="habitsmodalbtn" type="button" data-toggle="modal" data-target="#habitsmodal" style="display:none;"></button>
+
+   <!-- Modal -->
+   <div id="habitsmodal" class="modal fade" role="dialog">
+     <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+     <center><h4><b>Living Habits</b></h4></center>
+     <button type="button" class="close" data-dismiss="modal" style="color:red;">&times;</button>
+      </div>
+      <div class="modal-body">
+     <form method="POST" action="#">
+     <style>
+      .lhrows { margin-top:15px; }
+      .form-control { border-radius:50px !important; background-color:rgba(255, 255, 255, 0.2); }
+     </style>
+      <div class="col-md-12">
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b><br>Sleep Schedule</b></p>
+        </div>
+        <div class="col-md-4">
+         <small>From</small>
+         <input type="time" name="sleepschedulefrom" class="form-control" />
+        </div>
+        <div class="col-md-4">
+         <small>To</small>
+         <input type="time" name="sleepscheduleto" class="form-control" />
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b><br>Study Hours</b></p> 
+        </div>
+        <div class="col-md-4">
+         <small>From</small>
+         <input type="time" name="studyhoursfrom" class="form-control" />
+        </div>
+        <div class="col-md-4">
+         <small>To</small>
+         <input type="time" name="studyhoursto" class="form-control" />
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Tobacco Usage</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="tobaccousage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Alcohol Usage</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="alcoholusage" class="form-control" >
+          <option>Never</option>
+          <option>Weekly</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Cleanliness</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="cleanliness" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      
+       <div class="row lhrows">
+        <div class="col-md-4">
+         <p class="step2label"><b>Guests</b></p>
+        </div>
+        <div class="col-md-8">
+         <select name="guests" class="form-control" >
+          <option>Daily</option>
+          <option>Occasionally</option>
+         </select>
+        </div>
+       </div>
+      </div>
+      
+      <div class="row lhrows">
+       <div class="col-md-12">
+        <br><br>
+        <center>
+         <input type="submit" name="submit" value="Submit" class="form-control" style="color:#fff; border-top-left-radius:100px; border-bottom-left-radius:100px; background-color:#003a8c; cursor:pointer; border:none; border-right:1px solid silver;"/>
+        </center>
+        <br>
+       </div>
+      </div>
+     </form>
+      </div>
+    </div>
+
+     </div>
+   </div>
+  
+  <script>
+   function openhabitsmodal()
+   {
+    document.getElementById('habitsmodalbtn').click();
+   }
+   openhabitsmodal();
+  </script>
+
+
+		<script src="{% static '/js/common.js' %}"></script>
+<!-- suneditor -->
+<script src="{% static '/plugins/wysiwyg/dist/suneditor.min.js' %}"></script>
+<!-- codeMirror -->
+<script src="{% static '/plugins/wysiwyg/cdn/codemirror.min.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/htmlmixed.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/xml.js' %}"></script>
+<script src="{% static '/plugins/wysiwyg/cdn/css.js' %}"></script>
+<!-- KaTeX -->
+<script src="{% static '/plugins/wysiwyg/cdn/katex.min.js' %}"></script>
+<script>
+    SUNEDITOR.create('editor_classic', {
+        display: 'block',
+        width: '100%',
+        height: '150px',
+        popupDisplay: 'full',
+        charCounter: true,
+        charCounterLabel: 'Characters :',
+        imageGalleryUrl: 'https://etyswjpn79.execute-api.ap-northeast-1.amazonaws.com/suneditor-demo',
+        buttonList: [
+            // default
+            ['undo', 'redo'],
+            ['formatBlock'],
+            ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+            ['fontColor', 'hiliteColor', 'textStyle'],
+            ['removeFormat'],
+            ['outdent', 'indent'],
+            ['align', 'horizontalRule', 'list', 'lineHeight'],
+            ['table', 'link', 'image', 'video', 'audio', 'math'],
+            ['imageGallery'],
+            ['fullScreen', 'showBlocks', 'codeView'],
+            ['preview', 'print'],
+            ['save', 'template'],
+            // (min-width: 1565)
+            ['%1565', [
+                ['undo', 'redo'],                
+                ['formatBlock'],
+				['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['table', 'link', 'image', 'video', 'audio', 'math'],
+                ['imageGallery'],
+                ['fullScreen', 'showBlocks', 'codeView'],
+                ['-right', ':i-More Misc-default.more_vertical', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 1455)
+            ['%1455', [
+                ['undo', 'redo'],
+                ['formatBlock'],
+                ['bold', 'underline', 'italic'],
+                ['removeFormat'],
+				['table', 'link', 'image'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],                
+                ['-right', ':i-More Misc-default.more_vertical', 'fontColor', 'hiliteColor', 'textStyle', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 1326)
+            ['%1326', [
+                ['undo', 'redo'],
+                ['font', 'fontSize', 'formatBlock'],
+                ['paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 1123)
+            ['%1123', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+                ['fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 817)
+            ['%817', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                ['bold', 'underline', 'italic', 'strike'],
+                [':t-More Text-default.more_text', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template'],
+                ['-right', ':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery']
+            ]],
+            // (min-width: 673)
+            ['%673', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                ['align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 525)
+            ['%525', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle'],
+                ['removeFormat'],
+                ['outdent', 'indent'],
+                [':e-More Line-default.more_horizontal', 'align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]],
+            // (min-width: 420)
+            ['%420', [
+                ['undo', 'redo'],
+                [':p-More Paragraph-default.more_paragraph', 'font', 'fontSize', 'formatBlock', 'paragraphStyle', 'blockquote'],
+                [':t-More Text-default.more_text', 'bold', 'underline', 'italic', 'strike', 'subscript', 'superscript', 'fontColor', 'hiliteColor', 'textStyle', 'removeFormat'],
+                [':e-More Line-default.more_horizontal', 'outdent', 'indent', 'align', 'horizontalRule', 'list', 'lineHeight'],
+                [':r-More Rich-default.more_plus', 'table', 'link', 'image', 'video', 'audio', 'math', 'imageGallery'],
+                ['-right', ':i-More Misc-default.more_vertical', 'fullScreen', 'showBlocks', 'codeView', 'preview', 'print', 'save', 'template']
+            ]]
+        ],
+        placeholder: 'Start typing something...',
+        templates: [
+            {
+                name: 'Template-1',
+                html: '<p>HTML source1</p>'
+            },
+            {
+                name: 'Template-2',
+                html: '<p>HTML source2</p>'
+            }
+        ],
+        codeMirror: CodeMirror,
+        katex: katex
+    });
+    
+</script>
+		
+		<script>				
+			function postlikeclick(dis) {
+				var likeurl = dis.getAttribute('data-url');
+				
+				const csrftok = getCookie('csrftoken');
+				console.log(csrftok);
+				
+				$.ajax({
+					url: likeurl,
+					type: 'POST',
+					headers: {"X-CSRFToken": csrftok},
+					success: function(res){
+						console.log(res);
+						
+						if(res.hearted == true){
+							$(dis).css("color","red");
+							$(dis).next().text(res.total);
+						} else {
+							$(dis).css("color","silver");
+							$(dis).next().text(res.total);
+						}
+					},
+					error: function() {
+						console.log('Failed to like post!');
+					}
+				});
+				
+			}
+			
+			function commentclick(dis) {
+			
+				var cmtval = $(dis).css("color");
+				
+				if(cmtval == 'rgb(192, 192, 192)') {
+					$(dis).css("color","black");
+				} else {
+					$(dis).css("color","silver");
+				}
+			}
+		</script>
+		
+		<script>
+			function rmtogglebtnclick(key)
+			{
+				if(key == 1) {
+					$("#postsbtn").hide();
+					$("#groupsbtn").show();
+					$("#messagesbtn").show();
+					
+					$("#menu1").fadeOut(100);
+					$("#menu2").fadeOut(100);
+					$("#home").fadeIn(350);
+				} else if(key == 2) {
+					$("#groupsbtn").hide();
+					$("#postsbtn").show();
+					$("#messagesbtn").show();
+					
+					$("#home").fadeOut(100);
+					$("#menu2").fadeOut(100);
+					$("#menu1").fadeIn(350);
+				} else {
+					$("#messagesbtn").hide();
+					$("#postsbtn").show();
+					$("#groupsbtn").show();
+					
+					$("#home").fadeOut(100);
+					$("#menu1").fadeOut(100);
+					$("#menu2").fadeIn(350);
+				}
+			}
+		</script>
+       
+	   <script>
+			function rmpostimageclick(id)
+			{
+				$("#rmpostimage"+id).click();
+			}
+			
+			function rmpostimagechange(dis, id)
+			{
+				if(dis.files && dis.files[0]) {
+					var reader = new FileReader();
+					
+					reader.onload = function(e) {
+						$('#rmpostpreview'+id).attr('src', e.target.result);
+					}
+					
+					reader.readAsDataURL(dis.files[0]);
+				}
+			}
+			
+			
+	   </script>
+	   
+	   <script>
+		function openuserchat(id)
+		{
+			$("#chatmessagesname > b").text('User name '+id);
+			$("#chatmessagesbody").fadeOut(200);
+			$("#chatmessagesbody").fadeIn(300);
+		}
+	   </script>
+	   
+	   <script>
+		function sendgroupmessageclick()
+		{
+			var message = $("#group_user_message").val();
+			
+			var msghtm = '<small class="pull-left"><img src="https://www.w3schools.com/bootstrap/img_avatar1.png" style="width:30px; height:30px; border-radius:100px; border:3px solid grey;" /> <b style="font-size:17px;">You</b> <i>04:07 pm</i></small><br><br><div class="msg1" style="max-width:50%; padding-left:35px;">'+message+'</div><hr>';
+			
+			$("#group_user_message").val('');
+			$("#usermsgbody").append(msghtm);
+		}
+		
+		function sendmessageclick()
+		{
+			var message = $("#user_message").val();
+			var time = new Date().toLocaleTimeString();
+			var msghtm = '<div class="balon1 p-2 m-0 position-relative" data-is="You - '+time+'"><a class="float-right"> '+message+' </a></div>';
+			
+			$("#user_message").val('');
+			$("#sohbet").append(msghtm);
+		}
+	   </script>
+	   
+	   <script>
+			function viewpostimage(dis)
+			{
+				var imgsrc = dis.getAttribute('data-imgsrc');
+				$("#viewimageinmodal").attr('src', imgsrc);
+				$("#viewImageModalBtn").click();
+			}
+
+			$(document).ready(function () {
+				var url = window.location;
+				$('#sideLinks a[href="'+ url +'"]').children().addClass('active1');
+				$('#sideLinks a').filter(function() {
+					return this.href == url;
+				}).children().addClass('active1');
+				
+			});
+	   </script>
+
+{% include "layout/footer.html" %}

@@ -1,0 +1,15 @@
+{% include "layout/header.html" %}
+<div class="pxp-content">
+    <div class="pxp-agents mt-100">
+        <div class="container">
+            <center>
+             <h3>You have crossed many wrong attempts - Total {{failure_limit|add:1}}</h3> <hr>
+             <h5>Try after {{cooloff_time_minutes|floatformat:0}} minutes</h5>
+            </center>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+<br>
+{% include "layout/footer.html" %}

@@ -1,0 +1,371 @@
+{% include "layout/google-analytics.html" %}
+
+{% include "layout/header.html" %}
+
+{% load static %}
+		
+		
+		<script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDIKVsUE3OpqZ7o5oun4HHrVG1X6eGKUec&sensor=false&v=3&libraries=geometry"></script>
+		
+		<style>
+			.videoiconspan > img:hover { border:3px dashed #f25c00 !important; }
+
+			.lifestyle-ul > li { cursor:pointer; width:auto; border-radius:3px; margin:0px 7px; padding:1px 10px; float:left; font-size:13px; }
+			.lifestyle-li-unsel:hover { background-color:rgba(0, 0, 0, 0.4); color:#fff; border:1px solid transparent; }
+			.lifestyle-li-unsel { border:1px solid #4f4f4c; color:#4f4f4c; }
+			.lifestyle-li-sel { border:1px solid #4f4f4c; background-color:rgba(0, 0, 0, 0.5); color:#fff; }
+			
+			.pxp-sp-amenities-item { font-size:14px !important; }
+			
+			.pxp-header.fixed-top.pxp-animate { background-color: rgba(4, 113, 166, 0.9) !important; }
+		</style>
+        <div class="pxp-content">
+            <div class="pxp-single-property-top pxp-content-wrapper">
+                <div class="container-fluid"><br>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12">
+                            <h2 class="pxp-sp-top-title">Service Details</h2><br>
+                        </div>
+						<div class="col-sm-12 col-md-12">
+						{% if messages %}
+						{% for message in messages %}
+						<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+							<strong>{{ message|safe }}</strong>
+							<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						{% endfor %}
+						{% endif %}
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-5">
+							<a href="#" class="pxp-results-card-1 rounded-lg" data-prop="3" style="border:2px solid #0471a6;">
+								<div id="card-carousel-{{object.pk}}" class="carousel slide" data-ride="carousel" data-interval="false">
+									<div class="carousel-inner">
+										{% for image in object.serviceimage_set.all %}
+											{% if forloop.first %}
+											<div class="carousel-item active" style="background-image: url({{image.image.url}})"></div>
+											{% else %}
+											<div class="carousel-item" style="background-image: url({{image.image.url}});"></div>
+											{% endif %}
+										{% endfor %}
+									</div>
+									<span class="carousel-control-prev" data-href="#card-carousel-{{object.pk}}" data-slide="prev">
+										<span class="fa fa-angle-left" aria-hidden="true"></span>
+									</span>
+									<span class="carousel-control-next" data-href="#card-carousel-{{object.pk}}" data-slide="next">
+										<span class="fa fa-angle-right" aria-hidden="true"></span>
+									</span>
+								</div>
+							</a>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-5">
+							<div style="background-color:rgba(255, 255, 255, 1); padding:20px; border-radius:7px;">
+								<h4>{{object.serviceName}}</h4>
+								<hr style="border-top:2px solid #f2f2f2;">
+								<p style="font-family:Book Antiqua; text-align:justify;">{{object.description|striptags}}</p>
+								<br>
+								<hr style="border-top:2px solid #f2f2f2;">
+								{% load humanize %}
+								<h5 class="pull-right" style="color:grey;">{{object.rentCycle|title}} Rent <b>${{object.price|intcomma}}</b></h5>
+								<br><br>
+							</div>
+						</div>
+						{% comment %} <div class="col-xs-12 col-sm-12 col-md-2">
+							<center>
+								<a class="btn form-control" onclick="rentnowclick()" style="padding-top:10px; border-radius:30px; color:; cursor:pointer; border:2px solid #0471a6; background-color:transparent;">Rent now <i class="fa fa-caret-down"></i></a>
+							</center>
+							<br>
+							<div style="display:none;" id="rentnowdiv">
+								<form method="POST" action="#">
+									<input type="number" class="form-control" placeholder="Enter months" id="rentmonths" required />
+									<br>
+									<center>
+										<input class="btn form-control" type="submit" name="submit" value="Submit" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">
+									</center>
+								</form>
+							</div>	
+						</div> {% endcomment %}
+							<!-- REQUEST FOR RENT SECTION -->
+							
+							<div class="col-xs-12 col-sm-12 col-md-2" id="rentsect">
+								<center>
+									<!--a class="btn form-control" onclick="rentnowclick(this)" style="padding-top:10px; border-radius:30px; color:; cursor:pointer; border:2px solid #0471a6; background-color:transparent;" data-status="0"> Request to Rent <i class="fa fa-caret-down"></i></a-->
+									<button id="service_req_to_rent" onclick="service_req_to_rent_click()" class="btn form-control" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">Request to Rent</button>
+								</center>
+								<br>
+								<div style="display:none;" id="rentnowdiv">
+									<!--form method="POST" action="javascript:void(0);"-->
+										<div class="row">
+											<div class="col-md-6">
+												<label> &nbsp; From</label>
+												<input type="date" class="form-control" id="fromdate" />
+												<small style="color:maroon; display:none;" id="fromreq">Select From Date</small>
+											</div>
+											<div class="col-md-6">
+												<label> &nbsp; To</label>
+												<input type="date" class="form-control" id="todate" />
+												<small style="color:maroon; display:none;" id="toreq">Select To Date</small>
+											</div>
+										</div>
+										<br>
+										<center>
+											<!--button id="service_req_to_rent" onclick="service_req_to_rent_click()" class="btn form-control" style="border-radius:50px; background-color:#0471a6; border-radius:5px; color:#FFF; cursor:pointer;">Request</button-->
+										</center>
+									<!--/form-->
+								</div>
+							</div>
+							
+							
+							<script>
+								function rentnowclick(dis)
+								{
+									var rentdivstatus = document.getElementById('rentnowdiv').style.display;
+									if(rentdivstatus == 'none') {
+										$("#imgsect").removeClass('col-md-5', 1000);
+										$("#imgsect").addClass('col-md-4', 1000);
+										
+										$("#descsect").removeClass('col-md-5', 1000);
+										$("#descsect").addClass('col-md-4', 1000);
+										
+										$("#rentsect").removeClass('col-md-2', 1000);
+										$("#rentsect").addClass('col-md-4', 1000);
+
+										$("#rentnowdiv").show(500);
+										$("#rentmonths").focus();
+									} else {
+										$("#imgsect").removeClass('col-md-4', 1000);
+										$("#imgsect").addClass('col-md-5', 1000);
+									
+										$("#descsect").removeClass('col-md-4', 1000);
+										$("#descsect").addClass('col-md-5', 1000);
+										
+										$("#rentsect").removeClass('col-md-4', 1000);
+										$("#rentsect").addClass('col-md-2', 1000);
+										
+										$("#rentnowdiv").hide(500);
+									}
+									
+								}
+							</script>
+							
+							
+							
+
+								<style>
+
+								#reqForRentModal {
+								  display: none;
+								  position: fixed;
+								  z-index: 1;
+								  padding-top: 100px;
+								  left: 0;
+								  top: 0;
+								  width: 100%;
+								  height: 100%;
+								  overflow: auto;
+								  background-color: rgb(0,0,0);
+								  background-color: rgba(0,0,0,0.5);
+								}
+
+								.modal-content {
+								  background-color: #fff;
+								  margin: auto;
+								  margin-top: 7px;
+								  padding: 20px;
+								  border: 1px solid #888;
+								  border-radius:20px;
+								  width: 45%;
+								}
+
+								.modalClose {
+								  color: #aaaaaa;
+								  float: right;
+								  font-size: 28px;
+								  font-weight: bold;
+								}
+
+								.modalClose:hover,
+								.modalClose:focus {
+								  color: #000;
+								  text-decoration: none;
+								  cursor: pointer;
+								}
+								</style>
+															
+								<!-- The Modal -->
+								<div id="reqForRentModal" class="modal">
+
+								  <!-- Modal content -->
+								  <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+									<h4 style="text-align:left; color:black; border-bottom:2px solid #bfeaff; padding-bottom:7px;">Request to Rent <span class="modalClose" style="text-align:right;">&times;</span></h4>
+									<hr>
+									<form method="POST" action="{% url 'checkout:requestService' object.pk %}">
+										<style>
+											#rentformrow > div { margin-bottom:15px; }
+										</style>
+										{% csrf_token %}
+										<div class="form-group">
+											<div class="row" id="rentformrow">
+												<div class="col-md-6" style="text-align:left;">
+													<label> &nbsp;&nbsp; From Date</label>
+													{{form.fromDate}}
+												</div>
+												
+												<div class="col-md-6" style="text-align:left;">
+													<label> &nbsp;&nbsp; To Date</label>
+													{{form.toDate}}
+												</div>
+												
+												<div class="col-md-6" style="text-align:left;">
+													<label> &nbsp;&nbsp; Firstname</label>
+													{{form.first_name}}
+												</div>
+												<div class="col-md-6" style="text-align:left;">
+													<label> &nbsp;&nbsp; Lastname</label>
+													{{form.last_name}}
+												</div>
+												<div class="col-md-6" style="text-align:left;">
+													<label> &nbsp;&nbsp; Phone</label>
+													{{form.phone_number}}
+												</div>
+												<div class="col-md-6" style="text-align:left;">
+													<label> &nbsp;&nbsp; Email</label>
+													{{form.email}}
+												</div>
+												<div class="col-md-12" style="text-align:left;">
+													<label> &nbsp;&nbsp; Delivery Address</label>
+													{{form.deliveryAddress}}
+												</div>
+												<div class="col-md-12">
+													{{form.servicecaptcha}}
+												</div>
+											</div>
+										</div>
+										
+										<hr style="border-top:2px solid #bfeaff;">
+										
+										<div class="row">
+											<div class="col-md-8"></div>
+											<div class="col-md-4">
+												<input type="submit" name="submit" value="Send Request" class="btn btn-default pull-right" style="background-color:#003a8c; color:#fff;" />
+											</div>
+										</div>
+										
+									</form>
+								  </div>
+
+								</div>
+
+								<script>
+
+									var modal = document.getElementById("reqForRentModal");
+									var btn = document.getElementById("service_req_to_rent");
+									var span = document.getElementsByClassName("modalClose")[0];
+									
+										btn.onclick = function() {
+											/*var fromdate = document.getElementById('fromdate').value;
+											var todate = document.getElementById('todate').value;
+											
+											if(fromdate == '' && todate == '') {
+											} else if(fromdate == '' || fromdate == null) {
+												$("#fromreq").show(300);
+												return false;
+											} else if(todate == '' || todate == null) {
+												$("#toreq").show(300);
+												return false;
+											} else {
+												$("#fromreq").hide(300);
+												$("#toreq").hide(300);
+												
+												$("#{{form.fromDate.id_for_label}}").val(fromdate);
+												$("#{{form.toDate.id_for_label}}").val(todate);
+												$(modal).show(1000);
+												return true;
+											}
+											*/
+											$(modal).show(1000);
+										}
+										
+										span.onclick = function() {
+										  $(modal).hide(1000);
+										}
+										window.onclick = function(event) {
+										  if (event.target == modal) {
+											modal.style.display = "none";
+										  }
+										}
+
+									
+								</script>
+																	
+							
+				<!-- REQUEST FOR RENT SECTION END -->
+                    </div>
+                </div>
+				<br>
+            </div>
+			
+        </div>
+
+        
+        <script src="{% static '/js/photoswipe.min.js' %}"></script> 
+        <script src="{% static '/js/photoswipe-ui-default.min.js' %}"></script>
+        <script src="{% static '/js/jquery.sticky.js' %}"></script>
+        <script src="{% static '/js/gallery.js' %}"></script>
+        <script src="{% static '/js/infobox.js' %}"></script>
+        <script src="{% static '/js/single-map.js' %}"></script>
+        <script src="{% static '/js/Chart.min.js' %}"></script>
+        <script src="{% static '/js/main5732.js' %}"></script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	
+	<script>
+		
+		function initialize() {
+		  $("#mapspin").hide();
+		  var myLatlng = new google.maps.LatLng(40.925690, -73.141129);
+		  var mapOptions = {
+			zoom: 10,
+			center: myLatlng
+			
+		  }  
+		  var map = new google.maps.Map(document.getElementById('maplocator'), mapOptions);
+		  var marker = new google.maps.Marker({
+			  position: myLatlng,
+			  map: map,
+			  title: 'Hello World!'
+		  });
+		}
+		
+		google.maps.event.addDomListener(window, 'load', initialize);
+			$('.pxp-content').click(function(){
+				var srcval = document.getElementById('VideoModal').style.display;
+
+					if(srcval == 'block') {
+						$("#videoframe").attr('src', '#');
+						return false;
+					} else {
+						return false;
+					}
+				
+			});
+	
+	</script>
+	
+	<script>
+		function rentnowclick()
+		{
+			var rentdivstatus = document.getElementById('rentnowdiv').style.display;
+			if(rentdivstatus == 'none') {
+				$("#rentnowdiv").show(500);
+				$("#rentmonths").focus();
+			} else {
+				$("#rentnowdiv").hide(500);
+			}
+		}
+	</script>
+	
+{% include "layout/footer.html" %}

@@ -1,0 +1,386 @@
+{% load static %}
+<style>
+.footertext { font-family: 'Alegreya Sans', sans-serif; }
+.sb-customizer-toggler { display:none !important; }
+</style>
+<div id="layoutDefault_footer">
+	<footer class="footer pt-3 pb-0 mt-auto bg-lightt footer-light" style="background-color:#0B3360; color:#fff;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-4">
+					<div class="footer-brand"><img src="{% static 'assets/images/logo/sl_logo_white.svg' %}" style="width:60%; height:auto;"/></div>
+					<div class="mb-0"><small> Proudly Made By Stony Brook University Students.</small></div>
+					<div class="mb-0"><small><br> Copyright &#xA9; SwiftLiving 2020</small></div>
+					<div class="icon-list-social mb-5">
+						<!--a class="icon-list-social-link" href="javascript:void(0);"><i class="fa fa-instagram"></i></a>
+						&nbsp; &nbsp;
+						<a class="icon-list-social-link" href="javascript:void(0);"><i class="fa fa-facebook"></i></a>
+						&nbsp; &nbsp;
+						<a class="icon-list-social-link" href="javascript:void(0);"><i class="fa fa-twitter"></i></a-->
+					</div>
+				</div>
+
+				<div class="col-lg-8">
+					<div class="row">
+						<div class="col-lg-3 col-md-6 mb-0 mb-lg-0">
+						</div>
+						<!--div class="col-lg-6 col-md-6 mb-5 mb-lg-0">
+						</div-->
+						</div-->                                    
+						<div class="col-lg-9 col-md-6">
+							<div class="text-uppercase-expanded text-xs mb-3 footertext"><b style="font-size:20px;">Contact</b></div>
+							<ul class="list-unstyled mb-0">
+								<li class="mb-2"><a href="javascript:void(0);" class="footertext" style="float:left; padding:5px;">hello@swiftliving.us &nbsp; |</a></li>
+								<li class="mb-2"><a href="javascript:void(0);" class="footertext" style="float:left; padding:5px;">(704)-918-8215 &nbsp; |</a></li>
+								<li class="mb-2"><a href="javascript:void(0);" class="footertext" style="float:left; padding:5px;">(631)-459-3659 &nbsp; |</a></li>
+								<li><a href="javascript:void(0);" class="footertext" style="float:left; padding:5px;">Stony Brook, New York</a></li>
+							</ul>
+							<br><br>
+							<span class="pull-right">							
+								<a href="https://swiftliving.s3.amazonaws.com/resources/Privacy+Statement.docx" target="_blank" class="footertext" style="font-size:13px;"><b>Privacy Policy</b></a>
+								&#xB7;
+								<a href="javascript:void(0);" class="footertext" style="font-size:13px;"><b>Terms &amp; Conditions</b></a>
+								&#xB7;
+								<a href="https://swiftliving.s3.amazonaws.com/resources/Host+Guarantee+Terms+and+Conditions.docx" class="footertext" style="font-size:13px;"><b>Host Guarantee Policy</b></a>
+								&nbsp; &nbsp; &nbsp; &nbsp;
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</footer>
+</div>
+	
+		<script src="{% static '/js/jquery-3.4.1.min.js' %} "></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
+        <script src="{% static '/js/owl.carousel.min.js' %}"></script>
+        <script src="{% static '/js/main3813.js' %}"></script>
+		
+		{% comment %} <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCYV9SV-9ZfSiFtqnPqd3UjdSgfX8VcQ8M&amp;libraries=geometry&amp;libraries=places"></script> {% endcomment %}
+        <script src="{% static '/js/markerclusterer.js' %}"></script>
+        <script src="{% static '/js/maine2a5.js' %}"></script>
+        <script src="{% static '/js/mapee61.js' %}"></script>
+		
+		<script>
+			function regintclick(id)
+			{
+				if($("#"+id).prop('checked') == true) {
+					console.log("yes")
+					$('#'+id).prop('checked', false);
+					$('#signup-check-'+id).css({"background-color":"rgba(0, 0, 0, 0)", "color":"black"});
+				} else {
+					console.log("no")
+					$("#"+id).prop('checked', true);
+					$('#signup-check-'+id).css({"background-color":"rgba(0, 0, 0, 0.7)", "color":"#fff"});
+				}
+			}
+		
+			/*$(".signup-interests-ul > li").click(function(){
+				var thiscolor = $(this).css("background-color");
+				
+				if(thiscolor == 'rgba(0, 0, 0, 0.7)') {
+					$(this).css({"background-color":"rgba(0, 0, 0, 0)", "color":"black"});
+					//$(this + '> small > input').prop('checked', false);
+					$(this + '> small > input').click();
+				} else {
+					$(this).css({"background-color":"rgba(0, 0, 0, 0.7)", "color":"#fff"});
+					//$(this + '> small > input').prop('checked', true);
+					$(this + '> small > input').click();
+				}
+			});*/
+		</script>
+		
+		<script>
+		function college_radio_click()
+			{
+				var checkstatus = document.getElementById("pxp-signup-college-radio").checked;
+				
+				if(checkstatus == true) {
+					document.getElementById('pxp-signup-college-name-div').style.display = 'inline';
+				} else {
+					document.getElementById('pxp-signup-college-name-div').style.display = 'none';
+				}
+				
+			}
+
+			function close_signin_modal()
+			{
+				document.getElementById('signin-close-btn').click();
+			}
+			
+			{% comment %} function forgot_pass()
+			{
+				var email = document.getElementById('pxp-fp-email').value;
+				
+				//document.getElementById('fp-loader').innerHTML = '';
+				
+				console.log('Email', email);
+								
+				/*var request = new XMLHttpRequest();				
+				request.open("POST", "url");								
+				request.onreadystatechange = function() {				
+					if(this.readyState === 4 && this.status === 200) {				
+						console.log(this.responseText);
+					}
+				};
+				request.send('type='+type+'&address='+address);
+				*/
+				
+				return false;
+			} {% endcomment %}
+			
+			function signup()
+			{
+				
+				var fname = document.getElementById('pxp-signup-firstname').value;
+				var lname = document.getElementById('pxp-signup-lastname').value;
+				var email = document.getElementById('pxp-signup-email').value;
+				var college = document.getElementById('pxp-signup-college-name').value;
+				var dob = document.getElementById('pxp-signup-dob').value;
+				var pass = document.getElementById('pxp-signup-pass').value;
+				var cpass = document.getElementById('pxp-signup-cpass').value;
+				
+				if(pass != cpass) {
+					document.getElementById('signup-error-msg').innerHTML = '<br>Password does not match';
+				} else {
+					//document.getElementById('signup-loader').innerHTML = '';
+					console.log('Password matches');					
+				}
+				
+				console.log('Fname', fname);
+				console.log('Lname', lname);
+				console.log('Email', email);
+				console.log('Pass', pass);
+				console.log('Cpass', cpass);
+				alert(ipaddress);
+				var request = new XMLHttpRequest();			
+				request.open("POST", "http://127.0.0.1:8000/register");
+				request.onreadystatechange = function() {				
+					if(this.readyState === 4 && this.status === 200) {				
+						var res = this.responseText;
+						console.log(res);
+						if(res.status == 1) {
+							alert('Successfully Registered!');
+						} else {
+							alert('Failed to Register!');							
+						}
+
+					}
+				};
+				request.send('fname='+fname+'&lname='+lname+'&email='+email+'&college='+college+'&dob='+dob+'&pass='+pass);
+				
+				
+				return false;
+			}
+			
+			function signin()
+			{				
+				var email = document.getElementById('pxp-signin-email').value;
+				var pass = document.getElementById('pxp-signin-pass').value;
+				
+				//document.getElementById('signin-loader').innerHTML = '';
+				
+				console.log('Email', email);
+				console.log('Pass', pass);			
+				
+				/*var request = new XMLHttpRequest();				
+				request.open("POST", "url");								
+				request.onreadystatechange = function() {				
+					if(this.readyState === 4 && this.status === 200) {				
+						console.log(this.responseText);
+					}
+				};
+				request.send('email='+email+'&pass='+pass);
+				*/
+				
+				return false;
+			}
+		</script>
+
+		<script>
+		   /*ipsrc();
+		   function ipsrc()
+		   {
+			document.getElementById('signin_form').action = ipaddress+'login';
+			document.getElementById('signup_form').action = ipaddress+'register';
+			
+		   }*/
+			
+		   onloadfunc();
+		   function onloadfunc()
+		   {
+			
+				var issigninmsg = $(".alert.alert-danger.alert-dismissable.alert-link");
+				if (issigninmsg.length > 0) {
+					$(".pxp-signin-trigger").click();
+				}
+
+				$(".bootstrap3-multi-input").removeClass('row');
+				$(".bootstrap3-multi-input > div > input").css({"border":"2px solid silver", "border-radius":"30px"});
+				
+			
+			{% comment %} document.getElementById('id_logUserType_0').click();
+			$("#id_logUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+			
+			document.getElementById('id_regUserType_0').click();
+			$("#id_regUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+
+			document.getElementById('id_is_college_student').setAttribute("checked", "true");
+			$('#id_college_name').prop('readonly', false); {% endcomment %}
+
+			{% if not user.is_authenticated %}
+				{% if messages %}
+					{% for message in messages %}
+						{% if message.tags == 'success' %}
+							$(".pxp-signin-trigger").click();
+						{% elif message.tags == 'forgotPassword error' %}
+							$(".pxp-forgot-pass-trigger").click();
+						{% endif %}
+					{% endfor %}
+				{% endif %}
+			{% endif %}
+
+		   }
+		   
+		   $("#id_logUserType > li").click(function(){
+			var thisval = $(this).children("label").children("input").attr("id");
+			if(thisval == 'id_logUserType_1') {
+				document.getElementById('id_logUserType_1').click();
+				$("#id_logUserType > li:nth-child(1)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_logUserType > li:nth-child(2)").css({"background-color":"grey", "color":"#f2f2f2"});
+			} else {
+				document.getElementById('id_logUserType_0').click();
+				$("#id_logUserType > li:nth-child(2)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_logUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+			}
+		   });
+
+		   $("#id_regUserType > li").click(function(){
+			var thisval = $(this).children("label").children("input").attr("id");
+			if(thisval == 'id_regUserType_1') {
+				document.getElementById('id_regUserType_1').click();
+				$("#id_regUserType > li:nth-child(1)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_regUserType > li:nth-child(2)").css({"background-color":"grey", "color":"#f2f2f2"});
+			} else {
+				document.getElementById('id_regUserType_0').click();
+				$("#id_regUserType > li:nth-child(2)").css({"background-color":"transparent", "color":"#403f3f"});
+				$("#id_regUserType > li:nth-child(1)").css({"background-color":"grey", "color":"#f2f2f2"});
+			}
+		   });
+
+		   $("#id_is_college_student").click(function(){
+			if($(this).prop("checked") == true){
+						$('#id_college_name').prop('readonly', false);
+				 } else {
+				$('#id_college_name').prop('readonly', true);
+			 }
+		   });
+		   
+		  </script>
+		
+		<script>
+			function toggle_signup_form(id)
+			{
+				if(id == 2) {
+					$("#student_signup_form").fadeOut(600);
+					$("#landlord_signup_form").fadeIn(600);
+					$("#toggle-form-btn-1").css({"color":"grey","background-color":"transparent"});
+					$("#toggle-form-btn-2").css({"color":"#fff","background-color":"grey"});
+				} else {
+					$("#landlord_signup_form").fadeOut(600);
+					$("#student_signup_form").fadeIn(600);
+					$("#toggle-form-btn-2").css({"color":"grey","background-color":"transparent"});
+					$("#toggle-form-btn-1").css({"color":"#fff","background-color":"grey"});
+					
+				}
+			}
+		</script>
+		
+		<script>
+			function opensml(id)
+			{
+				var smldispval = $("#"+id).css("display");
+				if(smldispval == 'none')
+				{
+					$("#"+id).show(500);
+				} else {
+					//$("#sml"+id).hide(500);
+				}
+				
+				
+			}
+		</script>
+		<script>
+			function submitsignupclick()
+			{
+				var url = $("#student_signup_form2").attr('action');
+				var formdata = $("#student_signup_form2").serialize();
+				
+				console.log(url);
+				console.log(formdata);
+				 
+				$.ajax({
+					type: 'POST',
+					url: url,
+					data: { formdata },
+					success: function(res) {
+						console.log(res);
+					},
+					error: function() {
+						console.log('Failed');
+					}
+				});
+			}
+		</script>
+	
+		<script>
+			function submitsigninclick()
+			{
+				var url = $("#signinform").attr('action');
+				var formdata = $("#signinform").serialize();
+				
+				console.log(url);
+				console.log(formdata);
+				 
+				$.ajax({
+					type: 'POST',
+					url: url,
+					data: { formdata },
+					success: function(res) {
+						console.log(res);
+					},
+					error: function() {
+						console.log('Failed');
+					}
+				});
+			}
+		</script>
+		
+		<script>
+			function invite_people_modal_open_click()
+			{
+				$("#invitecopyalert").hide();
+				{% comment %} var baseurl = window.location.href;
+				var uniqid = Math.random().toString(20).slice(2);
+				$("#invitepeoplelink").val(baseurl+'?code='+uniqid); {% endcomment %}
+			}
+			
+			function invitecopyclick()
+			{
+			
+				var copyText = document.getElementById("invitepeoplelink");
+				  copyText.select();
+				  copyText.setSelectionRange(0, 999999)
+				  document.execCommand("copy");
+			
+				$("#invitecopyalert").show(200);
+			}
+		</script>
+	</body>
+
+<!-- Mirrored from pixelprime.co/themes/resideo/light/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 28 Aug 2020 07:20:47 GMT -->
+</html>
+

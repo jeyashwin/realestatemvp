@@ -1,0 +1,1153 @@
+{% include "layout/google-analytics.html" %}
+{% include "layout/header.html" %}
+
+{% load static %}
+		
+		
+		<script src="https://unpkg.com/location-picker/dist/location-picker.min.js"></script>
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?key=AIzaSyDIKVsUE3OpqZ7o5oun4HHrVG1X6eGKUec&sensor=false&v=3&libraries=geometry"></script>
+		
+        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700,900" rel="stylesheet">
+        <link rel="stylesheet" href="{% static '/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static '/css/photoswipe.css' %}">
+        <link rel="stylesheet" href="{% static '/css/default-skin/default-skin.css' %}">
+        <link rel="stylesheet" href="{% static '/css/styled354.css' %}">
+
+
+		<style>
+			.videoiconspan > img:hover { border:3px dashed #f25c00 !important; }
+
+			.lifestyle-ul > li { cursor:pointer; width:auto; border-radius:3px; margin-right: 7px; margin-bottom: 5px; padding:1px 5px; float:left; font-size:13px; }
+			.lifestyle-li-unsel:hover { background-color:rgba(0, 0, 0, 0.4); color:#fff; border:1px solid transparent; }
+			.lifestyle-li-unsel { border:1px solid #4f4f4c; color:#4f4f4c; }
+			.lifestyle-li-sel { background-color:rgba(0, 0, 0, 0.5); color:#fff; }
+			
+			.pxp-sp-amenities-item { font-size:14px !important; }
+			
+			.pxp-header.fixed-top.pxp-animate { background-color: rgba(4, 113, 166, 1) !important; }
+			
+			#message_seller_btn:hover { background-color:rgba(4, 113, 166, 1) !important; }
+			.callcustomerbtn:hover { border:4px solid #003a8c; }	
+			
+			@media only screen and (min-width: 600px) {
+				.callcustomerbtn {
+					width:80%; /* height:80%; */
+					}
+					
+					.lifestylediv { margin-left:10px; margin-top:15px; }
+				}
+				
+				@media only screen and (max-width: 600px) {
+					.callcustomerbtn {
+						width:10%;  height:10%;
+					}
+					#maplocator { margin-top:15px; }
+					.lifestylediv { margin-top:15px; }
+					.card { margin-top:10px; }
+				}
+		</style>
+        <div class="pxp-content">
+            <div class="pxp-single-property-top pxp-content-wrapper mt-100">
+                <div class="container-fluid">
+					{% if messages %}
+					{% for message in messages %}
+					<div class="alert alert-{% if message.tags == 'error' %}danger {% else %}{{message.tags}}{% endif %} alert-dismissible fade show" role="alert">
+						<strong>{{ message }}</strong>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					{% endfor %}
+					{% endif %}
+					{% load humanize %}
+                    <div class="row">
+                        <div class="col-sm-12 {% if user.usertype.is_student %} col-md-4 {% else %} col-md-5 {% endif %}">
+                            <h3 class="pxp-sp-top-address" style="padding-left:15px;"><b> {{object.title}} </b></h3>
+                            {% comment %} <p class="pxp-sp-top-address pxp-text-light">{{object.address}}, {{object.city}} {{object.zipcode}} </p> {% endcomment %}
+                        </div>
+                        <div class="col-xs-12 col-sm-12 {% if user.usertype.is_student %} col-md-5 {% else %} col-md-6 {% endif %}">
+                            <div class="pxp-sp-top-btns mt-2 mt-md-0">
+								{% if user.usertype.is_student %}
+									<a href="#" id="like{{object.pk}}" class="pxp-sp-top-btn" onclick="return likeclick('{{object.pk}}', this)" likeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
+										<span id="likefaicon{{object.pk}}"
+											class="fa 
+												{% if alreadyLiked %}
+													fa-thumbs-up
+												{% else %}
+													fa-thumbs-o-up
+												{% endif %}
+												">
+										</span>
+										<span class="likescount">{{object.totalLikes|intcomma}}</span>
+										<i class="fa fa-spinner fa-spin" style="display:none; color:grey;"></i>
+									</a>
+									<a href="#" id="dislike{{object.pk}}" class="pxp-sp-top-btn" onclick="return dislikeclick('{{object.pk}}', this)" dislikeurl="{% url 'property:propertyReaction' object.urlSlug %}" key="{{csrf_token}}">
+										<span id="dislikefaicon{{object.pk}}"
+											class="fa 
+											{% if alreadyDisLiked %}
+												fa-thumbs-down
+											{% else %}
+												fa-thumbs-o-down
+											{% endif %}
+											"></span>
+											<span class="dislikescount">{{object.totalDislikes|intcomma}}</span>
+											<i class="fa fa-spinner fa-spin" style="display:none; color:grey;"></i>
+									</a>
+									{% comment %} <a href="#" id="favorite{{object.pk}}" class="pxp-sp-top-btn"  
+										onclick="return favoritesclick('{{object.pk}}', this)" 
+										{% if alreadyFavorite %}
+										favoriteurl="{% url 'students:removeFavorites' object.urlSlug %}"
+										{% else %}
+										favoriteurl="{% url 'students:addFavorites' object.urlSlug %}"
+										{% endif %}
+										key="{{csrf_token}}"
+									>
+										<span id="favoritefaicon{{object.pk}}"
+											class="fa 
+												{% if alreadyFavorite %}
+													fa-star
+												{% else %}
+													fa-star-o
+												{% endif %}
+											" style="font-size:20px;">
+										</span>
+										<span></span>
+										<i class="fa fa-spinner fa-spin" style="display:none; color:grey;"></i>
+									</a> {% endcomment %}
+								{% else %}
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-up"></span>{{object.totalLikes|intcomma}}</a>
+									<a href="#" class="pxp-sp-top-btn"><span class="fa fa-thumbs-down"></span>{{object.totalDislikes|intcomma}}</a>
+									<a href="{% url 'property:propertyUpdate' object.urlSlug %}" class="pxp-sp-top-btn"><span class="fa fa-pencil"></span></a>
+									<a href="{% url 'property:propertyDelete' object.urlSlug %}" class="pxp-sp-top-btn"><span class="fa fa-trash" style="color: #ec0a0a"></span></a>
+								{% endif %}
+                                <!--div class="dropdown">
+                                    <a class="pxp-sp-top-btn" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="fa fa-share-alt"></span> Share
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
+                                        <a class="dropdown-item" href="#"><span class="fa fa-facebook"></span> Facebook</a>
+                                        <a class="dropdown-item" href="#"><span class="fa fa-twitter"></span> Twitter</a>
+                                        <a class="dropdown-item" href="#"><span class="fa fa-pinterest"></span> Pinterest</a>
+                                        <a class="dropdown-item" href="#"><span class="fa fa-linkedin"></span> LinkedIn</a>
+                                    </div>
+                                </div-->
+                            </div>
+                            <div class="clearfix d-block d-xl-none"></div>
+                            <div class="pxp-sp-top-feat mt-3 mt-md-0">
+                                <div>{{object.rooms}} <span>Rooms</span></div>
+                                <div>{{object.bathrooms}} <span>BA</span></div>
+                                <div>{{object.sqft|intcomma}} <span>SF</span></div>
+                            </div>
+                            <div class="pxp-sp-top-pric mt-3 mt-md-0">
+								{% if user.usertype.is_student %}
+									<a href="{% url 'chat:landlordchat' object.urlSlug %}" id="message_seller_btn" class="btn" style="background-color:rgba(4, 113, 166, 0.8); color:#fff; font-size:15px; font-weight:normal; border-radius:50px;"><i class="fa fa-commenting-o"></i> &nbsp; Message Seller </a> &nbsp;
+								{% endif %}
+								<br><br><span style="font-size:15px; color:grey; font-weight:normal;">Price </span>${{object.rent|intcomma}} &nbsp; <span style="font-size:15px; color:grey; font-weight:normal;">Security Deposit </span>
+								{% if object.securityDeposit %}
+									${{object.amount|intcomma}}
+								{% else %}
+									Not needed
+								{% endif %}
+								</div>
+                        </div>
+						{% if user.usertype.is_student %}
+							<div class="col-md-2">
+								<style> 
+									#property_req_a_tour{ border-top-left-radius:25px; border-top-right-radius:25px; border-bottom-left-radius:0px; border-bottom-right-radius:0px; }
+									#property_req_to_rent { border-top-left-radius:0px; border-top-right-radius:0px; border-bottom-left-radius:25px; border-bottom-right-radius:25px; }
+									#property_req_a_tour:hover { background-color:#0471A6 !important; color:#fff !important; }
+									#property_req_to_rent:hover { background-color:#0471A6 !important; color:#fff !important; }
+								</style>
+									
+									<center>
+										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-signin-trigger" style="background-color:#fff; padding:7px 8.5px; color:#003a8c; border:2px solid #003a8c; cursor:pointer;" id="property_req_a_tour"> &nbsp; REQUEST A TOUR &nbsp; </b> 
+										
+										<b class="btn btn-default btn-sm pull-right pxp-header-user pxp-forgot-password-trigger" style="background-color:#fff; padding:7px 5px; color:#003a8c; border:2px solid #003a8c; cursor:pointer; margin-top:-1px;" id="property_req_to_rent" onclick="open_req_to_rent()"> &nbsp; REQUEST TO RENT &nbsp; </b> 
+										
+									</center>
+							</div>
+
+							<div class="col-md-1">
+								<center><a href="tel:704-918-8215"><img class="callcustomerbtn" title="Call customer service" src="https://thumbs.dreamstime.com/b/man-call-head-phone-hours-support-custom-care-business-customer-support-service-black-icon-icon-support-customer-service-call-140920515.jpg" style="border-radius:50px;"/></a></center>
+							</div>
+
+						{% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="pxp-single-property-gallery-container mt-4 mt-md-5">
+                <div class="pxp-single-property-gallery" itemscope itemtype="http://schema.org/ImageGallery">
+					{% for image in object.propertyimage_set.all %}
+						{% if forloop.first %}
+							<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+								<a href="{{image.imagePath.url}}" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({{image.imagePath.url}});"></a>
+								<figcaption itemprop="caption description">{{image.imageDescription}}</figcaption>
+							</figure>
+						{% else %}
+							<figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        		<a href="{{image.imagePath.url}}" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url({{image.imagePath.url}});"></a>
+                        		<figcaption itemprop="caption description">{{image.imageDescription}}</figcaption>
+                    		</figure>
+						{% endif %}
+					{% endfor %}
+                    {% comment %} <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject" class="pxp-sp-gallery-main-img">
+                        <a href="static/images/properties/prop-7-1-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-1-big.jpg' %});"></a>
+                        <figcaption itemprop="caption description">Image caption</figcaption>
+                    </figure> {% endcomment %}
+                    {% comment %} <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        <a href="static/images/properties/prop-7-2-big.jpg" itemprop="contentUrl" data-size="1920x1459" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-2-gallery.jpg' %});"></a>
+                        <figcaption itemprop="caption description">Image caption</figcaption>
+                    </figure>
+                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        <a href="static/images/properties/prop-7-3-big.jpg" itemprop="contentUrl" data-size="1920x2560" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-7-3-gallery.jpg' %});"></a>
+                        <figcaption itemprop="caption description">Image caption</figcaption>
+                    </figure>
+                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        <a href="static/images/properties/prop-2-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-2-3-gallery.jpg' %});"></a>
+                        <figcaption itemprop="caption description">Image caption</figcaption>
+                    </figure>
+                    <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+                        <a href="static/images/properties/prop-1-3-big.jpg" itemprop="contentUrl" data-size="1920x1280" class="pxp-cover" style="background-image: url({% static '/images/properties/prop-1-3-gallery.jpg' %});"></a>
+                        <figcaption itemprop="caption description">Image caption</figcaption>
+                    </figure> {% endcomment %}
+                </div>
+                <a href="#" class="pxp-sp-gallery-btn">View Photos</a>
+                <div class="clearfix"></div>
+            </div>
+            <div class="container-fluid mt-50" style="padding:0px 30px;">
+			{% if object.propertyvideo_set.all %}
+
+            {% comment %} <div class="container-fluid mt-50" style="padding:0px 30px;"> {% endcomment %}
+				<br><br>
+				<h3>Property Videos<br></h3>
+				<div class="col-xs-12" style="padding-top:20px;">
+					{% for video in object.propertyvideo_set.all %}
+						<span style="padding:10px;" class="videoiconspan">
+							<img src="{% static '/images/properties/prop-1-3-gallery.jpg' %}" type="button"  style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{{video.videoPath.url}}" onclick="playvideo(this)" />
+						</span>
+					{% endfor %}
+					{% comment %} <span style="padding:10px;" class="videoiconspan">
+						<img src="{% static '/images/properties/prop-1-3-gallery.jpg' %}" type="button"  style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img type="button" data-toggle="modal" data-target="#VideoModal" type="button" src="{% static '/images/properties/prop-2-3-gallery.jpg' %}" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img type="button" data-toggle="modal" data-target="#VideoModal" type="button" src="{% static '/images/properties/prop-7-3-gallery.jpg' %}" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img src="{% static '/images/properties/prop-1-3-gallery.jpg' %}" type="button" data-toggle="modal" data-target="#VideoModal" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span>
+					<span style="padding:10px;" class="videoiconspan">
+						<img type="button" data-toggle="modal" data-target="#VideoModal" type="button" src="{% static '/images/properties/prop-2-3-gallery.jpg' %}" style="width:70px; height:70px; border:3px ridge #f25c00; border-radius:100px;" data-vurl="{% static '/videos/sample_property_video.mp4' %}" onclick="playvideo(this)" />
+					</span> {% endcomment %}
+				</div>
+				
+				<span id="videomodalbtn" data-toggle="modal" data-target="#VideoModal"></span>
+				
+				<div class="modal fade" id="VideoModal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
+					<div class="modal-dialog modal-dialog-centered" role="document" style=" border:none;">
+						<div class="modal-content" style="min-width:700px; min-height:600px; background-color:transparent; border:none;">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true" style="color:red;">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body" style="background-color:transparent; border:none;">
+								<iframe width="600" height="600" id="videoframe" src="#" allow="autoplay" style="border-radius:7px; border:none;" allowfullscreen="1"> </iframe>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="col-md-12">
+					{% for video in object.propertyvideo_set.all %}
+						<span style="padding:10px;"><small>{{video.videoDescription}}</small></span>
+					{% endfor %}
+						{% comment %} <span style="padding:10px;"><small>Interior</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Bedrooms</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Kitchen</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Hall</small></span>
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<span style="padding:10px;"><small>Stairs</small></span> {% endcomment %}
+				</div>
+				<br><hr>
+				{% endif %}
+				<br>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4" style="background-color:#fff; border-radius:7px; padding:10px;">
+                        <div class="pxp-single-property-section">
+                            <h3>Key Details</h3>
+                            <div class="row mt-3 mt-md-4">
+                                <div class="col-sm-12">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Address</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.address}}, {{object.city}} {{object.zipcode}}</div>
+                                    </div>
+                                </div>
+								{% comment %} <div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Phone</div>
+										{% load extraTags %}
+                                        <div class="pxp-sp-kd-item-value">{{object.landlord.phone|phonenumber}}</div>
+                                    </div>
+                                </div> {% endcomment %}
+								<div class="col-sm-12">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Occupants</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.occupants}}</div>
+                                    </div>
+                                </div>
+								<div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Available From</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.fromDate}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Available To</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.toDate}}</div>
+                                    </div>
+                                </div>
+								<div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Garage</div>
+                                        {% if object.garage %}
+											<div class="pxp-sp-kd-item-value">Yes</div>
+										{% else %}
+											<div class="pxp-sp-kd-item-value">No</div>
+										{% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="pxp-sp-key-details-item">
+                                        <div class="pxp-sp-kd-item-label text-uppercase">Parking Spaces</div>
+                                        <div class="pxp-sp-kd-item-value">{{object.parkingSpace}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						
+                        <div class="pxp-single-property-section mt-4 mt-md-5">
+						<hr>
+                            <h3>Description</h3>
+                            <div class="mt-3 mt-md-4" style="font-size:13px;">
+								{{object.description|striptags}}
+                                {% comment %} <p>Fully furnished. Elegantly appointed condominium unit situated on premier location. PS6. The wide entry hall leads to a large living room with dining area. This expansive 2 bedroom and 2 renovated marble bathroom apartment has great windows. Despite the interior views, the apartments Southern and Eastern exposures allow for lovely natural light to fill every room. The master suite is surrounded by handcrafted milkwork and features incredible walk-in closet and storage space. The second bedroom is<span class="pxp-dots" id="pxt-read-dots">...</span><span class="pxp-dots-moree" id="pxp-dots-moree" style="display:none;"> a corner room with double windows. The kitchen has fabulous space, new appliances, and a laundry area. Other features include rich herringbone floors, crown moldings and coffered ceilings throughout the apartment. 1049 5th Avenue is a classic pre-war building located across from Central Park, the reservoir and The Metropolitan Museum. Elegant lobby and 24 hours doorman. This is a pet-friendly building. 
+                                <br><br>
+                                Conveniently located close to several trendy fitness centers like Equinox, New York Sports Clubs & Crunch. Fine restaurants around the area, as well as top-ranked schools. 2% Flip tax paid by buyer to the condominium. Building just put an assessment for 18 months of approximately $500 per month. </span></p>
+                                <a href="#" class="pxp-sp-more text-uppercase"><span class="pxp-sp-more-1" onclick="readmore()">Show More <span class="fa fa-angle-down"></span></span><span class="pxp-sp-more-2" onclick="readless()">Show Less <span class="fa fa-angle-up"></span></span></a> {% endcomment %}
+                            </div>
+                        </div>
+
+						{% if object.amenities.all %}
+						<hr>
+                        <div class="pxp-single-property-section mt-4 mt-md-4">
+                            <h3>Amenities</h3>
+                            <div class="row mt-3 mt-md-4">
+								{% for amenity in object.amenities.all %}
+									<div class="col-sm-6 col-lg-4">
+                                    	<div class="pxp-sp-amenities-item"><span class="fa fa-check"></span> {{amenity}}</div>
+                                	</div>
+								{% endfor %}
+                                {% comment %} <div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-wifi"></span> Internet</div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-sun-o"></span> Air Condition</div>
+                                </div>
+								<div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-cc-amex"></span> Pool</div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-bullseye"></span> Dishwasher</div>
+                                </div>
+								<div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-futbol-o"></span> Furnished</div>
+                                </div>
+								<div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-thermometer-4"></span> Heating</div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-futbol-o"></span> Gym</div>
+                                </div>
+                                <div class="col-sm-6 col-lg-4">
+                                    <div class="pxp-sp-amenities-item"><span class="fa fa-smile-o"></span> Playroom</div>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+						{% endif %}
+
+                    </div>
+                    <div class="col-lg-5 col-md-5">
+                        <div class="row">
+						<div id="maplocator" style="background-color:#fff; width:100%; height:350px; border:4px solid rgba(0, 0, 0, 0.1); border-radius:7px;"> <span id="mapspin" style="margin-left:47%; color:#239fed; font-size:40px;"><i class="fa fa-spinner fa-spin" style="margin-top:150px;"></i></span> </div>
+						
+						<br>
+						
+						<div class="lifestylediv" style="width:100%;">
+							{% if object.propertynearby_set.all %}
+							<b>Lifestyle nearby:</b>
+							<br><br>
+							<div class="row">
+								<div class="col-sm-12">
+									<ul class="lifestyle-ul" id='lifestyleUL' style="list-style-type:none;">
+										{% for nearby in object.propertynearby_set.all %}
+											{% if nearby.nearByType == 'Restaurant' %}
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/restauranticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+												{% for single in object.propertynearby_set.all %}
+													{% if single.nearByType in 'Restaurant, Restaurant1, Restaurant2, Restaurant3, Restaurant4' %}
+														<li>{{single.nearByName|title}} is {{single.distanceToProp|floatformat:1}} miles from the property.</li>
+													{% endif %}
+													{% if forloop.last %}
+													</div>
+													{% endif %}
+												{% endfor %}
+											{% elif nearby.nearByType == 'Bar' %}
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/baricon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+												{% for single in object.propertynearby_set.all %}
+													{% if single.nearByType in 'Bar, Bar1, Bar2, Bar3, Bar4' %}
+														<li>{{single.nearByName|title}} is {{single.distanceToProp|floatformat:1}} miles from the property.</li>
+													{% endif %}
+													{% if forloop.last %}
+													</div>
+													{% endif %}
+												{% endfor %}
+											{% elif nearby.nearByType == 'Shopping Mall' %}
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/shoppingmallicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+													<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{% for single in object.propertynearby_set.all %}
+														{% if single.nearByType in 'Shopping Mall, Shopping Mall1, Shopping Mall2, Shopping Mall3, Shopping Mall4' %}
+															<li>{{single.nearByName|title}} is {{single.distanceToProp|floatformat:1}} miles from the property.</li>
+														{% endif %}
+														{% if forloop.last %}
+													</div>
+														{% endif %}
+													{% endfor %}
+											{% elif nearby.nearByType == 'Walmart' %}
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/wallmarticon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
+												</div>
+											{% elif nearby.nearByType == 'Costco' %}
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/costcoicon.jpg" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
+												</div>
+											{% elif nearby.nearByType == 'Target' %}
+												<li class="lifestyle-li-unsel" onclick='lifestyleselect(this, targetID="listDummyLifeStyle{{nearby.pk}}")'><img src='{% static "/images/map/targeticon.png" %}' alt="{{nearby.nearByType}}" style="width:15px; width:15px;">&nbsp;{{nearby.nearByType}}</li>
+												<div id="listDummyLifeStyle{{nearby.pk}}" style="display: none;">
+													{{nearby.nearByName|title}} is {{nearby.distanceToProp|floatformat:1}} miles from the property.
+												</div>
+											{% endif %}
+										{% endfor %}
+										{% comment %} <li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Restaurant</li>
+										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Shopping Mall</li>
+										<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Bar</li>
+										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Costco</li>
+										<li class="lifestyle-li-sel" onclick="lifestyleselect(this)">Target</li>
+										<li class="lifestyle-li-unsel" onclick="lifestyleselect(this)">Walmart</li> {% endcomment %}
+									</ul>
+								</div>
+								<div class="col-sm-12" style="margin-left: 75px;">
+									<div id="lifestyleDisplay" style="font-size:18px; text-align:left; margin-top: 10px">
+									</div>
+								</div>
+							</div>
+							{% else %}
+							<div>No Nearby Lifestyle Styles fetched.</div>
+							{% endif %}
+						</div>
+						</div>
+                    </div>
+					
+					<div class="col-lg-3 col-md-3">
+						<div class="card">
+							  {% if user.usertype.is_student %}
+								<div class="card-header">
+									<b style="color:grey;">Post a Question</b>
+									<form action="{% url 'property:propertyQuestion' object.urlSlug %}" method="POST">
+										<div class="qdiv">
+											<textarea rows="1" type="text" name="prop-question" id="prop-question" class="form-control" placeholder="Type your question.." onclick="postques()" style="margin-top:10px;"></textarea>
+											<div class="pull-right" id="prop-question-btns" style="margin-top:10px; display:none;">
+												<!--input type="cancel" name="cancel" value="Cancel" id="prop-question-cancel" class="btn btn-primary btn-sm" onclick="postquescancel()" style="border:1px solid $4f4f4c; background-color:transparent; color:#4f4f4c;"-->
+												<small id="post_ques_loader" style="display:none;"><i class="fa fa-spinner fa-spin"></i></small>
+												<small id="post_ques_required" style="display:none; color:maroon;">You must type something &nbsp; </small>
+												<small id="post_ques_success" style="display:none; color:green;"><i class="fa fa-check"></i> Question submitted &nbsp; </small>
+												<small id="post_ques_failed" style="display:none; color:maroon;"><i class="fa fa-times"></i> Failed to submit &nbsp; </small>
+												<b onclick="return submitquestion('prop1', this)" postquesurl="{% url 'property:propertyQuestion' object.urlSlug %}" key={{csrf_token}} value="Post" id="prop-question-submit" class="btn btn-sm" style="border:1px solid grey; background-color:rgba(0, 0, 0, 0.5); color:#fff; cursor:pointer;">Post</b>
+											</div>
+										</div>
+									</form>
+								</div>
+							  {% endif %}
+							  
+							  
+							<div class="card-body" id="ques_ans_card_body" style="font-size:13px; max-height:520px; overflow-y:scroll;">
+								<h6 id="ques_ans_card_h6">
+								{% if object.postquestion_set.all %}
+									<b id="faq" style="color:grey;">FAQ's</b>
+									{% if user.usertype.is_landlord %}
+									<b class="btn btn-default btn-xs pull-right pxp-signup-trigger" style="color:#fff; background-color:#003a8c; border-radius:50px; cursor:pointer; padding:1px 7px;"> Answer </b> <br>
+									{% endif %}
+								{% endif %}
+								</h6>
+								{% if object.postquestion_set.all %}
+									{% for question in object.postquestion_set.all %}
+										<div class="qadivvvv" id="postquestion-{{question.pk}}">
+											<hr>
+											<b>{{question.question|capfirst}}?</b>
+											<p style="padding-left:10px; color:grey; padding-top:10px;">
+												&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
+												{% if question.postanswer.answer %}
+													{{question.postanswer.answer|capfirst}}
+												{% else %}
+													<span id='no-answer-{{question.pk}}'>Not answer yet</span>
+												{% endif %}
+											</p>
+										</div>
+									{% endfor %}
+								{% else %}
+									<p id="studentNoQueries" style="padding-left:10px; color:grey; padding-top:10px;">No queries yet</p>
+								{% endif %}
+							</div>
+													
+							{% if user.usertype.is_landlord %}
+								<div class="modal fade" id="pxp-signup-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSignupModal" aria-hidden="true">
+									<div class="modal-dialog modal-dialog-centered" role="document" style="min-width:60%; margin-top:50px;">
+										<div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+											<div class="modal-header">
+												<h5 class="modal-title" id="pxpSigninModal">FAQ's</h5>
+												<button id="signin-close-btn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body" style="max-height:500px; overflow-y:scroll;">
+												<div class="card-body" id="ques_ans_card_body" style="font-size:13px; max-height:520px; overflow-y:scroll;">
+													{% if object.postquestion_set.all %}
+														{% for question in object.postquestion_set.all %}
+															<div class="qadiv" id="postquestion-expanded-{{question.pk}}">
+																<hr>
+																<b>{{question.question|capfirst}}?</b>
+																<p style="padding-left:10px; color:grey; padding-top:10px;">
+																	{% if question.postanswer.answer %}
+																		&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;
+																		{{question.postanswer.answer|capfirst}}
+																	{% else %}
+																		<span id='answered-{{question.pk}}'></span>
+																		<textarea id="prop-answer-{{question.pk}}" name="prop-answer" class="form-control answertextarea" onclick="postanswer(this, '{{question.pk}}')" rows="1" style="border:none;" placeholder="Answer here.."></textarea>
+																		<br>
+																		<div class="pull-right" id="prop-answer-btns-{{question.pk}}">
+																			<small id="post_answer_loader-{{question.pk}}" style="display:none;"><i class="fa fa-spinner fa-spin"></i></small>
+																			<small id="post_answer_required-{{question.pk}}" style="display:none; color:maroon;">You must type something &nbsp; </small>
+																			<small id="post_answer_success-{{question.pk}}" style="display:none; color:green;"><i class="fa fa-check"></i> Answer submitted &nbsp; </small>
+																			<small id="post_answer_failed-{{question.pk}}" style="display:none; color:maroon;"><i class="fa fa-times"></i> Failed to submit &nbsp; </small>
+																			<small id="post_answer_submit-{{question.pk}}" onclick="return submitanswer('{{question.pk}}', this)" class="fa fa-paper-plane btn pull-right" answerKey={{csrf_token}} answerUrl="{% url 'property:propertyAnswer' question.pk %}" style="background-color:#003a8c; color:#fff; cursor:pointer;"> Post Answer</small>
+																		</div>
+																		<small id="post_answer_delete-{{question.pk}}" onclick="return deletequestion('{{question.pk}}', this)" class="fa fa-trash btn" quesdeleteKey={{csrf_token}} quesdeleteUrl="{% url 'property:questionDelete' question.pk %}" style="background-color:rgba(255, 0, 0, 0.8); color:#fff; cursor:pointer;"> Delete Question</small>
+																	{% endif %}
+																</p>
+															</div>
+														{% endfor %}
+													{% else %}
+														<p style="padding-left:10px; color:grey; padding-top:10px;">No queries yet</p>
+													{% endif %}
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+                </div>
+            </div>
+			<br>
+			<br>
+        </div>
+
+        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="pswp__bg"></div>
+            <div class="pswp__scroll-wrap">
+                <div class="pswp__container">
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                    <div class="pswp__item"></div>
+                </div>
+                <div class="pswp__ui pswp__ui--hidden">
+                    <div class="pswp__top-bar">
+                        <div class="pswp__counter"></div>
+                        <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                        <button class="pswp__button pswp__button--share" title="Share"></button>
+                        <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                        <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                        <div class="pswp__preloader">
+                            <div class="pswp__preloader__icn">
+                                <div class="pswp__preloader__cut">
+                                    <div class="pswp__preloader__donut"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                        <div class="pswp__share-tooltip"></div> 
+                    </div>
+                    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+                    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+                    <div class="pswp__caption">
+                        <div class="pswp__caption__center"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		
+		
+		
+		
+	
+<div class="modal fade" id="pxp-signin-modal" tabindex="-1" role="dialog" aria-labelledby="pxpSigninModal" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document" style="min-width:60%;">
+		<div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+			<div class="modal-header">
+				<button id="signin-close-btn" type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<center><h5 class="modal-title" id="pxpSigninModal">Request a Tour</h5></center>
+				<hr>
+				<form method="POST" action="{% url 'checkout:requestTour' object.urlSlug %}" id='requesttourform'>
+					{% csrf_token %}
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-4" style="text-align:left;">
+								<br>
+								<label style="font-size:17px;">1<sup>st</sup> Preference</label>
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Date</label>
+								{{tourForm.preference1Date}}
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Time</label>
+								{{tourForm.preference1Time}}
+							</div>
+							
+						</div>
+						<br>
+						<div class="row">
+							
+							<div class="col-md-4" style="text-align:left;">
+								<br>
+								<label style="font-size:17px;">2<sup>nd</sup> Preference</label>
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Date</label>
+								{{tourForm.preference2Date}}
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Time</label>
+								{{tourForm.preference2Time}}
+							</div>
+							
+						</div>
+						<br>
+						<div class="row">
+							
+							<div class="col-md-4" style="text-align:left;">
+								<br>
+								<label style="font-size:17px;">3<sup>rd</sup> Preference</label>
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Date</label>
+								{{tourForm.preference3Date}}
+							</div>
+							<div class="col-md-4" style="text-align:left;">
+								<label> &nbsp; Time</label>
+								{{tourForm.preference3Time}}
+							</div>
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4" style="text-align:left;">
+						</div>
+						<div class="col-md-4" style="text-align:left;">
+							{{tourForm.tourcaptcha}}
+						</div>
+					</div>
+					
+					<br>
+					<input type="submit" value="Send Request" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+		
+<button id="ReqToRentModalBtn" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#ReqToRentModal" style="display:none;" ></button>
+
+<div id="ReqToRentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog" style="min-width:60%; margin-top:10%;">
+
+    <div class="modal-content" style="background-image:url({% static '/images/bg-pattern1.png' %});">
+      <div class="modal-header">
+        <h4 class="modal-title">
+			Request to Rent 
+		</h4>
+		<button class="pull-right close" data-dismiss="modal" style="text-align:right; color:red; outline:none;">&times;</button>
+      </div>
+      <div class="modal-body">
+		<hr>
+     
+		<form method="POST" action="{% url 'checkout:requestRent' object.urlSlug %}" id='propertyRequest'>
+			{% csrf_token %}
+			<div class="form-group">
+				<div class="row">
+					<div class="col-md-1" style="text-align:left;">
+					</div>
+					<div class="col-md-2" style="text-align:left;">
+						<label>&nbsp;Occupants</label>
+						{{form.occupants}}
+					</div>
+					<div class="col-md-4" style="text-align:left;">
+						<label> &nbsp; Move In</label>
+						{{form.moveIn}}
+					</div>
+					<div class="col-md-4" style="text-align:left;">
+						<label> &nbsp; Move Out</label>
+						{{form.moveOut}}
+					</div>
+					<div class="col-md-4 m-auto">
+						<br>
+						{{form.rentcaptcha}}
+					</div>
+				</div>
+			</div>
+			<input type="submit" value="Send Request" class="pxp-agent-contact-modal-btn" style="background-color:#003a8c; border-radius:30px; outline:none;">
+			<!--span class="pxp-agent-contact-modal-btn" onclick="submitsigninclick()" style="background-color:#003a8c; border-radius:30px; cursor:pointer;">SIGN IN</span-->
+
+		</form>
+		
+      </div>
+      <!--div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div-->
+    </div>
+  </div>
+</div>
+		
+	
+		
+		
+		
+		<script src="{% static '/js/jquery-3.4.1.min.js' %}"></script>
+        <script src="{% static '/js/popper.min.js' %}"></script>
+        <script src="{% static '/js/bootstrap.min.js' %}"></script>
+
+        
+        <script src="{% static '/js/photoswipe.min.js' %}"></script> 
+        <script src="{% static '/js/photoswipe-ui-default.min.js' %}"></script>
+        <script src="{% static '/js/jquery.sticky.js' %}"></script>
+        <script src="{% static '/js/gallery.js' %}"></script>
+        <script src="{% static '/js/infobox.js' %}"></script>
+        <script src="{% static '/js/single-map.js' %}"></script>
+        <script src="{% static '/js/Chart.min.js' %}"></script>
+        <!--script src="{% static '/js/main5732.js' %}"></script-->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<script>
+		function playvideo(dis)
+		{
+			var videourl = dis.getAttribute('data-vurl');
+			$("#videoframe").attr('src', videourl);
+			$("#videomodalbtn").click();
+			
+		} 
+	</script>
+
+
+	<script>
+		function readmore()
+		{
+			var readmorestatus = document.getElementById('pxp-dots-moree').style.display;
+		
+			$("#pxt-read-dots").hide();
+			$("#pxp-dots-moree").show(300);
+			$(".pxp-sp-more-1").hide();
+			$(".pxp-sp-more-2").show();
+		
+		}
+		
+		function readless()
+		{
+			$("#pxp-dots-moree").hide(300);
+			$("#pxt-read-dots").show();
+			$(".pxp-sp-more-2").hide();
+			$(".pxp-sp-more-1").show();
+		}
+	</script>
+	
+	<script>
+		function lifestyleselect(dis, targetID)
+		{
+			var classname = $(dis).attr('class');
+			$('#lifestyleUL li.lifestyle-li-sel').removeClass('lifestyle-li-sel');
+			if(classname == 'lifestyle-li-unsel') { 
+				$(dis).addClass('lifestyle-li-sel');
+				$('#lifestyleDisplay').show()
+				$('#lifestyleDisplay').html(document.getElementById(targetID).innerHTML)
+			} else {
+				$(dis).attr('class', 'lifestyle-li-unsel');
+				$('#lifestyleDisplay').hide()
+			}
+		}
+		function likeclick(id, dis)
+		{
+			
+			var disid = dis.getAttribute('id');
+			$("#" + disid + " > i").show();
+			
+			var url = dis.getAttribute('likeurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"like":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				$("#" + disid + " > i").hide();
+				  console.log(res)
+					if(res.liked == 1) {
+						$("#" + disid + " > .likescount").text(res.likecount);
+						$("#dislike" + id + " > .dislikescount").text(res.dislikecount);
+						$("#" + disid + " > #likefaicon"+id).removeClass('fa-thumbs-o-up')
+						$("#" + disid + " > #likefaicon"+id).addClass('fa-thumbs-up')
+						$("#dislike" + id + " > #dislikefaicon"+id).removeClass('fa-thumbs-down')
+						$("#dislike" + id + " > #dislikefaicon"+id).addClass('fa-thumbs-o-down')
+						$("#" + disid).css({"border":"2px solid green", "background-color":"#d6ffd8;"});
+						$("#dislike" + id).css({"border":"none", "background-color":"#fff;"});
+					} else {
+						$("#" + disid + " > .likescount").text(res.likecount);
+						$("#dislike" + id + " > .dislikescount").text(res.dislikecount);
+						$("#" + disid + " > #likefaicon"+id).removeClass('fa-thumbs-up')
+						$("#" + disid + " > #likefaicon"+id).addClass('fa-thumbs-o-up')
+						$("#" + disid).css({"border":"none", "background-color":"#fff;"});
+					}
+				
+			  },
+			  error: function()
+			  {
+				$("#" + disid + " > i").hide();
+				console.log('Error!');
+			  }
+			});
+			
+		}
+		
+		function dislikeclick(id, dis)
+		{
+			
+			var disid = dis.getAttribute('id');
+			$("#" + disid + " > i").show();
+			
+			var url = dis.getAttribute('dislikeurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"dislike":1, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+				$("#" + disid + " > i").hide();
+				if(res.disliked == 1) {
+					$("#" + disid + " > .dislikescount").text(res.dislikecount);
+					$("#like" + id + " > .likescount").text(res.likecount);
+					$("#" + disid + " > #dislikefaicon"+id).removeClass('fa-thumbs-o-down');
+					$("#" + disid + " > #dislikefaicon"+id).addClass('fa-thumbs-down');
+					$("#like" + id + " > #likefaicon"+id).removeClass('fa-thumbs-up');
+					$("#like" + id + " > #likefaicon"+id).addClass('fa-thumbs-o-up');
+					$("#" + disid).css({"border":"2px solid red", "background-color":"#ffc6c6;"});
+					$("#like" + id).css({"border":"none", "background-color":"#fff;"});
+				} else {
+					$("#" + disid + " > .dislikescount").text(res.dislikecount);
+					$("#like" + id + " > .likescount").text(res.likecount);
+					$("#" + disid + " > #dislikefaicon"+id).removeClass('fa-thumbs-down')
+					$("#" + disid + " > #dislikefaicon"+id).addClass('fa-thumbs-o-down')
+					$("#" + disid).css({"border":"none", "background-color":"#fff;"});
+				}
+			
+			  },
+			  error: function(){
+				$("#" + disid + " > i").hide();
+				console.log('Error!');
+			  }
+			});
+			
+		}
+		{% comment %} function favoritesclick(id, dis)
+		{
+			var disid = dis.getAttribute('id');
+			$("#" + disid + " > i").show();
+
+			var url = dis.getAttribute('favoriteurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			$.ajax({
+			  url: url,
+			  type: 'POST',
+			  data: {"csrfmiddlewaretoken": csrfmiddlewaretoken,},
+			  success: function(res){
+				console.log(res);
+
+				$("#" + disid + " > i").hide();
+				
+				if (res.added){
+					$("#" + disid + " > #favoritefaicon"+id).removeClass('fa-star-o');
+					$("#" + disid + " > #favoritefaicon"+id).addClass('fa-star');
+					$("#" + disid).attr('favoriteurl', "{% url 'students:removeFavorites' object.urlSlug %}");
+					$("#" + disid).css({"border":"2px solid #ffb300", "background-color":"#ffc6c6;"});
+				}
+				if (res.removed){
+					$("#" + disid + " > #favoritefaicon"+id).removeClass('fa-star');
+					$("#" + disid + " > #favoritefaicon"+id).addClass('fa-star-o');
+					$("#" + disid).attr('favoriteurl', "{% url 'students:addFavorites' object.urlSlug %}");
+					$("#" + disid).css({"border":"none", "background-color":"#fff;"});
+				}
+			  },
+			  error: function(res){
+				$("#" + disid + " > i").hide();
+				console.log('Error!');
+			  }
+			});
+		} {% endcomment %}
+		function submitquestion(id, dis)
+		{
+			$("#post_ques_loader").show();
+			
+			var url = dis.getAttribute('postquesurl');
+			var csrfmiddlewaretoken = dis.getAttribute('key');
+			var question = $("#prop-question").val();
+			{% comment %} console.log(url, csrfmiddlewaretoken, question) {% endcomment %}
+
+			if(question != '') {
+				$.ajax({
+				  url: url,
+				  type: 'POST',
+				  data: {"question":question, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+				  success: function(res){
+					console.log(res)
+					$("#prop-question").val("");
+					$("#post_ques_loader").hide();
+					$("#post_ques_success").show();
+					$("#post_ques_success").fadeOut(2000);
+					var newqueshtml = '<div class="qadiv"><hr><b>'+res.question+'?</b><p style="padding-left:10px; color:grey; padding-top:10px;">&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;No reply</p></div>';
+					$("#ques_ans_card_h6").after(newqueshtml);
+					$("#ques_ans_card_h6").html("<b id='faq' style='color:grey;'>FAQ's</b>")
+					$("#studentNoQueries").hide();
+				  },
+				  error: function(res){
+					console.log(res)
+					$("#post_ques_loader").hide();
+					$("#post_ques_failed").show();
+					$("#post_ques_failed").fadeOut(500);
+					console.log('Error!');
+				  }
+				});
+				return true;
+			} else {
+				$("#post_ques_loader").hide();
+				$("#post_ques_required").show();
+				$("#post_ques_required").fadeOut(2000);
+				return false;
+			}
+
+		}
+		function submitanswer(id, dis)
+		{	
+			$("#post_answer_loader-"+id).show();
+			var url = dis.getAttribute('answerUrl');
+			var csrfmiddlewaretoken = dis.getAttribute('answerKey');
+			var answer = $("#prop-answer-"+id).val();
+
+			if(answer != '') {
+				$.ajax({
+				  url: url,
+				  type: 'POST',
+				  data: {"prop-answer":answer, "csrfmiddlewaretoken": csrfmiddlewaretoken,},
+				  success: function(res){
+					$("#prop-answer-"+id).hide();
+					$("#post_answer_submit-"+id).hide();
+					$("#post_answer_delete-"+id).hide();
+					
+					$("#post_answer_loader-"+id).hide();
+					$("#post_answer_success-"+id).show();
+					$("#post_answer_success-"+id).fadeOut(2000);
+					
+					var newqueshtml = '<div class="qadiv"><hr><b>'+res.answer+'</b><p style="padding-left:10px; color:grey; padding-top:10px;">&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;No reply</p></div>';
+					$("#no-answer-"+id).html(res.answer);
+					$("#answered-"+id).append('&nbsp; <i class="fa fa-mail-forward"></i> &nbsp;'+res.answer)
+				  },
+				  error: function(){					
+					$("#post_answer_loader-"+id).hide();
+					$("#post_answer_failed-"+id).show();
+					$("#post_answer_failed-"+id).fadeOut(500);
+					console.log('Error!');
+				  }
+				});
+				return true;
+			} else {
+				$("#post_answer_loader-"+id).hide();
+				$("#post_answer_required-"+id).show();
+				$("#post_answer_required-"+id).fadeOut(2000);
+				return false;
+			}
+
+		}
+		function deletequestion(id, dis)
+		{	
+			var url = dis.getAttribute('quesdeleteUrl');
+			var csrfmiddlewaretoken = dis.getAttribute('quesdeleteKey');
+
+			$.ajax({
+				url: url,
+				type: 'POST',
+				data: {"csrfmiddlewaretoken": csrfmiddlewaretoken,},
+				success: function(res){
+				$("#postquestion-expanded-"+id).hide();
+				$("#postquestion-"+id).hide();
+				},
+				error: function(){
+				console.log('Error!');
+				}
+			});
+			return true;
+		}
+	</script>
+
+	<script>
+		function postques()
+		{
+			$("#prop-question").attr('rows', 3);
+			$("#prop-question-btns").show(200);
+		}
+		
+		function postquescancel()
+		{
+			$("#prop-question").attr('rows', 1);
+			$("#prop-question-btns").hide(200);
+		}
+		
+	</script>
+	
+	<script>
+		
+		function initialize() {
+			$("#mapspin").hide();
+			{% comment %} var myLatlng = new google.maps.LatLng(40.925690, -73.141129); {% endcomment %}
+			var myLatlng = new google.maps.LatLng({% if object.location %}{{object.location.y}}, {{object.location.x}}{% else %}40.925690, -73.141129{% endif %});
+			var mapOptions = {
+				zoom: 10,
+				center: myLatlng
+			}
+			var map = new google.maps.Map(document.getElementById('maplocator'), mapOptions);
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				animation: google.maps.Animation.DROP,
+				icon: "{% static '/images/map/home_location_2.png' %}",
+				label: {
+				  //text: '{{object.title|title}}',
+				  color: 'black',
+				  fontSize: '15px',
+				  fontWeight: 'bold',
+				  fontFamily: 'custom-label'
+				}
+			});
+		  	const labels = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			const markers = locations.map((location, i) => {
+				return new google.maps.Marker({
+					position: location,
+					animation: google.maps.Animation.DROP,
+					//label: labels[i % labels.length],
+					icon: location.img,
+					label: {
+						//text: '\xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0 \xa0'+location.name,
+						color: 'black',
+						fontSize: '20px',
+						fontWeight: 'bold',
+						fontFamily: 'custom-label',
+						labelInBackground: true
+					}
+				});
+			});
+  			// Add a marker clusterer to manage the markers.
+			new MarkerClusterer(map, markers, {
+				imagePath:
+					"https://unpkg.com/@googlemaps/markerclustererplus@1.0.3/images/m1.png",
+				});
+		}
+		const locations = [
+			{% for nearby in object.propertynearby_set.all %}
+				{% if nearby.nearByType in 'Restaurant, Restaurant1, Restaurant2, Restaurant3, Restaurant4' %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/restauranticon.jpg" %}' },
+				{% elif nearby.nearByType in 'Bar, Bar1, Bar2, Bar3, Bar4' %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/baricon.jpg" %}' },
+				{% elif nearby.nearByType in 'Shopping Mall, Shopping Mall1, Shopping Mall2, Shopping Mall3, Shopping Mall4' %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/shoppingmallicon.jpg" %}' },
+				{% elif nearby.nearByType == 'Walmart' %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/wallmarticon.jpg" %}' },
+				{% elif nearby.nearByType == 'Costco' %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/costcoicon.jpg" %}' },
+				{% elif nearby.nearByType == 'Target' %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/targeticon.png" %}' },
+				{% else %}
+					{ lat: {{nearby.location.y}}, lng: {{nearby.location.x}}, name: '{{nearby}}', img:'{% static "/images/map/nullicon.jpg" %}' },
+				{% endif %}
+			{% endfor %}
+		];
+		google.maps.event.addDomListener(window, 'load', initialize);
+		{% comment %} $('.pxp-single-property-gallery-container').click(function(){
+			return false;
+		}); {% endcomment %}
+		$('.pxp-content').click(function(){
+			var srcval = document.getElementById('VideoModal').style.display;
+
+				if(srcval == 'block') {
+					$("#videoframe").attr('src', '#');
+					return false;
+				} else {
+					return true;
+				}
+		});
+	
+	</script>
+	
+	<script>
+		function postanswer(dis, id)
+		{
+			$(".answertextarea").attr('rows', '1');
+			$(dis).attr('rows', '3');
+			$("#prop-answer-btns-"+id).show(200);
+		}
+		// $('.alert').alert()
+	</script>
+	
+	<script>
+		function open_req_to_rent()
+		{
+			$("#ReqToRentModalBtn").click();
+		}
+	</script>
+
+	
+{% include "layout/footer.html" %}
