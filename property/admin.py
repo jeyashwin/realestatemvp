@@ -8,6 +8,7 @@ from .models import *
 class StateListAdmin(admin.ModelAdmin):
     list_display = ['stateFullName', 'stateShortName']
 
+# admin.site.register(StateList)
 
 @admin.register(CityList)
 class CityListAdmin(admin.ModelAdmin):

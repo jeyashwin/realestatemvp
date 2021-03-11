@@ -7,6 +7,12 @@ from django.db.models.signals import pre_save, post_delete, post_save
 from django.contrib.gis.geos import fromstr
 from django.contrib.gis.db.models.functions import Distance
 from django.utils import timezone
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
+
+
+
+
 
 import datetime, os
 
@@ -100,6 +106,7 @@ class Property(geoModel.Model):
                             validators=[MinValueValidator(0, 'Minimum Price cannot be lower than 0')]
                         )
     description = models.TextField(help_text="Describe about your property", max_length=500)
+    # description = models.TextField(help_text="Describe about your property", max_length=500)
     # utilities = models.BooleanField(default=False, help_text="Select if you have Utilities")
     garage = models.BooleanField(default=False, help_text="Select if you have Garage")
     parkingSpace = models.IntegerField(verbose_name="Parking Space", 
@@ -195,7 +202,9 @@ class PropertyImage(models.Model):
     
     propertyKey = models.ForeignKey(Property, on_delete=models.CASCADE)
    # imageDescription = models.CharField(max_length=50, verbose_name="Video Description")
-    imagePath = models.ImageField(upload_to=unique_file_path_generator, verbose_name="Image")
+    imagePath = ProcessedImageField(upload_to=unique_file_path_generator, verbose_name="Image",
+                                    processors=[ResizeToFill(1270,700)],
+                                    options={'quality': 90})
 
     @property
     def mediaType(self):
@@ -203,6 +212,9 @@ class PropertyImage(models.Model):
 
     def __str__(self):
         return "{}".format(self.pk)
+
+
+
 
 
 class PropertyVideo(models.Model):
@@ -257,7 +269,7 @@ class PropertyJobStore(models.Model):
     updatedDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return address
+        return self.address
 
 
 class PostQuestion(models.Model):

@@ -6,6 +6,8 @@ import uuid, os
 
 # from users.models import UserStudent, Interest
 from users.models import UserStudent
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 from property.models import Property
 # from .utils import unique_slug_generator_preference, random_string_generator
 
@@ -42,10 +44,25 @@ class RoommatePost(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     # interest = models.ManyToManyField(Interest)
-    image = models.ImageField(upload_to=roompost_image_file_path, blank=True)
-    image1 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
-    image2 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
-    image3 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
+    # imagePath = ProcessedImageField(upload_to=unique_file_path_generator, verbose_name="Image",
+    #                                 processors=[ResizeToFill(1270, 700)],
+    #                                 options={'quality': 90})
+    image = ProcessedImageField(upload_to=roompost_image_file_path, verbose_name="Image",
+                                    processors=[ResizeToFill(1270, 700)],
+                                    options={'quality': 90})
+    image1 = ProcessedImageField(upload_to=roompost_image_file_path, verbose_name="Image",
+                                    processors=[ResizeToFill(1270, 700)],
+                                    options={'quality': 90})
+    image2 = ProcessedImageField(upload_to=roompost_image_file_path, verbose_name="Image",
+                                    processors=[ResizeToFill(1270, 700)],
+                                    options={'quality': 90})
+    image3 = ProcessedImageField(upload_to=roompost_image_file_path, verbose_name="Image",
+                                    processors=[ResizeToFill(1270, 700)],
+                                    options={'quality': 90})
+    # image = models.ImageField(upload_to=roompost_image_file_path, blank=True)
+    # image1 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
+    # image2 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
+    # image3 = models.ImageField(upload_to=roompost_image_file_path, blank=True)
     heart = models.ManyToManyField(UserStudent, related_name="hearts", blank=True)
     updateDate = models.DateTimeField(auto_now=True)
     createdDate = models.DateTimeField(auto_now_add=True)

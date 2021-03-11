@@ -3,10 +3,10 @@
 DJANGO_KEY = '&4f@vfa_oi4o4zc3qh(u@$*u5tzzt#=ct^st9+c55^to(_j_v2'
 
 #DB CONFIGS
-DB_NAME = 'swiftliving'
+DB_NAME = 'swift_march_21'
 DB_USER = 'postgres'
-DB_PASSWORD = 'swiftliving123'
-DB_HOST = 'swiftliving.cwhdoxbithix.us-east-1.rds.amazonaws.com'
+DB_PASSWORD = 'Tek2019'
+DB_HOST = 'localhost'
 DB_PORT = '5432'
 
 #REDIS CONFIG

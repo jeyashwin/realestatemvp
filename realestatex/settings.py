@@ -24,9 +24,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = DJANGO_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['www.swiftliving.us', 'swiftliving.us']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'defender',
     'captcha',
     'resources',
+    'imagekit'
 ]
 
 MIDDLEWARE = [
@@ -158,11 +159,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-#STATICFILES_DIRS = (
-#   os.path.join(BASE_DIR, 'static'),
-#)
+STATICFILES_DIRS = (
+   os.path.join(BASE_DIR, 'static'),
+)
 
 
 #MEDIA FILES
