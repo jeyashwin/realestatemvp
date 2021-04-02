@@ -7,6 +7,8 @@ from django.db.models.signals import pre_save, post_delete, post_save
 from django.contrib.gis.geos import fromstr
 from django.contrib.gis.db.models.functions import Distance
 from django.utils import timezone
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 import datetime, os
 
@@ -18,21 +20,20 @@ from .taskSchedulers import scheduler
 
 # Create your models here.
 class StateList(models.Model):
-
-    stateFullName = models.CharField(max_length=150, 
-                        help_text="Full name of State. Eg Newyork", 
-                        verbose_name="State Name"
-                    )
-    stateShortName = models.CharField(max_length=10, 
-                        help_text="Short name of a state. Eg Newyork - NY", 
-                        verbose_name= "Short Form"
-                    )
+    stateFullName = models.CharField(max_length=150,
+                                     help_text="Full name of State. Eg Newyork",
+                                     verbose_name="State Name"
+                                     )
+    stateShortName = models.CharField(max_length=10,
+                                      help_text="Short name of a state. Eg Newyork - NY",
+                                      verbose_name="Short Form"
+                                      )
 
     def __str__(self):
         return self.stateFullName
 
-class CityList(models.Model):
 
+class CityList(models.Model):
     state = models.ForeignKey(StateList, on_delete=models.CASCADE)
     cityName = models.CharField(max_length=150, help_text="City Name. Eg Stony Brook")
 
@@ -41,9 +42,8 @@ class CityList(models.Model):
 
 
 class Amenities(models.Model):
-
     amenityType = models.CharField(max_length=100, help_text="Type of Amenity. eg Pool, GYM etc",
-                    verbose_name="Amenity Type")
+                                   verbose_name="Amenity Type")
 
     class Meta:
         verbose_name_plural = "Amenities"
@@ -58,65 +58,65 @@ class Amenities(models.Model):
 
 
 class Property(geoModel.Model):
-    
     landlord = models.ForeignKey(UserLandLord, on_delete=models.CASCADE)
     urlSlug = models.SlugField(unique=True, max_length=200, editable=False, verbose_name='URL')
     title = models.CharField(max_length=150, help_text="Title for your property")
     city = models.ForeignKey(CityList, on_delete=models.CASCADE, help_text="Select property located city")
     zipcode = models.CharField(max_length=5, verbose_name="Zip or Postal Code", validators=[
-                        RegexValidator(regex=r'^\d{5}$', message='Only numbers allowed.'),
-                        MinLengthValidator(5, '5 digit code'),
-                    ], help_text="Eg 503 - 00503")
+        RegexValidator(regex=r'^\d{5}$', message='Only numbers allowed.'),
+        MinLengthValidator(5, '5 digit code'),
+    ], help_text="Eg 503 - 00503")
     address = models.CharField(max_length=250, help_text="Address of your property")
     location = geoModel.PointField(null=True, blank=True)
     locationType = models.CharField(null=True, blank=True, max_length=200)
-    averageDistance = models.FloatField(default=0, help_text='Average distance between the nearby amenities (in miles).')
+    averageDistance = models.FloatField(default=0,
+                                        help_text='Average distance between the nearby amenities (in miles).')
     placeId = models.CharField(null=True, blank=True, max_length=300)
     sqft = models.FloatField(
-                        null=True, blank=True, verbose_name="Square Feet",
-                        help_text="Total Square feet of property",
-                        validators=[MinValueValidator(1, "Square Feet should be atleast 1.")]
-                    )
+        null=True, blank=True, verbose_name="Square Feet",
+        help_text="Total Square feet of property",
+        validators=[MinValueValidator(1, "Square Feet should be atleast 1.")]
+    )
     occupants = models.IntegerField(help_text="Number of people can stay", validators=[
-                        MinValueValidator(1, "Minimum 1"),
-                        MaxValueValidator(20, "Maximum 20")
-                    ])
-    rooms = models.IntegerField(help_text="Available Rooms",verbose_name="Bedrooms",validators=[
-                        MinValueValidator(1, "Minimum 1"),
-                        MaxValueValidator(20, "Maximum 20")
-                    ])
-    bathrooms= models.IntegerField(help_text="Number of Bathrooms", validators=[
-                        MinValueValidator(1, "Minimum 1"),
-                        MaxValueValidator(20, "Maximum 20")
-                    ])
-    securityDeposit = models.BooleanField(default=False, 
-                            help_text="Select if security deposit needed",
-                            verbose_name="Security Deposit"
-                        )
-    amount = models.IntegerField(null=True, blank=True, help_text="Security Deposit Amount in $", 
-                            validators=[MinValueValidator(0, 'Minimum Amount cannot be lower than 0')]
-                        )
-    rent = models.IntegerField(verbose_name="Total Rent", help_text="Amount in $", 
-                            validators=[MinValueValidator(0, 'Minimum Price cannot be lower than 0')]
-                        )
+        MinValueValidator(1, "Minimum 1"),
+        MaxValueValidator(20, "Maximum 20")
+    ])
+    rooms = models.IntegerField(help_text="Available Rooms", verbose_name="Bedrooms", validators=[
+        MinValueValidator(1, "Minimum 1"),
+        MaxValueValidator(20, "Maximum 20")
+    ])
+    bathrooms = models.IntegerField(help_text="Number of Bathrooms", validators=[
+        MinValueValidator(1, "Minimum 1"),
+        MaxValueValidator(20, "Maximum 20")
+    ])
+    securityDeposit = models.BooleanField(default=False,
+                                          help_text="Select if security deposit needed",
+                                          verbose_name="Security Deposit"
+                                          )
+    amount = models.IntegerField(null=True, blank=True, help_text="Security Deposit Amount in $",
+                                 validators=[MinValueValidator(0, 'Minimum Amount cannot be lower than 0')]
+                                 )
+    rent = models.IntegerField(verbose_name="Total Rent", help_text="Amount in $",
+                               validators=[MinValueValidator(0, 'Minimum Price cannot be lower than 0')]
+                               )
     description = models.TextField(help_text="Describe about your property", max_length=500)
     # utilities = models.BooleanField(default=False, help_text="Select if you have Utilities")
     garage = models.BooleanField(default=False, help_text="Select if you have Garage")
-    parkingSpace = models.IntegerField(verbose_name="Parking Space", 
-                            help_text="Available Parking Space. Eg 1 or 2",
-                            validators=[
-                                MinValueValidator(0, 'Minimum 0'),
-                                MaxValueValidator(20, 'Maximum 20')
-                            ],
-                            default=0
-                        )
+    parkingSpace = models.IntegerField(verbose_name="Parking Space",
+                                       help_text="Available Parking Space. Eg 1 or 2",
+                                       validators=[
+                                           MinValueValidator(0, 'Minimum 0'),
+                                           MaxValueValidator(20, 'Maximum 20')
+                                       ],
+                                       default=0
+                                       )
     amenities = models.ManyToManyField(Amenities, help_text="Select 1 or more Amenities.")
-    fromDate = models.DateField(verbose_name="From Date", 
-                    help_text="From which date property available for rent"
-                )
-    toDate = models.DateField(verbose_name="To Date", 
-                    help_text="Till which the property will be available."
-                )
+    fromDate = models.DateField(verbose_name="From Date",
+                                help_text="From which date property available for rent"
+                                )
+    toDate = models.DateField(verbose_name="To Date",
+                              help_text="Till which the property will be available."
+                              )
     likes = models.ManyToManyField(UserStudent, related_name="propLikes", blank=True)
     dislikes = models.ManyToManyField(UserStudent, related_name="propDislikes", blank=True)
     isleased = models.BooleanField(default=False)
@@ -145,7 +145,7 @@ class Property(geoModel.Model):
 
         if not self.securityDeposit:
             self.amount = None
-        
+
         if self.fromDate is not None:
             if self.fromDate < datetime.date.today():
                 alexists = Property.objects.filter(pk=self.pk).exists()
@@ -161,7 +161,8 @@ class Property(geoModel.Model):
         if self.toDate is not None:
             if self.toDate <= self.fromDate:
                 hasError = True
-                errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'), code='error')
+                errorMess['toDate'] = ValidationError(('To Date cannot be less than or equal to From Date.'),
+                                                      code='error')
 
         if self.address:
             try:
@@ -179,23 +180,26 @@ class Property(geoModel.Model):
                         self.location = fromstr(f'POINT({longitude} {latitude})', srid=4326)
                 else:
                     hasError = True
-                    errorMess['address'] = ValidationError(('We are unable to locate the exact location. Please enter the address correctly.'), code='error')
+                    errorMess['address'] = ValidationError(
+                        ('We are unable to locate the exact location. Please enter the address correctly.'),
+                        code='error')
             except Exception as e:
                 print(e)
 
         if hasError:
             raise ValidationError(errorMess)
 
-
     def __str__(self):
         return "{} {}".format(self.pk, self.title)
 
 
 class PropertyImage(models.Model):
-    
     propertyKey = models.ForeignKey(Property, on_delete=models.CASCADE)
-   # imageDescription = models.CharField(max_length=50, verbose_name="Video Description")
-    imagePath = models.ImageField(upload_to=unique_file_path_generator, verbose_name="Image")
+    # imageDescription = models.CharField(max_length=50, verbose_name="Video Description")
+    # imagePath = models.ImageField(upload_to=unique_file_path_generator, verbose_name="Image")
+    imagePath = ProcessedImageField(upload_to=unique_file_path_generator, verbose_name="Image",
+                                    processors=[ResizeToFill(2500, 2500)],
+                                    options={'quality': 90})
 
     @property
     def mediaType(self):
@@ -206,14 +210,13 @@ class PropertyImage(models.Model):
 
 
 class PropertyVideo(models.Model):
-
     propertyKey = models.ForeignKey(Property, on_delete=models.CASCADE)
-    videoDescription = models.CharField(max_length=50, verbose_name="Video Description", 
-                            help_text="Describe about video. Eg Bedroom 1"
-                        )
-    videoPath = models.FileField(upload_to=unique_file_path_generator, verbose_name="Video", 
-                            help_text= "Allowed extentions are: mov, mp4, avi, mkv"
-                        )
+    videoDescription = models.CharField(max_length=50, verbose_name="Video Description",
+                                        help_text="Describe about video. Eg Bedroom 1"
+                                        )
+    videoPath = models.FileField(upload_to=unique_file_path_generator, verbose_name="Video",
+                                 help_text="Allowed extentions are: mov, mp4, avi, mkv"
+                                 )
 
     @property
     def mediaType(self):
@@ -226,7 +229,7 @@ class PropertyVideo(models.Model):
             extension = videoPath.split('.')[-1]
             if extension not in allowedExtension:
                 errorMessage = "File extension '{}' is not allowed. Allowed extensions are: {}.".format(
-                                extension, str(allowedExtension))
+                    extension, str(allowedExtension))
                 raise ValidationError({'videoPath': ValidationError((errorMessage), code='error')})
 
     def __str__(self):
@@ -234,7 +237,6 @@ class PropertyVideo(models.Model):
 
 
 class PropertyNearby(geoModel.Model):
-    
     propObject = models.ForeignKey(Property, on_delete=models.CASCADE)
     nearByType = models.CharField(max_length=100)
     nearByName = models.CharField(max_length=200, null=True, blank=True)
@@ -244,24 +246,22 @@ class PropertyNearby(geoModel.Model):
 
     def __str__(self):
         return self.nearByType
-    
+
     class Meta:
         ordering = ['distanceToProp']
 
 
 class PropertyJobStore(models.Model):
-
     propObject = models.OneToOneField(Property, on_delete=models.CASCADE)
     jobid = models.CharField(max_length=50)
     address = models.CharField(max_length=300)
     updatedDate = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return address
+        return self.address
 
 
 class PostQuestion(models.Model):
-
     propKey = models.ForeignKey(Property, on_delete=models.CASCADE, verbose_name="Property")
     student = models.ForeignKey(UserStudent, on_delete=models.CASCADE)
     question = models.CharField(max_length=250)
@@ -275,7 +275,6 @@ class PostQuestion(models.Model):
 
 
 class PostAnswer(models.Model):
-
     question = models.OneToOneField(PostQuestion, on_delete=models.CASCADE)
     answer = models.CharField(max_length=250)
     createdDate = models.DateTimeField(auto_now_add=True)
@@ -298,8 +297,10 @@ def auto_add_unique_slug_field(sender, instance, **kwargs):
     if not instance.urlSlug:
         instance.urlSlug = unique_slug_generator(instance)
 
+
 def get_or_create_near_by(instance, nearByType):
     return PropertyNearby.objects.get_or_create(propObject=instance, nearByType=nearByType)
+
 
 def fetch_near_by_places(instance):
     # {type_to_search: display name in frontend}
@@ -332,7 +333,8 @@ def fetch_near_by_places(instance):
             obj[0].location = location
             obj[0].placeId = placeId
             obj[0].save()
-    nearbys = PropertyNearby.objects.filter(propObject=instance).annotate(distance=Distance(instance.location, 'location'))
+    nearbys = PropertyNearby.objects.filter(propObject=instance).annotate(
+        distance=Distance(instance.location, 'location'))
     totalmiles = 0
     allplaces = nearByTypes
     allplaces.update(nearByText)
@@ -344,16 +346,19 @@ def fetch_near_by_places(instance):
         if nearby.nearByType in allplaces:
             totalmiles = totalmiles + nearby.distance.mi
     # if not instance.averageDistance or instance.averageDistance != round(totalmiles/count):
-    instance.averageDistance = round(totalmiles/count, 1)
+    instance.averageDistance = round(totalmiles / count, 1)
     instance.save()
     logging.info('Nearby location fetch finished for property "{}"'.format(instance.title))
+
 
 def startFetchNearByJob(instance):
     jobId = random_string_generator(size=5)
     runDate = instance.updatedDate + datetime.timedelta(seconds=30)
-    s = scheduler.add_job(fetch_near_by_places, 'date', [instance], run_date = runDate, id = jobId, misfire_grace_time=300, coalesce=True)
+    s = scheduler.add_job(fetch_near_by_places, 'date', [instance], run_date=runDate, id=jobId, misfire_grace_time=300,
+                          coalesce=True)
     logging.info('Nearby location fetch added for property "{}" and job id {}'.format(instance.title, jobId))
     return jobId
+
 
 @receiver(post_save, sender=Property)
 def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
@@ -363,8 +368,8 @@ def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
     address = '{}, {} {}'.format(instance.address, instance.city, instance.zipcode)
     if kwargs.get('created'):
         newJob = startFetchNearByJob(instance)
-        PropertyJobStore.objects.create(propObject=instance, jobid=newJob, 
-            address=address)
+        PropertyJobStore.objects.create(propObject=instance, jobid=newJob,
+                                        address=address)
     else:
         if PropertyJobStore.objects.filter(propObject=instance).exists():
             oldJob = PropertyJobStore.objects.get(propObject=instance)
@@ -382,8 +387,8 @@ def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
                 oldJob.save()
         else:
             newJob = startFetchNearByJob(instance)
-            PropertyJobStore.objects.create(propObject=instance, jobid=newJob, 
-                address=address)
+            PropertyJobStore.objects.create(propObject=instance, jobid=newJob,
+                                            address=address)
 
 # @receiver(pre_save, sender=PropertyImage)
 # def auto_delete_property_image_on_modified(sender, instance, **kwargs):
@@ -432,4 +437,3 @@ def auto_add_nearby_necessary_fields(sender, instance, **kwargs):
 #     if instance.videoPath:
 #         if os.path.isfile(instance.videoPath.path):
 #             os.remove(instance.videoPath.path)
-
